@@ -41,5 +41,27 @@ namespace DiamondAPI.Controllers
             _context.SaveChanges();
             return CreatedAtAction(nameof(GetByID), new { D_ProductID = diamondModel.DProductId }, diamondModel.toDiamondDTO());
         }
+
+        [HttpPut]
+        [Route("{D_ProductID}")]
+        public IActionResult Update([FromRoute] string D_ProductID, [FromBody] UpdateDiamondRequestDTO diamondDTO)
+        {
+            var diamond = _context.Diamonds.FirstOrDefault(x => x.DProductId == D_ProductID);
+            if (diamond == null)
+            {
+                return NotFound();
+            }
+            diamond.Name = diamondDTO.Name;
+            diamond.Price = diamondDTO.Price;
+            diamond.ImageUrl = diamondDTO.ImageUrl;
+            diamond.DType = diamondDTO.DType;
+            diamond.CaratWeight = diamondDTO.CaratWeight;
+            diamond.Color = diamondDTO.Color;
+            diamond.Clarity = diamondDTO.Clarity;
+            diamond.Cut = diamondDTO.Cut;
+
+            _context.SaveChanges();
+            return Ok(diamond.toDiamondDTO());
+        }
     }
 }
