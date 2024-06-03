@@ -7,7 +7,7 @@ public partial class Diamondcertificate
 {
     public int CertificateId { get; set; }
 
-    public string? ProductId { get; set; }
+    public int? ProductId { get; set; }
 
     public string? CertificateNumber { get; set; }
 

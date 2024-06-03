@@ -5,7 +5,7 @@ namespace DiamondAPI.Models;
 
 public partial class Refundproduct
 {
-    public string RfProductId { get; set; } = null!;
+    public int RfProductId { get; set; }
 
     public string? Name { get; set; }
 
