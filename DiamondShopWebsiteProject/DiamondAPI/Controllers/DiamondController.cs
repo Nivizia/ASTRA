@@ -63,5 +63,19 @@ namespace DiamondAPI.Controllers
             _context.SaveChanges();
             return Ok(diamond.toDiamondDTO());
         }
+
+        [HttpDelete]
+        [Route("{D_ProductID}")]
+        public IActionResult Delete([FromRoute] string D_ProductID)
+        {
+            var diamond = _context.Diamonds.FirstOrDefault(x => x.DProductId == D_ProductID);
+            if (diamond == null)
+            {
+                return NotFound();
+            }
+            _context.Diamonds.Remove(diamond);
+            _context.SaveChanges();
+            return NoContent();
+        }
     }
 }
