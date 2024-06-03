@@ -44,7 +44,7 @@ namespace DiamondAPI.Controllers
 
         [HttpPut]
         [Route("{D_ProductID}")]
-        public IActionResult Update([FromRoute] string D_ProductID, [FromBody] UpdateDiamondRequestDTO diamondDTO)
+        public IActionResult Update([FromRoute] int D_ProductID, [FromBody] UpdateDiamondRequestDTO diamondDTO)
         {
             var diamond = _context.Diamonds.FirstOrDefault(x => x.DProductId == D_ProductID);
             if (diamond == null)
@@ -66,7 +66,7 @@ namespace DiamondAPI.Controllers
 
         [HttpDelete]
         [Route("{D_ProductID}")]
-        public IActionResult Delete([FromRoute] string D_ProductID)
+        public IActionResult Delete([FromRoute] int D_ProductID)
         {
             var diamond = _context.Diamonds.FirstOrDefault(x => x.DProductId == D_ProductID);
             if (diamond == null)

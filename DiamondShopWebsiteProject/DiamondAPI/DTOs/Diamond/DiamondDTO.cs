@@ -2,7 +2,7 @@
 {
     public class DiamondDTO
     {
-        public string DProductId { get; set; } = null!;
+        public int DProductId { get; set; }
 
         public string? Name { get; set; }
 
