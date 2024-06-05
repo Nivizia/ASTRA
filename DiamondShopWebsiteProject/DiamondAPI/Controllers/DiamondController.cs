@@ -23,7 +23,7 @@ namespace DiamondAPI.Controllers
         }
 
         [HttpGet("{D_ProductID}")]
-        public IActionResult GetByID([FromRoute] string D_ProductID)
+        public IActionResult GetByID([FromRoute] Guid D_ProductID)
         {
             var diamond = _context.Diamonds.Find(D_ProductID);
             if (diamond == null)
