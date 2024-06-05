@@ -15,7 +15,7 @@ namespace DiamondAPI.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var pendants = _context.Pendants.ToList().Select(p => p.toPendantDTO());
+            var pendants = _context.Pendants.ToList();
             return Ok(pendants);
         }
     }
