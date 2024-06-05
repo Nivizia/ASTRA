@@ -21,18 +21,19 @@ namespace DiamondAPI.Mappers
             };
         }
 
-        public static Diamond toDiamondFromCreateDTO(this CreateDiamondRequestDTO diamondDTO)
+        public static Diamond toDiamondFromCreateDTO(this CreateDiamondRequestDTO dto)
         {
             return new Diamond
             {
-                Name = diamondDTO.Name,
-                Price = diamondDTO.Price,
-                ImageUrl = diamondDTO.ImageUrl,
-                DType = diamondDTO.DType,
-                CaratWeight = diamondDTO.CaratWeight,
-                Color = diamondDTO.Color,
-                Clarity = diamondDTO.Clarity,
-                Cut = diamondDTO.Cut
+                DProductId = Guid.NewGuid(),
+                Name = dto.Name,
+                Price = dto.Price,
+                ImageUrl = dto.ImageUrl,
+                DType = dto.DType,
+                CaratWeight = dto.CaratWeight,
+                Color = dto.Color,
+                Clarity = dto.Clarity,
+                Cut = dto.Cut
             };
         }
     }

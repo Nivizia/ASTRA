@@ -5,9 +5,9 @@ namespace DiamondAPI.Models;
 
 public partial class Diamondcertificate
 {
-    public int CertificateId { get; set; }
+    public Guid CertificateId { get; set; }
 
-    public int? ProductId { get; set; }
+    public Guid? ProductId { get; set; }
 
     public string? CertificateNumber { get; set; }
 

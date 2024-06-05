@@ -5,7 +5,7 @@ namespace DiamondAPI.Models;
 
 public partial class Earring
 {
-    public int EarringId { get; set; }
+    public Guid EarringId { get; set; }
 
     public string? Name { get; set; }
 

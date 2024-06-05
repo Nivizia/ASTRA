@@ -5,9 +5,9 @@ namespace DiamondAPI.Models;
 
 public partial class Warranty
 {
-    public int WarrantyId { get; set; }
+    public Guid WarrantyId { get; set; }
 
-    public int? OrderItemId { get; set; }
+    public Guid? OrderItemId { get; set; }
 
     public DateTime? WarrantyStartDate { get; set; }
 

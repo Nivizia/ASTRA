@@ -5,9 +5,9 @@ namespace DiamondAPI.Models;
 
 public partial class Order
 {
-    public int OrderId { get; set; }
+    public Guid OrderId { get; set; }
 
-    public int? CustomerId { get; set; }
+    public Guid? CustomerId { get; set; }
 
     public DateTime? OrderDate { get; set; }
 

@@ -5,11 +5,11 @@ namespace DiamondAPI.Models;
 
 public partial class Ringpairing
 {
-    public int RProductId { get; set; }
+    public Guid RProductId { get; set; }
 
-    public int? RingId { get; set; }
+    public Guid? RingId { get; set; }
 
-    public int? DiamondId { get; set; }
+    public Guid? DiamondId { get; set; }
 
     public virtual Diamond? Diamond { get; set; }
 

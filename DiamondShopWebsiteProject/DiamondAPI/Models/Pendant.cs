@@ -5,7 +5,7 @@ namespace DiamondAPI.Models;
 
 public partial class Pendant
 {
-    public int PendantId { get; set; }
+    public Guid PendantId { get; set; }
 
     public string? Name { get; set; }
 
