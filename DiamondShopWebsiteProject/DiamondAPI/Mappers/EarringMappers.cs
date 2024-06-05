@@ -30,18 +30,5 @@ namespace DiamondAPI.Mappers
                 MetalType = dto.MetalType
             };
         }
-
-        public static Earring toEarringFromUpdateDTO(this UpdateEarringRequestDTO dto)
-        {
-            return new Earring
-            {
-                EarringId = Guid.NewGuid(),
-                Name = dto.Name,
-                Price = dto.Price,
-                StockQuantity = dto.StockQuantity,
-                ImageUrl = dto.ImageUrl,
-                MetalType = dto.MetalType
-            };
-        }
     }
 }
