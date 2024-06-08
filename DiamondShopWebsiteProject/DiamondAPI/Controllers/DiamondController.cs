@@ -1,7 +1,9 @@
 ﻿using DiamondAPI.Data;
 using DiamondAPI.DTOs.Diamond;
+using DiamondAPI.Interfaces;
 using DiamondAPI.Mappers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DiamondAPI.Controllers
 {
@@ -10,22 +12,26 @@ namespace DiamondAPI.Controllers
     public class DiamondController : ControllerBase
     {
         private readonly DiamondprojectContext _context;
-        public DiamondController(DiamondprojectContext context)
+        private readonly IDiamondRepository _diamondRepo;
+
+        public DiamondController(DiamondprojectContext context, IDiamondRepository diamondRepo)
         {
+            _diamondRepo = diamondRepo;
             _context = context;
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var diamonds = _context.Diamonds.ToList().Select(s => s.toDiamondDTO());
-            return Ok(diamonds);
+            var diamonds = await _diamondRepo.GetAllAsync();
+            var diamondsDTO = diamonds.Select(d => d.toDiamondDTO());
+            return Ok(diamondsDTO);
         }
 
         [HttpGet("{D_ProductID}")]
-        public IActionResult GetByID([FromRoute] Guid D_ProductID)
+        public async Task<IActionResult> GetByID([FromRoute] Guid D_ProductID)
         {
-            var diamond = _context.Diamonds.Find(D_ProductID);
+            var diamond = await _diamondRepo.GetByIDAsync(D_ProductID);
             if (diamond == null)
             {
                 return NotFound();
@@ -34,47 +40,36 @@ namespace DiamondAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateDiamondRequestDTO diamondDTO)
+        public async Task<IActionResult> Create([FromBody] CreateDiamondRequestDTO diamondDTO)
         {
             var diamondModel = diamondDTO.toDiamondFromCreateDTO();
-            _context.Diamonds.Add(diamondModel);
-            _context.SaveChanges();
+            await _diamondRepo.CreateAsync(diamondModel);
             return CreatedAtAction(nameof(GetByID), new { D_ProductID = diamondModel.DProductId }, diamondModel.toDiamondDTO());
         }
 
         [HttpPut]
         [Route("{D_ProductID}")]
-        public IActionResult Update([FromRoute] Guid D_ProductID, [FromBody] UpdateDiamondRequestDTO diamondDTO)
+        public async Task<IActionResult> Update([FromRoute] Guid D_ProductID, [FromBody] UpdateDiamondRequestDTO diamondDTO)
         {
-            var diamond = _context.Diamonds.FirstOrDefault(x => x.DProductId == D_ProductID);
+            var diamond = await _diamondRepo.UpdateAsync(D_ProductID, diamondDTO);
             if (diamond == null)
             {
                 return NotFound();
             }
-            diamond.Name = diamondDTO.Name;
-            diamond.Price = diamondDTO.Price;
-            diamond.ImageUrl = diamondDTO.ImageUrl;
-            diamond.DType = diamondDTO.DType;
-            diamond.CaratWeight = diamondDTO.CaratWeight;
-            diamond.Color = diamondDTO.Color;
-            diamond.Clarity = diamondDTO.Clarity;
-            diamond.Cut = diamondDTO.Cut;
 
-            _context.SaveChanges();
             return Ok(diamond.toDiamondDTO());
         }
 
         [HttpDelete]
         [Route("{D_ProductID}")]
-        public IActionResult Delete([FromRoute] Guid D_ProductID)
+        public async Task<IActionResult> Delete([FromRoute] Guid D_ProductID)
         {
-            var diamond = _context.Diamonds.FirstOrDefault(x => x.DProductId == D_ProductID);
+            var diamond = await _diamondRepo.DeleteAsync(D_ProductID);
             if (diamond == null)
             {
                 return NotFound();
             }
-            _context.Diamonds.Remove(diamond);
-            _context.SaveChanges();
+
             return NoContent();
         }
     }

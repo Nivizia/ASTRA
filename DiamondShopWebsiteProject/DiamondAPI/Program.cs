@@ -1,4 +1,6 @@
 using DiamondAPI.Data;
+using DiamondAPI.Interfaces;
+using DiamondAPI.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +18,7 @@ builder.Services.AddDbContext<DiamondprojectContext>(options =>
 }
 );
 
-
+builder.Services.AddScoped<IDiamondRepository, DiamondRepository>();
 
 var app = builder.Build();
 
