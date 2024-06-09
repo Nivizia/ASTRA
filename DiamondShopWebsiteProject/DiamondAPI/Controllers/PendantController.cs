@@ -1,5 +1,6 @@
 ﻿using DiamondAPI.Data;
 using DiamondAPI.DTOs.Pendant;
+using DiamondAPI.Interfaces;
 using DiamondAPI.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,22 +11,25 @@ namespace DiamondAPI.Controllers
     public class PendantController : ControllerBase
     {
         private readonly DiamondprojectContext _context;
-        public PendantController(DiamondprojectContext context)
+        private readonly IPendantRepository _pendantRepo;
+        public PendantController(DiamondprojectContext context, IPendantRepository pendantRepo)
         {
             _context = context;
+            _pendantRepo = pendantRepo;
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var pendants = _context.Pendants.ToList().Select(p => p.ToPendantDTO());
-            return Ok(pendants);
+            var pendants = await _pendantRepo.GetAllAsync();
+            var pendantDTOs = pendants.Select(p => p.ToPendantDTO());
+            return Ok(pendantDTOs);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(Guid id)
+        public async Task<IActionResult> GetById(Guid id)
         {
-            var pendant = _context.Pendants.FirstOrDefault(p => p.PendantId == id);
+            var pendant = await _pendantRepo.GetByIDAsync(id);
             if (pendant == null)
             {
                 return NotFound();
@@ -34,41 +38,34 @@ namespace DiamondAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreatePendantRequestDTO createPendantRequestDTO)
+        public async Task<IActionResult> Create([FromBody] CreatePendantRequestDTO createPendantRequestDTO)
         {
             var pendant = createPendantRequestDTO.toPendantFromCreateDTO();
-            _context.Pendants.Add(pendant);
-            _context.SaveChanges();
+            await _pendantRepo.CreateAsync(pendant);
             return CreatedAtAction(nameof(GetById), new { id = pendant.PendantId }, pendant);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(Guid id, [FromBody] UpdatePendantRequestDTO updatePendantRequestDTO)
+        public async Task<IActionResult> Update(Guid id, [FromBody] UpdatePendantRequestDTO updatePendantRequestDTO)
         {
-            var pendant = _context.Pendants.FirstOrDefault(p => p.PendantId == id);
+            var pendant = await _pendantRepo.UpdateAsync(id, updatePendantRequestDTO);
             if (pendant == null)
             {
                 return NotFound();
             }
-            pendant.Name = updatePendantRequestDTO.Name;
-            pendant.Price = updatePendantRequestDTO.Price;
-            pendant.StockQuantity = updatePendantRequestDTO.StockQuantity;
-            pendant.ImageUrl = updatePendantRequestDTO.ImageUrl;
-            pendant.MetalType = updatePendantRequestDTO.MetalType;
-            _context.SaveChanges();
+
             return Ok(pendant.ToPendantDTO());
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var pendant = _context.Pendants.FirstOrDefault(p => p.PendantId == id);
+            var pendant = await _pendantRepo.DeleteAsync(id);
             if (pendant == null)
             {
                 return NotFound();
             }
-            _context.Pendants.Remove(pendant);
-            _context.SaveChanges();
+
             return NoContent();
         }
     }

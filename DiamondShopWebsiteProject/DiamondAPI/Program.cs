@@ -18,7 +18,11 @@ builder.Services.AddDbContext<DiamondprojectContext>(options =>
 }
 );
 
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IDiamondRepository, DiamondRepository>();
+builder.Services.AddScoped<IEarringRepository, EarringRepository>();
+builder.Services.AddScoped<IPendantRepository, PendantRepository>();
+builder.Services.AddScoped<IRingRepository, RingRepository>();
 
 var app = builder.Build();
 

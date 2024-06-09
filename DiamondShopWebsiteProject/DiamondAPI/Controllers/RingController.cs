@@ -1,5 +1,6 @@
 ﻿using DiamondAPI.Data;
 using DiamondAPI.DTOs.Ring;
+using DiamondAPI.Interfaces;
 using DiamondAPI.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,22 +11,26 @@ namespace DiamondAPI.Controllers
     public class RingController : ControllerBase
     {
         private readonly DiamondprojectContext _context;
-        public RingController(DiamondprojectContext context)
+        private readonly IRingRepository _ringRepo;
+        public RingController(DiamondprojectContext context, IRingRepository ringRepo)
         {
             _context = context;
+            _ringRepo = ringRepo;
+
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var rings = _context.Rings.ToList().Select(r => r.toRingDTO());
-            return Ok(rings);
+            var rings = await _ringRepo.GetAllAsync();
+            var ringDTOs = rings.Select(r => r.toRingDTO());
+            return Ok(ringDTOs);
         }
 
         [HttpGet("{RingId}")]
-        public IActionResult GetByID([FromRoute] Guid RingId)
+        public async Task<IActionResult> GetByID([FromRoute] Guid RingId)
         {
-            var ring = _context.Rings.Find(RingId);
+            var ring = await _ringRepo.GetByIDAsync(RingId);
             if (ring == null)
             {
                 return NotFound();
@@ -34,44 +39,36 @@ namespace DiamondAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateRingRequestDTO ringDTO)
+        public async Task<IActionResult> Create([FromBody] CreateRingRequestDTO ringDTO)
         {
             var ringModel = ringDTO.toRingFromCreateDTO();
-            _context.Rings.Add(ringModel);
-            _context.SaveChanges();
+            await _ringRepo.CreateAsync(ringModel);
             return CreatedAtAction(nameof(GetByID), new { RingId = ringModel.RingId }, ringModel.toRingDTO());
         }
 
         [HttpPut]
         [Route("{RingId}")]
-        public IActionResult Update([FromRoute] Guid RingId, [FromBody] UpdateRingRequestDTO ringDTO)
+        public async Task<IActionResult> Update([FromRoute] Guid RingId, [FromBody] UpdateRingRequestDTO ringDTO)
         {
-            var ring = _context.Rings.FirstOrDefault(x => x.RingId == RingId);
+            var ring = await _ringRepo.UpdateAsync(RingId, ringDTO);
             if (ring == null)
             {
                 return NotFound();
             }
-            ring.Name = ringDTO.Name;
-            ring.Price = ringDTO.Price;
-            ring.StockQuantity = ringDTO.StockQuantity;
-            ring.ImageUrl = ringDTO.ImageUrl;
-            ring.MetalType = ringDTO.MetalType;
-            ring.RingSize = ringDTO.RingSize;
-            _context.SaveChanges();
+
             return Ok(ring.toRingDTO());
         }
 
         [HttpDelete]
         [Route("{RingId}")]
-        public IActionResult Delete([FromRoute] Guid RingId)
+        public async Task<IActionResult> Delete([FromRoute] Guid RingId)
         {
-            var ring = _context.Rings.Find(RingId);
+            var ring = await _ringRepo.DeleteAsync(RingId);
             if (ring == null)
             {
                 return NotFound();
             }
-            _context.Rings.Remove(ring);
-            _context.SaveChanges();
+
             return NoContent();
         }
     }

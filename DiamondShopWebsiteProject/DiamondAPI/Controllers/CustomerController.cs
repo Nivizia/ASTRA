@@ -1,5 +1,6 @@
 ﻿using DiamondAPI.Data;
 using DiamondAPI.DTOs.Customer;
+using DiamondAPI.Interfaces;
 using DiamondAPI.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,22 +11,25 @@ namespace DiamondAPI.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly DiamondprojectContext _context;
-        public CustomerController(DiamondprojectContext context)
+        private readonly ICustomerRepository _customerRepo;
+        public CustomerController(DiamondprojectContext context, ICustomerRepository customerRepo)
         {
             _context = context;
+            _customerRepo = customerRepo;
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var customers = _context.Customers.ToList().Select(c => c.toCustomerDTO());
-            return Ok(customers);
+            var customers = await _customerRepo.GetAllAsync();
+            var customerDTOs = customers.Select(c => c.toCustomerDTO());
+            return Ok(customerDTOs);
         }
 
         [HttpGet("{CustomerId}")]
-        public IActionResult GetByID([FromRoute] Guid CustomerId)
+        public async Task<IActionResult> GetByID([FromRoute] Guid CustomerId)
         {
-            var customer = _context.Customers.Find(CustomerId);
+            var customer = await _customerRepo.GetByIDAsync(CustomerId);
             if (customer == null)
             {
                 return NotFound();
@@ -34,44 +38,36 @@ namespace DiamondAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateCustomerRequestDTO customerDTO)
+        public async Task<IActionResult> Create([FromBody] CreateCustomerRequestDTO customerDTO)
         {
             var customerModel = customerDTO.toCustomerFromCreateDTO();
-            _context.Customers.Add(customerModel);
-            _context.SaveChanges();
+            await _customerRepo.CreateAsync(customerModel);
             return CreatedAtAction(nameof(GetByID), new { CustomerId = customerModel.CustomerId }, customerModel.toCustomerDTO());
         }
 
         [HttpPut]
         [Route("{CustomerId}")]
-        public IActionResult Update([FromRoute] Guid CustomerId, [FromBody] UpdateCustomerRequestDTO customerDTO)
+        public async Task<IActionResult> Update([FromRoute] Guid CustomerId, [FromBody] UpdateCustomerRequestDTO customerDTO)
         {
-            var customer = _context.Customers.FirstOrDefault(x => x.CustomerId == CustomerId);
+            var customer = await _customerRepo.UpdateAsync(CustomerId, customerDTO);
             if (customer == null)
             {
                 return NotFound();
             }
-            customer.FirstName = customerDTO.FirstName;
-            customer.LastName = customerDTO.LastName;
-            customer.Email = customerDTO.Email;
-            customer.Password = customerDTO.Password;
-            customer.PhoneNumber = customerDTO.PhoneNumber;
-            customer.RegistrationDate = customerDTO.RegistrationDate;
-            _context.SaveChanges();
+
             return Ok(customer.toCustomerDTO());
         }
 
         [HttpDelete]
         [Route("{CustomerId}")]
-        public IActionResult Delete([FromRoute] Guid CustomerId)
+        public async Task<IActionResult> Delete([FromRoute] Guid CustomerId)
         {
-            var customer = _context.Customers.Find(CustomerId);
+            var customer = await _customerRepo.DeleteAsync(CustomerId);
             if (customer == null)
             {
                 return NotFound();
             }
-            _context.Customers.Remove(customer);
-            _context.SaveChanges();
+
             return NoContent();
         }
     }

@@ -33,19 +33,35 @@ namespace DiamondAPI.Repositories
             return customerModel;
         }
 
-        public Task<List<Customer>> GetAllAsync()
+        public async Task<List<Customer>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Customers.ToListAsync();
         }
 
-        public Task<Customer?> GetByIDAsync(Guid CustomerId)
+        public async Task<Customer?> GetByIDAsync(Guid CustomerId)
         {
-            throw new NotImplementedException();
+            return await _context.Customers.FindAsync(CustomerId);
         }
 
-        public Task<Customer?> UpdateAsync(Guid CustomerId, UpdateCustomerRequestDTO customerDTO)
+        public async Task<Customer?> UpdateAsync(Guid CustomerId, UpdateCustomerRequestDTO customerDTO)
         {
-            throw new NotImplementedException();
+            var existingCustomer = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == CustomerId);
+
+            if (existingCustomer == null)
+            {
+                return null;
+            }
+
+            existingCustomer.FirstName = customerDTO.FirstName;
+            existingCustomer.LastName = customerDTO.LastName;
+            existingCustomer.Email = customerDTO.Email;
+            existingCustomer.Password = customerDTO.Password;
+            existingCustomer.PhoneNumber = customerDTO.PhoneNumber;
+            existingCustomer.RegistrationDate = customerDTO.RegistrationDate;
+
+            await _context.SaveChangesAsync();
+
+            return existingCustomer;
         }
     }
 }
