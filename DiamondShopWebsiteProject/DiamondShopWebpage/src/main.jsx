@@ -20,6 +20,8 @@ import EditContract, {
   action as editAction,
 }
 from './routes/edit';
+import { action as destroyAction } from "./routes/destroy";
+import Index from './routes/index';
 
 
 //Css Imports
@@ -34,6 +36,10 @@ const router = createBrowserRouter([
     action: rootAction,
     children: [
       {
+        index: true,
+        element: <Index />,
+      },
+      {
         path: "contacts/:contactId",
         element: <Contact />,
         errorElement: <ErrorPage />,
@@ -45,6 +51,11 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         loader: contactLoader,
         action: editAction,
+      },
+      {
+        path: "contacts/:contactId/destroy",
+        errorElement: <div>bruh</div>,
+        action: destroyAction,
       }
     ],
   },

@@ -23,7 +23,7 @@ const EditContract = () => {
                     aria-label="First name"
                     type="text"
                     name="first"
-                    defaultValue={contact.first}
+                    defaultValue={contact?.first}
                 />
                 <input
                     placeholder="Last"
