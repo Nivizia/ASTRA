@@ -13,6 +13,7 @@ namespace DiamondAPI.Mappers
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
                 Email = customer.Email,
+                Username = customer.Username,
                 Password = customer.Password,
                 PhoneNumber = customer.PhoneNumber,
                 RegistrationDate = customer.RegistrationDate
@@ -27,6 +28,7 @@ namespace DiamondAPI.Mappers
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
                 Email = customer.Email,
+                Username = customer.Username,
                 Password = customer.Password,
                 PhoneNumber = customer.PhoneNumber,
                 RegistrationDate = customer.RegistrationDate

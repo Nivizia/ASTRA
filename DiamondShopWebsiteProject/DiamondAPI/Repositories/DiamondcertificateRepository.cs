@@ -23,7 +23,7 @@ namespace DiamondAPI.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<List<Diamondcertificate>> GetAllAsync()
+        public Task<List<Diamondcertificate>> GetAllAsync()
         {
             throw new NotImplementedException();
         }

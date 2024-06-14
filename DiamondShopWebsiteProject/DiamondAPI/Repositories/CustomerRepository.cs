@@ -14,6 +14,16 @@ namespace DiamondAPI.Repositories
             _context = context;
         }
 
+        public async Task<Customer?> LoginAsync(string username, string password)
+        {
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Username == username && c.Password == password);
+            if (customer == null)
+            {
+                return null;
+            }
+            return customer;
+        }
+
         public async Task<Customer> CreateAsync(Customer customerModel)
         {
             await _context.Customers.AddAsync(customerModel);
@@ -55,6 +65,7 @@ namespace DiamondAPI.Repositories
             existingCustomer.FirstName = customerDTO.FirstName;
             existingCustomer.LastName = customerDTO.LastName;
             existingCustomer.Email = customerDTO.Email;
+            existingCustomer.Username = customerDTO.Username;
             existingCustomer.Password = customerDTO.Password;
             existingCustomer.PhoneNumber = customerDTO.PhoneNumber;
             existingCustomer.RegistrationDate = customerDTO.RegistrationDate;

@@ -19,6 +19,18 @@ namespace DiamondAPI.Controllers
         }
 
         [HttpGet]
+        [Route("login/{username}/{password}")]
+        public async Task<IActionResult> Login([FromRoute] string username, [FromRoute] string password)
+        {
+            var customer = await _customerRepo.LoginAsync(username, password);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+            return Ok(customer.toCustomerDTO());
+        }
+
+        [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var customers = await _customerRepo.GetAllAsync();
