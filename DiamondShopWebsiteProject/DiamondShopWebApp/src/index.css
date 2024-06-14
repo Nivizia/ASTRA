@@ -13,6 +13,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+div#page-renderer {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column
+}
+
 a {
   font-weight: 500;
   color: #646cff;

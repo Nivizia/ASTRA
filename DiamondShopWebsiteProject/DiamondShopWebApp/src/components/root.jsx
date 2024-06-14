@@ -8,14 +8,48 @@ const StyledContainer = styled.div
 const Root = () => {
   return (
     <StyledContainer>
-      <Header />
-      <main>
-        <div>
-          haro
-        </div>
-      </main>
-      <Footer />
+      <div id="page-renderer">
+        <Header />
+        <main>
+          <div>
+            haro
+          </div>
+          <div>
+            haro
+          </div>
+          <div>
+            haro
+          </div>
+          <div>
+            haro
+          </div>
+          <div>
+            haro
+          </div>
+          <div>
+            haro
+          </div>
+          <div>
+            haro
+          </div>
+          <div>
+            haro
+          </div>
+          <div>
+            haro
+          </div>
+          <div>
+            haro
+          </div>
+          <div>
+            haro
+          </div>
+        </main>
+        <Footer />
+      </div>
     </StyledContainer>
+
+
   )
 }
 export default Root
