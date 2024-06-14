@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <header className="header">
       <div className="header-content">
-        <img src={logo} alt="Astra Logo" className="logo" />
+        <a href="/"><img src={logo} alt="Astra Logo" className="logo" /></a>
         <nav className="nav">
           <MenuNav />
         </nav>

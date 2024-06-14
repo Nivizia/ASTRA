@@ -1,4 +1,5 @@
 .header {
+    position: fixed;
     background-color: #000;
     color: #fff;
     display: flex;
@@ -11,11 +12,11 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin: 20px 5rem;
+    margin: 10px 5rem;
 }
 
 .logo {
-    width: 5rem;
+    width: 6rem;
 }
 
 .nav {
@@ -36,7 +37,7 @@
     color: white;
     background-color: black;
     text-transform: none;
-    padding: 5px 15px;
+    padding: 0  5px;
     border-radius: 5px;
     font-size: 1rem;
 }

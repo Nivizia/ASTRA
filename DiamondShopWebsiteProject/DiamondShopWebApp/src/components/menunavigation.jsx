@@ -1,73 +1,155 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import Grow from '@mui/material/Grow';
+import Paper from '@mui/material/Paper';
+import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
 
 export default function MenuNav() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
+  const [diamondOpen, setDiamondOpen] = React.useState(false);
+  const [educationOpen, setEducationOpen] = React.useState(false);
+
+  const diamondAnchorRef = React.useRef(null);
+  const educationAnchorRef = React.useRef(null);
+
+  const handleDiamondToggle = () => {
+    setDiamondOpen((prevOpen) => !prevOpen);
+    if (educationOpen) setEducationOpen(false);
   };
 
+  const handleEducationToggle = () => {
+    setEducationOpen((prevOpen) => !prevOpen);
+    if (diamondOpen) setDiamondOpen(false);
+  };
+
+  const handleClose = (event, setState, anchorRef) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+    setState(false);
+  };
+
+  const handleDiamondClose = (event) => {
+    handleClose(event, setDiamondOpen, diamondAnchorRef);
+  };
+
+  const handleEducationClose = (event) => {
+    handleClose(event, setEducationOpen, educationAnchorRef);
+  };
+
+  function handleListKeyDown(event, setState) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setState(false);
+    } else if (event.key === 'Escape') {
+      setState(false);
+    }
+  }
+
+  // Ensure focus returns to the button when the menu closes
+  React.useEffect(() => {
+    if (diamondOpen) {
+      diamondAnchorRef.current.focus();
+    }
+    if (educationOpen) {
+      educationAnchorRef.current.focus();
+    }
+  }, [diamondOpen, educationOpen]);
+
   return (
-    <ul>
-      <li>
-      <div>
-      <Button
-        id="basic-button"
-        aria-controls={open ? 'basic-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-      >
-        Diamond
-      </Button>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
-      </Menu>
-    </div>
+    <ul style={{ display: 'flex', listStyle: 'none', padding: 0 }}>
+      <li style={{ marginRight: '20px', position: 'relative' }}>
+        <Button
+          ref={diamondAnchorRef}
+          id="diamond-button"
+          aria-controls={diamondOpen ? 'diamond-menu' : undefined}
+          aria-expanded={diamondOpen ? 'true' : undefined}
+          aria-haspopup="true"
+          onClick={handleDiamondToggle}
+        >
+          Diamond
+        </Button>
+        <Popper
+          open={diamondOpen}
+          anchorEl={diamondAnchorRef.current}
+          role={undefined}
+          placement="bottom-start"
+          transition
+          disablePortal
+        >
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              style={{
+                transformOrigin:
+                  placement === 'bottom-start' ? 'left top' : 'left bottom',
+              }}
+            >
+              <Paper>
+                <ClickAwayListener onClickAway={handleDiamondClose}>
+                  <MenuList
+                    autoFocusItem={diamondOpen}
+                    id="diamond-menu"
+                    aria-labelledby="diamond-button"
+                    onKeyDown={(event) => handleListKeyDown(event, setDiamondOpen)}
+                  >
+                    <MenuItem onClick={handleDiamondClose}>Profile</MenuItem>
+                    <MenuItem onClick={handleDiamondClose}>My account</MenuItem>
+                    <MenuItem onClick={handleDiamondClose}>Logout</MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
       </li>
-      <li>
-      <div>
-      <Button
-        id="basic-button"
-        aria-controls={open ? 'basic-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-      >
-        Education
-      </Button>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
-      </Menu>
-    </div>
+      <li style={{ position: 'relative' }}>
+        <Button
+          ref={educationAnchorRef}
+          id="education-button"
+          aria-controls={educationOpen ? 'education-menu' : undefined}
+          aria-expanded={educationOpen ? 'true' : undefined}
+          aria-haspopup="true"
+          onClick={handleEducationToggle}
+        >
+          Education
+        </Button>
+        <Popper
+          open={educationOpen}
+          anchorEl={educationAnchorRef.current}
+          role={undefined}
+          placement="bottom-start"
+          transition
+          disablePortal
+        >
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              style={{
+                transformOrigin:
+                  placement === 'bottom-start' ? 'left top' : 'left bottom',
+              }}
+            >
+              <Paper>
+                <ClickAwayListener onClickAway={handleEducationClose}>
+                  <MenuList
+                    autoFocusItem={educationOpen}
+                    id="education-menu"
+                    aria-labelledby="education-button"
+                    onKeyDown={(event) => handleListKeyDown(event, setEducationOpen)}
+                  >
+                    <MenuItem onClick={handleEducationClose}>Profile</MenuItem>
+                    <MenuItem onClick={handleEducationClose}>My account</MenuItem>
+                    <MenuItem onClick={handleEducationClose}>Logout</MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
       </li>
     </ul>
-    
   );
 }
