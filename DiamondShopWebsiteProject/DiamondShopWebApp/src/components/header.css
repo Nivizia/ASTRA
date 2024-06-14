@@ -1,0 +1,64 @@
+.header {
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 20px 5rem;
+}
+
+.logo {
+    width: 5rem;
+}
+
+.nav {
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    margin-left: 4rem;
+    padding: 0;
+}
+
+.nav button {
+    color: white;
+    background-color: black;
+    text-transform: none;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.nav button:hover {
+    background-color: grey;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.search-bar {
+    width: 20rem;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+}
+
+.icon {
+    font-size: 20px;
+}
+
