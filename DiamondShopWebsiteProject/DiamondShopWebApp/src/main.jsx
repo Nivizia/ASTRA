@@ -9,6 +9,7 @@ import {
 //Component Imports
 import Root from './components/root';
 import HomePage from './components/home';
+import DiamondsList from './components/testfetchdiamondlist';
 
 //Css Imports
 import './index.css'
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
+      },
+      {
+        path: "/diamond/",
+        element: <DiamondsList />
       }
     ]
   }
