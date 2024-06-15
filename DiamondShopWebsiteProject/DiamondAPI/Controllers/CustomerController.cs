@@ -2,6 +2,8 @@
 using DiamondAPI.DTOs.Customer;
 using DiamondAPI.Interfaces;
 using DiamondAPI.Mappers;
+using DiamondAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondAPI.Controllers
@@ -12,22 +14,31 @@ namespace DiamondAPI.Controllers
     {
         private readonly DiamondprojectContext _context;
         private readonly ICustomerRepository _customerRepo;
-        public CustomerController(DiamondprojectContext context, ICustomerRepository customerRepo)
+        private readonly TokenService _tokenService;
+        public CustomerController(DiamondprojectContext context, ICustomerRepository customerRepo, TokenService tokenService)
         {
             _context = context;
             _customerRepo = customerRepo;
+            _tokenService = tokenService;
         }
 
-        [HttpGet]
-        [Route("login/{username}/{password}")]
-        public async Task<IActionResult> Login([FromRoute] string username, [FromRoute] string password)
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequestDTO loginRequest)
         {
-            var customer = await _customerRepo.LoginAsync(username, password);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var customer = await _customerRepo.LoginAsync(loginRequest.Username, loginRequest.Password);
             if (customer == null)
             {
-                return NotFound();
+                return Unauthorized();
             }
-            return Ok(customer.toCustomerDTO());
+
+            var token = _tokenService.GenerateToken(customer);
+            return Ok(new { token });
         }
 
         [HttpGet]
@@ -38,6 +49,7 @@ namespace DiamondAPI.Controllers
             return Ok(customerDTOs);
         }
 
+        [ResponseCache(Duration = 60)]
         [HttpGet("{CustomerId}")]
         public async Task<IActionResult> GetByID([FromRoute] Guid CustomerId)
         {
@@ -52,6 +64,11 @@ namespace DiamondAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateCustomerRequestDTO customerDTO)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var customerModel = customerDTO.toCustomerFromCreateDTO();
             await _customerRepo.CreateAsync(customerModel);
             return CreatedAtAction(nameof(GetByID), new { CustomerId = customerModel.CustomerId }, customerModel.toCustomerDTO());

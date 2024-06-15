@@ -42,7 +42,7 @@ const DiamondList = () => {
             <h1>Diamonds</h1>
             <ul>
                 {diamonds.map(diamond => (
-                    <li key={diamond.D_ProductID}>{diamond.Name}</li>
+                    <li key={diamond.dProductId}>{diamond.name}</li>
                 ))}
             </ul>
         </div>
