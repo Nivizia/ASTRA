@@ -10,6 +10,7 @@ import {
 import Root from './components/root';
 import HomePage from './components/home';
 import DiamondsList from './components/testfetchdiamondlist';
+import LoginForm from './components/testlogin';
 
 //Css Imports
 import './index.css'
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/diamond/",
         element: <DiamondsList />
+      },
+      {
+        path: "/login/",
+        element: <LoginForm />
       }
     ]
   }

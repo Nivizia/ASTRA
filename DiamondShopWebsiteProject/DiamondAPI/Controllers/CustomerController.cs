@@ -41,6 +41,7 @@ namespace DiamondAPI.Controllers
             return Ok(new { token });
         }
 
+        //List out all customers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -49,6 +50,7 @@ namespace DiamondAPI.Controllers
             return Ok(customerDTOs);
         }
 
+        //Get a customer by ID
         [ResponseCache(Duration = 60)]
         [HttpGet("{CustomerId}")]
         public async Task<IActionResult> GetByID([FromRoute] Guid CustomerId)
@@ -61,6 +63,7 @@ namespace DiamondAPI.Controllers
             return Ok(customer.toCustomerDTO());
         }
 
+        //Create a customer
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateCustomerRequestDTO customerDTO)
         {
@@ -74,6 +77,7 @@ namespace DiamondAPI.Controllers
             return CreatedAtAction(nameof(GetByID), new { CustomerId = customerModel.CustomerId }, customerModel.toCustomerDTO());
         }
 
+        //Update a customer by ID
         [HttpPut]
         [Route("{CustomerId}")]
         public async Task<IActionResult> Update([FromRoute] Guid CustomerId, [FromBody] UpdateCustomerRequestDTO customerDTO)
@@ -87,6 +91,7 @@ namespace DiamondAPI.Controllers
             return Ok(customer.toCustomerDTO());
         }
 
+        //Delete a customer by ID
         [HttpDelete]
         [Route("{CustomerId}")]
         public async Task<IActionResult> Delete([FromRoute] Guid CustomerId)
