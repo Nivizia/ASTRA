@@ -59,8 +59,8 @@ export default function MenuNav() {
   }, [diamondOpen, educationOpen]);
 
   return (
-    <ul style={{ display: 'flex', listStyle: 'none', padding: 0 }}>
-      <li style={{ marginRight: '20px', position: 'relative' }}>
+    <ul id='navButtons'>
+      <li>
         <Button
           ref={diamondAnchorRef}
           id="diamond-button"
@@ -105,7 +105,7 @@ export default function MenuNav() {
           )}
         </Popper>
       </li>
-      <li style={{ position: 'relative' }}>
+      <li>
         <Button
           ref={educationAnchorRef}
           id="education-button"

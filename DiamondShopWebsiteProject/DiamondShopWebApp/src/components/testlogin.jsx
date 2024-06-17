@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-// API endpoint for login
-const LOGIN_API_URL = "http://localhost:5212/DiamondAPI/Models/Customer/login";
+import { loginUser } from '../../apiService';
 
 const LoginForm = () => {
     const [username, setUsername] = useState('');
@@ -16,27 +14,13 @@ const LoginForm = () => {
         setError(null); // Reset error state
 
         try {
-            const response = await fetch(LOGIN_API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username, password }) // Send username and password in request body
-            });
-
-            if (!response.ok) {
-                throw new Error('Login failed');
+            // Use the loginUser function from apiService
+            const token = await loginUser(username, password);
+            if (token) {
+                // Redirect to /diamond after successful login
+                console.log('Login successful. Token:', token);
+                navigate('/diamond');
             }
-
-            const data = await response.json();
-
-            // Store the token in localStorage
-            localStorage.setItem('authToken', data.token);
-
-            // Redirect to /diamond after successful login
-            console.log('Login successful. Token:', data.token);
-            navigate('/diamond');
-
         } catch (error) {
             console.error('Error during login:', error);
             setError('Invalid username or password');
