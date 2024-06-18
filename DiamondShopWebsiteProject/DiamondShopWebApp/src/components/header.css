@@ -1,6 +1,7 @@
 .header {
-    position: fixed;
-    background-color: #000;
+    position: sticky;
+    top: 0;
+    background-color: black;
     color: #fff;
     display: flex;
     justify-content: space-between;
@@ -77,10 +78,24 @@
     gap: 2rem;
 }
 
+.header-right div {
+    transform: scale(1.5);
+    display: flex;
+    align-items: center;
+}
+.header-right div:hover {
+    transform: scale(1.75);
+}
+
+.header-right div:active {
+    transform: scale(1.25);
+}
+
 .search-bar {
     width: 20rem;
     padding: 5px;
     border-radius: 5px;
+    background-color: white;
     border: none;
 }
 

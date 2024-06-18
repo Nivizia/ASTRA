@@ -57,33 +57,35 @@ const Account = () => {
             <div onClick={handleAccountClickOpen}><MdAccountCircle /></div>
             <Dialog open={open} onClose={handleClose}>
                 <div className={styles.container}>
-                    <h2>Login</h2>
+                    <h2 className={styles.textInLoginForm}>Login</h2>
                     <form onSubmit={handleSubmit}>
-                        <div>
-                            <label htmlFor="username">Username:</label>
+                        <div className={styles.divInLoginForm}>
+                            <label className={styles.textInLoginForm}>Username:</label>
                             <input
                                 type="text"
                                 id="username"
+                                placeholder='Enter your username'
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                                 required
                             />
                         </div>
-                        <div>
-                            <label htmlFor="password">Password:</label>
+                        <div className={styles.divInLoginForm}>
+                            <label className={styles.textInLoginForm}>Password:</label>
                             <input
                                 type="password"
                                 id="password"
+                                placeholder='Enter your password'
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
                             />
                         </div>
                         {error && <div className={styles.error}>{error}</div>}
-                        <button type="submit">Login</button>
+                        <button className={styles.buttonLogin} type="submit">Login</button>
                     </form>
                     <div className={styles.footer}>
-                        <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+                        <p className={styles.textInLoginForm}>Don't have an account? <a className={styles.signUp} href="/signup">Sign Up</a></p>
                     </div>
                 </div>
             </Dialog>

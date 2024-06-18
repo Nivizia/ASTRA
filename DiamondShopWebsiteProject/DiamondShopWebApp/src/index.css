@@ -49,7 +49,6 @@ main {
   justify-content: center;
   align-items: center;
   overflow-y: auto;
-  padding-top: 130px; /* Space out to leave space for header */
 }
 
 h1 {
@@ -82,13 +81,5 @@ button:focus-visible {
   :root {
     color: #213547;
     background-color: #ffffff;
-  }
-
-  a:hover {
-    color: #747bff;
-  }
-
-  button {
-    background-color: #f9f9f9;
   }
 }

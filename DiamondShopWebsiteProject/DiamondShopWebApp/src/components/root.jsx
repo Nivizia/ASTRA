@@ -8,7 +8,6 @@ const StyledContainer = styled.div
   `font-family: 'Manrope', sans-serif;`;
 
 const MainContent = styled.main`
-  padding-top: 130px;
   flex-grow: 1;`;
 
 const Root = () => {
