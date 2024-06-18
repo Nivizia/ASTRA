@@ -1,9 +1,13 @@
-import { Dialog } from '@mui/material'
 import React from 'react'
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../../apiService';
 
+import { Dialog } from '@mui/material'
+
+import { useNavigate } from 'react-router-dom';
+
+import { MdAccountCircle } from "react-icons/md";
+
+import { loginUser } from '../../apiService';
 import styles from './account.module.css'
 
 const Account = () => {
@@ -49,8 +53,8 @@ const Account = () => {
     }
 
     return (
-        <div>
-            <button onClick={handleAccountClickOpen}>👤</button>
+        <>
+            <div onClick={handleAccountClickOpen}><MdAccountCircle /></div>
             <Dialog open={open} onClose={handleClose}>
                 <div className={styles.container}>
                     <h2>Login</h2>
@@ -83,7 +87,7 @@ const Account = () => {
                     </div>
                 </div>
             </Dialog>
-        </div>
+        </>
     )
 }
 

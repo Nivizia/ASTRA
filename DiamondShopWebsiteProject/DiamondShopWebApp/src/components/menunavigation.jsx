@@ -95,9 +95,9 @@ export default function MenuNav() {
                     aria-labelledby="diamond-button"
                     onKeyDown={(event) => handleListKeyDown(event, setDiamondOpen)}
                   >
-                    <MenuItem onClick={handleDiamondClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleDiamondClose}>My account</MenuItem>
-                    <MenuItem onClick={handleDiamondClose}>Logout</MenuItem>
+                    <MenuItem onClick={handleDiamondClose}>Diamond</MenuItem>
+                    <MenuItem onClick={handleDiamondClose}>Diamond</MenuItem>
+                    <MenuItem onClick={handleDiamondClose}>Diamond</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

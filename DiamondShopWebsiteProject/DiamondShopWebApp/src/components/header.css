@@ -46,6 +46,31 @@
     background-color: grey;
 }
 
+.nav div{
+    background-position-y: center;
+    width: 100vw;
+    height: 200px;
+}
+
+.nav div ul{
+    color: white;
+    background-color: black;
+    height: 100%;
+    padding: 0;
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
+}
+
+.nav div li{
+    width: 15%;
+    padding: 5px 20px;
+}
+
+.nav div li:hover{
+    background-color: grey;
+}
+
 .header-right {
     display: flex;
     align-items: center;
