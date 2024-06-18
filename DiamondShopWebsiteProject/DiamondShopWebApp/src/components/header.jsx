@@ -2,6 +2,7 @@ import React from 'react';
 import './header.css';
 import logo from '../images/logo-no-background.png';
 import MenuNav from './menunavigation';
+import Account from './account';
 
 const Header = () => {
   return (
@@ -13,7 +14,7 @@ const Header = () => {
         </nav>
         <div className="header-right">
           <input type="text" placeholder="Search" className="search-bar" />
-          <span className="icon">👤</span>
+          <Account />
           <span className="icon">🛒</span>
         </div>
       </div>
