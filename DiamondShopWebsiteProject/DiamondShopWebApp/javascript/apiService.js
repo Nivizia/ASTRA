@@ -7,29 +7,42 @@ const getToken = () => {
 };
 
 // Function to handle user login
+// apiService.js
+// apiService.js
 export const loginUser = async (username, password) => {
     try {
         const response = await fetch(`${BASE_URL}/Customer/login`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify({ username, password }),
         });
 
         if (!response.ok) {
-            throw new Error('Login failed');
+            if (response.status === 401) {
+                return { success: false, message: 'Invalid username or password' };
+            } else {
+                return { success: false, message: 'Server error. Please try again later.' };
+            }
         }
 
-        const data = await response.json();
+        const token = await response.text(); // Assuming the token is returned as plain text
+        console.log('Login token:', token);
+
         // Store the token in localStorage
-        localStorage.setItem('authToken', data.token);
-        return data.token;
+        localStorage.setItem('authToken', token);
+
+        // Return success along with the token
+        return { success: true, token };
     } catch (error) {
         console.error('Login error:', error);
-        throw error; // Rethrow the error to be handled by the calling code
+        return { success: false, message: 'Network error. Please try again later.' };
     }
 };
+
+
+
 
 // Function to fetch all diamonds
 export const fetchDiamonds = async () => {

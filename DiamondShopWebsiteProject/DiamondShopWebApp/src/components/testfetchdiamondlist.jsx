@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchDiamonds } from '../../apiService';
+import { fetchDiamonds } from '../../javascript/apiService';
 
 const DiamondList = () => {
     const [diamonds, setDiamonds] = useState([]); // Initialize as an empty array

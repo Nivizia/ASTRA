@@ -8,9 +8,9 @@ import {
 
 //Component Imports
 import Root from './components/root';
-import HomePage from './components/home';
+import Index from './components/index'
 import DiamondsList from './components/testfetchdiamondlist';
-import LoginForm from './components/testlogin';
+import LoginPage from './components/loginPage';
 
 //Css Imports
 import './index.css'
@@ -22,7 +22,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <HomePage />,
+        element: <Index />,
       },
       {
         path: "/diamond/",
@@ -30,14 +30,14 @@ const router = createBrowserRouter([
       },
       {
         path: "/login/",
-        element: <LoginForm />
-      }
+        element: <LoginPage />
+      },
     ]
   }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+      <RouterProvider router={router} />
   </React.StrictMode>
 );
