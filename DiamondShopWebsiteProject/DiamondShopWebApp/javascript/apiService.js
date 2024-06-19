@@ -41,9 +41,6 @@ export const loginUser = async (username, password) => {
     }
 };
 
-
-
-
 // Function to fetch all diamonds
 export const fetchDiamonds = async () => {
     try {

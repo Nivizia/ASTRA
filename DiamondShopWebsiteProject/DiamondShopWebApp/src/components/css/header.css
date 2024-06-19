@@ -78,17 +78,26 @@
     gap: 2rem;
 }
 
-.header-right div {
-    transform: scale(1.5);
+.header-right svg {
     display: flex;
+    width: 32px;
+    height: 32px;
     align-items: center;
 }
-.header-right div:hover {
-    transform: scale(1.75);
+.header-right svg:hover {
+    transform: scale(1.1);
 }
 
-.header-right div:active {
-    transform: scale(1.25);
+.header-right svg:active {
+    transform: scale(0.95);
+}
+
+.header-right div button:hover {
+    transform: scale(1.1);
+}
+
+.header-right div button:active {
+    transform: scale(0.95);
 }
 
 .search-bar {
