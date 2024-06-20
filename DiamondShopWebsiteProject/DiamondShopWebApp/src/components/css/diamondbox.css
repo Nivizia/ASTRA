@@ -1,0 +1,71 @@
+/* diamondbox.css */
+
+.diamond-box {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin: 0 auto;
+}
+
+.diamond-image-container {
+  height: auto;
+  width: 100%;
+  overflow: hidden;
+}
+
+.diamond-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.diamond-details h2 {
+  font-size: 18px;
+  margin: 0;
+  color: #333;
+}
+
+.price {
+  font-size: 24px;
+  color: #000;
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+.diamond-list {
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns of equal width */
+}
+
+@media (max-width: 1200px) {
+  .diamond-box {
+    width: 27vw;
+  }
+  .diamond-list {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns for medium screens */
+  }
+}
+
+@media (max-width: 900px) {
+  .diamond-box {
+    width: 39vw;
+  }
+  .diamond-list {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for smaller screens */
+  }
+}
+
+@media (max-width: 600px) {
+  .diamond-box {
+    width: 75vw;
+  }
+  .diamond-list {
+    grid-template-columns: 1fr; /* 1 column for very small screens */
+  }
+}

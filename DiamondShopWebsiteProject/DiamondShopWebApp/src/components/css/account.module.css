@@ -56,7 +56,11 @@ label {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    display: flex; /* Use Flexbox for centering */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
 }
+
 
 .buttonLogin:hover {
     background-color: #400084;

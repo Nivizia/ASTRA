@@ -1,8 +1,8 @@
 import React from 'react';
-import './css/header.css';
-import logo from '../images/logo-no-background.png';
-import MenuNav from './menunavigation';
-import AccountButton from './accountButton';
+import '../css/header.css';
+import logo from '../../images/logo-no-background.png';
+import MenuNav from '../menunavigation';
+import AccountButton from '../accountButton/accountButton';
 
 const Header = () => {
   return (
