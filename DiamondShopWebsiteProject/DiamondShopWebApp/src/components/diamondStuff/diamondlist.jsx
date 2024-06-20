@@ -1,11 +1,10 @@
-// DiamondList.jsx
 import React, { useEffect, useState } from 'react';
 import { fetchDiamonds } from '../../../javascript/apiService';
 
 import CircularIndeterminate from '../loading';
 import DiamondBox from './diamondbox';
 
-import '../css/diamondbox.css';
+import '../css/diamond.css';
 
 const DiamondList = () => {
   const [diamonds, setDiamonds] = useState([]); // Initialize as an empty array
@@ -31,7 +30,7 @@ const DiamondList = () => {
   }, []);
 
   if (loading) {
-    return <CircularIndeterminate />;
+    return <CircularIndeterminate size={56}/>;
   }
 
   if (error) {
@@ -49,9 +48,10 @@ const DiamondList = () => {
         {diamonds.map((diamond) => (
           <DiamondBox
             key={diamond.dProductId}
+            id={diamond.dProductId}
             price={diamond.price}
             imageUrl={diamond.imageUrl}
-            
+
             caratWeight={diamond.caratWeight}
             color={diamond.color}
             clarity={diamond.clarity}

@@ -57,17 +57,30 @@ export const fetchDiamonds = async () => {
 
 // Function to fetch a single diamond by ID
 export const fetchDiamondById = async (id) => {
+    if (!id) {
+        throw new Error('Diamond ID must be provided');
+    }
+
     try {
-        const response = await fetch(`${BASE_URL}/Diamond/${id}`);
+        const response = await fetch(`${BASE_URL}/Diamond/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error(`Error fetching diamond with ID ${id}: ${response.statusText}`);
         }
+
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error('There was a problem with the fetch operation:', error);
+        console.error('Error in fetchDiamondById:', error);
+        throw error;
     }
 };
+
 
 // Function to create a new diamond
 export const createDiamond = async (diamond) => {

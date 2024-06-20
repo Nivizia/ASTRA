@@ -72,7 +72,7 @@ const AccountButtonNotLoggedIn = ({ onLoginSuccess }) => {
                         </div>
                         {error && <div className={styles.error}>{error}</div>}
                         <button className={styles.buttonLogin} type="submit" disabled={loading}>
-                            {loading ? <CircularIndeterminate /> : 'Login'}
+                            {loading ? <CircularIndeterminate size={24} /> : 'Login'}
                         </button>
                     </form>
                     <div className={styles.footer}>

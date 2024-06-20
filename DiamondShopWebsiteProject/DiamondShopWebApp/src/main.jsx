@@ -9,8 +9,8 @@ import {
 //Component Imports
 import Root from './components/root';
 import Index from './components/index'
-import DiamondBox from './components/diamondListing/diamondbox';
-import DiamondList from './components/diamondListing/diamondlist';
+import DiamondList from './components/diamondStuff/diamondlist';
+import DiamondDetails from './components/diamondStuff/diamondDetails';
 import LoginPage from './components/loginPage';
 
 //Css Imports
@@ -28,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "/diamond/",
         element: <DiamondList />
+      },
+      {
+        path: '/diamond/:diamondId', // Add the route for diamond details
+        element: <DiamondDetails />,
       },
       {
         path: "/login/",
