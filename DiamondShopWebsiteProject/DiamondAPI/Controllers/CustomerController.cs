@@ -46,13 +46,14 @@ namespace DiamondAPI.Controllers
                 return BadRequest(ModelState);
 
             if (await _customerRepo.UserExistsAsync(registerRequest.Username))
-                return BadRequest("Username already exists");
+                return Conflict(new { message = "Username already exists" });
 
             var customer = registerRequest.toCustomerFromRegisterDTO();
             await _customerRepo.RegisterAsync(customer);
 
             return StatusCode(201);
         }
+
 
         //List out all customers
         [HttpGet]

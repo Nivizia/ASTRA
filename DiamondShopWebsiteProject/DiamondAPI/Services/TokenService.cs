@@ -33,7 +33,6 @@ namespace DiamondAPI.Services
             {
                 new Claim(JwtRegisteredClaimNames.Sub, customer.CustomerId.ToString()),
                 new Claim(JwtRegisteredClaimNames.UniqueName, customer.Username),
-                new Claim(JwtRegisteredClaimNames.Email, customer.Email),
                 new Claim("FullName", $"{customer.FirstName} {customer.LastName}")
             };
 

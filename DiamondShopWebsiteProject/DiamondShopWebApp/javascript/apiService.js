@@ -43,6 +43,34 @@ export const loginUser = async (username, password) => {
 
 // Function to handle user sign up
 export const signUpUser = async (user) => {
+    try {
+        const response = await fetch(`${BASE_URL}/Customer/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(user),
+        });
+
+        if (!response.ok) {
+            if (response.status === 409) {
+                // Handle specific case where username already exists
+                const errorData = await response.json();
+                return { success: false, message: errorData.message || 'Username already exists' };
+            }
+            // Handle other errors
+            const message = await response.text();
+            throw new Error(`Sign up failed: ${message}`);
+        }
+
+        return { success: true };
+    } catch (error) {
+        console.error('Sign up error:', error);
+        return { success: false, message: 'Network error. Please try again later.' };
+    }
+};
+
+
 
 
 // Function to fetch all diamonds

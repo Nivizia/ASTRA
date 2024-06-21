@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchDiamondById } from '../../../javascript/apiService';
 import CircularIndeterminate from '../loading';
-
 import '../css/diamond.css';
 
 const DiamondDetails = () => {
@@ -38,16 +37,66 @@ const DiamondDetails = () => {
   }
 
   return (
-    <div className="diamond-details-page">
-      <img src='/src/images/diamond.png' alt="Diamond" className="diamond-details-image" />
-      <div className="diamond-details-info">
-      <h2>{`${diamond.caratWeight} Carat ${diamond.color}-${diamond.clarity} ${diamond.cut} cut ${diamond.dType} Diamond`}</h2>
-        <p>Carat: {diamond.caratWeight}</p>
-        <p>Color: {diamond.color}</p>
-        <p>Clarity: {diamond.clarity}</p>
-        <p>Cut: {diamond.cut}</p>
-        <p>Shape: {diamond.dType}</p>
+    <div className="diamond-details-container">
+      <div className="image-section">
+        <img src='/src/images/diamond.png' alt="Diamond" className="diamond-image" />
+        <div className="thumbnail-gallery">
+          <img src='/src/images/diamond-thumbnail1.png' alt="Thumbnail 1" />
+          <img src='/src/images/diamond-thumbnail2.png' alt="Thumbnail 2" />
+          <img src='/src/images/diamond-thumbnail3.png' alt="Thumbnail 3" />
+          <img src='/src/images/gia-report.png' alt="GIA Report" />
+        </div>
+      </div>
+      <div className="details-section">
+        <h2>{`${diamond.caratWeight} Carat Round Diamond`}</h2>
+        <div className="badge-group">
+          <span className="badge">{`${diamond.caratWeight}ct`}</span>
+          <span className="badge">{`${diamond.color} Color`}</span>
+          <span className="badge">{`${diamond.clarity} Clarity`}</span>
+          <span className="badge">{`Excellent`}</span>
+        </div>
         <p className="price">${diamond.price.toFixed(2)}</p>
+        <button className="select-diamond-button">SELECT THIS DIAMOND</button>
+        <div className="order-info">
+          <h3>Your Order Includes:</h3>
+          <div className="order-detail">
+            <span className="order-icon">🚚</span>
+            <p>Free Shipping</p>
+            <small>We're committed to making your entire experience a pleasant one, from shopping to shipping</small>
+          </div>
+          <div className="order-detail">
+            <h4>GIA Grading Report</h4>
+          </div>
+          <div className="order-detail">
+            <h4>Product Details</h4>
+          </div>
+        </div>
+      </div>
+      <div className="specifications-section">
+        <table>
+          <tbody>
+            <tr>
+              <td>Shape</td>
+              <td>{diamond.dType}</td>
+            </tr>
+            <tr>
+              <td>Cut</td>
+              <td>{diamond.cut}</td>
+            </tr>
+            <tr>
+              <td>Color</td>
+              <td>{diamond.color}</td>
+            </tr>
+            <tr>
+              <td>Clarity</td>
+              <td>{diamond.clarity}</td>
+            </tr>
+            <tr>
+              <td>Carat Weight</td>
+              <td>{diamond.caratWeight}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );

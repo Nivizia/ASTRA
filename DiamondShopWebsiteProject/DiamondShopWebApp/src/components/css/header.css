@@ -1,11 +1,15 @@
 .header {
     position: sticky;
     top: 0;
+
     background-color: black;
     color: #fff;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    margin-bottom: 1em;
 }
 
 .header-content {
@@ -26,7 +30,7 @@
     justify-content: flex-start;
 }
 
-.nav ul#navButtons{
+.nav ul#navButtons {
     list-style: none;
     display: flex;
     gap: 2rem;
@@ -38,7 +42,7 @@
     color: white;
     background-color: black;
     text-transform: none;
-    padding: 0  5px;
+    padding: 0 5px;
     border-radius: 5px;
     font-size: 1rem;
 }
@@ -47,13 +51,13 @@
     background-color: grey;
 }
 
-.nav div{
+.nav div {
     background-position-y: center;
     width: 100vw;
     height: 200px;
 }
 
-.nav div ul{
+.nav div ul {
     color: white;
     background-color: black;
     height: 100%;
@@ -63,12 +67,12 @@
     border-color: white;
 }
 
-.nav div li{
+.nav div li {
     width: 15%;
     padding: 5px 20px;
 }
 
-.nav div li:hover{
+.nav div li:hover {
     background-color: grey;
 }
 
@@ -84,6 +88,7 @@
     height: 32px;
     align-items: center;
 }
+
 .header-right svg:hover {
     transform: scale(1.1);
 }
@@ -111,4 +116,3 @@
 .icon {
     font-size: 20px;
 }
-

@@ -1,0 +1,96 @@
+/* signUp.module.css */
+
+/* Container styling */
+.signupContainer {
+    width: 400px;
+    margin: 0 auto;
+    padding: 1em;
+    background-color: #1e1e1e; /* Dark background for the container */
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+/* Title styling */
+.textInLoginForm {
+    text-align: center;
+    margin-bottom: 1em;
+    color: white;
+}
+
+/* Form styling */
+.signupForm {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Form elements styling */
+.divInLoginForm {
+    margin-bottom: 1em;
+}
+
+.signupLabel {
+    display: block;
+    margin-bottom: 0.5em;
+    color: white;
+}
+
+.signupInput {
+    width: 100%;
+    padding: 0.5em;
+    box-sizing: border-box;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: #333;
+    color: #ffffff;
+}
+
+.signupInput::placeholder {
+    color: #888;
+}
+
+/* Button styling */
+.signupButton {
+    width: 100%;
+    margin-top: 20px;
+    padding: 0.5em;
+    background-color: #5200aa; /* Dark purple button background */
+    color: #ffffff; /* Light text color for button */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex; /* Use Flexbox for centering */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+}
+
+.signupButton:hover {
+    background-color: #400084;
+    transform: scale(1.025);
+}
+
+.signupButton:active {
+    background-color: #35006d;
+    transform: scale(0.95);
+}
+
+/* Error message styling */
+.signupError {
+    color: #ff5252; /* Red color for error messages */
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+/* Link styling */
+.signupLink {
+    color: #6000c7; /* Light purple for links */
+}
+
+.signupLink:hover {
+    color: #5200aa; /* Light color on hover */
+}
+
+/* Footer styling */
+.signupFooter {
+    text-align: center;
+    margin-top: 1em;
+}
