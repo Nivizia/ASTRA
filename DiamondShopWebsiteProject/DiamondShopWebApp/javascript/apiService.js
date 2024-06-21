@@ -43,7 +43,8 @@ export const loginUser = async (username, password) => {
 
 // Function to handle user sign up
 export const signUpUser = async (user) => {
-
+    return "Gong is gay"
+}
 
 // Function to fetch all diamonds
 export const fetchDiamonds = async () => {
@@ -148,3 +149,4 @@ export const deleteDiamond = async (id) => {
         console.error('There was a problem with the fetch operation:', error);
     }
 };
+
