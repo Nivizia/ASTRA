@@ -41,6 +41,10 @@ export const loginUser = async (username, password) => {
     }
 };
 
+// Function to handle user sign up
+export const signUpUser = async (user) => {
+
+
 // Function to fetch all diamonds
 export const fetchDiamonds = async () => {
     try {

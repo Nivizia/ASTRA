@@ -28,6 +28,15 @@ namespace DiamondAPI.Controllers
             return Ok(diamondsDTO);
         }
 
+        [HttpGet]
+        [Route("Filter")]
+        public async Task<IActionResult> Filter([FromQuery] FilterDiamondRequestDTO filterDiamondDTO)
+        {
+            var diamonds = await _diamondRepo.FilterAsync(filterDiamondDTO.DType, filterDiamondDTO.LowerPrice, filterDiamondDTO.UpperPrice, filterDiamondDTO.LowerCaratWeight, filterDiamondDTO.UpperCaratWeight, filterDiamondDTO.LowerColor, filterDiamondDTO.UpperColor, filterDiamondDTO.LowerClarity, filterDiamondDTO.UpperClarity, filterDiamondDTO.LowerCut, filterDiamondDTO.UpperCut);
+            var diamondsDTO = diamonds.Select(d => d.toDiamondDTO());
+            return Ok(diamondsDTO);
+        }
+
         [HttpGet("{D_ProductID}")]
         public async Task<IActionResult> GetByID([FromRoute] Guid D_ProductID)
         {

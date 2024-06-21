@@ -87,10 +87,10 @@ CREATE TABLE DIAMOND (
   Price MONEY,
   ImageURL VARCHAR(255),
   D_Type VARCHAR(50),
-  CaratWeight VARCHAR(20),
-  Color VARCHAR(20),
-  Clarity VARCHAR(20),
-  Cut VARCHAR(20)
+  CaratWeight FLOAT,  -- Changed data type to FLOAT
+  Color INT,  -- Changed data type to INT
+  Clarity INT,  -- Changed data type to INT
+  Cut INT  -- Changed data type to INT
 );
 
 CREATE TABLE RING (
@@ -151,10 +151,10 @@ CREATE TABLE REFUNDPRODUCT (
   Price MONEY,
   ImageURL VARCHAR(255),
   Specifications TEXT,
-  CaratWeight VARCHAR(20),
-  Color VARCHAR(20),
-  Clarity VARCHAR(20),
-  Cut VARCHAR(20)
+  CaratWeight FLOAT,  -- Changed data type to FLOAT
+  Color INT,  -- Changed data type to INT
+  Clarity INT,  -- Changed data type to INT
+  Cut INT  -- Changed data type to INT
 );
 
 CREATE TABLE DIAMONDCERTIFICATE (

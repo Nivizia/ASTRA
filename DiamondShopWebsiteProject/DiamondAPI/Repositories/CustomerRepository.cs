@@ -17,10 +17,10 @@ namespace DiamondAPI.Repositories
         public async Task<Customer?> LoginAsync(string username, string password)
         {
             var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Username == username && c.Password == password);
+
             if (customer == null)
-            {
                 return null;
-            }
+
             return customer;
         }
 
@@ -34,10 +34,10 @@ namespace DiamondAPI.Repositories
         public async Task<Customer?> DeleteAsync(Guid CustomerId)
         {
             var customerModel = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerId == CustomerId);
+
             if (customerModel == null)
-            {
                 return null;
-            }
+
             _context.Customers.Remove(customerModel);
             await _context.SaveChangesAsync();
             return customerModel;
@@ -73,6 +73,19 @@ namespace DiamondAPI.Repositories
             await _context.SaveChangesAsync();
 
             return existingCustomer;
+        }
+
+        public async Task<Customer> RegisterAsync(Customer customerModel)
+        {
+            await _context.Customers.AddAsync(customerModel);
+            await _context.SaveChangesAsync();
+
+            return customerModel;
+        }
+
+        public async Task<bool> UserExistsAsync(string username)
+        {
+            return await _context.Customers.AnyAsync(u => u.Username == username);
         }
     }
 }

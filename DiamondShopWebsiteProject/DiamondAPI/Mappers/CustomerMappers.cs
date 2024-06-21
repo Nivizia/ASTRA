@@ -30,5 +30,17 @@ namespace DiamondAPI.Mappers
                 RegistrationDate = customer.RegistrationDate
             };
         }
+
+        public static Customer toCustomerFromRegisterDTO(this RegisterCustomerDTO customer)
+        {
+            return new Customer
+            {
+                CustomerId = Guid.NewGuid(),
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
+                Username = customer.Username,
+                Password = customer.Password
+            };
+        }
     }
 }

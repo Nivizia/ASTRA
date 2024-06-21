@@ -33,6 +33,68 @@ namespace DiamondAPI.Repositories
             return diamondModel;
         }
 
+        public async Task<List<Diamond>> FilterAsync(String DType, decimal LowerPrice, decimal UpperPrice, double LowerCaratWeight, double UpperCaratWeight, int LowerColor, int UpperColor, int LowerClarity, int UpperClariry, int LowerCut, int UpperCut)
+        {
+            var diamonds = _context.Diamonds.AsQueryable();
+
+            if (!string.IsNullOrEmpty(DType))
+            {
+                diamonds = diamonds.Where(d => d.DType == DType);
+            }
+
+            if (LowerPrice != 0)
+            {
+                diamonds = diamonds.Where(d => d.Price >= LowerPrice);
+            }
+
+            if (UpperPrice != 0)
+            {
+                diamonds = diamonds.Where(d => d.Price <= UpperPrice);
+            }
+
+            if (LowerCaratWeight != 0)
+            {
+                diamonds = diamonds.Where(d => d.CaratWeight >= LowerCaratWeight);
+            }
+
+            if (UpperCaratWeight != 0)
+            {
+                diamonds = diamonds.Where(d => d.CaratWeight <= UpperCaratWeight);
+            }
+
+            if (LowerColor != 0)
+            {
+                diamonds = diamonds.Where(d => d.Color >= LowerColor);
+            }
+
+            if (UpperColor != 0)
+            {
+                diamonds = diamonds.Where(d => d.Color <= UpperColor);
+            }
+
+            if (LowerClarity != 0)
+            {
+                diamonds = diamonds.Where(d => d.Clarity >= LowerClarity);
+            }
+
+            if (UpperClariry != 0)
+            {
+                diamonds = diamonds.Where(d => d.Clarity <= UpperClariry);
+            }
+
+            if (LowerCut != 0)
+            {
+                diamonds = diamonds.Where(d => d.Cut >= LowerCut);
+            }
+
+            if (UpperCut != 0)
+            {
+                diamonds = diamonds.Where(d => d.Cut <= UpperCut);
+            }
+
+            return await diamonds.ToListAsync();
+        }
+
         public async Task<List<Diamond>> GetAllAsync()
         {
             return await _context.Diamonds.ToListAsync();

@@ -12,6 +12,7 @@ import Index from './components/index'
 import DiamondList from './components/diamondStuff/diamondlist';
 import DiamondDetails from './components/diamondStuff/diamondDetails';
 import LoginPage from './components/loginPage';
+import SignUp from './components/signUp';
 
 //Css Imports
 import './index.css'
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
         path: "/login/",
         element: <LoginPage />
       },
+      {
+        path: "/signup/",
+        element: <SignUp />
+      }
     ]
   }
 ]);

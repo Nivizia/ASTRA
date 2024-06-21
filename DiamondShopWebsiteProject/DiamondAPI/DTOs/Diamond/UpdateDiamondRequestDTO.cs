@@ -10,12 +10,12 @@
 
         public string? DType { get; set; }
 
-        public string? CaratWeight { get; set; }
+        public double? CaratWeight { get; set; }
 
-        public string? Color { get; set; }
+        public int? Color { get; set; }
 
-        public string? Clarity { get; set; }
+        public int? Clarity { get; set; }
 
-        public string? Cut { get; set; }
+        public int? Cut { get; set; }
     }
 }

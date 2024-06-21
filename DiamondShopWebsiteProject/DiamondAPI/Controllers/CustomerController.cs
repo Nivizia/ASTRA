@@ -33,12 +33,25 @@ namespace DiamondAPI.Controllers
 
             var customer = await _customerRepo.LoginAsync(loginRequest.Username, loginRequest.Password);
             if (customer == null)
-            {
                 return Unauthorized();
-            }
 
             var token = _tokenService.GenerateToken(customer);
             return Ok(new { token });
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterCustomerDTO registerRequest)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (await _customerRepo.UserExistsAsync(registerRequest.Username))
+                return BadRequest("Username already exists");
+
+            var customer = registerRequest.toCustomerFromRegisterDTO();
+            await _customerRepo.RegisterAsync(customer);
+
+            return StatusCode(201);
         }
 
         //List out all customers

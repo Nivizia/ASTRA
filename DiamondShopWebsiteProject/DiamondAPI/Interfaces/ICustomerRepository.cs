@@ -11,5 +11,7 @@ namespace DiamondAPI.Interfaces
         Task<Customer?> UpdateAsync(Guid CustomerId, UpdateCustomerRequestDTO customerDTO);
         Task<Customer?> DeleteAsync(Guid CustomerId);
         Task<Customer?> LoginAsync(string username, string password);
+        Task<Customer> RegisterAsync(Customer customerModel);
+        Task<bool> UserExistsAsync(string username);
     }
 }
