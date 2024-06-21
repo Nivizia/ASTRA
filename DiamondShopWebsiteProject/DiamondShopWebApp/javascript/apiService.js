@@ -70,9 +70,6 @@ export const signUpUser = async (user) => {
     }
 };
 
-
-
-
 // Function to fetch all diamonds
 export const fetchDiamonds = async () => {
     try {
@@ -176,3 +173,4 @@ export const deleteDiamond = async (id) => {
         console.error('There was a problem with the fetch operation:', error);
     }
 };
+
