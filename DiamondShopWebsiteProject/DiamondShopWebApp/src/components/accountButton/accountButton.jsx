@@ -1,19 +1,30 @@
 // accountButton.jsx
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import AccountButtonNotLoggedIn from './accountButtonNotLoggedIn';
 import AccountButtonLoggedIn from './accountButtonLoggedIn';
 import SnackbarNotification from './SnackbarNotification';
 
-const AccountButton = () => {
+const AccountButton = () => { // Extract isLoggedInSignUp as a prop
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+    const location = useLocation(); // Hook to access the current location
 
-    useEffect(() => {
+    // Function to check if user is logged in
+    const checkLoginStatus = () => {
         const token = localStorage.getItem('authToken');
         setIsLoggedIn(!!token);
+    };
+
+    useEffect(() => {
+        checkLoginStatus();
     }, []);
+
+    useEffect(() => {
+        checkLoginStatus();
+    }, [location]); // Re-run the effect when the location changes
 
     const handleLoginSuccess = () => {
         setIsLoggedIn(true);

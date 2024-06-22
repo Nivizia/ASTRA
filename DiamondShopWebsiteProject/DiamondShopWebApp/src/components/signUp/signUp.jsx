@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// signUp.jsx
+import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { signUpUser, loginUser } from '../../../javascript/apiService'; // Import signUpUser and loginUser functions
 import CircularIndeterminate from '../loading';
@@ -13,7 +14,7 @@ const SignUp = () => {
     const [loading, setLoading] = useState(false); // Add loading state
     const [redirectToIndex, setRedirectToIndex] = useState(false); // State for redirection
 
-    const handleSignUpSuccess = async () => {
+        const handleSignUpSuccess = async () => {
         setLoading(true); // Set loading to true when sign-up starts
 
         try {
@@ -53,7 +54,7 @@ const SignUp = () => {
 
     return (
         <div className={styles.signupContainer}>
-            {redirectToIndex && <Navigate to="/" />} {/* Redirect to index page */}
+            {redirectToIndex && <Navigate to = "/" />}
             <h2 className={styles.textInLoginForm}>Sign Up</h2>
             <form className={styles.signupForm} onSubmit={handleSubmit}>
                 <div className={styles.divInLoginForm}>

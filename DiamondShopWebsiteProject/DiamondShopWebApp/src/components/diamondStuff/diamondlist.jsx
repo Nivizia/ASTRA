@@ -30,7 +30,7 @@ const DiamondList = () => {
   }, []);
 
   if (loading) {
-    return <CircularIndeterminate size={56}/>;
+    return <CircularIndeterminate size={56} />;
   }
 
   if (error) {

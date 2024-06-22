@@ -27,7 +27,7 @@ export const loginUser = async (username, password) => {
             }
         }
 
-        const token = await response.text(); // Assuming the token is returned as plain text
+        const token = await response.json(); // Assuming the token is returned as plain text
         console.log('Login token:', token);
 
         // Store the token in localStorage
@@ -59,7 +59,7 @@ export const signUpUser = async (user) => {
                 return { success: false, message: errorData.message || 'Username already exists' };
             }
             // Handle other errors
-            const message = await response.text();
+            const message = await response.json();
             throw new Error(`Sign up failed: ${message}`);
         }
 
