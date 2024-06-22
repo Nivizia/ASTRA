@@ -59,7 +59,7 @@ const DiamondDetails = () => {
           <span className="badge">{`Excellent`}</span>
         </div>
         <p className="price">${diamond.price.toFixed(2)}</p>
-        <button className="select-diamond-button"><TemporaryDrawer /></button>
+        <TemporaryDrawer />
         <div className="order-info">
           <h3>Your Order Includes:</h3>
           <div className="order-detail">

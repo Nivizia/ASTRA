@@ -13,7 +13,7 @@ const LoginPage = () => {
         const token = localStorage.getItem('authToken');
         setIsLoggedIn(!!token); // Convert token presence to boolean
     }, []);
-    
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         setError(null);

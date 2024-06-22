@@ -109,16 +109,6 @@
   margin-bottom: 20px;
 }
 
-.select-diamond-button {
-  background-color: #000080;
-  color: #fff;
-  padding: 15px 30px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 18px;
-}
-
 .order-info {
   margin-top: 20px;
 }

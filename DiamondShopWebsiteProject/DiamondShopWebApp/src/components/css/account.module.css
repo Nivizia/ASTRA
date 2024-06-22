@@ -3,7 +3,8 @@
     width: 500px;
     margin: 0 auto;
     padding: 1em;
-    background-color: #1e1e1e; /* Dark background for the container */
+    background-color: #1e1e1e;
+    /* Dark background for the container */
 }
 
 .container h2 {
@@ -29,11 +30,11 @@ label {
     margin: 10px 0;
 }
 
-.divInLoginForm label{
+.divInLoginForm label {
     color: white;
 }
 
-.divInLoginForm input{
+.divInLoginForm input {
     width: 100%;
     padding: 0.5em;
     box-sizing: border-box;
@@ -43,7 +44,7 @@ label {
     color: #ffffff;
 }
 
-.divInLoginForm input::placeholder{
+.divInLoginForm input::placeholder {
     color: #888;
 }
 
@@ -51,14 +52,19 @@ label {
     width: 100%;
     margin-top: 20px;
     padding: 0.5em;
-    background-color: #5200aa; /* Dark purple button background */
-    color: #ffffff; /* Light text color for button */
+    background-color: #5200aa;
+    /* Dark purple button background */
+    color: #ffffff;
+    /* Light text color for button */
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    display: flex; /* Use Flexbox for centering */
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
+    display: flex;
+    /* Use Flexbox for centering */
+    justify-content: center;
+    /* Center content horizontally */
+    align-items: center;
+    /* Center content vertically */
 }
 
 
@@ -73,18 +79,21 @@ label {
 }
 
 .error {
-    color: #ff5252; /* Red color for error messages */
+    color: #ff5252;
+    /* Red color for error messages */
     margin-bottom: 1em;
     text-align: center;
 }
 
 /* Additional link styling */
 .signUp {
-    color: #6000c7; /* Light purple for links */
+    color: #6000c7;
+    /* Light purple for links */
 }
 
 .signUp:hover {
-    color: #5200aa; /* Light color on hover */
+    color: #5200aa;
+    /* Light color on hover */
 }
 
 .footer {

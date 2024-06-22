@@ -10,16 +10,16 @@ const Header = () => {
       <div className="header-content">
         <a href="/"><img src={logo} alt="Astra Logo" className="logo" /></a>
         <div className="nav-and-header-right-container">
-        <nav className="nav">
-          <MenuNav />
-        </nav>
-        <div className="header-right">
-          <input type="text" placeholder="Search" className="search-bar" />
-          <AccountButton />
-          <span className="icon">🛒</span>
+          <nav className="nav">
+            <MenuNav />
+          </nav>
+          <div className="header-right">
+            <input type="text" placeholder="Search" className="search-bar" />
+            <AccountButton />
+            <span className="icon">🛒</span>
+          </div>
         </div>
-        </div>
-        
+
       </div>
     </header>
   );

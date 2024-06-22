@@ -10,7 +10,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-import { Anchor } from '@mui/icons-material';
+
+import style from "./css/temporarydrawer.module.css";
 
 export default function TemporaryDrawer() {
   const [open, setOpen] = useState(false);
@@ -50,11 +51,11 @@ export default function TemporaryDrawer() {
   );
 
   return (
-    <div>
-      <Button onClick={toggleDrawer(true)}>SELECT THIS DIAMOND</Button>
-      <Drawer open={open} onClose={toggleDrawer(false) } anchor='bottom'>
+    <>
+      <Button className={style.selectDiamondButton} onClick={toggleDrawer(true)}>SELECT THIS DIAMOND</Button>
+      <Drawer open={open} onClose={toggleDrawer(false)} anchor='bottom'>
         {DrawerList}
       </Drawer>
-    </div>
+    </>
   );
 }

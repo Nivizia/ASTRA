@@ -15,7 +15,7 @@ const Root = () => {
   return (
     <StyledContainer>
       <div id="page-renderer">
-        <Header />  
+        <Header />
         <MainContent>
           <Outlet />
         </MainContent>
