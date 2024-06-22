@@ -95,7 +95,7 @@ export default function MenuNav() {
                     aria-labelledby="diamond-button"
                     onKeyDown={(event) => handleListKeyDown(event, setDiamondOpen)}
                   >
-                    <MenuItem onClick={handleDiamondClose}>Diamond</MenuItem>
+                    <MenuItem><a href='/diamond/'>Diamond</a></MenuItem>
                     <MenuItem onClick={handleDiamondClose}>Diamond</MenuItem>
                     <MenuItem onClick={handleDiamondClose}>Diamond</MenuItem>
                   </MenuList>

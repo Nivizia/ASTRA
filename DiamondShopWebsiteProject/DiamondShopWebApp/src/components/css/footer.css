@@ -17,6 +17,11 @@
     margin: 10px 5rem;
 }
 
+.footer-column-wrapper {
+    display: flex;
+    flex: 1;
+}
+
 .footer-column {
     flex: 1;
     margin-right: 20px;
@@ -46,4 +51,16 @@
 .footer-logo p {
     margin-top: 10px;
     font-size: 12px;
+}
+
+@media (max-width: 800px) {
+    .footer-content {
+        margin: 10px 45px;
+    }
+}
+
+@media (max-width: 667px) {
+    .footer-content {
+        display: block;
+    }
 }

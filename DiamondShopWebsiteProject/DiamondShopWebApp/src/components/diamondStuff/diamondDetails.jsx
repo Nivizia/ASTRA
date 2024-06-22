@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchDiamondById } from '../../../javascript/apiService';
+
 import CircularIndeterminate from '../loading';
+import TemporaryDrawer from '../temporaryDrawer';
+
 import '../css/diamond.css';
 
 const DiamondDetails = () => {
@@ -48,7 +51,7 @@ const DiamondDetails = () => {
         </div>
       </div>
       <div className="details-section">
-        <h2>{`${diamond.caratWeight} Carat Round Diamond`}</h2>
+        <h2>{`${diamond.caratWeight} Carat ${diamond.color}-${diamond.clarity} ${diamond.cut} cut ${diamond.dType} Diamond`}</h2>
         <div className="badge-group">
           <span className="badge">{`${diamond.caratWeight}ct`}</span>
           <span className="badge">{`${diamond.color} Color`}</span>
@@ -56,7 +59,7 @@ const DiamondDetails = () => {
           <span className="badge">{`Excellent`}</span>
         </div>
         <p className="price">${diamond.price.toFixed(2)}</p>
-        <button className="select-diamond-button">SELECT THIS DIAMOND</button>
+        <button className="select-diamond-button"><TemporaryDrawer /></button>
         <div className="order-info">
           <h3>Your Order Includes:</h3>
           <div className="order-detail">

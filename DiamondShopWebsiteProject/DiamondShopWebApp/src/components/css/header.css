@@ -24,6 +24,12 @@
     width: 6rem;
 }
 
+.nav-and-header-right-container {
+    display: flex;
+    margin-left: 50px;
+    width: 100%;
+}
+
 .nav {
     flex-grow: 1;
     display: flex;
@@ -34,7 +40,6 @@
     list-style: none;
     display: flex;
     gap: 2rem;
-    margin-left: 4rem;
     padding: 0;
 }
 
@@ -78,7 +83,10 @@
 
 .header-right {
     display: flex;
+    width: 60%;
+    padding-left: 2em;
     align-items: center;
+    justify-content: flex-end;
     gap: 2rem;
 }
 
@@ -106,7 +114,7 @@
 }
 
 .search-bar {
-    width: 20rem;
+    width: 50%;
     padding: 5px;
     border-radius: 5px;
     background-color: white;
@@ -115,4 +123,54 @@
 
 .icon {
     font-size: 20px;
+}
+
+@media (max-width: 800px) {
+    .header-content {
+        margin: 10px 20px;
+    }
+
+    .nav-and-header-right-container {
+        margin-left: 50px;
+    }
+}
+
+@media (max-width: 667px) {
+    .header-content {
+        flex-direction: column;
+        padding: 0;
+    }
+
+    .logo {
+        width: 100px;
+        margin-bottom: 1rem;
+    }
+
+    .nav-and-header-right-container {
+        flex-direction: column-reverse;
+        margin: 0;
+    }
+
+    .nav {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .nav ul#navButtons {
+        gap: 1rem;
+    }
+
+    .header-right {
+        width: 100%;
+        padding-left: 0;
+        gap: 1rem;
+    }
+
+    .search-bar {
+        width: 80%;
+    }
+
+    .icon {
+        font-size: 1.5rem;
+    }
 }

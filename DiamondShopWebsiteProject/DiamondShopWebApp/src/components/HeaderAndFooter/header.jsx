@@ -9,6 +9,7 @@ const Header = () => {
     <header className="header">
       <div className="header-content">
         <a href="/"><img src={logo} alt="Astra Logo" className="logo" /></a>
+        <div className="nav-and-header-right-container">
         <nav className="nav">
           <MenuNav />
         </nav>
@@ -17,6 +18,8 @@ const Header = () => {
           <AccountButton />
           <span className="icon">🛒</span>
         </div>
+        </div>
+        
       </div>
     </header>
   );
