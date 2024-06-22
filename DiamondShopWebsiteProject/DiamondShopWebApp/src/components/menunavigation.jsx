@@ -7,6 +7,8 @@ import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 
+import { Link } from 'react-router-dom';
+
 export default function MenuNav() {
   const [diamondOpen, setDiamondOpen] = React.useState(false);
   const [educationOpen, setEducationOpen] = React.useState(false);
@@ -95,7 +97,7 @@ export default function MenuNav() {
                     aria-labelledby="diamond-button"
                     onKeyDown={(event) => handleListKeyDown(event, setDiamondOpen)}
                   >
-                    <MenuItem><a href='/diamond/'>Diamond</a></MenuItem>
+                    <MenuItem component={Link} to="/diamond/">Diamond</MenuItem>
                     <MenuItem onClick={handleDiamondClose}>Diamond</MenuItem>
                     <MenuItem onClick={handleDiamondClose}>Diamond</MenuItem>
                   </MenuList>

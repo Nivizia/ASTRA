@@ -1,9 +1,19 @@
 .selectDiamondButton {
-    background-color: #000080;
+    background-color: #0000c0;
     color: #fff;
     padding: 15px 30px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 18px;
+}
+
+.selectDiamondButton:hover {
+    background-color: #000080;
+    transform: scale(1.05);
+}
+
+.selectDiamondButton:active {
+    background-color: #000060;
+    transform: scale(0.95);
 }
