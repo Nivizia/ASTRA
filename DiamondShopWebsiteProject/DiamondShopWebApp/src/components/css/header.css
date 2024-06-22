@@ -1,15 +1,13 @@
 .header {
     position: sticky;
     top: 0;
-
     background-color: black;
     color: #fff;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     margin-bottom: 1em;
+    transition: all 0.3s ease;
 }
 
 .header-content {
@@ -18,22 +16,26 @@
     align-items: center;
     width: 100%;
     margin: 10px 5rem;
+    transition: all 0.3s ease;
 }
 
 .logo {
     width: 6rem;
+    transition: width 0.3s ease;
 }
 
 .nav-and-header-right-container {
     display: flex;
     margin-left: 50px;
     width: 100%;
+    transition: all 0.3s ease;
 }
 
 .nav {
     flex-grow: 1;
     display: flex;
     justify-content: flex-start;
+    transition: all 0.3s ease;
 }
 
 .nav ul#navButtons {
@@ -41,6 +43,7 @@
     display: flex;
     gap: 2rem;
     padding: 0;
+    transition: all 0.3s ease;
 }
 
 .nav button {
@@ -50,6 +53,7 @@
     padding: 0 5px;
     border-radius: 5px;
     font-size: 1rem;
+    transition: background-color 0.3s ease;
 }
 
 .nav button:hover {
@@ -60,6 +64,7 @@
     background-position-y: center;
     width: 100vw;
     height: 200px;
+    transition: all 0.3s ease;
 }
 
 .nav div ul {
@@ -70,11 +75,13 @@
     border-style: solid;
     border-width: 1px;
     border-color: white;
+    transition: all 0.3s ease;
 }
 
 .nav div li {
     width: 15%;
     padding: 5px 20px;
+    transition: all 0.3s ease;
 }
 
 .nav div li:hover {
@@ -88,6 +95,7 @@
     align-items: center;
     justify-content: flex-end;
     gap: 2rem;
+    transition: all 0.3s ease;
 }
 
 .header-right svg {
@@ -95,6 +103,7 @@
     width: 32px;
     height: 32px;
     align-items: center;
+    transition: transform 0.3s ease;
 }
 
 .header-right svg:hover {
@@ -119,10 +128,12 @@
     border-radius: 5px;
     background-color: white;
     border: none;
+    transition: width 0.3s ease;
 }
 
 .icon {
     font-size: 20px;
+    transition: font-size 0.3s ease;
 }
 
 @media (max-width: 800px) {
@@ -139,38 +150,46 @@
     .header-content {
         flex-direction: column;
         padding: 0;
+        transition: all 0.3s ease;
     }
 
     .logo {
         width: 100px;
         margin-bottom: 1rem;
+        transition: width 0.3s ease;
     }
 
     .nav-and-header-right-container {
         flex-direction: column-reverse;
         margin: 0;
+        transition: all 0.3s ease;
     }
 
     .nav {
         width: 100%;
         justify-content: center;
+        transition: all 0.3s ease;
     }
 
     .nav ul#navButtons {
         gap: 1rem;
+        transition: gap 0.3s ease;
     }
 
     .header-right {
         width: 100%;
         padding-left: 0;
         gap: 1rem;
+        transition: all 0.3s ease;
     }
 
     .search-bar {
         width: 80%;
+        transition: width 0.3s ease;
     }
 
     .icon {
         font-size: 1.5rem;
+        transition: font-size 0.3s ease;
     }
 }
