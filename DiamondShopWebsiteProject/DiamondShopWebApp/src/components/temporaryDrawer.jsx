@@ -4,7 +4,7 @@ import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import styles from "./css/temporarydrawer.module.css";
 
-import ToggleButtons from './test';
+import ToggleButtons from './toggleButton';
 
 export default function TemporaryDrawer() {
   const [open, setOpen] = useState(false);

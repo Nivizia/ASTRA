@@ -15,7 +15,7 @@ import LoginPage from './components/loginPage';
 import SignUp from './components/signUp/signUp';
 
 //Testing components
-import ToggleButtons from './components/test';
+import ToggleButtons from './components/toggleButton';
 
 //Css Imports
 import './index.css'
