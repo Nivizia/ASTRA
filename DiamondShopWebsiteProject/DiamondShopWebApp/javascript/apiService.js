@@ -174,3 +174,45 @@ export const deleteDiamond = async (id) => {
     }
 };
 
+// Ring functions:
+// Function to fetch all rings
+export const fetchRings = async () => {
+    try {
+        const response = await fetch(`${BASE_URL}/Ring`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+    }
+};
+
+// Function to fetch a single ring by ID
+export const fetchRingById = async (id) => {
+    if (!id) {
+        throw new Error('Ring ID must be provided');
+    }
+
+    try {
+        const response = await fetch(`${BASE_URL}/Ring/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error fetching ring with ID ${id}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error in fetchRingById:', error);
+        throw error;
+    }
+};
+
+

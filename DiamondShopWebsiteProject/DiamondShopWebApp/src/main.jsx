@@ -13,6 +13,7 @@ import DiamondList from './components/diamondStuff/diamondlist';
 import DiamondDetails from './components/diamondStuff/diamonddetails';
 import LoginPage from './components/loginPage';
 import SignUp from './components/signUp/signUp';
+import RingList from './components/ringcomponents/ringlist';
 
 //Testing components
 import ToggleButtons from './components/toggleButton';
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: "/signup/",
         element: <SignUp />
+      },
+      {
+        path: "/ring/",
+        element: <RingList />
       }
     ]
   },
