@@ -10,7 +10,7 @@ import {
 import Root from './components/root';
 import Index from './components/index'
 import DiamondList from './components/diamondStuff/diamondlist';
-import DiamondDetails from './components/diamondStuff/diamondDetails';
+import DiamondDetails from './components/diamondStuff/diamonddetails';
 import LoginPage from './components/loginPage';
 import SignUp from './components/signUp/signUp';
 
