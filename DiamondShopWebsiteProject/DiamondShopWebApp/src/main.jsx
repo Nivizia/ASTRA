@@ -14,6 +14,9 @@ import DiamondDetails from './components/diamondStuff/diamonddetails';
 import LoginPage from './components/loginPage';
 import SignUp from './components/signUp/signUp';
 
+//Testing components
+import ToggleButtons from './components/test';
+
 //Css Imports
 import './index.css'
 
@@ -43,6 +46,10 @@ const router = createBrowserRouter([
         element: <SignUp />
       }
     ]
+  },
+  {
+    path: "/testing/",
+    element: <ToggleButtons />
   }
 ]);
 

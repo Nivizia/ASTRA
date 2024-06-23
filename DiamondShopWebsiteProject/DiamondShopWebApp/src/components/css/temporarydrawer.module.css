@@ -1,19 +1,70 @@
+/* Styling for the button that opens the drawer */
 .selectDiamondButton {
-    background-color: #0000c0;
-    color: #fff;
-    padding: 15px 30px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 18px;
+    background-color: #0000c0 !important;
+    color: #fff !important;
+    padding: 15px 30px !important;
+    border: none !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+    font-size: 18px !important;
 }
 
 .selectDiamondButton:hover {
-    background-color: #000080;
-    transform: scale(1.05);
+    background-color: #000080 !important;
+    transform: scale(1.05) !important;
 }
 
 .selectDiamondButton:active {
-    background-color: #000060;
+    background-color: #000060 !important;
+    transform: scale(0.95) !important;
+}
+
+
+/* Styling for the content inside the drawer */
+.drawerContent {
+    background-color: #fff !important;
+    height: 20vh !important;
+    box-sizing: border-box !important;
+}
+
+.toggleButtonGroup {
+    display: flex !important;
+    justify-content: space-evenly !important;
+    align-items: center !important;
+}
+
+.drawerBox {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 25vw !important;
+    height: 100px !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    border-radius: 5px !important;
+    transition: background-color 250ms ease, transform 250ms ease;
+
+    padding: 0 !important;
+    margin: 1rem 0 !important;
+    cursor: pointer;
+}
+
+.drawerBox:hover {
+    transform: scale(1.05);
+}
+
+.drawerBox:active {
     transform: scale(0.95);
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 667px) {
+    .toggleButtonGroup {
+        flex-direction: column;
+    }
+
+    .drawerBox {
+        width: 75% !important;
+        margin: 2rem !important;
+    }
 }
