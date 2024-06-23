@@ -51,11 +51,10 @@ const RingDetails = () => {
         </div>
       </div>
       <div className="details-section">
-        <h2>{`${ring.caratWeight} Carat ${ring.color}-${ring.clarity} ${ring.cut} cut ${ring.dType} Diamond`}</h2>
+        <h2>{`${ring.name} Price ${ring.price}`}</h2>
         <div className="badge-group">
-          <span className="badge">{`${ring.caratWeight}ct`}</span>
-          <span className="badge">{`${ring.color} Color`}</span>
-          <span className="badge">{`${ring.clarity} Clarity`}</span>
+          <span className="badge">{`${ring.name}ct`}</span>
+          <span className="badge">{`${ring.price} Color`}</span>
           <span className="badge">{`Excellent`}</span>
         </div>
         <p className="price">${ring.price.toFixed(2)}</p>
@@ -79,24 +78,12 @@ const RingDetails = () => {
         <table>
           <tbody>
             <tr>
-              <td>Shape</td>
-              <td>{ring.dType}</td>
+              <td>Name</td>
+              <td>{ring.name}</td>
             </tr>
             <tr>
-              <td>Cut</td>
-              <td>{ring.cut}</td>
-            </tr>
-            <tr>
-              <td>Color</td>
-              <td>{ring.color}</td>
-            </tr>
-            <tr>
-              <td>Clarity</td>
-              <td>{ring.clarity}</td>
-            </tr>
-            <tr>
-              <td>Carat Weight</td>
-              <td>{ring.caratWeight}</td>
+              <td>Price</td>
+              <td>{ring.price}</td>
             </tr>
           </tbody>
         </table>
