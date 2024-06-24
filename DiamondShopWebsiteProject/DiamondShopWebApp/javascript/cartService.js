@@ -1,0 +1,37 @@
+// Local storage functions for cart management:
+
+// Adding an item to the cart
+const addToCart = (item) => {
+    // Retrieve the current cart items from local storage
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Add the new item to the cart
+    cart.push(item);
+
+    // Save the updated cart back to local storage
+    localStorage.setItem('cart', JSON.stringify(cart));
+};
+
+// Getting the cart items
+const getCartItems = () => {
+    // Get the cart items from local storage
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    return cart;
+};
+
+// Removing an item from the cart
+const removeFromCart = (itemId) => {
+    // Retrieve the current cart items from local storage
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Filter out the item with the specified id
+    cart = cart.filter(item => item.id !== itemId);
+
+    // Save the updated cart back to local storage
+    localStorage.setItem('cart', JSON.stringify(cart));
+};
+
+// Clearing the cart
+const clearCart = () => {
+    localStorage.removeItem('cart');
+};
