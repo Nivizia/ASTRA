@@ -38,28 +38,38 @@ const ToggleButton = styled(MuiToggleButton)(({ selectedColor }) => ({
   },
 }));
 
-export default function PersistentDrawerRight() {
+export default function PersistentDrawerRight({ diamondId }) {
   const [open, setOpen] = React.useState(false);
   const [selectedMode, setSelectedMode] = React.useState('');
-  const [continueButtonLink, setContinueButtonLink] = React.useState('');
   const navigate = useNavigate(); // Initialize useNavigate hook
 
   const handleToggleButtonChange = (event, newMode) => {
     if (newMode) {
       setSelectedMode(newMode);
       setOpen(true); // Open drawer when a button is selected
-      setContinueButtonLink(`/${newMode}`); // Set link for Continue button based on selectedMode
     } else {
       setSelectedMode('');
       setOpen(false); // Close drawer when no button is selected
-      setContinueButtonLink(''); // Clear link when no mode is selected
     }
   };
 
-  const handleContinueClick = () => {
-    if (selectedMode && continueButtonLink) {
-      navigate(continueButtonLink); // Navigate to the selected mode's route
+  const handleContinue = () => {
+    let path;
+    switch (selectedMode) {
+      case 'ring':
+        path = `/choose-ring?diamondId=${diamondId}`;
+        break;
+      case 'pendant':
+        path = `/choose-pendant?diamondId=${diamondId}`;
+        break;
+      case 'cart':
+        path = `/cart?diamondId=${diamondId}`;
+        break;
+      default:
+        // Handle case where no option is selected or an invalid option is somehow selected
+        return;
     }
+    navigate(path);
   };
 
   return (
@@ -105,8 +115,8 @@ export default function PersistentDrawerRight() {
         <Button
           variant="contained"
           className={styles.confirmButton} // Apply confirmButton class
-          onClick={handleContinueClick} // Handle click event for Continue button
-          disabled={!continueButtonLink} // Disable button if no mode is selected or link is empty
+          onClick={handleContinue} // Handle click event for Continue button to navigate to the selected mode
+          disabled={!selectedMode} // Disable button if no mode is selected or an invalid mode is selected
         >
           Continue
         </Button>

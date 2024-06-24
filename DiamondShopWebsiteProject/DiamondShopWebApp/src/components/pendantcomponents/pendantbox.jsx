@@ -3,7 +3,7 @@ import '../css/productbox.css';
 
 const PendantBox = ({ pendantId, name, price, stockQuantity, imageUrl, metalType }) => {
     return (
-        <a href={`/Pendant/${pendantId}`} className="diamond-link">
+        <a href={`/pendant/${pendantId}`} className="diamond-link">
             <div className="diamond-box">
                 <div className='diamond-image-container'>
                     <img src='/src/images/diamond.png' alt="Diamond" className="diamond-image" />
