@@ -257,6 +257,3 @@ export const fetchPendantById = async (id) => {
         throw error;
     }
 };
-
-
-

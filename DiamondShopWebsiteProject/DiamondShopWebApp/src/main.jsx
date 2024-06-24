@@ -40,14 +40,6 @@ const router = createBrowserRouter([
         element: <Index />,
       },
       {
-        path: "/diamond/",
-        element: <DiamondList />
-      },
-      {
-        path: '/diamond/:diamondId',
-        element: <DiamondDetails />
-      },
-      {
         path: "/login/",
         element: <LoginPage />
       },
@@ -56,20 +48,28 @@ const router = createBrowserRouter([
         element: <SignUp />
       },
       {
-        path: "/ring/",
-        element: <RingList />
+        path: "/diamond/",
+        element: <DiamondList />
       },
       {
-        path: "/ring/:ringId",
-        element: <RingDetails />
+        path: "/diamond/:diamondId",
+        element: <DiamondDetails />,
       },
       {
-        path: "/pendant/",
-        element: <PendantList />
+        path: "/choose-ring",
+        element: <RingList />,
       },
       {
-        path: "/pendant/:pendantId",
-        element: <PendantDetails />
+        path: "/choose-pendant",
+        element: <PendantList />,
+      },
+      {
+        path: "/pairing/ring/:ringId",
+        element: <RingDetails />,
+      },
+      {
+        path: "/pairing/pendant/:pendantId",
+        element: <PendantDetails />,
       },
       {
         path: "/cart/",
