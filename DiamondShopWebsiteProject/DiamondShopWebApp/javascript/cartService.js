@@ -35,3 +35,11 @@ export const removeFromCart = (itemId) => {
 export const clearCart = () => {
     localStorage.removeItem('cart');
 };
+
+// Getting the length of the cart
+export const getCartLength = () => {
+    // Retrieve the current cart items from local storage
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    // Return the length of the cart array
+    return cart.length;
+};
