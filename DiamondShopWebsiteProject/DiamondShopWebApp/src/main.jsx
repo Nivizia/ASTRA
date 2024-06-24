@@ -19,7 +19,7 @@ import PendantList from './components/pendantcomponents/pendantlist';
 
 
 //Testing components
-import ToggleButtons from './components/toggleButton';
+import PersistentDrawerRight from './components/persistentDrawerRight';
 
 //Css Imports
 import './index.css'
@@ -63,10 +63,6 @@ const router = createBrowserRouter([
       }
     ]
   },
-  {
-    path: "/testing/",
-    element: <ToggleButtons />
-  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
