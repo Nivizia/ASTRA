@@ -15,6 +15,8 @@ import LoginPage from './components/loginPage';
 import SignUp from './components/signUp/signUp';
 import RingList from './components/ringcomponents/ringlist';
 import RingDetails from './components/ringcomponents/ringdetails';
+import PendantList from './components/pendantcomponents/pendantlist';
+
 
 //Testing components
 import ToggleButtons from './components/toggleButton';
@@ -54,6 +56,10 @@ const router = createBrowserRouter([
       {
         path: "/ring/:ringId",
         element: <RingDetails />
+      },
+      {
+        path: "/pendant/",
+        element: <PendantList />
       }
     ]
   },

@@ -6,7 +6,7 @@ import RingBox from './ringbox';
 
 import '../css/diamond.css';
 
-const RingList = () => {
+const PendantList = () => {
   const [pendants, setPendants] = useState([]); // Initialize as an empty array
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -61,4 +61,4 @@ const RingList = () => {
   );
 };
 
-export default RingList;
+export default PendantList;
