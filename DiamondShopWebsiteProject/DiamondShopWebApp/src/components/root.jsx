@@ -1,8 +1,9 @@
 import React from "react";
-import styled from 'styled-components';
 import Header from "./HeaderAndFooter/header";
 import Footer from "./HeaderAndFooter/footer";
+import { AuthProvider } from "../contexts/AuthContext";
 
+import styled from 'styled-components';
 import { Outlet } from "react-router-dom";
 
 const StyledContainer = styled.div
@@ -13,15 +14,17 @@ const MainContent = styled.main`
 
 const Root = () => {
   return (
-    <StyledContainer>
-      <div id="page-renderer">
-        <Header />
-        <MainContent>
-          <Outlet />
-        </MainContent>
-        <Footer />
-      </div>
-    </StyledContainer>
+    <AuthProvider>
+      <StyledContainer>
+        <div id="page-renderer">
+          <Header />
+          <MainContent>
+            <Outlet />
+          </MainContent>
+          <Footer />
+        </div>
+      </StyledContainer>
+    </AuthProvider>
 
 
   )

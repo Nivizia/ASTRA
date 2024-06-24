@@ -7,9 +7,6 @@ const getToken = () => {
 };
 
 // Function to handle user login
-// apiService.js
-// apiService.js
-//Customer functions:
 export const loginUser = async (username, password) => {
     try {
         const response = await fetch(`${BASE_URL}/Customer/login`, {

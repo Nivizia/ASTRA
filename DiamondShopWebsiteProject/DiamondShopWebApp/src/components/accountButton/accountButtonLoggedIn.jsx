@@ -12,14 +12,16 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 
-const AccountButtonLoggedIn = ({ onLogout }) => {
+const AccountButtonLoggedIn = ({ user, onLogout }) => {
     const [anchorEl, setAnchorEl] = useState(null);
+
+    const [hasUserLoggedIn, setHasUserLoggedIn] = useState(!!user);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const open = Boolean(anchorEl);
 
     useEffect(() => {
         const token = localStorage.getItem('authToken');
-        setIsLoggedIn(!!token);
+        setHasUserLoggedIn(!!token);
     }, []);
 
     const handleClick = (event) => {
@@ -84,6 +86,18 @@ const AccountButtonLoggedIn = ({ onLogout }) => {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
+                {hasUserLoggedIn ? (
+                    <MenuItem>
+                        Welcome, {user.username}
+                    </MenuItem>
+                ) : (
+                    <MenuItem>
+                        Welcome, Guest
+                    </MenuItem>
+                )}
+                <MenuItem>
+                    Welcome, {user.username}
+                </MenuItem>
                 <MenuItem onClick={handleClose}>
                     <Avatar /> Profile
                 </MenuItem>

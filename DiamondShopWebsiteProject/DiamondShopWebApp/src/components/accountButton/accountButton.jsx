@@ -1,12 +1,16 @@
 // accountButton.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import AccountButtonNotLoggedIn from './accountButtonNotLoggedIn';
 import AccountButtonLoggedIn from './accountButtonLoggedIn';
 import SnackbarNotification from './SnackbarNotification';
+import { AuthContext } from '../../contexts/AuthContext';
 
-const AccountButton = () => { // Extract isLoggedInSignUp as a prop
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+const AccountButton = () => {
+    const { user, login, logout } = useContext(AuthContext);
+    const [hasUserLoggedIn, setHasUserLoggedIn] = useState(!!user);
+
+    //const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState('success');
@@ -15,26 +19,28 @@ const AccountButton = () => { // Extract isLoggedInSignUp as a prop
     // Function to check if user is logged in
     const checkLoginStatus = () => {
         const token = localStorage.getItem('authToken');
-        setIsLoggedIn(!!token);
+        setHasUserLoggedIn(!!token);
     };
+
+    // The below useEffect hook will process the change in state of account button 
+    // (logged in/not logged in)
 
     useEffect(() => {
         checkLoginStatus();
-    }, []);
+    }, []); // Run the effect only once when the component mounts
 
     useEffect(() => {
         checkLoginStatus();
     }, [location]); // Re-run the effect when the location changes
 
     const handleLoginSuccess = () => {
-        setIsLoggedIn(true);
-        showSnackbar('Login successful!', 'success');
+        setHasUserLoggedIn(true);
+        showSnackbar('Login successful!', 'success'); // Change snackbar message to login success
     };
 
     const handleLogout = () => {
-        localStorage.removeItem('authToken');
-        setIsLoggedIn(false);
-        showSnackbar('You are logged out', 'info');
+        logout();
+        showSnackbar('You are logged out', 'info'); // Change snackbar message to logged out
     };
 
     const handleSnackbarClose = () => {
@@ -49,10 +55,10 @@ const AccountButton = () => { // Extract isLoggedInSignUp as a prop
 
     return (
         <>
-            {isLoggedIn ? (
-                <AccountButtonLoggedIn onLogout={handleLogout} />
+            {hasUserLoggedIn ? (
+                <AccountButtonLoggedIn user={user} onLogout={handleLogout} />
             ) : (
-                <AccountButtonNotLoggedIn onLoginSuccess={handleLoginSuccess} />
+                <AccountButtonNotLoggedIn loginMethod={login} onLoginSuccess={handleLoginSuccess} />
             )}
             <SnackbarNotification
                 open={snackbarOpen}

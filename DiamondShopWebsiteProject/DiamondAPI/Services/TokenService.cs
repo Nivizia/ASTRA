@@ -43,7 +43,12 @@ namespace DiamondAPI.Services
                 expires: DateTime.Now.AddMinutes(_expiresInMinutes),
                 signingCredentials: credentials);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
+
+            // Log the generated token
+            Console.WriteLine("Generated JWT Token: " + jwtToken);
+
+            return jwtToken;
         }
     }
 }
