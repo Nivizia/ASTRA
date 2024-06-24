@@ -3,9 +3,10 @@ import { useParams } from 'react-router-dom';
 import { fetchRingById } from '../../../javascript/apiService';
 
 import CircularIndeterminate from '../loading';
-import TemporaryDrawer from '../temporaryDrawer';
+import Button from '@mui/material/Button';
 
 import '../css/diamond.css';
+import styles from "../css/temporarydrawer.module.css";
 
 const RingDetails = () => {
   const { ringId } = useParams();
@@ -24,7 +25,7 @@ const RingDetails = () => {
         setLoading(false);
       }
     }
-    getDiamond();
+    getRing();
   }, [ringId]);
 
   if (loading) {
@@ -53,12 +54,12 @@ const RingDetails = () => {
       <div className="details-section">
         <h2>{`${ring.name} Price ${ring.price}`}</h2>
         <div className="badge-group">
-          <span className="badge">{`${ring.name}ct`}</span>
-          <span className="badge">{`${ring.price} Color`}</span>
-          <span className="badge">{`Excellent`}</span>
+          <span className="badge">{`${ring.name}`}</span>
+          <span className="badge">{`${ring.price}`}</span>
+          <span className="badge">{`Beeg`}</span>
         </div>
         <p className="price">${ring.price.toFixed(2)}</p>
-        <TemporaryDrawer />
+        <Button className={styles.selectDiamondButton} >SELECT THIS RING</Button>
         <div className="order-info">
           <h3>Your Order Includes:</h3>
           <div className="order-detail">

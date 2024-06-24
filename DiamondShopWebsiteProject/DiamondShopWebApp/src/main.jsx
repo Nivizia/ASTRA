@@ -14,6 +14,7 @@ import DiamondDetails from './components/diamondStuff/diamonddetails';
 import LoginPage from './components/loginPage';
 import SignUp from './components/signUp/signUp';
 import RingList from './components/ringcomponents/ringlist';
+import RingDetails from './components/ringcomponents/ringdetails';
 
 //Testing components
 import ToggleButtons from './components/toggleButton';
@@ -36,7 +37,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/diamond/:diamondId', // Add the route for diamond details
-        element: <DiamondDetails />,
+        element: <DiamondDetails />
       },
       {
         path: "/login/",
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "/ring/",
         element: <RingList />
+      },
+      {
+        path: "/ring/:ringId",
+        element: <RingDetails />
       }
     ]
   },

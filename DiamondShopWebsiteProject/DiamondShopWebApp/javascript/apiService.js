@@ -9,6 +9,7 @@ const getToken = () => {
 // Function to handle user login
 // apiService.js
 // apiService.js
+//Customer functions:
 export const loginUser = async (username, password) => {
     try {
         const response = await fetch(`${BASE_URL}/Customer/login`, {
@@ -70,6 +71,7 @@ export const signUpUser = async (user) => {
     }
 };
 
+// CRUD Diamond:
 // Function to fetch all diamonds
 export const fetchDiamonds = async () => {
     try {
@@ -174,7 +176,7 @@ export const deleteDiamond = async (id) => {
     }
 };
 
-// Ring functions:
+// CRUD Ring:
 // Function to fetch all rings
 export const fetchRings = async () => {
     try {
@@ -214,5 +216,47 @@ export const fetchRingById = async (id) => {
         throw error;
     }
 };
+
+// CRUD Pendant:
+// Function to fetch all pendants
+export const fetchPendants = async () => {
+    try {
+        const response = await fetch(`${BASE_URL}/Pendant`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+    }
+};
+
+// Function to fetch a single pendant by ID
+export const fetchPendantById = async (id) => {
+    if (!id) {
+        throw new Error('Pendant ID must be provided');
+    }
+
+    try {
+        const response = await fetch(`${BASE_URL}/Pendant/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error fetching pendant with ID ${id}: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error in fetchPendantById:', error);
+        throw error;
+    }
+};
+
 
 
