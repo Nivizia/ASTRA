@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { fetchPendants } from '../../../javascript/apiService';
 
 import CircularIndeterminate from '../loading';
-import RingBox from './ringbox';
+import PendantBox from './pendantbox';
 
-import '../css/diamond.css';
+import '../css/productbox.css';
 
 const PendantList = () => {
   const [pendants, setPendants] = useState([]); // Initialize as an empty array
@@ -46,9 +46,9 @@ const PendantList = () => {
     <div>
       <div className="diamond-list">
         {pendants.map((pendant) => (
-          <RingBox
+          <PendantBox
             key={pendant.pendantId}
-            ringId={pendant.pendantId}
+            pendantId={pendant.pendantId}
             name={pendant.name}
             price={pendant.price}
             stockQuantity={pendant.stockQuantity}

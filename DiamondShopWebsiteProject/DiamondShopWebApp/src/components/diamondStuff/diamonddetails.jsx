@@ -5,7 +5,7 @@ import { fetchDiamondById } from '../../../javascript/apiService';
 import CircularIndeterminate from '../loading';
 import TemporaryDrawer from '../temporaryDrawer';
 
-import '../css/diamond.css';
+import '../css/productbox.css';
 
 const DiamondDetails = () => {
   const { diamondId } = useParams();

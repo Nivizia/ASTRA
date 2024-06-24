@@ -5,7 +5,7 @@ import { fetchRingById } from '../../../javascript/apiService';
 import CircularIndeterminate from '../loading';
 import Button from '@mui/material/Button';
 
-import '../css/diamond.css';
+import '../css/productbox.css';
 import styles from "../css/temporarydrawer.module.css";
 
 const RingDetails = () => {

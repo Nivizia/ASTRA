@@ -9,14 +9,18 @@ import {
 //Component Imports
 import Root from './components/root';
 import Index from './components/index'
-import DiamondList from './components/diamondStuff/diamondlist';
-import DiamondDetails from './components/diamondStuff/diamonddetails';
+
 import LoginPage from './components/loginPage';
 import SignUp from './components/signUp/signUp';
+
+import DiamondList from './components/diamondStuff/diamondlist';
+import DiamondDetails from './components/diamondStuff/diamonddetails';
+
 import RingList from './components/ringcomponents/ringlist';
 import RingDetails from './components/ringcomponents/ringdetails';
-import PendantList from './components/pendantcomponents/pendantlist';
 
+import PendantList from './components/pendantcomponents/pendantlist';
+import PendantDetails from './components/pendantcomponents/pendantdetails';
 
 //Testing components
 import PersistentDrawerRight from './components/persistentDrawerRight';
@@ -38,7 +42,7 @@ const router = createBrowserRouter([
         element: <DiamondList />
       },
       {
-        path: '/diamond/:diamondId', // Add the route for diamond details
+        path: '/diamond/:diamondId',
         element: <DiamondDetails />
       },
       {
@@ -60,7 +64,11 @@ const router = createBrowserRouter([
       {
         path: "/pendant/",
         element: <PendantList />
-      }
+      },
+      {
+        path: "/pendant/:pendantId",
+        element: <PendantDetails />
+      },
     ]
   },
 ]);

@@ -4,7 +4,7 @@ import { fetchDiamonds } from '../../../javascript/apiService';
 import CircularIndeterminate from '../loading';
 import DiamondBox from './diamondbox';
 
-import '../css/diamond.css';
+import '../css/productbox.css';
 
 const DiamondList = () => {
   const [diamonds, setDiamonds] = useState([]); // Initialize as an empty array

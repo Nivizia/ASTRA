@@ -4,7 +4,7 @@ import { fetchRings } from '../../../javascript/apiService';
 import CircularIndeterminate from '../loading';
 import RingBox from './ringbox';
 
-import '../css/diamond.css';
+import '../css/productbox.css';
 
 const RingList = () => {
   const [rings, setRings] = useState([]); // Initialize as an empty array

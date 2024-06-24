@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/diamond.css';
+import '../css/productbox.css';
 
 const DiamondBox = ({ id, price, imageUrl, caratWeight, color, clarity, cut, shape }) => {
     return (
