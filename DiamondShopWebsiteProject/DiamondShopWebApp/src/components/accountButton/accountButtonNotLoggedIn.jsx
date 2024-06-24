@@ -5,11 +5,11 @@ import { loginUser } from '../../../javascript/apiService';
 import CircularIndeterminate from '../loading';
 import styles from '../css/account.module.css';
 
-const AccountButtonNotLoggedIn = ({ onLoginSuccess }) => {
+const AccountButtonNotLoggedIn = ({ loginMethod, onLoginSuccess }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
-    const [open, setOpen] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
     const [loading, setLoading] = useState(false); // Add loading state
 
     const handleSubmit = async (event) => {
@@ -18,10 +18,10 @@ const AccountButtonNotLoggedIn = ({ onLoginSuccess }) => {
         setLoading(true); // Set loading to true when login starts
 
         try {
-            const result = await loginUser(username, password);
+            const result = await loginMethod(username, password);
             if (result.success) {
                 onLoginSuccess();
-                setOpen(false);
+                setOpenDialog(false);
             } else {
                 setError(result.message);
             }
@@ -34,11 +34,11 @@ const AccountButtonNotLoggedIn = ({ onLoginSuccess }) => {
     };
 
     const handleAccountClickOpen = () => {
-        setOpen(true);
+        setOpenDialog(true);
     };
 
     const handleClose = () => {
-        setOpen(false);
+        setOpenDialog(false);
     };
 
     return (
@@ -46,7 +46,7 @@ const AccountButtonNotLoggedIn = ({ onLoginSuccess }) => {
             <div onClick={handleAccountClickOpen}>
                 <MdAccountCircle />
             </div>
-            <Dialog open={open} onClose={handleClose}>
+            <Dialog open={openDialog} onClose={handleClose}>
                 <div className={styles.container}>
                     <h2 className={styles.textInLoginForm}>Login</h2>
                     <form onSubmit={handleSubmit}>
