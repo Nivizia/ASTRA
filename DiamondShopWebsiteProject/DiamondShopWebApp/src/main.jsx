@@ -22,6 +22,8 @@ import RingDetails from './components/ringcomponents/ringdetails';
 import PendantList from './components/pendantcomponents/pendantlist';
 import PendantDetails from './components/pendantcomponents/pendantdetails';
 
+import ShoppingCart from './components/cart/shoppingcart';
+
 //Testing components
 import PersistentDrawerRight from './components/persistentDrawerRight';
 
@@ -69,6 +71,10 @@ const router = createBrowserRouter([
         path: "/pendant/:pendantId",
         element: <PendantDetails />
       },
+      {
+        path: "/cart/",
+        element: <ShoppingCart />
+      }
     ]
   },
 ]);

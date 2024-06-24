@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { getCartItems, addToCart, removeFromCart, clearCart } from '../../javascript/cartService';
+import { getCartItems, addToCart, removeFromCart, clearCart } from '../../../javascript/cartService';
 
 const ShoppingCart = () => {
     const [cart, setCart] = useState([]);

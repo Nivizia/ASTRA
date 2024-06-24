@@ -1,7 +1,7 @@
 // Local storage functions for cart management:
 
 // Adding an item to the cart
-const addToCart = (item) => {
+export const addToCart = (item) => {
     // Retrieve the current cart items from local storage
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -13,14 +13,14 @@ const addToCart = (item) => {
 };
 
 // Getting the cart items
-const getCartItems = () => {
+export const getCartItems = () => {
     // Get the cart items from local storage
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     return cart;
 };
 
 // Removing an item from the cart
-const removeFromCart = (itemId) => {
+export const removeFromCart = (itemId) => {
     // Retrieve the current cart items from local storage
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -32,6 +32,6 @@ const removeFromCart = (itemId) => {
 };
 
 // Clearing the cart
-const clearCart = () => {
+export const clearCart = () => {
     localStorage.removeItem('cart');
 };
