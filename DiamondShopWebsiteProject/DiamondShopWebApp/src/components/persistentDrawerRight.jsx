@@ -60,7 +60,7 @@ export default function PersistentDrawerRight({ diamondId }) {
                 path = `/diamond/${diamondId}/choose-ring/`;
                 break;
             case 'pendant':
-                path = `/choose-pendant?diamondId=${diamondId}`;
+                path = `/diamond/${diamondId}/choose-pendant/`;
                 break;
             case 'cart':
                 path = `/cart?diamondId=${diamondId}`;

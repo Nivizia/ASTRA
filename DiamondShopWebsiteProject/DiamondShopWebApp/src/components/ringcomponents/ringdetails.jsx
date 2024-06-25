@@ -17,15 +17,30 @@ const RingDetails = () => {
   const navigate = useNavigate();
 
   const handleSelectRing = () => {
-    const path = diamondId ? `/cart` : `/`;
+    const path = diamondId ? `/cart?d=${diamondId}&r=${ringId}` : `/`;
     navigate(path);
   };
+
+  //TODO: Check if diamond is already in cart
+  //TODO: Check if diamond is already in cart
+  //TODO: Check if diamond is already in cart
+  //TODO: Check if diamond is already in cart
+  //TODO: Check if diamond is already in cart
+  //TODO: Check if diamond is already in cart
+  //TODO: Check if diamond is already in cart
+  //TODO: Check if diamond is already in cart
+  //TODO: Check if diamond is already in cart
+  //TODO: Check if diamond is already in cart
+  //TODO: Check if diamond is already in cart
+  //TODO: Check if diamond is already in cart
+  //TODO: Check if diamond is already in cart
+  //TODO: Check if diamond is already in cart
+  //TODO: Check if diamond is already in cart
 
   useEffect(() => {
     async function getRing() {
       try {
         const data = await fetchRingById(ringId);
-        console.log(data);
         setRing(data);
       } catch (error) {
         setError(error.message);
@@ -34,7 +49,8 @@ const RingDetails = () => {
       }
     }
     getRing();
-  }, [ringId]);
+    console.log(diamondId, ringId);
+  }, [diamondId, ringId]);
 
   if (loading) {
     return <CircularIndeterminate />;
@@ -51,7 +67,7 @@ const RingDetails = () => {
   return (
     <div className="diamond-details-container">
       <div className="image-section">
-        <img src='/src/images/diamond.png' alt="Diamond" className="diamond-image" />
+        <img src='/src/images/ring.png' alt="Diamond" className="diamond-image" />
         <div className="thumbnail-gallery">
           <img src='/src/images/diamond-thumbnail1.png' alt="Thumbnail 1" />
           <img src='/src/images/diamond-thumbnail2.png' alt="Thumbnail 2" />
@@ -60,15 +76,14 @@ const RingDetails = () => {
         </div>
       </div>
       <div className="details-section">
-        <h2>{`${ring.name} Price ${ring.price}`}</h2>
+        <h2>{`${ring.name}`}</h2>
         <div className="badge-group">
-          <span className="badge">{`${ring.name}`}</span>
-          <span className="badge">{`${ring.price}`}</span>
-          <span className="badge">{`Beeg`}</span>
+          <span className="badge">{`${ring.metalType}`}</span>
+          <span className="badge">{`${ring.ringSize}`}</span>
         </div>
         <p className="price">${ring.price.toFixed(2)}</p>
         {diamondId ? (
-            <Button className={styles.selectDiamondButton} onClick={handleSelectRing}>Go to Cart</Button>
+            <Button className={styles.selectDiamondButton} onClick={handleSelectRing}>CHOOSE RING</Button>
           ) : (
             <Button className={styles.selectDiamondButton} onClick={handleSelectRing}>Go Home</Button>
           )}
@@ -97,6 +112,14 @@ const RingDetails = () => {
             <tr>
               <td>Price</td>
               <td>{ring.price}</td>
+            </tr>
+            <tr>
+              <td>Metal Type</td>
+              <td>{ring.metalType}</td>
+            </tr>
+            <tr>
+              <td>Ring Size</td>
+              <td>{ring.ringSize}</td>
             </tr>
           </tbody>
         </table>

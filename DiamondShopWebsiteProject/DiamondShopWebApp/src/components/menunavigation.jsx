@@ -98,8 +98,8 @@ export default function MenuNav() {
                     onKeyDown={(event) => handleListKeyDown(event, setDiamondOpen)}
                   >
                     <MenuItem onClick={handleDiamondClose} component={Link} to="/diamond/">Diamond</MenuItem>
-                    <MenuItem onClick={handleDiamondClose}>Diamond</MenuItem>
-                    <MenuItem onClick={handleDiamondClose}>Diamond</MenuItem>
+                    <MenuItem onClick={handleDiamondClose} component={Link} to="/ring/">Ring</MenuItem>
+                    <MenuItem onClick={handleDiamondClose} component={Link} to="/pendant/">Pendant</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
