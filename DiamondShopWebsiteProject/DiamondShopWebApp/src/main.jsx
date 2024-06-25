@@ -74,20 +74,36 @@ const router = createBrowserRouter([
       },
       // Choose Product then Diamond
       {
-        path: "/ring/:ringId/choose-diamond/",
+        path: "/ring/",
         element: <RingList />,
       },
       {
-        path: "/ring/:ringId/choose-diamond/:diamondId",
+        path: "/ring/:ringId",
         element: <RingDetails />,
       },
       {
-        path: "/pendant/:pendantId/choose-diamond/",
+        path: "/pendant/",
         element: <PendantList />,
       },
       {
-        path: "/pendant/:pendantId/choose-diamond/:diamondId",
+        path: "/pendant/:pendantId",
         element: <PendantDetails />,
+      },
+      {
+        path: "/ring/:ringId/choose-diamond/",
+        element: <DiamondList />,
+      },
+      {
+        path: "/ring/:ringId/choose-diamond/:diamondId",
+        element: <DiamondDetails />,
+      },
+      {
+        path: "/pendant/:pendantId/choose-diamond/",
+        element: <DiamondList />,
+      },
+      {
+        path: "/pendant/:pendantId/choose-diamond/:diamondId",
+        element: <DiamondDetails />,
       },
       // Cart
       {
