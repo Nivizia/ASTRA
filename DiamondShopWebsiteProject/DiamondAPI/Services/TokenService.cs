@@ -18,17 +18,10 @@ namespace DiamondAPI.Services
         public TokenService(IConfiguration configuration)
         {
             var jwtSettings = configuration.GetSection("JwtSettings");
-
-            // Check and assign default values if the configuration is missing
-            _secretKey = jwtSettings["Secret"] ?? throw new ArgumentNullException("Secret key is missing in configuration");
-            _issuer = jwtSettings["Issuer"] ?? throw new ArgumentNullException("Issuer is missing in configuration");
-            _audience = jwtSettings["Audience"] ?? throw new ArgumentNullException("Audience is missing in configuration");
-
-            // Parse the expiration minutes with a default value
-            if (!int.TryParse(jwtSettings["ExpiresInMinutes"], out _expiresInMinutes))
-            {
-                _expiresInMinutes = 120; // Default value
-            }
+            _secretKey = jwtSettings["Secret"];
+            _issuer = jwtSettings["Issuer"];
+            _audience = jwtSettings["Audience"];
+            _expiresInMinutes = int.Parse(jwtSettings["ExpiresInMinutes"]);
         }
 
         public string GenerateToken(Customer customer)
@@ -36,16 +29,11 @@ namespace DiamondAPI.Services
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            // Check customer properties for null values
-            var customerId = customer.CustomerId.ToString() ?? throw new ArgumentNullException(nameof(customer.CustomerId));
-            var customerUsername = customer.Username ?? throw new ArgumentNullException(nameof(customer.Username));
-            var fullName = $"{customer.FirstName ?? string.Empty} {customer.LastName ?? string.Empty}".Trim();
-
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, customerId),
-                new Claim(JwtRegisteredClaimNames.UniqueName, customerUsername),
-                new Claim("FullName", fullName)
+                new Claim(JwtRegisteredClaimNames.Sub, customer.CustomerId.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, customer.Username),
+                new Claim("FullName", $"{customer.FirstName} {customer.LastName}")
             };
 
             var token = new JwtSecurityToken(
