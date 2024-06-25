@@ -1,12 +1,9 @@
 ﻿using DiamondAPI.DTOs.Orderitem;
-using DiamondAPI.Models;
 
 namespace DiamondAPI.DTOs.Order
 {
-    public class OrderRequestDTO
+    public class CreateOrderRequestDTO
     {
-        public Guid OrderId { get; set; }
-
         public Guid? CustomerId { get; set; }
 
         public DateTime? OrderDate { get; set; }

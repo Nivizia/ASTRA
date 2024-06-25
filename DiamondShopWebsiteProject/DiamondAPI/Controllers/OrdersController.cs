@@ -20,7 +20,7 @@ namespace DiamondAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PlaceOrder([FromQuery] String CustomerID, [FromBody] OrderRequestDTO orderRequest)
+        public async Task<IActionResult> PlaceOrder([FromQuery] String CustomerID, [FromBody] CreateOrderRequestDTO orderRequest)
         {
             foreach (var orderItem in orderRequest.Orderitems)
             {
