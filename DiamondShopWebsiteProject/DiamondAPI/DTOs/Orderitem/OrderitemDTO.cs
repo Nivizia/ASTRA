@@ -13,9 +13,5 @@ namespace DiamondAPI.DTOs.Orderitem
         public decimal? Price { get; set; }
 
         public string? ProductType { get; set; }
-
-        public CreateRingPairingRequestDTO? CreateRingPairingDTO { get; set; }
-
-        public CreatePendantPairingRequestDTO? CreatePendantPairingDTO { get; set; }
     }
 }

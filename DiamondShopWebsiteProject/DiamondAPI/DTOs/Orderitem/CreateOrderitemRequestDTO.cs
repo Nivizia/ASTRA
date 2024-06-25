@@ -1,15 +1,19 @@
 ﻿using DiamondAPI.DTOs.Orderitem;
+using DiamondAPI.DTOs.PendantPairing;
+using DiamondAPI.DTOs.RingPairing;
 
 namespace DiamondAPI.DTOs.Order
 {
     public class CreateOrderitemRequestDTO
     {
-        public Guid? CustomerId { get; set; }
+        public Guid? ProductId { get; set; }
 
-        public decimal? TotalAmount { get; set; }
+        public decimal? Price { get; set; }
 
-        public string? OrderStatus { get; set; }
+        public string? ProductType { get; set; }
 
-        public virtual List<CreateOrderitemRequestDTO> Orderitems { get; set; } = new List<CreateOrderitemRequestDTO>();
+        public CreateRingPairingRequestDTO? CreateRingPairingDTO { get; set; }
+
+        public CreatePendantPairingRequestDTO? CreatePendantPairingDTO { get; set; }
     }
 }

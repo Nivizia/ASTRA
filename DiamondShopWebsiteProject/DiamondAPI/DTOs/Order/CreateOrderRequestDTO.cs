@@ -1,4 +1,4 @@
-﻿﻿using DiamondAPI.DTOs.Orderitem;
+﻿using DiamondAPI.DTOs.Orderitem;
 
 namespace DiamondAPI.DTOs.Order
 {
@@ -8,8 +8,6 @@ namespace DiamondAPI.DTOs.Order
 
         public decimal? TotalAmount { get; set; }
 
-        public string? OrderStatus { get; set; }
-
-        public virtual List<CreateOrderRequestDTO> Orderitems { get; set; } = new List<CreateOrderRequestDTO>();
+        public virtual List<CreateOrderitemRequestDTO> Orderitems { get; set; } = new List<CreateOrderitemRequestDTO>();
     }
 }
