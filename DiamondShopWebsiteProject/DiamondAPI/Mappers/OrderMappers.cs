@@ -1,5 +1,6 @@
 ﻿using DiamondAPI.DTOs.Order;
 using DiamondAPI.Models;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace DiamondAPI.Mappers
 {
@@ -14,6 +15,18 @@ namespace DiamondAPI.Mappers
                 OrderDate = DateTime.Now,
                 TotalAmount = createOrderRequestDTO.TotalAmount,
                 OrderStatus = "Received",
+            };
+        }
+
+        public static OrderRequestDTO ToOrderRequestDTO(this Order order)
+        {
+            return new OrderRequestDTO
+            {
+                OrderId = order.OrderId,
+                CustomerId = order.CustomerId,
+                OrderDate = order.OrderDate,
+                TotalAmount = order.TotalAmount,
+                OrderStatus = order.OrderStatus
             };
         }
     }

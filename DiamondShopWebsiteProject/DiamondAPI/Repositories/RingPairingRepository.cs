@@ -13,7 +13,7 @@ namespace DiamondAPI.Repositories
         {
             _context = context;
         }
-        public async Task<Ringpairing> Create(Ringpairing ringPairing)
+        public async Task<Ringpairing> CreateAsync(Ringpairing ringPairing)
         {
             await _context.Ringpairings.AddAsync(ringPairing);
             await _context.SaveChangesAsync();
