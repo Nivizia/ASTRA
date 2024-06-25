@@ -20,6 +20,11 @@ namespace DiamondAPI.Interfaces
             return order;
         }
 
+        public Task<Order> CreateOrder(CreateOrderRequestDTO createOrderRequestDTO)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Order> DeleteOrder(Guid orderId)
         {
             throw new NotImplementedException();
