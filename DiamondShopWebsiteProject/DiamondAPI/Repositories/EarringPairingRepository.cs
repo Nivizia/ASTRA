@@ -4,7 +4,7 @@ using DiamondAPI.Models;
 
 namespace DiamondAPI.Repositories
 {
-    public class EarringPairingRepository : IEarringPairringRepository
+    public class EarringPairingRepository : IEarringPairingRepository
     {
         public Task<Earringpairing> CreateAsync(CreateEarringPairingRequestDTO request)
         {

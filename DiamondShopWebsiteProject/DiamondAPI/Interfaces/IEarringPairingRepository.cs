@@ -3,7 +3,7 @@ using DiamondAPI.Models;
 
 namespace DiamondAPI.Interfaces
 {
-    public interface IEarringPairringRepository
+    public interface IEarringPairingRepository
     {
         Task<List<Earringpairing>> GetAllAsync();
         Task<Earringpairing?> GetByIDAsync(Guid EProductID);

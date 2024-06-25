@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DiamondAPI.Controllers
 {
     [Route("DiamondAPI/Models/Orders")]
+    [ApiController]
     public class OrdersController : ControllerBase
     {
         private readonly ICustomerRepository _customerRepo;

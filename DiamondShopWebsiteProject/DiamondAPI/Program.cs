@@ -44,8 +44,13 @@ builder.Services.AddDbContext<DiamondprojectContext>(options =>
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IDiamondRepository, DiamondRepository>();
 builder.Services.AddScoped<IEarringRepository, EarringRepository>();
+builder.Services.AddScoped<IEarringPairingRepository, EarringPairingRepository>();
 builder.Services.AddScoped<IPendantRepository, PendantRepository>();
+builder.Services.AddScoped<IPendantPairingRepository, PendantPairingRepository>();
 builder.Services.AddScoped<IRingRepository, RingRepository>();
+builder.Services.AddScoped<IRingPairingRepository, RingPairingRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderitemRepository, OrderitemRepository>();
 
 // Register TokenService for Token-Based Authentication (JWT)
 builder.Services.AddScoped<TokenService>();
