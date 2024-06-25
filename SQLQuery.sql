@@ -83,14 +83,13 @@ CREATE TABLE WARRANTY (
 
 CREATE TABLE DIAMOND (
   D_ProductID UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
-  Name VARCHAR(500),
   Price MONEY,
   ImageURL VARCHAR(255),
   D_Type VARCHAR(500),
-  CaratWeight FLOAT,  -- Changed data type to FLOAT
-  Color INT,  -- Changed data type to INT
-  Clarity INT,  -- Changed data type to INT
-  Cut INT  -- Changed data type to INT
+  CaratWeight FLOAT,
+  Color INT,
+  Clarity INT,
+  Cut INT
 );
 
 CREATE TABLE RING (
@@ -151,10 +150,10 @@ CREATE TABLE REFUNDPRODUCT (
   Price MONEY,
   ImageURL VARCHAR(255),
   Specifications TEXT,
-  CaratWeight FLOAT,  -- Changed data type to FLOAT
-  Color INT,  -- Changed data type to INT
-  Clarity INT,  -- Changed data type to INT
-  Cut INT  -- Changed data type to INT
+  CaratWeight FLOAT,
+  Color INT,
+  Clarity INT,
+  Cut INT
 );
 
 CREATE TABLE DIAMONDCERTIFICATE (
