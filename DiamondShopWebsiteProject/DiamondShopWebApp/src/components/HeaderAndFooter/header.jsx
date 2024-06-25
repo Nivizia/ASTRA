@@ -16,7 +16,7 @@ const Header = () => {
           <div className="header-right">
             <input type="text" placeholder="Search" className="search-bar" />
             <AccountButton />
-            <span className="icon">🛒</span>
+            <span className="icon"><a href="/cart">🛒</a></span>
           </div>
         </div>
 

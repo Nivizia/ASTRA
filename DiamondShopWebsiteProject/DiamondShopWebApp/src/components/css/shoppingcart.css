@@ -1,0 +1,122 @@
+/* General Container Styling */
+.shopping-cart-container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+/* Header */
+.shopping-cart-container h1 {
+    text-align: center;
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Cart List */
+.shopping-cart-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Cart Item */
+.shopping-cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    margin-bottom: 10px;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.shopping-cart-item:hover {
+    background-color: #f1f1f1;
+}
+
+/* Item Details */
+.cart-item-details {
+    display: flex;
+    align-items: center;
+}
+
+.cart-item-image {
+    margin-right: 15px;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.cart-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.cart-item-info p {
+    margin: 0;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.cart-item-info p:first-child {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.cart-item-price {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Buttons */
+.cart-item-remove-button,
+.clear-cart-button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cart-item-remove-button:hover,
+.clear-cart-button:hover {
+    background-color: #ff1a1a;
+}
+
+.clear-cart-button {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    font-size: 1rem;
+}
+
+/* Empty Cart Message */
+.empty-cart-message {
+    text-align: center;
+    color: #777;
+    font-size: 1.2rem;
+    margin-top: 50px;
+}
+
+/* Error Message */
+.error-message {
+    color: red;
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 20px;
+}

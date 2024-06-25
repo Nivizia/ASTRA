@@ -31,10 +31,10 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     })
 );
 
-const ToggleButton = styled(MuiToggleButton)(({ selectedColor }) => ({
+const ToggleButton = styled(MuiToggleButton)(({ selectedcolor }) => ({
     '&.Mui-selected, &.Mui-selected:hover': {
         color: 'white',
-        backgroundColor: selectedColor,
+        backgroundColor: selectedcolor,
     },
 }));
 
@@ -83,13 +83,13 @@ export default function PersistentDrawerRight({ diamondId }) {
                     exclusive
                     onChange={handleToggleButtonChange}
                 >
-                    <ToggleButton className={styles.drawerBox} value="ring" selectedColor="#0000c0">
+                    <ToggleButton className={styles.drawerBox} value="ring" selectedcolor="#0000c0">
                         Choose Ring
                     </ToggleButton>
-                    <ToggleButton className={styles.drawerBox} value="pendant" selectedColor="#0000c0">
+                    <ToggleButton className={styles.drawerBox} value="pendant" selectedcolor="#0000c0">
                         Choose Pendant
                     </ToggleButton>
-                    <ToggleButton className={styles.drawerBox} value="cart" selectedColor="#0000c0">
+                    <ToggleButton className={styles.drawerBox} value="cart" selectedcolor="#0000c0">
                         Add To Cart
                     </ToggleButton>
                 </ToggleButtonGroup>
