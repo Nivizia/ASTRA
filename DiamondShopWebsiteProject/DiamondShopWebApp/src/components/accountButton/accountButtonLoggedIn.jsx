@@ -16,7 +16,6 @@ const AccountButtonLoggedIn = ({ user, onLogout }) => {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const [hasUserLoggedIn, setHasUserLoggedIn] = useState(!!user);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const open = Boolean(anchorEl);
 
     useEffect(() => {
@@ -86,18 +85,15 @@ const AccountButtonLoggedIn = ({ user, onLogout }) => {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                {hasUserLoggedIn ? (
+                {hasUserLoggedIn && user ? (
                     <MenuItem>
-                        Welcome, {user.username}
+                        Welcome, {user.unique_name}
                     </MenuItem>
                 ) : (
                     <MenuItem>
                         Welcome, Guest
                     </MenuItem>
                 )}
-                <MenuItem>
-                    Welcome, {user.username}
-                </MenuItem>
                 <MenuItem onClick={handleClose}>
                     <Avatar /> Profile
                 </MenuItem>

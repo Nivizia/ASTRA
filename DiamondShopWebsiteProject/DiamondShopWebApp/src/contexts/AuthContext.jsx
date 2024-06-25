@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
     // Function to login user
     const login = async (username, password) => {
         try {
-            const response = await fetch("http://localhost:5212/DiamondAPI/Models/Customer/login", {
+            const response = await fetch(`http://localhost:5212/DiamondAPI/Models/Customer/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -19,16 +19,25 @@ export const AuthProvider = ({ children }) => {
             });
 
             if (!response.ok) {
-                throw new Error('Login failed');
+                if (response.status === 401) {
+                    return { success: false, message: 'Invalid username or password' };
+                } else {
+                    return { success: false, message: 'Server error. Please try again later.' };
+                }
             }
 
-            const { token } = await response.json();
+            const responseJson = await response.json(); // Get the response as JSON
+            const token = responseJson.token; // Extract the token string from the response object
+            console.log('Login token:', token);
+
+            // Store the token in localStorage
             localStorage.setItem('authToken', token);
 
             // Before decoding, check if the token exists and looks like a JWT
             if (token && token.split('.').length === 3) {
                 try {
                     const userInfo = jwtDecode(token);
+                    console.log(userInfo); // This will show you the structure of userInfo
                     setUser(userInfo);
                 } catch (error) {
                     console.error('Error decoding token:', error);
@@ -39,9 +48,11 @@ export const AuthProvider = ({ children }) => {
                 // Handle the case of an invalid or missing token appropriately
             }
 
+            // Return success along with the token
+            return { success: true, token };
         } catch (error) {
             console.error('Login error:', error);
-            throw error;
+            return { success: false, message: 'Network error. Please try again later.' };
         }
     };
 

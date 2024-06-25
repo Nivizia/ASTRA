@@ -1,7 +1,9 @@
 // signUp.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { signUpUser, loginUser } from '../../../javascript/apiService'; // Import signUpUser and loginUser functions
+import { signUpUser } from '../../../javascript/apiService'; // Import signUpUser and loginUser functions
+import { AuthContext } from '../../contexts/AuthContext'; // Import the AuthContext
+
 import CircularIndeterminate from '../loading';
 import styles from '../css/signUp.module.css'; // Import the CSS module
 
@@ -12,6 +14,7 @@ const SignUp = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false); // Add loading state
+    const { user, login} = useContext(AuthContext);
     const [redirectToIndex, setRedirectToIndex] = useState(false); // State for redirection
 
     const handleSignUpSuccess = async () => {
@@ -19,8 +22,8 @@ const SignUp = () => {
 
         try {
             // Sign up the user
-            const user = { firstName, lastName, username, password };
-            const signUpResponse = await signUpUser(user);
+            const userInfoSignUp = { firstName, lastName, username, password };
+            const signUpResponse = await signUpUser(userInfoSignUp);
 
             if (!signUpResponse.success) {
                 setError(signUpResponse.message || 'Sign-up failed. Please try again.');
@@ -29,7 +32,7 @@ const SignUp = () => {
             }
 
             // If sign-up was successful, proceed with login
-            const loginResponse = await loginUser(username, password);
+            const loginResponse = await login(username, password);
 
             if (loginResponse.success) {
                 // Store the token and handle successful login

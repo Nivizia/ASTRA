@@ -55,7 +55,7 @@ const AccountButton = () => {
 
     return (
         <>
-            {hasUserLoggedIn ? (
+            {hasUserLoggedIn && user ? (
                 <AccountButtonLoggedIn user={user} onLogout={handleLogout} />
             ) : (
                 <AccountButtonNotLoggedIn loginMethod={login} onLoginSuccess={handleLoginSuccess} />

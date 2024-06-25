@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Dialog } from '@mui/material';
 import { MdAccountCircle } from "react-icons/md";
-import { loginUser } from '../../../javascript/apiService';
 import CircularIndeterminate from '../loading';
 import styles from '../css/account.module.css';
 
