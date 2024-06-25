@@ -2,6 +2,7 @@
 using DiamondAPI.DTOs.Order;
 using DiamondAPI.Interfaces;
 using DiamondAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DiamondAPI.Repositories
 {
@@ -24,6 +25,11 @@ namespace DiamondAPI.Repositories
         public Task<Order> DeleteOrder(Guid orderId)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<Order>> GetAllOrders(Guid CustomerID)
+        {
+            return await _context.Orders.Include(o => o.Orderitems).Where(o => o.CustomerId == CustomerID).ToListAsync();
         }
 
         public Task<Order> GetOrderById(Guid orderId)

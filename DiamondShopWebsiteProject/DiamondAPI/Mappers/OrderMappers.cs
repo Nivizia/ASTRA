@@ -26,7 +26,8 @@ namespace DiamondAPI.Mappers
                 CustomerId = order.CustomerId,
                 OrderDate = order.OrderDate,
                 TotalAmount = order.TotalAmount,
-                OrderStatus = order.OrderStatus
+                OrderStatus = order.OrderStatus,
+                Orderitems = order.Orderitems.Select(o => o.ToOrderitemDTO()).ToList()
             };
         }
     }

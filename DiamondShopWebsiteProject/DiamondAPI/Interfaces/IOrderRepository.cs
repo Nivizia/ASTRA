@@ -5,6 +5,8 @@ namespace DiamondAPI.Interfaces
 {
     public interface IOrderRepository
     {
+        Task<List<Order>> GetAllOrders(Guid CustomerID);
+
         Task<Order> GetOrderById(Guid orderId);
 
         Task<Order> CreateOrder(Order order);

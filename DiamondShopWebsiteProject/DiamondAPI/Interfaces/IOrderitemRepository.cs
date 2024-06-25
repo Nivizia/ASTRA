@@ -1,5 +1,6 @@
 ﻿using DiamondAPI.DTOs.Orderitem;
 using DiamondAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DiamondAPI.Interfaces
 {

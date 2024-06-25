@@ -76,5 +76,14 @@ namespace DiamondAPI.Controllers
             }
             return Ok(Order.ToOrderRequestDTO());
         }
+
+        [HttpGet]
+        [Route("{CustomerID}")]
+        public async Task<IActionResult> GetOrders([FromRoute] Guid CustomerID)
+        {
+            var orders = await _orderRepo.GetAllOrders(CustomerID);
+            var ordersDTO = orders.Select(o => o.ToOrderRequestDTO()).ToList();
+            return Ok(ordersDTO);
+        }
     }
 }
