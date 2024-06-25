@@ -23,13 +23,16 @@ export const getCartItems = () => {
 export const removeFromCart = (itemId) => {
     // Retrieve the current cart items from local storage
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    console.log('Current cart items before removal:', cart);
 
     // Filter out the item with the specified id
-    cart = cart.filter(item => item.id !== itemId);
+    cart = cart.filter(item => item.details.dProductId !== itemId);
+    console.log('Updated cart items after removal:', cart);
 
     // Save the updated cart back to local storage
     localStorage.setItem('cart', JSON.stringify(cart));
 };
+
 
 // Clearing the cart
 export const clearCart = () => {

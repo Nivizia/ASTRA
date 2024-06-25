@@ -57,13 +57,12 @@ export default function PersistentDrawerRight({ diamondId }) {
         let path;
         switch (selectedMode) {
             case 'ring':
-                path = `/choose-ring?diamondId=${diamondId}`;
+                path = `/diamond/${diamondId}/choose-ring/`;
                 break;
             case 'pendant':
                 path = `/choose-pendant?diamondId=${diamondId}`;
                 break;
             case 'cart':
-                alert('Item added to cart');
                 path = `/cart?diamondId=${diamondId}`;
                 break;
             default:

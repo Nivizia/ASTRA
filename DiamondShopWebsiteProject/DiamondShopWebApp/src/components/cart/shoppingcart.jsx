@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom'; // Import useNavigate to change the URL
 import { fetchDiamondById } from '../../../javascript/apiService';
 import { getCartItems, addToCart, removeFromCart, clearCart } from '../../../javascript/cartService';
 import '../css/shoppingcart.css'; // Import the CSS file
 
 const ShoppingCart = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const params = new URLSearchParams(location.search);
     const diamondId = params.get('diamondId');
 
@@ -17,7 +18,9 @@ const ShoppingCart = () => {
             try {
                 if (diamondId) {
                     const diamond = await fetchDiamondById(diamondId);
+                    console.log('Fetched Diamond:', diamond); // Inspect diamond attributes
                     const currentCart = getCartItems();
+                    console.log('Current Cart:', currentCart); // Inspect current cart items
                     
                     const diamondAlreadyInCart = currentCart.some(
                         item => item.details.dProductId === diamond.dProductId && item.type === 'diamond'
@@ -30,13 +33,16 @@ const ShoppingCart = () => {
                         });
                         setCart(getCartItems());
                     }
+
+                    // Change the URL to remove the diamondId parameter
+                    navigate('/cart', { replace: true });
                 }
             } catch (error) {
                 setError(error.message);
             }
         }
         addDiamondToCart();
-    }, [diamondId]);
+    }, [diamondId, navigate]); // Add navigate to the dependency array
 
     useEffect(() => {
         // Load cart items from local storage when the component mounts
@@ -46,6 +52,7 @@ const ShoppingCart = () => {
     const handleRemoveFromCart = (itemId) => {
         removeFromCart(itemId);
         setCart(getCartItems()); // Update state to re-render the component
+        console.log('Removed item from cart:', itemId); // Log the removed item ID
     };
 
     const handleClearCart = () => {

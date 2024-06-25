@@ -55,22 +55,41 @@ const router = createBrowserRouter([
         path: "/diamond/:diamondId",
         element: <DiamondDetails />,
       },
+      // Choose Diamond then Product
       {
-        path: "/choose-ring",
+        path: "/diamond/:diamondId/choose-ring/",
         element: <RingList />,
       },
       {
-        path: "/choose-pendant",
-        element: <PendantList />,
-      },
-      {
-        path: "/pairing/ring/:ringId",
+        path: "/diamond/:diamondId/choose-ring/:ringId",
         element: <RingDetails />,
       },
       {
-        path: "/pairing/pendant/:pendantId",
+        path: "/diamond/:diamondId/choose-pendant/",
+        element: <PendantList />,
+      },
+      {
+        path: "/diamond/:diamondId/choose-pendant/:pendantid",
         element: <PendantDetails />,
       },
+      // Choose Product then Diamond
+      {
+        path: "/ring/:ringId/choose-diamond/",
+        element: <RingList />,
+      },
+      {
+        path: "/ring/:ringId/choose-diamond/:diamondId",
+        element: <RingDetails />,
+      },
+      {
+        path: "/pendant/:pendantId/choose-diamond/",
+        element: <PendantList />,
+      },
+      {
+        path: "/pendant/:pendantId/choose-diamond/:diamondId",
+        element: <PendantDetails />,
+      },
+      // Cart
       {
         path: "/cart/",
         element: <ShoppingCart />
@@ -81,6 +100,6 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-      <RouterProvider router={router} />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );

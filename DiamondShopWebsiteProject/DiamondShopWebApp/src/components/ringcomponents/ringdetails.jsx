@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { fetchRingById } from '../../../javascript/apiService';
 
 import CircularIndeterminate from '../loading';
@@ -9,15 +9,23 @@ import '../css/productbox.css';
 import styles from "../css/temporarydrawer.module.css";
 
 const RingDetails = () => {
-  const { ringId } = useParams();
+  const { diamondId, ringId } = useParams();
   const [ring, setRing] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
+
+  const handleSelectRing = () => {
+    const path = diamondId ? `/cart` : `/`;
+    navigate(path);
+  };
 
   useEffect(() => {
     async function getRing() {
       try {
         const data = await fetchRingById(ringId);
+        console.log(data);
         setRing(data);
       } catch (error) {
         setError(error.message);
@@ -59,7 +67,11 @@ const RingDetails = () => {
           <span className="badge">{`Beeg`}</span>
         </div>
         <p className="price">${ring.price.toFixed(2)}</p>
-        <Button className={styles.selectDiamondButton} >SELECT THIS RING</Button>
+        {diamondId ? (
+            <Button className={styles.selectDiamondButton} onClick={handleSelectRing}>Go to Cart</Button>
+          ) : (
+            <Button className={styles.selectDiamondButton} onClick={handleSelectRing}>Go Home</Button>
+          )}
         <div className="order-info">
           <h3>Your Order Includes:</h3>
           <div className="order-detail">

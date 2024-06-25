@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { fetchRings } from '../../../javascript/apiService';
 
 import CircularIndeterminate from '../loading';
@@ -11,12 +12,14 @@ const RingList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const { diamondId, ringId } = useParams();
+
   useEffect(() => {
     async function getRings() {
       try {
         const data = await fetchRings();
         if (Array.isArray(data)) {
-            setRings(data);
+          setRings(data);
         } else {
           setError("Unable to fetch rings");
         }
@@ -27,7 +30,8 @@ const RingList = () => {
       }
     }
     getRings();
-  }, []);
+    console.log(diamondId, ringId);
+  }, [diamondId, ringId]);
 
   if (loading) {
     return <CircularIndeterminate size={56} />;
@@ -46,16 +50,33 @@ const RingList = () => {
     <div>
       <div className="diamond-list">
         {rings.map((ring) => (
-          <RingBox
-            key={ring.ringId}
-            ringId={ring.ringId}
-            name={ring.name}
-            price={ring.price}
-            stockQuantity={ring.stockQuantity}
-            imageUrl={ring.imageUrl}
-            metalType={ring.metalType}
-            ringSize={ring.ringSize}
-          />
+          diamondId && !ringId ? (
+            // Condition for diamondId is defined and ringId is undefined
+            <RingBox
+              key={ring.ringId}
+              ringId={ring.ringId}
+              diamondId={diamondId} // Passed from the parent component or context
+              // ringId is intentionally not passed here based on your condition
+              name={ring.name}
+              price={ring.price}
+              stockQuantity={ring.stockQuantity}
+              imageUrl={ring.imageUrl}
+              metalType={ring.metalType}
+              ringSize={ring.ringSize}
+            />
+          ) : (
+            // Default case, assuming ring-first route or any other case
+            <RingBox
+              key={ring.ringId}
+              ringId={ring.ringId}
+              name={ring.name}
+              price={ring.price}
+              stockQuantity={ring.stockQuantity}
+              imageUrl={ring.imageUrl}
+              metalType={ring.metalType}
+              ringSize={ring.ringSize}
+            />
+          )
         ))}
       </div>
     </div>
