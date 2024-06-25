@@ -1,4 +1,4 @@
-﻿﻿using DiamondAPI.DTOs.Order;
+﻿using DiamondAPI.DTOs.Order;
 using DiamondAPI.Models;
 
 namespace DiamondAPI.Mappers
@@ -11,6 +11,7 @@ namespace DiamondAPI.Mappers
             {
                 OrderId = Guid.NewGuid(),
                 CustomerId = createOrderRequestDTO.CustomerId,
+                OrderDate = DateTime.Now,
                 TotalAmount = createOrderRequestDTO.TotalAmount,
                 OrderStatus = createOrderRequestDTO.OrderStatus,
             };
