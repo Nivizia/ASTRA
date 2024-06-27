@@ -1,6 +1,6 @@
 ﻿namespace DiamondAPI.DTOs.Diamond
 {
-    public class UpdateDiamondRequestDTO
+    public class ModelUpdateDiamondRequestDTO
     {
         public string? ImageUrl { get; set; }
 
@@ -8,10 +8,10 @@
 
         public double? CaratWeight { get; set; }
 
-        public String? Color { get; set; }
+        public int? Color { get; set; }
 
-        public String? Clarity { get; set; }
+        public int? Clarity { get; set; }
 
-        public String? Cut { get; set; }
+        public int? Cut { get; set; }
     }
 }

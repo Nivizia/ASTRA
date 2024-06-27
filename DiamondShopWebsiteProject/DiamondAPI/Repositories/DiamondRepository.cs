@@ -33,7 +33,7 @@ namespace DiamondAPI.Repositories
             return diamondModel;
         }
 
-        public async Task<List<Diamond>> FilterAsync(String DType, decimal LowerPrice, decimal UpperPrice, double LowerCaratWeight, double UpperCaratWeight, int LowerColor, int UpperColor, int LowerClarity, int UpperClariry, int LowerCut, int UpperCut)
+        public async Task<List<Diamond>> FilterAsync(String DType, decimal? LowerPrice, decimal? UpperPrice, double? LowerCaratWeight, double? UpperCaratWeight, int? LowerColor, int? UpperColor, int? LowerClarity, int? UpperClariry, int? LowerCut, int? UpperCut)
         {
             var diamonds = _context.Diamonds.AsQueryable();
 
@@ -105,7 +105,7 @@ namespace DiamondAPI.Repositories
             return await _context.Diamonds.FindAsync(D_ProductID);
         }
 
-        public async Task<Diamond?> UpdateAsync(Guid D_ProductID, UpdateDiamondRequestDTO diamondDTO)
+        public async Task<Diamond?> UpdateAsync(Guid D_ProductID, ModelUpdateDiamondRequestDTO diamondDTO)
         {
             var existingDiamond = await _context.Diamonds.FirstOrDefaultAsync(d => d.DProductId == D_ProductID);
 
@@ -114,8 +114,6 @@ namespace DiamondAPI.Repositories
                 return null;
             }
 
-            existingDiamond.Name = diamondDTO.Name;
-            existingDiamond.Price = diamondDTO.Price;
             existingDiamond.ImageUrl = diamondDTO.ImageUrl;
             existingDiamond.DType = diamondDTO.DType;
             existingDiamond.CaratWeight = diamondDTO.CaratWeight;
