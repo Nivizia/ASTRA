@@ -10,7 +10,6 @@ namespace DiamondAPI.Mappers
             return new DiamondDTO
             {
                 DProductId = diamond.DProductId,
-                Name = diamond.Name,
                 Price = diamond.Price,
                 ImageUrl = diamond.ImageUrl,
                 DType = diamond.DType,
@@ -26,7 +25,6 @@ namespace DiamondAPI.Mappers
             return new Diamond
             {
                 DProductId = Guid.NewGuid(),
-                Name = dto.Name,
                 Price = dto.Price,
                 ImageUrl = dto.ImageUrl,
                 DType = dto.DType,

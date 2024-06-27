@@ -114,7 +114,6 @@ namespace DiamondAPI.Repositories
                 return null;
             }
 
-            existingDiamond.Name = diamondDTO.Name;
             existingDiamond.Price = diamondDTO.Price;
             existingDiamond.ImageUrl = diamondDTO.ImageUrl;
             existingDiamond.DType = diamondDTO.DType;

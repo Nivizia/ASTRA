@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { fetchPendantById } from '../../../javascript/apiService';
 
 import CircularIndeterminate from '../loading';
@@ -9,10 +9,17 @@ import '../css/productbox.css';
 import styles from "../css/temporarydrawer.module.css";
 
 const PendantDetails = () => {
-  const { pendantId } = useParams();
+  const { diamondId, pendantId } = useParams();
   const [pendant, setPendant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
+
+  const handleSelectPendant = () => {
+    const path = diamondId ? `/cart?d=${diamondId}&p=${pendantId}` : `/`;
+    navigate(path);
+  };
 
   useEffect(() => {
     async function getPendant() {
@@ -26,7 +33,8 @@ const PendantDetails = () => {
       }
     }
     getPendant();
-  }, [pendantId]);
+    console.log(`${diamondId}, ${pendantId}`)
+  }, [diamondId, pendantId]);
 
   if (loading) {
     return <CircularIndeterminate />;
@@ -52,14 +60,18 @@ const PendantDetails = () => {
         </div>
       </div>
       <div className="details-section">
-        <h2>{`${pendant.name} Price ${pendant.price}`}</h2>
+        <h2>{pendant.name}</h2>
         <div className="badge-group">
-          <span className="badge">{`${pendant.name}`}</span>
-          <span className="badge">{`${pendant.price}`}</span>
-          <span className="badge">{`Beeg`}</span>
+          <span className="badge">{pendant.chainLength || 'Unknown'}</span>
+          <span className="badge">{pendant.chainType || 'Unknown'}</span>
+          <span className="badge">{pendant.claspType || 'Unknown'}</span>
         </div>
         <p className="price">${pendant.price.toFixed(2)}</p>
-        <Button className={styles.selectDiamondButton} >SELECT THIS PENDANT</Button>
+        {diamondId ? (
+          <Button className={styles.selectDiamondButton} onClick={handleSelectPendant}>CHOOSE PENDANT</Button>
+        ) : (
+          <Button className={styles.selectDiamondButton} onClick={handleSelectPendant}>Go Home</Button>
+        )}
         <div className="order-info">
           <h3>Your Order Includes:</h3>
           <div className="order-detail">
@@ -84,7 +96,19 @@ const PendantDetails = () => {
             </tr>
             <tr>
               <td>Price</td>
-              <td>{pendant.price}</td>
+              <td>${pendant.price.toFixed(2)}</td>
+            </tr>
+            <tr>
+              <td>Chain Length              </td>
+              <td>{pendant.chainLength || 'Unknown'}</td>
+            </tr>
+            <tr>
+              <td>Chain Type</td>
+              <td>{pendant.chainType || 'Unknown'}</td>
+            </tr>
+            <tr>
+              <td>Clasp Type</td>
+              <td>{pendant.claspType || 'Unknown'}</td>
             </tr>
           </tbody>
         </table>

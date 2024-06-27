@@ -57,7 +57,9 @@ namespace DiamondAPI.Repositories
             existingPendant.Price = pendantDTO.Price;
             existingPendant.StockQuantity = pendantDTO.StockQuantity;
             existingPendant.ImageUrl = pendantDTO.ImageUrl;
-            existingPendant.MetalType = pendantDTO.MetalType;
+            existingPendant.ChainType = pendantDTO.ChainType;
+            existingPendant.ChainLength = pendantDTO.ChainLength;
+            existingPendant.ClaspType = pendantDTO.ClaspType;
 
             await _context.SaveChangesAsync();
 

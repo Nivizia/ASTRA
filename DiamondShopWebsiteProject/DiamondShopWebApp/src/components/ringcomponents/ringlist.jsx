@@ -41,9 +41,14 @@ const RingList = () => {
     return <p>Network error: {error}</p>;
   }
 
-  // Check if diamonds is an array before using map
+  // Check if rings is an array before using map
   if (!Array.isArray(rings)) {
     return <p>Data is not available</p>;
+  }
+
+  // Check if there are no ring in the array
+  if (rings.length === 0) {
+    return <p>There's no pendant</p>;
   }
 
   return (

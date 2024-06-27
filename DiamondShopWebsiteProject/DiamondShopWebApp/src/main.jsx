@@ -69,7 +69,7 @@ const router = createBrowserRouter([
         element: <PendantList />,
       },
       {
-        path: "/diamond/:diamondId/choose-pendant/:pendantid",
+        path: "/diamond/:diamondId/choose-pendant/:pendantId",
         element: <PendantDetails />,
       },
       // Choose Product then Diamond

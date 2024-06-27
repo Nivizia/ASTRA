@@ -85,7 +85,7 @@ CREATE TABLE DIAMOND (
   D_ProductID UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
   Price MONEY,
   ImageURL VARCHAR(255),
-  D_Type VARCHAR(500),
+  D_Type VARCHAR(100),
   CaratWeight FLOAT,
   Color INT,
   Clarity INT,
@@ -98,7 +98,7 @@ CREATE TABLE RING (
   Price MONEY,
   StockQuantity INT,
   ImageURL VARCHAR(255),
-  MetalType VARCHAR(500),
+  MetalType VARCHAR(100),
   RingSize VARCHAR(20)
 );
 
@@ -117,7 +117,9 @@ CREATE TABLE PENDANT (
   Price MONEY,
   StockQuantity INT,
   ImageURL VARCHAR(255),
-  MetalType VARCHAR(500)
+  ChainType VARCHAR(100),
+  ChainLength VARCHAR(100),
+  ClaspType VARCHAR(100),
 );
 
 CREATE TABLE RINGPAIRING (

@@ -84,7 +84,7 @@
 /* Buttons */
 .cart-item-remove-button,
 .clear-cart-button {
-    background-color: #ff4d4d;
+    background-color: #0000c0;
     color: white;
     border: none;
     border-radius: 5px;
@@ -95,7 +95,14 @@
 
 .cart-item-remove-button:hover,
 .clear-cart-button:hover {
-    background-color: #ff1a1a;
+    background-color: #000080;
+    transform: scale(1.05);
+}
+
+.cart-item-remove-button:active,
+.clear-cart-button:active {
+    background-color: #000060;
+    transform: scale(0.95);
 }
 
 .clear-cart-button {
