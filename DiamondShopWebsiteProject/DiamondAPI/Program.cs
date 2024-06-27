@@ -54,7 +54,7 @@ builder.Services.AddScoped<IOrderitemRepository, OrderitemRepository>();
 
 // Register TokenService for Token-Based Authentication (JWT)
 builder.Services.AddScoped<TokenService>();
-
+builder.Services.AddScoped<DiamondCalculatorService>();
 // Configure JWT Authentication
 builder.Services.AddAuthentication(options =>
 {
