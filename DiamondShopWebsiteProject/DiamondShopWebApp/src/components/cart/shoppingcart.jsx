@@ -2,32 +2,42 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchDiamondById, fetchRingById, fetchPendantById } from '../../../javascript/apiService';
 import { getCartItems, addToCart, removeFromCart, clearCart } from '../../../javascript/cartService';
-import '../css/shoppingcart.css'; // Import the CSS file
+import '../css/shoppingcart.css';
 
 const ShoppingCart = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const params = new URLSearchParams(location.search);
-    const diamondId = params.get('diamondId'); // Get the diamondId from the URL for direct add to cart
+    const diamondId = params.get('diamondId');
 
-    const diamondIdPairProduct = params.get('d'); // Get the diamondId from the URL choosing diamond first
-    const ringId = params.get('r'); // Get the ringId from the URL choosing diamond first
-    const pendantId = params.get('p'); // Get the pendantId from the URL choosing diamond first
+    const diamondIdPairProduct = params.get('d');
+    const ringId = params.get('r');
+    const pendantId = params.get('p');
 
     const [cart, setCart] = useState([]);
     const [error, setError] = useState(null);
 
     // Function to fetch details of a diamond and a ring/pendant to create a pairing
-    async function fetchPairingDetails(diamondId, productId, isRing = true) {
+    async function fetchPairingDetails(diamondId, productId, productType) {
         try {
             const diamond = await fetchDiamondById(diamondId);
-            const product = isRing ? await fetchRingById(productId) : await fetchPendantById(productId);
-            const type = isRing ? 'ring' : 'pendant';
+            let product;
+            switch (productType) {
+                case 'ring':
+                    product = await fetchRingById(productId);
+                    break;
+                case 'pendant':
+                    product = await fetchPendantById(productId);
+                    break;
+                default:
+                    throw new Error(`Unsupported product type: ${productType}`);
+            }
+
             return {
                 type: 'pairing',
                 pId: `${diamondId}-${productId}`, // Unique ID for the pairing
                 diamond,
-                [type]: product,
+                [productType]: product,
                 price: diamond.price + product.price // Combined price
             };
         } catch (error) {
@@ -41,9 +51,7 @@ const ShoppingCart = () => {
             try {
                 if (diamondId) {
                     const diamond = await fetchDiamondById(diamondId);
-                    console.log('Fetched Diamond:', diamond);
                     const currentCart = getCartItems();
-                    console.log('Current Cart:', currentCart);
 
                     const diamondAlreadyInCart = currentCart.some(
                         item => item.details?.dProductId === diamond.dProductId && item.type === 'diamond'
@@ -57,7 +65,6 @@ const ShoppingCart = () => {
                         setCart(getCartItems());
                     }
 
-                    // Change the URL to remove the diamondId parameter
                     navigate('/cart', { replace: true });
                 }
             } catch (error) {
@@ -76,8 +83,10 @@ const ShoppingCart = () => {
         async function addPairingToCart() {
             try {
                 if (diamondIdPairProduct && (ringId || pendantId)) {
-                    const pairing = await fetchPairingDetails(diamondIdPairProduct, ringId || pendantId, Boolean(ringId));
-                    console.log('Fetched Pairing:', pairing);
+                    const productType = ringId ? 'ring' : 'pendant';
+                    const productId = ringId || pendantId;
+                    const pairing = await fetchPairingDetails(diamondIdPairProduct, productId, productType);
+
                     let currentCart = getCartItems();
 
                     // Remove any standalone diamond that matches the diamond in the pairing
@@ -118,7 +127,6 @@ const ShoppingCart = () => {
     const handleRemoveFromCart = (itemId, itemType) => {
         removeFromCart(itemId, itemType);
         setCart(getCartItems());
-        console.log(`Removed item from cart: ${itemId} of type ${itemType}`);
     };
 
     const handleClearCart = () => {

@@ -21,9 +21,16 @@
   margin-bottom: 16px;
 }
 
+.diamond-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
 .diamond-details h2 {
-  font-size: 18px;
   margin: 0;
+  width: 85%;
   color: #333;
 }
 
@@ -42,6 +49,16 @@
 }
 
 /* diamondDetails.css */
+
+.diamond-link {
+  transition: background-color 250ms ease, transform 250ms ease;
+}
+
+.diamond-link:hover {
+  transform: scale(1);
+  border: solid #000;
+  transition: background-color 250ms ease, transform 250ms ease;
+}
 
 .diamond-details-container {
   display: flex;
@@ -160,7 +177,7 @@
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 955px) {
   .diamond-box {
     width: 39vw;
   }
@@ -169,7 +186,7 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 667px) {
   .diamond-box {
     width: 75vw;
   }

@@ -2,6 +2,7 @@
 
 // Adding an item to the cart
 // Adding an item to the cart
+// Adding an item to the cart
 export const addToCart = (item) => {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -10,6 +11,14 @@ export const addToCart = (item) => {
         cart = cart.filter(cartItem => {
             if (cartItem.type === 'diamond') {
                 return cartItem.details.dProductId !== item.diamond.dProductId;
+            }
+            return true;
+        });
+
+        // Remove any existing pairing that includes the same diamond
+        cart = cart.filter(cartItem => {
+            if (cartItem.type === 'pairing') {
+                return cartItem.diamond.dProductId !== item.diamond.dProductId;
             }
             return true;
         });
@@ -43,6 +52,7 @@ export const addToCart = (item) => {
     // Save the updated cart back to local storage
     localStorage.setItem('cart', JSON.stringify(cart));
 };
+
 
 
 // Getting the cart items
