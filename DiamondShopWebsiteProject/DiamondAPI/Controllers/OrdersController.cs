@@ -25,8 +25,7 @@ namespace DiamondAPI.Controllers
         }
 
         [HttpPost]
-        [Route("{CustomerID}")]
-        public async Task<IActionResult> PlaceOrder([FromRoute] String CustomerID, [FromBody] CreateOrderRequestDTO createOrderRequestDTO)
+        public async Task<IActionResult> PlaceOrder([FromBody] CreateOrderRequestDTO createOrderRequestDTO)
         {
             var Order = createOrderRequestDTO.ToOrderFromCreateDTO();
             await _orderRepo.CreateOrder(Order);
