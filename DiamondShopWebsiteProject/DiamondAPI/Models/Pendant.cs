@@ -15,7 +15,11 @@ public partial class Pendant
 
     public string? ImageUrl { get; set; }
 
-    public string? MetalType { get; set; }
+    public string? ChainType { get; set; }
+
+    public string? ChainLength { get; set; }
+
+    public string? ClaspType { get; set; }
 
     public virtual ICollection<Pendantpairing> Pendantpairings { get; set; } = new List<Pendantpairing>();
 }

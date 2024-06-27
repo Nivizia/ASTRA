@@ -7,7 +7,7 @@ import DiamondBox from './diamondbox';
 import '../css/productbox.css';
 
 const DiamondList = () => {
-  const [diamonds, setDiamonds] = useState([]); // Initialize as an empty array
+  const [diamonds, setDiamonds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -41,6 +41,12 @@ const DiamondList = () => {
   if (!Array.isArray(diamonds)) {
     return <p>Data is not available</p>;
   }
+
+  // Check if there are no diamond in the array
+  if (diamonds.length === 0) {
+    return <p>There's no diamond</p>;
+  }
+
 
   return (
     <div>

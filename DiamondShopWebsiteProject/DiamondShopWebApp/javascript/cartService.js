@@ -1,6 +1,7 @@
 // Local storage functions for cart management:
 
 // Adding an item to the cart
+// Adding an item to the cart
 export const addToCart = (item) => {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -27,7 +28,7 @@ export const addToCart = (item) => {
             cartItem.details.dProductId === item.details.dProductId
         );
 
-        // Check if the diamond is part of any pairing already in cart
+        // Check if the diamond is part of any pairing already in the cart
         const diamondInPairing = cart.some(cartItem =>
             cartItem.type === 'pairing' &&
             cartItem.diamond &&
@@ -42,6 +43,7 @@ export const addToCart = (item) => {
     // Save the updated cart back to local storage
     localStorage.setItem('cart', JSON.stringify(cart));
 };
+
 
 // Getting the cart items
 export const getCartItems = () => {

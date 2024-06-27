@@ -21,22 +21,6 @@ const RingDetails = () => {
     navigate(path);
   };
 
-  //TODO: Check if diamond is already in cart
-  //TODO: Check if diamond is already in cart
-  //TODO: Check if diamond is already in cart
-  //TODO: Check if diamond is already in cart
-  //TODO: Check if diamond is already in cart
-  //TODO: Check if diamond is already in cart
-  //TODO: Check if diamond is already in cart
-  //TODO: Check if diamond is already in cart
-  //TODO: Check if diamond is already in cart
-  //TODO: Check if diamond is already in cart
-  //TODO: Check if diamond is already in cart
-  //TODO: Check if diamond is already in cart
-  //TODO: Check if diamond is already in cart
-  //TODO: Check if diamond is already in cart
-  //TODO: Check if diamond is already in cart
-
   useEffect(() => {
     async function getRing() {
       try {
@@ -49,7 +33,7 @@ const RingDetails = () => {
       }
     }
     getRing();
-    console.log(diamondId, ringId);
+    console.log(`${diamondId}, ${ringId}`);
   }, [diamondId, ringId]);
 
   if (loading) {
@@ -76,10 +60,10 @@ const RingDetails = () => {
         </div>
       </div>
       <div className="details-section">
-        <h2>{`${ring.name}`}</h2>
+        <h2>{ring.name}</h2>
         <div className="badge-group">
-          <span className="badge">{`${ring.metalType}`}</span>
-          <span className="badge">{`${ring.ringSize}`}</span>
+          <span className="badge">{ring.metalType || 'Unknown'}</span>
+          <span className="badge">{ring.ringSize || 'Unknown'}</span>
         </div>
         <p className="price">${ring.price.toFixed(2)}</p>
         {diamondId ? (

@@ -14,7 +14,9 @@ namespace DiamondAPI.Mappers
                 Price = pendant.Price,
                 StockQuantity = pendant.StockQuantity,
                 ImageUrl = pendant.ImageUrl,
-                MetalType = pendant.MetalType
+                ChainType = pendant.ChainType,
+                ChainLength = pendant.ChainLength,
+                ClaspType = pendant.ClaspType,
             };
         }
 
@@ -27,7 +29,9 @@ namespace DiamondAPI.Mappers
                 Price = createPendantRequestDTO.Price,
                 StockQuantity = createPendantRequestDTO.StockQuantity,
                 ImageUrl = createPendantRequestDTO.ImageUrl,
-                MetalType = createPendantRequestDTO.MetalType
+                ChainType = createPendantRequestDTO.ChainType,
+                ChainLength = createPendantRequestDTO.ChainLength,
+                ClaspType = createPendantRequestDTO.ClaspType,
             };
         }
     }
