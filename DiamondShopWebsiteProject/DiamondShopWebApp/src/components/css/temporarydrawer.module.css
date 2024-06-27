@@ -7,16 +7,19 @@
     border-radius: 5px !important;
     cursor: pointer !important;
     font-size: 18px !important;
+    transition: background-color 250ms ease, transform 250ms ease;
 }
 
 .selectDiamondButton:hover {
     background-color: #000080 !important;
     transform: scale(1.05) !important;
+    transition: background-color 250ms ease, transform 250ms ease;
 }
 
 .selectDiamondButton:active {
     background-color: #000060 !important;
     transform: scale(0.95) !important;
+    transition: background-color 250ms ease, transform 250ms ease;
 }
 
 
@@ -53,10 +56,12 @@
 
 .drawerBox:hover {
     transform: scale(1.05);
+    transition: background-color 250ms ease, transform 250ms ease;
 }
 
 .drawerBox:active {
     transform: scale(0.95);
+    transition: background-color 250ms ease, transform 250ms ease;
 }
 
 .confirmButton {
@@ -69,23 +74,25 @@
     font-weight: bold !important;
     border: 1px solid !important;
     border-radius: 10px !important;
-    transition: background-color 250ms ease, transform 250ms ease;
-
+    
     padding: auto !important;
     margin: auto !important;
     background-color: #0000c0 !important;
     color: #fff !important; /* Added color for text */
     cursor: pointer;
+    transition: background-color 250ms ease, transform 250ms ease;
 }
 
 .confirmButton:hover {
     background-color: #000080 !important;
     transform: scale(1.05);
+    transition: background-color 250ms ease, transform 250ms ease;
 }
 
 .confirmButton:active {
     background-color: #000060 !important;
     transform: scale(0.95);
+    transition: background-color 250ms ease, transform 250ms ease;
 }
 
 /* Responsive design for smaller screens */

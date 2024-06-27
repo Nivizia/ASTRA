@@ -90,19 +90,29 @@
     border-radius: 5px;
     padding: 10px 20px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 250ms ease, transform 250ms ease;
 }
 
-.cart-item-remove-button:hover,
-.clear-cart-button:hover {
+.cart-item-remove-button:hover {
     background-color: #000080;
     transform: scale(1.05);
+    transition: background-color 250ms ease, transform 250ms ease;
 }
 
-.cart-item-remove-button:active,
-.clear-cart-button:active {
+.cart-item-remove-button:active {
     background-color: #000060;
     transform: scale(0.95);
+}
+
+.clear-cart-button:hover {
+    background-color: #000080;
+    transform: scale(1.025);
+    transition: background-color 250ms ease, transform 250ms ease;
+}
+
+.clear-cart-button:active {
+    background-color: #000060;
+    transform: scale(0.975);
 }
 
 .clear-cart-button {
