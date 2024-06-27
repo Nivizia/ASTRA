@@ -40,8 +40,10 @@ namespace DiamondAPI.Repositories
             return await _context.Pendants.ToListAsync();
         }
 
-        public async Task<Pendant?> GetByIDAsync(Guid PendantID)
+        public async Task<Pendant?> GetByIDAsync(Guid? PendantID)
         {
+            if (PendantID == null)
+                return null;
             return await _context.Pendants.FindAsync(PendantID);
         }
 

@@ -1,6 +1,7 @@
 ﻿using DiamondAPI.DTOs.Order;
 using DiamondAPI.Interfaces;
 using DiamondAPI.Mappers;
+using DiamondAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondAPI.Controllers
@@ -10,15 +11,21 @@ namespace DiamondAPI.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly ICustomerRepository _customerRepo;
+        private readonly IDiamondRepository _diamondRepo;
+        private readonly IRingRepository _ringRepo;
         private readonly IRingPairingRepository _ringPairingRepo;
+        private readonly IPendantRepository _pendantRepo;
         private readonly IPendantPairingRepository _pendantPairingRepo;
         private readonly IOrderRepository _orderRepo;
         private readonly IOrderitemRepository _orderItemRepo;
 
-        public OrdersController(ICustomerRepository customerRepos, IRingPairingRepository ringPairingRepo, IPendantPairingRepository pendantPairingRepo, IOrderRepository orderRepo, IOrderitemRepository orderItemRepo)
+        public OrdersController(ICustomerRepository customerRepos, IRingPairingRepository ringPairingRepo, IPendantPairingRepository pendantPairingRepo, IOrderRepository orderRepo, IOrderitemRepository orderItemRepo, IRingRepository ringRepo, IPendantRepository pendantRepo, IDiamondRepository diamondRepo)
         {
             _customerRepo = customerRepos;
+            _diamondRepo = diamondRepo;
+            _ringRepo = ringRepo;
             _ringPairingRepo = ringPairingRepo;
+            _pendantRepo = pendantRepo;
             _pendantPairingRepo = pendantPairingRepo;
             _orderRepo = orderRepo;
             _orderItemRepo = orderItemRepo;
@@ -34,6 +41,15 @@ namespace DiamondAPI.Controllers
             {
                 if (orderItem.ProductType == "RingPairing")
                 {
+
+                    var ring = await _ringRepo.GetByIDAsync(orderItem.CreateRingPairingDTO?.RingId);
+                    if (ring == null)
+                        return NotFound();
+
+                    var diamond = await _diamondRepo.GetByIDAsync(orderItem.CreateRingPairingDTO?.DiamondId);
+                    if (diamond == null)
+                        return NotFound();
+
                     var ringPairing = orderItem.CreateRingPairingDTO?.ToRingPairingFromCreateDTO();
 
                     if (ringPairing == null)
@@ -48,6 +64,14 @@ namespace DiamondAPI.Controllers
                 }
                 else if (orderItem.ProductType == "PendantPairing")
                 {
+                    var pendant = await _pendantRepo.GetByIDAsync(orderItem.CreatePendantPairingDTO?.PendantId);
+                    if (pendant == null)
+                        return NotFound();
+
+                    var diamond = await _diamondRepo.GetByIDAsync(orderItem.CreatePendantPairingDTO?.DiamondId);
+                    if (diamond == null)
+                        return NotFound();
+
                     var pendantPairing = orderItem.CreatePendantPairingDTO?.ToPendantPairingFromCreateDTO();
 
                     if (pendantPairing == null)
@@ -62,6 +86,10 @@ namespace DiamondAPI.Controllers
                 }
                 else if (orderItem.ProductType == "Diamond")
                 {
+                    var diamond = await _diamondRepo.GetByIDAsync(orderItem.ProductId);
+                    if (diamond == null)
+                        return NotFound();
+
                     var modelOrderItem = orderItem.ToOrderItemFromCreateDTO();
                     modelOrderItem.OrderId = Order.OrderId;
                     modelOrderItem.ProductId = orderItem.ProductId;
