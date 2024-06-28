@@ -1,40 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { fetchPendantById } from '../../../javascript/apiService';
+import { useParams } from 'react-router-dom';
+import { fetchDiamondById } from '../../../../javascript/apiService';
 
-import CircularIndeterminate from '../loading';
-import Button from '@mui/material/Button';
+import CircularIndeterminate from '../../loading';
+import TemporaryDrawer from '../../temporaryDrawer';
 
-import '../css/productbox.css';
-import styles from "../css/temporarydrawer.module.css";
+import '../../css/product.css';
 
-const PendantDetails = () => {
-  const { diamondId, pendantId } = useParams();
-  const [pendant, setPendant] = useState(null);
+const DiamondDetails = () => {
+  const { diamondId } = useParams();
+  const [diamond, setDiamond] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const navigate = useNavigate();
-
-  const handleSelectPendant = () => {
-    const path = diamondId ? `/cart?d=${diamondId}&p=${pendantId}` : `/`;
-    navigate(path);
-  };
-
   useEffect(() => {
-    async function getPendant() {
+    async function getDiamond() {
       try {
-        const data = await fetchPendantById(pendantId);
-        setPendant(data);
+        const data = await fetchDiamondById(diamondId);
+        setDiamond(data);
       } catch (error) {
         setError(error.message);
       } finally {
         setLoading(false);
       }
     }
-    getPendant();
-    console.log(`${diamondId}, ${pendantId}`)
-  }, [diamondId, pendantId]);
+    getDiamond();
+  }, [diamondId]);
 
   if (loading) {
     return <CircularIndeterminate />;
@@ -44,8 +35,8 @@ const PendantDetails = () => {
     return <p>Error: {error}</p>;
   }
 
-  if (!pendant) {
-    return <p>Pendant not found.</p>;
+  if (!diamond) {
+    return <p>Diamond not found.</p>;
   }
 
   return (
@@ -60,18 +51,15 @@ const PendantDetails = () => {
         </div>
       </div>
       <div className="details-section">
-        <h2>{pendant.name}</h2>
+        <h2>{`${diamond.caratWeight} Carat ${diamond.color}-${diamond.clarity} ${diamond.cut} cut ${diamond.dType} Diamond`}</h2>
         <div className="badge-group">
-          <span className="badge">{pendant.chainLength || 'Unknown'}</span>
-          <span className="badge">{pendant.chainType || 'Unknown'}</span>
-          <span className="badge">{pendant.claspType || 'Unknown'}</span>
+          <span className="badge">{`${diamond.caratWeight}ct`}</span>
+          <span className="badge">{`${diamond.color} Color`}</span>
+          <span className="badge">{`${diamond.clarity} Clarity`}</span>
+          <span className="badge">{`Excellent`}</span>
         </div>
-        <p className="price">${pendant.price.toFixed(2)}</p>
-        {diamondId ? (
-          <Button className={styles.selectDiamondButton} onClick={handleSelectPendant}>CHOOSE PENDANT</Button>
-        ) : (
-          <Button className={styles.selectDiamondButton} onClick={handleSelectPendant}>Go Home</Button>
-        )}
+        <p className="price">${diamond.price.toFixed(2)}</p>
+        <TemporaryDrawer diamondId={diamondId}/>
         <div className="order-info">
           <h3>Your Order Includes:</h3>
           <div className="order-detail">
@@ -91,24 +79,24 @@ const PendantDetails = () => {
         <table>
           <tbody>
             <tr>
-              <td>Name</td>
-              <td>{pendant.name}</td>
+              <td>Shape</td>
+              <td>{diamond.dType}</td>
             </tr>
             <tr>
-              <td>Price</td>
-              <td>${pendant.price.toFixed(2)}</td>
+              <td>Cut</td>
+              <td>{diamond.cut}</td>
             </tr>
             <tr>
-              <td>Chain Length              </td>
-              <td>{pendant.chainLength || 'Unknown'}</td>
+              <td>Color</td>
+              <td>{diamond.color}</td>
             </tr>
             <tr>
-              <td>Chain Type</td>
-              <td>{pendant.chainType || 'Unknown'}</td>
+              <td>Clarity</td>
+              <td>{diamond.clarity}</td>
             </tr>
             <tr>
-              <td>Clasp Type</td>
-              <td>{pendant.claspType || 'Unknown'}</td>
+              <td>Carat Weight</td>
+              <td>{diamond.caratWeight}</td>
             </tr>
           </tbody>
         </table>
@@ -117,4 +105,4 @@ const PendantDetails = () => {
   );
 };
 
-export default PendantDetails;
+export default DiamondDetails;

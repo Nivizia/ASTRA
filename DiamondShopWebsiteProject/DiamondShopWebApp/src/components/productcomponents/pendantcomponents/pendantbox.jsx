@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/productbox.css';
+import '../../css/product.css';
 
 const PendantBox = ({ pendantId, diamondId, name, price, stockQuantity, imageUrl }) => {
 

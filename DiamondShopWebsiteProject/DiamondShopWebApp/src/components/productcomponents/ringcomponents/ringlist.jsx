@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchRings } from '../../../javascript/apiService';
+import { fetchRings } from '../../../../javascript/apiService';
 
-import CircularIndeterminate from '../loading';
+import CircularIndeterminate from '../../loading';
 import RingBox from './ringbox';
 
-import '../css/productbox.css';
+import '../../css/product.css';
 
 const RingList = () => {
   const [rings, setRings] = useState([]); // Initialize as an empty array

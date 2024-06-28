@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/productbox.css';
+import '../../css/product.css';
 
 const RingBox = ({ ringId, diamondId, name, price, stockQuantity, imageUrl }) => {
 

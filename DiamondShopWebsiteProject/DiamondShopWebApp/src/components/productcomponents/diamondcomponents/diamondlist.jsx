@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { fetchDiamonds } from '../../../javascript/apiService';
+import { fetchDiamonds } from '../../../../javascript/apiService';
 
-import CircularIndeterminate from '../loading';
+import CircularIndeterminate from '../../loading';
 import DiamondBox from './diamondbox';
 
-import '../css/productbox.css';
+import '../../css/product.css';
 
 const DiamondList = () => {
   const [diamonds, setDiamonds] = useState([]);

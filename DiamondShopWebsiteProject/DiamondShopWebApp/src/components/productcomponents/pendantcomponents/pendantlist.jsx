@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchPendants } from '../../../javascript/apiService';
+import { fetchPendants } from '../../../../javascript/apiService';
 
-import CircularIndeterminate from '../loading';
+import CircularIndeterminate from '../../loading';
 import PendantBox from './pendantbox';
 
-import '../css/productbox.css';
+import '../../css/product.css';
 
 const PendantList = () => {
   const [pendants, setPendants] = useState([]); // Initialize as an empty array

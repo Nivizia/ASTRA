@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchRingById } from '../../../javascript/apiService';
+import { fetchRingById } from '../../../../javascript/apiService';
 
-import CircularIndeterminate from '../loading';
+import CircularIndeterminate from '../../loading';
 import Button from '@mui/material/Button';
 
-import '../css/productbox.css';
-import styles from "../css/temporarydrawer.module.css";
+import '../../css/product.css';
+import styles from "../../css/temporarydrawer.module.css";
 
 const RingDetails = () => {
   const { diamondId, ringId } = useParams();

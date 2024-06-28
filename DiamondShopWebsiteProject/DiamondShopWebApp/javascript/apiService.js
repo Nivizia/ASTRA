@@ -1,4 +1,5 @@
-// apiService.js
+import axios from 'axios';
+
 const BASE_URL = "http://localhost:5212/DiamondAPI/Models";
 
 // Function to get the stored JWT token
@@ -9,62 +10,41 @@ const getToken = () => {
 // Function to handle user login
 export const loginUser = async (username, password) => {
     try {
-        const response = await fetch(`${BASE_URL}/Customer/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password }),
+        const response = await axios.post(`${BASE_URL}/Customer/login`, {
+            username,
+            password
         });
 
-        if (!response.ok) {
-            if (response.status === 401) {
-                return { success: false, message: 'Invalid username or password' };
-            } else {
-                return { success: false, message: 'Server error. Please try again later.' };
-            }
-        }
-
-        const token = await response.json(); // Assuming the token is returned as plain text
+        const token = response.data; // Assuming the token is returned as plain text
         console.log('Login token:', token);
 
         // Store the token in localStorage
         localStorage.setItem('authToken', token);
 
-        // Return success along with the token
         return { success: true, token };
     } catch (error) {
         console.error('Login error:', error);
-        return { success: false, message: 'Network error. Please try again later.' };
+        if (error.response && error.response.status === 401) {
+            return { success: false, message: 'Invalid username or password' };
+        } else {
+            return { success: false, message: 'Server error. Please try again later.' };
+        }
     }
 };
 
 // Function to handle user sign up
 export const signUpUser = async (user) => {
     try {
-        const response = await fetch(`${BASE_URL}/Customer/register`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(user),
-        });
-
-        if (!response.ok) {
-            if (response.status === 409) {
-                // Handle specific case where username already exists
-                const errorData = await response.json();
-                return { success: false, message: errorData.message || 'Username already exists' };
-            }
-            // Handle other errors
-            const message = await response.json();
-            throw new Error(`Sign up failed: ${message}`);
-        }
-
+        await axios.post(`${BASE_URL}/Customer/register`, user);
         return { success: true };
     } catch (error) {
         console.error('Sign up error:', error);
-        return { success: false, message: 'Network error. Please try again later.' };
+        if (error.response && error.response.status === 409) {
+            // Handle specific case where username already exists
+            return { success: false, message: error.response.data.message || 'Username already exists' };
+        } else {
+            return { success: false, message: 'Network error. Please try again later.' };
+        }
     }
 };
 
@@ -72,14 +52,11 @@ export const signUpUser = async (user) => {
 // Function to fetch all diamonds
 export const fetchDiamonds = async () => {
     try {
-        const response = await fetch(`${BASE_URL}/Diamond`);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        return data;
+        const response = await axios.get(`${BASE_URL}/Diamond`);
+        return response.data;
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
+        throw error;
     }
 };
 
@@ -90,86 +67,59 @@ export const fetchDiamondById = async (id) => {
     }
 
     try {
-        const response = await fetch(`${BASE_URL}/Diamond/${id}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error(`Error fetching diamond with ID ${id}: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        return data;
+        const response = await axios.get(`${BASE_URL}/Diamond/${id}`);
+        return response.data;
     } catch (error) {
         console.error('Error in fetchDiamondById:', error);
         throw error;
     }
 };
 
-
 // Function to create a new diamond
 export const createDiamond = async (diamond) => {
     try {
-        const token = getToken(); // Retrieve the token from localStorage
-        const response = await fetch(`${BASE_URL}`, {
-            method: 'POST',
+        const token = getToken();
+        const response = await axios.post(`${BASE_URL}/Diamond`, diamond, {
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}` // Include the token in the request headers
-            },
-            body: JSON.stringify(diamond)
+                'Authorization': `Bearer ${token}`
+            }
         });
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        return data;
+        return response.data;
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
+        throw error;
     }
 };
 
 // Function to update an existing diamond
 export const updateDiamond = async (id, diamond) => {
     try {
-        const token = getToken(); // Retrieve the token from localStorage
-        const response = await fetch(`${BASE_URL}/${id}`, {
-            method: 'PUT',
+        const token = getToken();
+        const response = await axios.put(`${BASE_URL}/Diamond/${id}`, diamond, {
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}` // Include the token in the request headers
-            },
-            body: JSON.stringify(diamond)
+                'Authorization': `Bearer ${token}`
+            }
         });
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        return data;
+        return response.data;
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
+        throw error;
     }
 };
 
 // Function to delete a diamond
 export const deleteDiamond = async (id) => {
     try {
-        const token = getToken(); // Retrieve the token from localStorage
-        const response = await fetch(`${BASE_URL}/${id}`, {
-            method: 'DELETE',
+        const token = getToken();
+        await axios.delete(`${BASE_URL}/Diamond/${id}`, {
             headers: {
-                'Authorization': `Bearer ${token}` // Include the token in the request headers
+                'Authorization': `Bearer ${token}`
             }
         });
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
         return 'Deleted successfully';
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
+        throw error;
     }
 };
 
@@ -177,14 +127,11 @@ export const deleteDiamond = async (id) => {
 // Function to fetch all rings
 export const fetchRings = async () => {
     try {
-        const response = await fetch(`${BASE_URL}/Ring`);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        return data;
+        const response = await axios.get(`${BASE_URL}/Ring`);
+        return response.data;
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
+        throw error;
     }
 };
 
@@ -195,19 +142,8 @@ export const fetchRingById = async (id) => {
     }
 
     try {
-        const response = await fetch(`${BASE_URL}/Ring/${id}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error(`Error fetching ring with ID ${id}: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        return data;
+        const response = await axios.get(`${BASE_URL}/Ring/${id}`);
+        return response.data;
     } catch (error) {
         console.error('Error in fetchRingById:', error);
         throw error;
@@ -218,14 +154,11 @@ export const fetchRingById = async (id) => {
 // Function to fetch all pendants
 export const fetchPendants = async () => {
     try {
-        const response = await fetch(`${BASE_URL}/Pendant`);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        return data;
+        const response = await axios.get(`${BASE_URL}/Pendant`);
+        return response.data;
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
+        throw error;
     }
 };
 
@@ -236,19 +169,8 @@ export const fetchPendantById = async (id) => {
     }
 
     try {
-        const response = await fetch(`${BASE_URL}/Pendant/${id}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error(`Error fetching pendant with ID ${id}: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        return data;
+        const response = await axios.get(`${BASE_URL}/Pendant/${id}`);
+        return response.data;
     } catch (error) {
         console.error('Error in fetchPendantById:', error);
         throw error;

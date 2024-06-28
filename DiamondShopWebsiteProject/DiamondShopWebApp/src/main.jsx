@@ -13,14 +13,14 @@ import Index from './components/index'
 import LoginPage from './components/loginPage';
 import SignUp from './components/signUp/signUp';
 
-import DiamondList from './components/diamondStuff/diamondlist';
-import DiamondDetails from './components/diamondStuff/diamonddetails';
+import DiamondList from './components/productcomponents/diamondcomponents/diamondlist';
+import DiamondDetails from './components/productcomponents/diamondcomponents/diamonddetails';
 
-import RingList from './components/ringcomponents/ringlist';
-import RingDetails from './components/ringcomponents/ringdetails';
+import RingList from './components/productcomponents/ringcomponents/ringlist';
+import RingDetails from './components/productcomponents/ringcomponents/ringdetails';
 
-import PendantList from './components/pendantcomponents/pendantlist';
-import PendantDetails from './components/pendantcomponents/pendantdetails';
+import PendantList from './components/productcomponents/pendantcomponents/pendantlist';
+import PendantDetails from './components/productcomponents/pendantcomponents/pendantdetails';
 
 import ShoppingCart from './components/cart/shoppingcart';
 
