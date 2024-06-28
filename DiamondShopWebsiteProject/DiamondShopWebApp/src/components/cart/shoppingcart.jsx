@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchDiamondById, fetchRingById, fetchPendantById } from '../../../javascript/apiService';
 import { getCartItems, addToCart, removeFromCart, clearCart } from '../../../javascript/cartService';
+
+import OrderButton from '../orderButton/orderButton';
+
 import '../css/shoppingcart.css';
 
 const ShoppingCart = () => {
@@ -185,6 +188,7 @@ const ShoppingCart = () => {
                 })}
             </ul>
             <button onClick={handleClearCart} className="clear-cart-button">Clear Cart</button>
+            <OrderButton />
         </div>
     );
 };

@@ -1,0 +1,14 @@
+/* Add this to your CSS file, e.g., styles.css or directly in the JSX using a <style> tag */
+.orderButton {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.orderButton:hover {
+    background-color: #0056b3;
+}
