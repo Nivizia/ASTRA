@@ -22,7 +22,10 @@ namespace DiamondAPI.Mappers
             {
                 OrderItemId = orderitem.OrderItemId,
                 OrderId = orderitem.OrderId,
-                ProductId = orderitem.ProductId,
+                DiamondId = orderitem.DiamondId,
+                RingPairingId = orderitem.RingPairingId,
+                EarringPairingId = orderitem.EarringPairingId,
+                PendantPairingId = orderitem.PendantPairingId,
                 Price = orderitem.Price,
                 ProductType = orderitem.ProductType,
             };

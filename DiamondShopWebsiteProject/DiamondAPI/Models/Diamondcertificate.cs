@@ -16,6 +16,4 @@ public partial class Diamondcertificate
     public DateTime? IssueDate { get; set; }
 
     public virtual Diamond? Product { get; set; }
-
-    public virtual Refundproduct? ProductNavigation { get; set; }
 }

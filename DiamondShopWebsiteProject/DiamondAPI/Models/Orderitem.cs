@@ -9,23 +9,27 @@ public partial class Orderitem
 
     public Guid? OrderId { get; set; }
 
-    public Guid? ProductId { get; set; }
+    public Guid? DiamondId { get; set; }
+
+    public Guid? RingPairingId { get; set; }
+
+    public Guid? EarringPairingId { get; set; }
+
+    public Guid? PendantPairingId { get; set; }
 
     public decimal? Price { get; set; }
 
     public string? ProductType { get; set; }
 
+    public virtual Diamond? Diamond { get; set; }
+
+    public virtual Earringpairing? EarringPairing { get; set; }
+
     public virtual Order? Order { get; set; }
 
-    public virtual Diamond? Product { get; set; }
+    public virtual Pendantpairing? PendantPairing { get; set; }
 
-    public virtual Pendantpairing? Product1 { get; set; }
-
-    public virtual Ringpairing? Product2 { get; set; }
-
-    public virtual Refundproduct? Product3 { get; set; }
-
-    public virtual Earringpairing? ProductNavigation { get; set; }
+    public virtual Ringpairing? RingPairing { get; set; }
 
     public virtual Warranty? Warranty { get; set; }
 }

@@ -43,7 +43,10 @@ namespace DiamondAPI.Repositories
             if (existingOrderItem != null)
             {
                 existingOrderItem.OrderId = orderitemDTO.OrderId;
-                existingOrderItem.ProductId = orderitemDTO.ProductId;
+                existingOrderItem.DiamondId = orderitemDTO.DiamondId;
+                existingOrderItem.RingPairingId = orderitemDTO.RingPairingId;
+                existingOrderItem.EarringPairingId = orderitemDTO.EarringPairingId;
+                existingOrderItem.PendantPairingId = orderitemDTO.PendantPairingId;
                 existingOrderItem.Price = orderitemDTO.Price;
                 existingOrderItem.ProductType = orderitemDTO.ProductType;
 

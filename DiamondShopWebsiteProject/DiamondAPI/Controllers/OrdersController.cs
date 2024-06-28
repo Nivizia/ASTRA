@@ -57,7 +57,7 @@ namespace DiamondAPI.Controllers
 
                     var modelOrderItem = orderItem.ToOrderItemFromCreateDTO();
                     modelOrderItem.OrderId = Order.OrderId;
-                    modelOrderItem.ProductId = ringPairing.RProductId;
+                    modelOrderItem.RingPairingId = ringPairing.RProductId;
 
                     await _orderItemRepo.CreateAsync(modelOrderItem);
                     await _ringPairingRepo.CreateAsync(ringPairing);
@@ -79,7 +79,7 @@ namespace DiamondAPI.Controllers
 
                     var modelOrderItem = orderItem.ToOrderItemFromCreateDTO();
                     modelOrderItem.OrderId = Order.OrderId;
-                    modelOrderItem.ProductId = pendantPairing.PProductId;
+                    modelOrderItem.PendantPairingId = pendantPairing.PProductId;
 
                     await _orderItemRepo.CreateAsync(modelOrderItem);
                     await _pendantPairingRepo.AddPendantPairingAsync(pendantPairing);
@@ -92,7 +92,7 @@ namespace DiamondAPI.Controllers
 
                     var modelOrderItem = orderItem.ToOrderItemFromCreateDTO();
                     modelOrderItem.OrderId = Order.OrderId;
-                    modelOrderItem.ProductId = orderItem.ProductId;
+                    modelOrderItem.DiamondId = orderItem.ProductId;
 
                     await _orderItemRepo.CreateAsync(modelOrderItem);
                 }
