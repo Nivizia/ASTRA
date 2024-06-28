@@ -1,5 +1,6 @@
 ﻿using DiamondAPI.DTOs.Orderitem;
 using DiamondAPI.Interfaces;
+using DiamondAPI.Mappers;
 using DiamondAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,9 @@ namespace DiamondAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Orderitem>>> GetOrderItems()
         {
-            return await _orderItemRepository.GetAllAsync();
+            var orders = await _orderItemRepository.GetAllAsync();
+            var ordersDTO = orders.Select(o => o.ToOrderitemDTO());
+            return Ok(ordersDTO);
         }
 
         [HttpGet("{id}")]

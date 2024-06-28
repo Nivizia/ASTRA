@@ -5,7 +5,7 @@ namespace DiamondAPI.Mappers
 {
     public static class EarringPairingMappers
     {
-        public static EarringPairingDTO toEarringPairingDTO(this Earringpairing earringpairing)
+        public static EarringPairingDTO ToEarringPairingDTO(this Earringpairing earringpairing)
         {
             return new EarringPairingDTO
             {
@@ -15,7 +15,7 @@ namespace DiamondAPI.Mappers
             };
         }
 
-        public static Earringpairing toEarringPairingFromCreateDTO(this CreateEarringPairingRequestDTO request)
+        public static Earringpairing ToEarringPairingFromCreateDTO(this CreateEarringPairingRequestDTO request)
         {
             return new Earringpairing
             {

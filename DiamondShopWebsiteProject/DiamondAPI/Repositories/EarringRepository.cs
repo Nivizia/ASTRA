@@ -38,8 +38,12 @@ namespace DiamondAPI.Repositories
             return await _context.Earrings.ToListAsync();
         }
 
-        public async Task<Earring?> GetByIDAsync(Guid EarringID)
+        public async Task<Earring?> GetByIDAsync(Guid? EarringID)
         {
+            if (EarringID == null)
+            {
+                return null;
+            }
             return await _context.Earrings.FindAsync(EarringID);
         }
 

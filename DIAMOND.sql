@@ -4,6 +4,7 @@ GO
 DELETE FROM PENDANT;
 DELETE FROM RING;
 DELETE FROM DIAMOND;
+DELETE FROM EARRING;
 
 INSERT INTO DIAMOND (Price, D_Type, CaratWeight, Color, Clarity, Cut)
 VALUES
@@ -77,4 +78,29 @@ VALUES
     ('Onyx Stone Pendant', 150, 20, 'Rope Chain', '18 inches', 'Magnetic Clasp'),
     ('Moonstone Pendant', 226, 10, 'Snake Chain', '20 inches', 'Lobster Claw Clasp'),
     ('Topaz Pendant with Silver', 205, 18, 'Box Chain', '22 inches', 'Toggle Clasp');
+GO
+
+
+INSERT INTO EARRING (Name, Price, StockQuantity, ImageURL, MetalType)
+VALUES
+('Elegant Stud Earrings', 500, 50, NULL, '18K White Gold'),
+('Classic Hoop Earrings', 750, 40, NULL, '14K Yellow Gold'),
+('Diamond Drop Earrings', 1200, 30, NULL, 'Platinum'),
+('Ruby Stud Earrings', 800, 25, NULL, '18K Rose Gold'),
+('Sapphire Dangle Earrings', 950, 20, NULL, '14K White Gold'),
+('Emerald Hoop Earrings', 600, 35, NULL, '18K Yellow Gold'),
+('Pearl Stud Earrings', 300, 60, NULL, '14K Rose Gold'),
+('Amethyst Drop Earrings', 400, 45, NULL, 'Platinum'),
+('Garnet Dangle Earrings', 700, 50, NULL, '18K White Gold'),
+('Topaz Hoop Earrings', 650, 55, NULL, '14K Yellow Gold'),
+('Aquamarine Stud Earrings', 350, 65, NULL, '18K Rose Gold'),
+('Opal Drop Earrings', 450, 70, NULL, 'Platinum'),
+('Peridot Dangle Earrings', 550, 80, NULL, '14K White Gold'),
+('Citrine Hoop Earrings', 500, 75, NULL, '18K Yellow Gold'),
+('Onyx Stud Earrings', 300, 90, NULL, '14K Rose Gold'),
+('Turquoise Drop Earrings', 400, 85, NULL, 'Platinum'),
+('Moonstone Dangle Earrings', 700, 60, NULL, '18K White Gold'),
+('Lapis Lazuli Hoop Earrings', 600, 50, NULL, '14K Yellow Gold'),
+('Coral Stud Earrings', 300, 40, NULL, '18K Rose Gold'),
+('Amber Drop Earrings', 400, 55, NULL, 'Platinum');
 GO

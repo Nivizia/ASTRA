@@ -1,4 +1,5 @@
-﻿using DiamondAPI.DTOs.EarringPairing;
+﻿using DiamondAPI.Data;
+using DiamondAPI.DTOs.EarringPairing;
 using DiamondAPI.Interfaces;
 using DiamondAPI.Models;
 
@@ -6,9 +7,18 @@ namespace DiamondAPI.Repositories
 {
     public class EarringPairingRepository : IEarringPairingRepository
     {
-        public Task<Earringpairing> CreateAsync(CreateEarringPairingRequestDTO request)
+        private readonly DiamondprojectContext _context;
+
+        public EarringPairingRepository(DiamondprojectContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+
+        public async Task<Earringpairing> CreateAsync(Earringpairing earringpairing)
+        {
+            await _context.Earringpairings.AddAsync(earringpairing);
+            await _context.SaveChangesAsync();
+            return earringpairing;
         }
 
         public Task<Earringpairing> DeleteAsync(Guid EProductID)

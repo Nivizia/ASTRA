@@ -7,7 +7,7 @@ namespace DiamondAPI.Interfaces
     {
         Task<List<Earringpairing>> GetAllAsync();
         Task<Earringpairing?> GetByIDAsync(Guid EProductID);
-        Task<Earringpairing> CreateAsync(CreateEarringPairingRequestDTO request);
+        Task<Earringpairing> CreateAsync(Earringpairing earringpairing);
         Task<Earringpairing> UpdateAsync(UpdateEarringPairingRequestDTO update);
         Task<Earringpairing> DeleteAsync(Guid EProductID);
     }
