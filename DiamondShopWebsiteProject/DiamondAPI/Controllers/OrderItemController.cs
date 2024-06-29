@@ -18,7 +18,7 @@ namespace DiamondAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Orderitem>>> GetOrderItems()
+        public async Task<ActionResult> GetOrderItems()
         {
             var orders = await _orderItemRepository.GetAllAsync();
             var ordersDTO = orders.Select(o => o.ToOrderitemDTO());
@@ -26,16 +26,14 @@ namespace DiamondAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Orderitem>> GetOrderItem(Guid id)
+        public async Task<ActionResult> GetOrderItem(Guid id)
         {
             var orderItem = await _orderItemRepository.GetByIDAsync(id);
 
             if (orderItem == null)
-            {
                 return NotFound();
-            }
 
-            return orderItem;
+            return Ok(orderItem.ToOrderitemDTO());
         }
 
         [HttpPut("{id}")]
@@ -52,7 +50,7 @@ namespace DiamondAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Orderitem>> PostOrderItem(Orderitem orderitem)
+        public async Task<ActionResult> PostOrderItem(Orderitem orderitem)
         {
             await _orderItemRepository.CreateAsync(orderitem);
 

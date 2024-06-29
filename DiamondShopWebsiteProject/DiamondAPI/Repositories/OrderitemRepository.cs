@@ -21,21 +21,28 @@ namespace DiamondAPI.Repositories
             return orderitemModel;
         }
 
-        public Task<Orderitem?> DeleteAsync(Guid OrderitemId)
+        public async Task<Orderitem?> DeleteAsync(Guid OrderitemId)
         {
-            throw new NotImplementedException();
+            var orderitemModel = await _context.Orderitems.FirstOrDefaultAsync(o => o.OrderItemId == OrderitemId);
+            if (orderitemModel == null)
+            {
+                return null;
+            }
+            _context.Orderitems.Remove(orderitemModel);
+            await _context.SaveChangesAsync();
+            return orderitemModel;
         }
 
-        public Task<List<Orderitem>> GetAllAsync()
+        public async Task<List<Orderitem>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Orderitems.ToListAsync();
         }
 
-        public Task<Orderitem?> GetByIDAsync(Guid OrderitemId)
+        public async Task<Orderitem?> GetByIDAsync(Guid OrderitemId)
         {
-            throw new NotImplementedException();
+            return await _context.Orderitems.FindAsync(OrderitemId);
         }
-
+            
         public async Task<Orderitem?> UpdateAsync(Guid OrderitemId, UpdateOrderitemRequestDTO orderitemDTO)
         {
             var existingOrderItem = await _context.Orderitems.FirstOrDefaultAsync(o => o.OrderItemId == OrderitemId);

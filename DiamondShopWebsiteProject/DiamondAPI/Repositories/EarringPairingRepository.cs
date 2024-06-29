@@ -2,6 +2,7 @@
 using DiamondAPI.DTOs.EarringPairing;
 using DiamondAPI.Interfaces;
 using DiamondAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DiamondAPI.Repositories
 {
@@ -21,22 +22,28 @@ namespace DiamondAPI.Repositories
             return earringpairing;
         }
 
-        public Task<Earringpairing> DeleteAsync(Guid EProductID)
+        public async Task<Earringpairing?> DeleteAsync(Guid EProductID)
         {
-            throw new NotImplementedException();
+            var earringpairing = await _context.Earringpairings.FindAsync(EProductID);
+            if (earringpairing == null)
+                return null;
+
+            _context.Earringpairings.Remove(earringpairing);
+            await _context.SaveChangesAsync();
+            return earringpairing;
         }
 
-        public Task<List<Earringpairing>> GetAllAsync()
+        public async Task<List<Earringpairing>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Earringpairings.ToListAsync();
         }
 
-        public Task<Earringpairing?> GetByIDAsync(Guid EProductID)
+        public async Task<Earringpairing?> GetByIDAsync(Guid EProductID)
         {
-            throw new NotImplementedException();
+            return await _context.Earringpairings.FindAsync(EProductID);
         }
 
-        public Task<Earringpairing> UpdateAsync(UpdateEarringPairingRequestDTO update)
+        public Task<Earringpairing?> UpdateAsync(UpdateEarringPairingRequestDTO update)
         {
             throw new NotImplementedException();
         }

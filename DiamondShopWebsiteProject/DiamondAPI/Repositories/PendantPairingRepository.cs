@@ -1,6 +1,7 @@
 ﻿using DiamondAPI.Data;
 using DiamondAPI.Interfaces;
 using DiamondAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DiamondAPI.Repositories
 {
@@ -20,22 +21,28 @@ namespace DiamondAPI.Repositories
             return pendantPairing;
         }
 
-        public Task<Pendantpairing> DeletePendantPairingAsync(int id)
+        public async Task<Pendantpairing?> DeletePendantPairingAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var pendantPairing = await _context.Pendantpairings.FindAsync(id);
+            if (pendantPairing == null)
+                return null;
+
+            _context.Pendantpairings.Remove(pendantPairing);
+            await _context.SaveChangesAsync();
+            return pendantPairing;
         }
 
-        public Task<Pendantpairing> GetPendantPairingAsync(int id)
+        public async Task<Pendantpairing?> GetPendantPairingAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Pendantpairings.FindAsync(id);
         }
 
-        public Task<List<Pendantpairing>> GetPendantPairingsAsync()
+        public async Task<List<Pendantpairing>> GetPendantPairingsAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Pendantpairings.ToListAsync();
         }
 
-        public Task<Pendantpairing> UpdatePendantPairingAsync(Pendantpairing pendantPairing)
+        public Task<Pendantpairing?> UpdatePendantPairingAsync(Pendantpairing pendantPairing)
         {
             throw new NotImplementedException();
         }
