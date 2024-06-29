@@ -53,8 +53,6 @@ export const addToCart = (item) => {
     localStorage.setItem('cart', JSON.stringify(cart));
 };
 
-
-
 // Getting the cart items
 export const getCartItems = () => {
     // Get the cart items from local storage

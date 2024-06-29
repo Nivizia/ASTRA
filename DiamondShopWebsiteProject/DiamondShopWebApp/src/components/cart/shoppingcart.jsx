@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchDiamondById, fetchRingById, fetchPendantById } from '../../../javascript/apiService';
 import { getCartItems, addToCart, removeFromCart, clearCart } from '../../../javascript/cartService';
@@ -7,11 +7,9 @@ import OrderButton from '../orderButton/orderButton'; import SnackbarCart from '
 
 import '../css/shoppingcart.css';
 
-import usePrevious from './usePrevious'; // Import the custom hook
-
 const ShoppingCart = () => {
-    const location = useLocation(); 
-    const navigate = useNavigate(); 
+    const location = useLocation();
+    const navigate = useNavigate();
     const params = new URLSearchParams(location.search);
     // Diamond ID for loose diamond
     const diamondId = params.get('diamondId');
@@ -40,6 +38,7 @@ const ShoppingCart = () => {
         try {
             const diamond = await fetchDiamondById(diamondId);
             let product;
+
             switch (productType) {
                 case 'ring':
                     product = await fetchRingById(productId);
@@ -47,6 +46,13 @@ const ShoppingCart = () => {
                 case 'pendant':
                     product = await fetchPendantById(productId);
                     break;
+                // Add more cases for future types
+                // case 'earring':
+                //     product = await fetchEarringById(productId);
+                //     break;
+                // case 'bracelet':
+                //     product = await fetchBraceletById(productId);
+                //     break;
                 default:
                     throw new Error(`Unsupported product type: ${productType}`);
             }
@@ -63,97 +69,105 @@ const ShoppingCart = () => {
         }
     }
 
-    const prevDiamondId = usePrevious(diamondId);
-    const prevNavigate = usePrevious(navigate);
+
+    const effectRan = useRef(false); // Ref to track if effect has run
 
     // useEffect for adding a diamond to the cart
     useEffect(() => {
-        async function addDiamondToCart() {
-            try {
-                if (diamondId) {
-                    console.log('diamondId changed:', prevDiamondId, '->', diamondId);
+        if (effectRan.current) {
+            async function addDiamondToCart() {
+                try {
+                    if (diamondId) {
+                        const diamond = await fetchDiamondById(diamondId);
+                        const currentCart = getCartItems();
 
-                    const diamond = await fetchDiamondById(diamondId);
-                    const currentCart = getCartItems();
+                        const diamondAlreadyInCart = currentCart.some(
+                            item => item.details?.dProductId === diamond.dProductId && item.type === 'diamond'
+                        );
 
-                    const diamondAlreadyInCart = currentCart.some(
-                        item => item.details?.dProductId === diamond.dProductId && item.type === 'diamond'
-                    );
+                        const diamondInPairing = currentCart.some(item =>
+                            item.type === 'pairing' && item.diamond.dProductId === diamond.dProductId
+                        );
 
-                    const diamondInPairing = currentCart.some(item =>
-                        item.type === 'pairing' && item.diamond.dProductId === diamond.dProductId
-                    );
+                        if (!diamondAlreadyInCart && !diamondInPairing) {
+                            addToCart({
+                                type: 'diamond',
+                                details: diamond
+                            });
+                            showSnackbar('Diamond added successfully', 'success', Date.now());
+                        } else if (diamondAlreadyInCart) {
+                            showSnackbar('Diamond already in cart', 'info', Date.now());
+                        } else if (diamondInPairing) {
+                            showSnackbar('Diamond already in pairing', 'info', Date.now());
+                        }
 
-                    if (!diamondAlreadyInCart && !diamondInPairing) {
-                        addToCart({
-                            type: 'diamond',
-                            details: diamond
-                        });
+                        setCart(getCartItems());
+                        navigate('/cart', { replace: true });
 
-                        showSnackbar('Diamond added successfully', 'success', Date.now());
+                        console.log(diamondAlreadyInCart, diamondInPairing);
                     }
-
-                    setCart(getCartItems());
-                    navigate('/cart', { replace: true });
+                } catch (error) {
+                    console.error("Error adding diamond to cart:", error);
+                    setError(error.message);
                 }
-            } catch (error) {
-                console.error("Error adding diamond to cart:", error);
-                setError(error.message);
             }
-        }
-
-        // Check which dependency changed
-        if (prevDiamondId !== diamondId) {
-            console.log('diamondId changed:', prevDiamondId, '->', diamondId);
-        }
-        if (prevNavigate !== navigate) {
-            console.log('navigate function changed');
-        }
-
-        if (diamondId) {
             addDiamondToCart();
         }
+        effectRan.current = true; // Set to true after first run
+
     }, [diamondId, navigate]);
+
+    const pairingEffectRan = useRef(false); // Ref to track if the pairing effect has run
 
     // useEffect for adding a pairing to the cart (with ring or pendant)
     useEffect(() => {
-        async function addPairingToCart() {
-            try {
-                if (diamondIdPairProduct && (ringId || pendantId)) {
-                    const productType = ringId ? 'ring' : 'pendant';
-                    const productId = ringId || pendantId;
-                    const pairing = await fetchPairingDetails(diamondIdPairProduct, productId, productType);
-
-                    let currentCart = getCartItems();
-
-                    // Remove any standalone diamond that matches the diamond in the pairing
-                    currentCart = currentCart.filter(item => {
-                        if (item.type === 'diamond') {
-                            return item.details.dProductId !== pairing.diamond.dProductId;
+        if (pairingEffectRan.current) {
+            async function addPairingToCart() {
+                try {
+                    if (diamondIdPairProduct && (ringId || pendantId)) {
+                        // Determine the product type
+                        let productType, productId;
+                        if (ringId) {
+                            productType = 'ring';
+                            productId = ringId;
+                        } else if (pendantId) {
+                            productType = 'pendant';
+                            productId = pendantId;
                         }
-                        return true;
-                    });
+                        // Add more cases here for future types like 'earring', 'bracelet', etc.
 
-                    const pairingAlreadyInCart = currentCart.some(
-                        item => item.pId === pairing.pId && item.type === 'pairing'
-                    );
+                        const pairing = await fetchPairingDetails(diamondIdPairProduct, productId, productType);
+                        let currentCart = getCartItems();
 
-                    if (!pairingAlreadyInCart) {
+                        const pairingDiamondHasDiamondInCart = currentCart.some(
+                            item => item.type === 'diamond' && item.details?.dProductId === pairing.diamond.dProductId
+                        );
+
+                        const pairingDiamondHasPairingInCart = currentCart.some(
+                            item => item.type === 'pairing' && item.diamond.dProductId === pairing.diamond.dProductId
+                        );
                         addToCart(pairing);
                         setCart(getCartItems());
+                        
+                        if (!pairingDiamondHasDiamondInCart && !pairingDiamondHasPairingInCart) {
+                            showSnackbar('Added jewelry successfully', 'success', Date.now());
+                        } else if (pairingDiamondHasDiamondInCart) {
+                            showSnackbar('Replaced existing diamond with jewelry', 'info', Date.now());
+                        } else if (pairingDiamondHasPairingInCart) {
+                            showSnackbar('Replaced existing jewelry with new jewelry', 'info', Date.now());
+                        }
+                        
+                        navigate('/cart', { replace: true });
                     }
-
-                    navigate('/cart', { replace: true });
+                } catch (error) {
+                    console.error("Error adding pairing to cart:", error);
+                    setError(error.message);
                 }
-            } catch (error) {
-                console.error("Error adding pairing to cart:", error);
-                setError(error.message);
             }
-        }
 
-        if (diamondIdPairProduct && (ringId || pendantId)) {
             addPairingToCart();
         }
+        pairingEffectRan.current = true; // Set to true after first run
     }, [diamondIdPairProduct, ringId, pendantId, navigate]);
 
     useEffect(() => {
@@ -184,10 +198,7 @@ const ShoppingCart = () => {
     const showSnackbar = (message, severity, id) => {
         setSnackbarMessage(message);
         setSnackbarSeverity(severity);
-        setSnackbarOpen({
-            open: true,
-            id: id,
-        }); // Open a new snackbar.
+        setSnackbarOpen({ open: true, id: id }); // Open a new snackbar.
     };
 
     return (
