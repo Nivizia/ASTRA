@@ -92,7 +92,7 @@ CREATE TABLE DIAMOND (
   CaratWeight FLOAT,
   Color INT,
   Clarity INT,
-  Cut INT
+  Cut INT,
   Available BIT DEFAULT 1
 );
 

@@ -1,13 +1,11 @@
 // Local storage functions for cart management:
 
 // Adding an item to the cart
-// Adding an item to the cart
-// Adding an item to the cart
 export const addToCart = (item) => {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
     if (item.type === 'pairing') {
-        // Remove any standalone diamond that matches the diamond in the pairing
+        // Remove any loose diamond that matches the diamond in the pairing
         cart = cart.filter(cartItem => {
             if (cartItem.type === 'diamond') {
                 return cartItem.details.dProductId !== item.diamond.dProductId;
@@ -25,6 +23,8 @@ export const addToCart = (item) => {
 
         // Check if the pairing is already in the cart
         const pairingAlreadyInCart = cart.some(cartItem => cartItem.pId === item.pId);
+
+        // If the pairing is not already in the cart, add it
         if (!pairingAlreadyInCart) {
             cart.push(item);
         }
@@ -44,11 +44,11 @@ export const addToCart = (item) => {
             cartItem.diamond.dProductId === item.details.dProductId
         );
 
+        // If the diamond is not already in the cart or part of a pairing, add it
         if (!diamondAlreadyInCart && !diamondInPairing) {
             cart.push(item);
         }
     }
-
     // Save the updated cart back to local storage
     localStorage.setItem('cart', JSON.stringify(cart));
 };
@@ -83,9 +83,6 @@ export const removeFromCart = (itemId, itemType) => {
     // Save the updated cart back to local storage
     localStorage.setItem('cart', JSON.stringify(cart));
 };
-
-
-
 
 // Clearing the cart
 export const clearCart = () => {

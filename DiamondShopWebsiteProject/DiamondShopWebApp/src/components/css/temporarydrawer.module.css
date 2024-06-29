@@ -26,8 +26,9 @@
 /* Styling for the content inside the drawer */
 .drawerContent {
     background-color: #fff !important;
-    height: 20vh !important;
+    height: 10rem !important;
     box-sizing: border-box !important;
+    justify-content: center !important;
 }
 
 .toggleButtonGroup {
