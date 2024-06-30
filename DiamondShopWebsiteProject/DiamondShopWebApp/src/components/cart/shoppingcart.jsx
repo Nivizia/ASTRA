@@ -3,9 +3,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchDiamondById, fetchRingById, fetchPendantById } from '../../../javascript/apiService';
 import { getCartItems, addToCart, removeFromCart, clearCart } from '../../../javascript/cartService';
 
-import OrderButton from '../orderButton/orderButton'; import SnackbarCart from './SnackbarCart';
+import CheckoutBox from './checkoutbox';
+import SnackbarCart from './SnackbarCart';
 
-import '../css/shoppingcart.css';
+import styles from '../css/shoppingcart.module.css';
 
 const ShoppingCart = () => {
     const location = useLocation();
@@ -61,6 +62,7 @@ const ShoppingCart = () => {
                 type: 'pairing',
                 pId: `${diamondId}-${productId}`, // Unique ID for the pairing
                 diamond,
+                productType: productType,
                 [productType]: product,
                 price: diamond.price + product.price // Combined price
             };
@@ -94,11 +96,11 @@ const ShoppingCart = () => {
                                 type: 'diamond',
                                 details: diamond
                             });
-                            showSnackbar('Diamond added successfully', 'success', Date.now());
+                            showSnackbar('The diamond was added successfully', 'success', Date.now());
                         } else if (diamondAlreadyInCart) {
-                            showSnackbar('Diamond already in cart', 'info', Date.now());
+                            showSnackbar('The added diamond is already in cart', 'info', Date.now());
                         } else if (diamondInPairing) {
-                            showSnackbar('Diamond already in pairing', 'info', Date.now());
+                            showSnackbar('The added diamond is already in another jewelry', 'info', Date.now());
                         }
 
                         setCart(getCartItems());
@@ -139,24 +141,24 @@ const ShoppingCart = () => {
                         const pairing = await fetchPairingDetails(diamondIdPairProduct, productId, productType);
                         let currentCart = getCartItems();
 
-                        const pairingDiamondHasDiamondInCart = currentCart.some(
+                        const pairingHasDuplicatedDiamond = currentCart.some(
                             item => item.type === 'diamond' && item.details?.dProductId === pairing.diamond.dProductId
                         );
 
-                        const pairingDiamondHasPairingInCart = currentCart.some(
+                        const pairingHasPairingWithDuplicateDiamond = currentCart.some(
                             item => item.type === 'pairing' && item.diamond.dProductId === pairing.diamond.dProductId
                         );
                         addToCart(pairing);
                         setCart(getCartItems());
-                        
-                        if (!pairingDiamondHasDiamondInCart && !pairingDiamondHasPairingInCart) {
-                            showSnackbar('Added jewelry successfully', 'success', Date.now());
-                        } else if (pairingDiamondHasDiamondInCart) {
-                            showSnackbar('Replaced existing diamond with jewelry', 'info', Date.now());
-                        } else if (pairingDiamondHasPairingInCart) {
-                            showSnackbar('Replaced existing jewelry with new jewelry', 'info', Date.now());
+
+                        if (!pairingHasDuplicatedDiamond && !pairingHasPairingWithDuplicateDiamond) {
+                            showSnackbar(`Added ${pairing.productType === "ring" ? "ring" : pairing.productType === "pendant" ? "pendant" : "earring"} successfully`, 'success', Date.now());
+                        } else if (pairingHasDuplicatedDiamond) {
+                            showSnackbar(`Replaced existing diamond with ${pairing.productType === "ring" ? "ring" : pairing.productType === "pendant" ? "pendant" : "earring"}`, 'info', Date.now());
+                        } else if (pairingHasPairingWithDuplicateDiamond) {
+                            showSnackbar(`Replaced existing jewelry with new ${pairing.productType === "ring" ? "ring" : pairing.productType === "pendant" ? "pendant" : "earring"}`, 'info', Date.now());
                         }
-                        
+
                         navigate('/cart', { replace: true });
                     }
                 } catch (error) {
@@ -175,19 +177,22 @@ const ShoppingCart = () => {
         setCart(getCartItems());
     }, []);
 
-    const handleRemoveFromCart = (itemId, itemType) => {
+    // Function to remove an item from the cart
+    const handleRemoveFromCart = (item, itemId, itemType) => {
         removeFromCart(itemId, itemType);
-        showSnackbar('Product removed', 'info', Date.now());
+        showSnackbar(`${itemType === "Diamond" ? "Diamond" : item.productType === "ring" ? "Ring" : item.productType === "pendant" ? "Pendant" : "Earring"} removed from cart`, 'info', Date.now());
         setCart(getCartItems());
 
     };
 
+    // Function to clear the cart
     const handleClearCart = () => {
         clearCart();
         setCart([]);
         showSnackbar('Cart cleared', 'info', Date.now());
     };
 
+    // Function to close the snackbar
     const handleSnackbarClose = () => {
         setSnackbarOpen({
             ...snackbarOpen,
@@ -195,63 +200,72 @@ const ShoppingCart = () => {
         });
     };
 
+    // Function to show a snackbar message
     const showSnackbar = (message, severity, id) => {
         setSnackbarMessage(message);
         setSnackbarSeverity(severity);
-        setSnackbarOpen({ open: true, id: id }); // Open a new snackbar.
+        setSnackbarOpen({ open: true, id: id });
+    };
+
+    // Function to calculate the total price of the cart
+    const calculateTotalPrice = () => {
+        return cart.reduce((total, item) => {
+            return item.type === 'pairing' ? total += item.price : total += item.details.price;
+        }, 0); // Initialize total with 0
     };
 
     return (
         <>
             {error ? (
-                <p className="error-message">Error: {error}</p>
+                <p className={styles.errorMessage}>Error: {error}</p>
             ) : cart.length === 0 ? (
-                <p className="empty-cart-message">Your cart is empty.</p>
+                <p className={styles.emptyCartMessage}>Your cart is empty.</p>
             ) : (
-                <div className="shopping-cart-container">
-                    <h1>Shopping Cart</h1>
-                    <ul className="shopping-cart-list">
-                        {cart.map((item, index) => {
-                            const uniqueKey = item.details?.dProductId || item.pId || index;
-                            return (
-                                <li key={`${uniqueKey}-${index}`} className="shopping-cart-item">
-                                    {item.type === 'diamond' && (
-                                        <div className="cart-item-details">
-                                            <img src='/src/images/diamond.png' alt="Diamond" className="cart-item-image" />
-                                            <div className="cart-item-info">
-                                                <p>{item.details.caratWeight} Carat {item.details.color}-{item.details.clarity} {item.details.cut} Cut {item.details.dType} Diamond - ${item.details.price}</p>
-                                                <p>Carat: {item.details.caratWeight} - Color: {item.details.color}</p>
-                                                <p>Clarity: {item.details.clarity} - Cut: {item.details.cut}</p>
-                                                <p>Diamond Type: {item.details.dType}</p>
+                <div className={styles.shoppingCartAndCheckoutBoxContainer}>
+                    <div className={styles.shoppingCartContainer}>
+                        <h1>Shopping Cart</h1>
+                        <ul className={styles.shoppingCartList}>
+                            {cart.map((item, index) => {
+                                const uniqueKey = item.details?.dProductId || item.pId || index;
+                                return (
+                                    <li key={`${uniqueKey}-${index}`} className={styles.shoppingCartItem}>
+                                        {item.type === 'diamond' && (
+                                            <div className={styles.cartItemDetails}>
+                                                <img src='/src/images/diamond.png' alt="Diamond" className={styles.cartItemImage} />
+                                                <div className={styles.cartItemInfo}>
+                                                    <p>{item.details.caratWeight} Carat {item.details.color}-{item.details.clarity} {item.details.cut} Cut {item.details.dType} Diamond - ${item.details.price}</p>
+                                                    <p>Carat: {item.details.caratWeight} - Color: {item.details.color}</p>
+                                                    <p>Clarity: {item.details.clarity} - Cut: {item.details.cut}</p>
+                                                    <p>Diamond Type: {item.details.dType}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
-                                    {item.type === 'pairing' && (
-                                        <div className="cart-item-details">
-                                            <img src={item.ring ? '/src/images/ring.png' : '/src/images/pendant.png'} alt={item.ring ? "Ring" : "Pendant"} className="cart-item-image" />
-                                            <div className="cart-item-info">
-                                                <p>
-                                                    {item.ring ? item.ring.name : item.pendant.name} - {item.diamond.caratWeight} Carat {item.diamond.color}-{item.diamond.clarity} {item.diamond.cut} Cut {item.diamond.dType} Diamond
-                                                </p>
-                                                <p>Diamond: {item.diamond.caratWeight} Carat {item.diamond.color}-{item.diamond.clarity} {item.diamond.cut} Cut {item.diamond.dType} Diamond - ${item.diamond.price}</p>
-                                                {item.ring && (
-                                                    <p>Ring: {item.ring.name} - ${item.ring.price}</p>
-                                                )}
-                                                {item.pendant && (
-                                                    <p>Pendant: {item.pendant.name} - ${item.pendant.price}</p>
-                                                )}
-                                                <p>Total Price: ${item.price}</p>
+                                        )}
+                                        {item.type === 'pairing' && (
+                                            <div className={styles.cartItemDetails}>
+                                                <img src={item.ring ? '/src/images/ring.png' : '/src/images/pendant.png'} alt={item.ring ? "Ring" : "Pendant"} className={styles.cartItemImage} />
+                                                <div className={styles.cartItemInfo}>
+                                                    <p>
+                                                        {item.ring ? item.ring.name : item.pendant.name} - {item.diamond.caratWeight} Carat {item.diamond.color}-{item.diamond.clarity} {item.diamond.cut} Cut {item.diamond.dType} Diamond
+                                                    </p>
+                                                    <p>Diamond: {item.diamond.caratWeight} Carat {item.diamond.color}-{item.diamond.clarity} {item.diamond.cut} Cut {item.diamond.dType} Diamond - ${item.diamond.price}</p>
+                                                    {item.ring && (
+                                                        <p>Ring: {item.ring.name} - ${item.ring.price}</p>
+                                                    )}
+                                                    {item.pendant && (
+                                                        <p>Pendant: {item.pendant.name} - ${item.pendant.price}</p>
+                                                    )}
+                                                    <p>Total Price: ${item.price}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
-                                    <button onClick={() => handleRemoveFromCart(item.details?.dProductId || item.pId, item.type)} className="cart-item-remove-button">Remove</button>
-                                </li>
-                            );
-                        })}
-                    </ul>
-                    <button onClick={handleClearCart} className="clear-cart-button">Clear Cart</button>
-                    <OrderButton />
-
+                                        )}
+                                        <button onClick={() => handleRemoveFromCart(item, item.details?.dProductId || item.pId, item.type)} className={styles.cartItemRemoveButton}>Remove</button>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                        <button onClick={handleClearCart} className={styles.clearCartButton}>Clear Cart</button>
+                    </div>
+                    <CheckoutBox totalPrice={calculateTotalPrice()} />
                 </div>
             )}
             <SnackbarCart
@@ -262,6 +276,7 @@ const ShoppingCart = () => {
                 key={snackbarOpen.id}
             />
         </>
+
     );
 };
 

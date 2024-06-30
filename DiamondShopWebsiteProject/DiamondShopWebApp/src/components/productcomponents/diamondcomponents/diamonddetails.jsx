@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { fetchDiamondById } from '../../../../javascript/apiService';
 
 import CircularIndeterminate from '../../loading';
-import TemporaryDrawer from '../../temporaryDrawer';
+import TemporaryDrawer from '../../drawercomponents/temporaryDrawer';
 
 import '../../css/product.css';
 

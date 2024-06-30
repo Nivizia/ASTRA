@@ -13,6 +13,7 @@ import Index from './components/index'
 import LoginPage from './components/loginPage';
 import SignUp from './components/signUp/signUp';
 
+// Product Components
 import DiamondList from './components/productcomponents/diamondcomponents/diamondlist';
 import DiamondDetails from './components/productcomponents/diamondcomponents/diamonddetails';
 
@@ -22,13 +23,16 @@ import RingDetails from './components/productcomponents/ringcomponents/ringdetai
 import PendantList from './components/productcomponents/pendantcomponents/pendantlist';
 import PendantDetails from './components/productcomponents/pendantcomponents/pendantdetails';
 
+// Cart and Cart-related Components
 import ShoppingCart from './components/cart/shoppingcart';
+import OrderConfirmation from './components/cart/orderConfirmation';
 
 //Testing components
-import PersistentDrawerRight from './components/persistentDrawerRight';
+import PersistentDrawerRight from './components/drawercomponents/persistentDrawerRight';
 
 //Css Imports
 import './index.css'
+
 
 const router = createBrowserRouter([
   {
@@ -109,6 +113,10 @@ const router = createBrowserRouter([
       {
         path: "/cart/",
         element: <ShoppingCart />
+      },
+      {
+        path: "/order-confirmation/",
+        element: <OrderConfirmation />
       }
     ]
   },

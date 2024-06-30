@@ -1,7 +1,7 @@
 .diamond-box {
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 16px;
+  padding: 0;
   background-color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -15,10 +15,8 @@
 }
 
 .diamond-image {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin-bottom: 16px;
+  width: 100%;
+  max-width: 400px;
 }
 
 .diamond-details h2 {
@@ -66,13 +64,6 @@
   min-width: 300px;
   margin: 10px;
   text-align: center;
-}
-
-.diamond-image {
-  width: 100%;
-  max-width: 400px;
-  border-radius: 8px;
-  margin-bottom: 20px;
 }
 
 .thumbnail-gallery {

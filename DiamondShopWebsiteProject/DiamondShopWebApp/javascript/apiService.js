@@ -176,3 +176,21 @@ export const fetchPendantById = async (id) => {
         throw error;
     }
 };
+
+// Order:
+// Function to create a new order
+export const createOrder = async (orderDetails) => {
+    try {
+        const token = getToken();
+        const response = await axios.post(`${BASE_URL}/Order`, orderDetails, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error creating order:', error);
+        throw error;
+    }
+};

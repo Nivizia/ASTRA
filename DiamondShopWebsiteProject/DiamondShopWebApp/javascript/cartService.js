@@ -1,5 +1,3 @@
-// Local storage functions for cart management:
-
 // Adding an item to the cart
 export const addToCart = (item) => {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
