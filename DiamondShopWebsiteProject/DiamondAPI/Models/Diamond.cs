@@ -21,6 +21,8 @@ public partial class Diamond
 
     public int? Cut { get; set; }
 
+    public bool? Available { get; set; }
+
     public virtual ICollection<Diamondcertificate> Diamondcertificates { get; set; } = new List<Diamondcertificate>();
 
     public virtual ICollection<Earringpairing> Earringpairings { get; set; } = new List<Earringpairing>();

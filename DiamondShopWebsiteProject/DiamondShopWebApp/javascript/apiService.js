@@ -182,7 +182,7 @@ export const fetchPendantById = async (id) => {
 export const createOrder = async (orderDetails) => {
     try {
         const token = getToken();
-        const response = await axios.post(`${BASE_URL}/Order`, orderDetails, {
+        const response = await axios.post(`${BASE_URL}/Orders`, orderDetails, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'

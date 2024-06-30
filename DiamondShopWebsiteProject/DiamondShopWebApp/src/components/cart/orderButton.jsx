@@ -25,7 +25,7 @@ const OrderButton = () => {
         // Prepare the order details from cart
         const cartItems = getCartItems();
         const orderDetails = {
-            customerId: user.id,
+            customerId: user.sub, // User ID from Token decoding
             totalAmount: cartItems.reduce((total, item) => item.type === 'pairing' ? total + item.price : total + item.details.price, 0),
             orderItems: cartItems.map(item => {
                 if (item.type === 'diamond') {
