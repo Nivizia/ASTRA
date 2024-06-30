@@ -27,6 +27,20 @@ namespace DiamondAPI.Repositories
             throw new NotImplementedException();
         }
 
+        public async Task<bool> DiamondOrdered(Guid? DiamondID)
+        {
+            if (DiamondID == null)
+            {
+                return false;
+            }
+
+            var diamondOrderedAlone = await _context.Orderitems.AnyAsync(o => o.DiamondId == DiamondID);
+            var diamondOrderedInEarringPairing = await _context.Earringpairings.AnyAsync(e => e.DiamondId == DiamondID);
+            var diamondOrderedInRingPairing = await _context.Ringpairings.AnyAsync(r => r.DiamondId == DiamondID);
+            var diamondOrderedInPendantPairing = await _context.Pendantpairings.AnyAsync(p => p.DiamondId == DiamondID);
+            return diamondOrderedAlone || diamondOrderedInEarringPairing || diamondOrderedInRingPairing || diamondOrderedInPendantPairing;
+        }
+
         public async Task<List<Order>> GetAllOrders(Guid CustomerID)
         {
             return await _context.Orders.Include(o => o.Orderitems).Where(o => o.CustomerId == CustomerID).ToListAsync();
