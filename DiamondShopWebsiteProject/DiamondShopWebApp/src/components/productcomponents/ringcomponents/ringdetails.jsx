@@ -17,7 +17,7 @@ const RingDetails = () => {
   const navigate = useNavigate();
 
   const handleSelectRing = () => {
-    const path = diamondId ? `/cart?d=${diamondId}&r=${ringId}` : `/`;
+    const path = diamondId ? `/cart?d=${diamondId}&r=${ringId}` : `/ring/${ringId}/choose-diamond/`;
     navigate(path);
   };
 
