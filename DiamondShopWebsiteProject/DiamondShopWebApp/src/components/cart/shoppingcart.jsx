@@ -64,6 +64,8 @@ const ShoppingCart = () => {
                 diamond,
                 productType: productType,
                 [productType]: product,
+                diamondId: diamond.dProductId,
+                productId: productId,
                 price: diamond.price + product.price // Combined price
             };
         } catch (error) {
@@ -180,9 +182,8 @@ const ShoppingCart = () => {
     // Function to remove an item from the cart
     const handleRemoveFromCart = (item, itemId, itemType) => {
         removeFromCart(itemId, itemType);
-        showSnackbar(`${itemType === "Diamond" ? "Diamond" : item.productType === "ring" ? "Ring" : item.productType === "pendant" ? "Pendant" : "Earring"} removed from cart`, 'info', Date.now());
+        showSnackbar(`${itemType === "diamond" ? "Diamond" : item.productType === "ring" ? "Ring" : item.productType === "pendant" ? "Pendant" : "Earring"} removed from cart`, 'info', Date.now());
         setCart(getCartItems());
-
     };
 
     // Function to clear the cart

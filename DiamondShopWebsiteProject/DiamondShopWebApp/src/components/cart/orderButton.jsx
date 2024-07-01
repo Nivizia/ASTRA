@@ -44,7 +44,7 @@ const OrderButton = () => {
                             price: item.price,
                             productType: "RingPairing",
                             createRingPairingDTO: {
-                                ringId: item.ring.rProductId,
+                                ringId: item.productId,
                                 diamondId: item.diamond.dProductId
                             },
                             createPendantPairingDTO: null,
@@ -57,7 +57,7 @@ const OrderButton = () => {
                             productType: "PendantPairing",
                             createRingPairingDTO: null,
                             createPendantPairingDTO: {
-                                pendantId: item.pendant.pProductId,
+                                pendantId: item.productId,
                                 diamondId: item.diamond.dProductId
                             },
                             createEarringPairingDTO: null
