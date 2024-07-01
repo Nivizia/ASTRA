@@ -64,6 +64,11 @@ namespace DiamondAPI.Controllers
                     if (ring == null)
                         return NotFound("The specified ring could not be found. ID = " + orderItem.CreateRingPairingDTO?.RingId);
 
+                    if (ring.StockQuantity < 1)
+                        return BadRequest("The ring is out of stock. ID = " + orderItem.CreateRingPairingDTO?.RingId);
+
+                    ring.StockQuantity--;
+
                     var diamond = await _diamondRepo.GetByIDAsync(orderItem.CreateRingPairingDTO?.DiamondId);
                     if (diamond == null)
                         return NotFound("The specified diamond could not be found. ID = " + orderItem.CreateRingPairingDTO?.DiamondId);
@@ -90,6 +95,11 @@ namespace DiamondAPI.Controllers
                     if (pendant == null)
                         return NotFound("The specified pendant could not be found. ID = " + orderItem.CreatePendantPairingDTO?.PendantId);
 
+                    if (pendant.StockQuantity < 1)
+                        return BadRequest("The pendant is out of stock. ID = " + orderItem.CreatePendantPairingDTO?.PendantId);
+
+                    pendant.StockQuantity--;
+
                     var diamond = await _diamondRepo.GetByIDAsync(orderItem.CreatePendantPairingDTO?.DiamondId);
                     if (diamond == null)
                         return NotFound("The specified diamond could not be found. ID = " + orderItem.CreatePendantPairingDTO?.DiamondId);
@@ -115,6 +125,11 @@ namespace DiamondAPI.Controllers
                     var earring = await _earringRepo.GetByIDAsync(orderItem.CreateEarringPairingDTO?.EarringId);
                     if (earring == null)
                         return NotFound("The specified earring could not be found. ID = " + orderItem.CreateEarringPairingDTO?.EarringId);
+
+                    if (earring.StockQuantity < 1)
+                        return BadRequest("The earring is out of stock. ID = " + orderItem.CreateEarringPairingDTO?.EarringId);
+
+                    earring.StockQuantity--;
 
                     var diamond = await _diamondRepo.GetByIDAsync(orderItem.CreateEarringPairingDTO?.DiamondId);
                     if (diamond == null)
