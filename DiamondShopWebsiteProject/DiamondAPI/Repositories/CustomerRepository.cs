@@ -48,7 +48,7 @@ namespace DiamondAPI.Repositories
             return await _context.Customers.ToListAsync();
         }
 
-        public async Task<Customer?> GetByIDAsync(Guid CustomerId)
+        public async Task<Customer?> GetByIDAsync(Guid? CustomerId)
         {
             return await _context.Customers.FindAsync(CustomerId);
         }

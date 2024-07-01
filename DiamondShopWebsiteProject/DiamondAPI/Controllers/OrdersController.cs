@@ -38,6 +38,10 @@ namespace DiamondAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> PlaceOrder([FromBody] CreateOrderRequestDTO createOrderRequestDTO)
         {
+            var Customer = await _customerRepo.GetByIDAsync(createOrderRequestDTO.CustomerId);
+            if (Customer == null)
+                return NotFound("The specified customer could not be found.");
+
             if (createOrderRequestDTO.Orderitems == null || createOrderRequestDTO.Orderitems.Count == 0)
                 return BadRequest("Order items are required and cannot be empty.");
 
