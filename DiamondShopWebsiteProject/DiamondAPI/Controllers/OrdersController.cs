@@ -63,6 +63,8 @@ namespace DiamondAPI.Controllers
                     if (diamond == null)
                         return NotFound("The specified diamond could not be found.");
 
+                    diamond.Available = true;
+
                     var ringPairing = orderItem.CreateRingPairingDTO?.ToRingPairingFromCreateDTO();
                     if (ringPairing == null)
                         return BadRequest("There was a problem instanciating a ringPairing object.");
@@ -86,6 +88,8 @@ namespace DiamondAPI.Controllers
                     var diamond = await _diamondRepo.GetByIDAsync(orderItem.CreatePendantPairingDTO?.DiamondId);
                     if (diamond == null)
                         return NotFound("The specified diamond could not be found.");
+
+                    diamond.Available = true;
 
                     var pendantPairing = orderItem.CreatePendantPairingDTO?.ToPendantPairingFromCreateDTO();
                     if (pendantPairing == null)
@@ -111,6 +115,8 @@ namespace DiamondAPI.Controllers
                     if (diamond == null)
                         return NotFound("The specified diamond could not be found.");
 
+                    diamond.Available = true;
+
                     var earringPairing = orderItem.CreateEarringPairingDTO?.ToEarringPairingFromCreateDTO();
                     if (earringPairing == null)
                         return BadRequest("There was a problem instanciating a earringPairing object.");
@@ -130,6 +136,8 @@ namespace DiamondAPI.Controllers
                     var diamond = await _diamondRepo.GetByIDAsync(orderItem.ProductId);
                     if (diamond == null)
                         return NotFound("The specified diamond could not be found.");
+
+                    diamond.Available = true;
 
                     var modelOrderItem = orderItem.ToOrderItemFromCreateDTO();
                     modelOrderItem.OrderId = Order.OrderId;

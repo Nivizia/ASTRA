@@ -21,6 +21,13 @@ namespace DiamondAPI.Repositories
             return orderitemModel;
         }
 
+        public async Task<List<Orderitem>> CreateOrderItems(List<Orderitem> orderitems)
+        {
+            await _context.Orderitems.AddRangeAsync(orderitems);
+            await _context.SaveChangesAsync();
+            return orderitems;
+        }
+
         public async Task<Orderitem?> DeleteAsync(Guid OrderitemId)
         {
             var orderitemModel = await _context.Orderitems.FirstOrDefaultAsync(o => o.OrderItemId == OrderitemId);
