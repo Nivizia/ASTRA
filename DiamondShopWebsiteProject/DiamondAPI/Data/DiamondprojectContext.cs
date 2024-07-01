@@ -49,7 +49,7 @@ public partial class DiamondprojectContext : DbContext
         IConfiguration configuration = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", true, true).Build();
-        return configuration["ConnectionStrings:DefaultConnectionString"];
+        return configuration["ConnectionStrings:DBDefault"];
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
