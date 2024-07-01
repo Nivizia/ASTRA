@@ -22,9 +22,16 @@ namespace DiamondAPI.Repositories
             return order;
         }
 
-        public Task<Order> DeleteOrder(Guid orderId)
+        public async Task<Order?> DeleteOrder(Guid orderId)
         {
-            throw new NotImplementedException();
+            var Order = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
+            if (Order == null)
+            {
+                return null;
+            }
+            _context.Orders.Remove(Order);
+            await _context.SaveChangesAsync();
+            return Order;
         }
 
         public async Task<bool> DiamondOrdered(Guid? DiamondID)

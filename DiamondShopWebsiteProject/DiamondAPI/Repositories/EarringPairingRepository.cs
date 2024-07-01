@@ -22,6 +22,13 @@ namespace DiamondAPI.Repositories
             return earringpairing;
         }
 
+        public async Task<List<Earringpairing>> CreateEarringPairings(List<Earringpairing> earringPairings)
+        {
+            await _context.Earringpairings.AddRangeAsync(earringPairings);
+            await _context.SaveChangesAsync();
+            return earringPairings;
+        }
+
         public async Task<Earringpairing?> DeleteAsync(Guid EProductID)
         {
             var earringpairing = await _context.Earringpairings.FindAsync(EProductID);

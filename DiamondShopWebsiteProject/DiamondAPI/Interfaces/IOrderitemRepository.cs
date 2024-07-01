@@ -11,5 +11,6 @@ namespace DiamondAPI.Interfaces
         Task<Orderitem> CreateAsync(Orderitem orderitemModel);
         Task<Orderitem?> UpdateAsync(Guid OrderitemId, UpdateOrderitemRequestDTO orderitemDTO);
         Task<Orderitem?> DeleteAsync(Guid OrderitemId);
+        Task<List<Orderitem>> CreateOrderItems(List<Orderitem> orderitems);
     }
 }

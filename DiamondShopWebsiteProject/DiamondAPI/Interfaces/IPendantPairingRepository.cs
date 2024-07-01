@@ -9,5 +9,6 @@ namespace DiamondAPI.Interfaces
         Task<Pendantpairing> AddPendantPairingAsync(Pendantpairing pendantPairing);
         Task<Pendantpairing?> UpdatePendantPairingAsync(Pendantpairing pendantPairing);
         Task<Pendantpairing?> DeletePendantPairingAsync(Guid id);
+        Task<List<Pendantpairing>> CreatePendantPairings(List<Pendantpairing> pendantPairings);
     }
 }

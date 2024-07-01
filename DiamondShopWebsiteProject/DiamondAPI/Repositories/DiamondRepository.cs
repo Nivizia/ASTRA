@@ -107,6 +107,21 @@ namespace DiamondAPI.Repositories
             return await _context.Diamonds.FindAsync(D_ProductID);
         }
 
+        public async Task<bool> IsAvailable(Guid? D_ProductID)
+        {
+            if (D_ProductID == null)
+            {
+                return false;
+            }
+
+            var diamond = await _context.Diamonds.FirstOrDefaultAsync(d => d.DProductId == D_ProductID);
+            if (diamond == null)
+            {
+                return false;
+            }
+            return diamond.Available ?? false;
+        }
+
         public async Task<Diamond?> UpdateAsync(Guid D_ProductID, ModelUpdateDiamondRequestDTO diamondDTO)
         {
             var existingDiamond = await _context.Diamonds.FirstOrDefaultAsync(d => d.DProductId == D_ProductID);

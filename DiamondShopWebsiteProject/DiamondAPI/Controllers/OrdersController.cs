@@ -43,11 +43,16 @@ namespace DiamondAPI.Controllers
 
             var Order = createOrderRequestDTO.ToOrderFromCreateDTO();
 
+            List<Orderitem> orderItems = new List<Orderitem>();
+            List<Ringpairing> ringPairings = new List<Ringpairing>();
+            List<Pendantpairing> pendantPairings = new List<Pendantpairing>();
+            List<Earringpairing> earringPairings = new List<Earringpairing>();
+
             foreach (var orderItem in createOrderRequestDTO.Orderitems)
             {
                 if (orderItem.ProductType == "RingPairing")
                 {
-                    if (await _orderRepo.DiamondOrdered(orderItem.CreateRingPairingDTO?.DiamondId))
+                    if (await _diamondRepo.IsAvailable(orderItem.CreateRingPairingDTO?.RingId))
                         return BadRequest("The diamond is already ordered.");
 
                     var ring = await _ringRepo.GetByIDAsync(orderItem.CreateRingPairingDTO?.RingId);
@@ -62,19 +67,16 @@ namespace DiamondAPI.Controllers
                     if (ringPairing == null)
                         return BadRequest("There was a problem instanciating a ringPairing object.");
 
-
-                    await _orderRepo.CreateOrder(Order);
-
                     var modelOrderItem = orderItem.ToOrderItemFromCreateDTO();
                     modelOrderItem.OrderId = Order.OrderId;
                     modelOrderItem.RingPairingId = ringPairing.RProductId;
 
-                    await _ringPairingRepo.CreateAsync(ringPairing);
-                    await _orderItemRepo.CreateAsync(modelOrderItem);
+                    ringPairings.Add(ringPairing);
+                    orderItems.Add(modelOrderItem);
                 }
                 else if (orderItem.ProductType == "PendantPairing")
                 {
-                    if (await _orderRepo.DiamondOrdered(orderItem.CreatePendantPairingDTO?.DiamondId))
+                    if (await _diamondRepo.IsAvailable(orderItem.CreatePendantPairingDTO?.PendantId))
                         return BadRequest("The diamond is already ordered.");
 
                     var pendant = await _pendantRepo.GetByIDAsync(orderItem.CreatePendantPairingDTO?.PendantId);
@@ -89,18 +91,16 @@ namespace DiamondAPI.Controllers
                     if (pendantPairing == null)
                         return BadRequest("There was a problem instanciating a pendantPairing object.");
 
-                    await _orderRepo.CreateOrder(Order);
-
                     var modelOrderItem = orderItem.ToOrderItemFromCreateDTO();
                     modelOrderItem.OrderId = Order.OrderId;
                     modelOrderItem.PendantPairingId = pendantPairing.PProductId;
 
-                    await _pendantPairingRepo.AddPendantPairingAsync(pendantPairing);
-                    await _orderItemRepo.CreateAsync(modelOrderItem);
+                    pendantPairings.Add(pendantPairing);
+                    orderItems.Add(modelOrderItem);
                 }
                 else if (orderItem.ProductType == "EarringPairing")
                 {
-                    if (await _orderRepo.DiamondOrdered(orderItem.CreateEarringPairingDTO?.DiamondId))
+                    if (await _diamondRepo.IsAvailable(orderItem.CreateEarringPairingDTO?.EarringId))
                         return BadRequest("The diamond is already ordered.");
 
                     var earring = await _earringRepo.GetByIDAsync(orderItem.CreateEarringPairingDTO?.EarringId);
@@ -115,37 +115,38 @@ namespace DiamondAPI.Controllers
                     if (earringPairing == null)
                         return BadRequest("There was a problem instanciating a earringPairing object.");
 
-                    await _orderRepo.CreateOrder(Order);
-
                     var modelOrderItem = orderItem.ToOrderItemFromCreateDTO();
                     modelOrderItem.OrderId = Order.OrderId;
                     modelOrderItem.EarringPairingId = earringPairing.EProductId;
 
-                    await _earringPairingRepo.CreateAsync(earringPairing);
-                    await _orderItemRepo.CreateAsync(modelOrderItem);
+                    earringPairings.Add(earringPairing);
+                    orderItems.Add(modelOrderItem);
                 }
                 else if (orderItem.ProductType == "Diamond")
                 {
-                    if (await _orderRepo.DiamondOrdered(orderItem.ProductId))
+                    if (await _diamondRepo.IsAvailable(orderItem.ProductId))
                         return BadRequest("The diamond is already ordered.");
 
                     var diamond = await _diamondRepo.GetByIDAsync(orderItem.ProductId);
                     if (diamond == null)
                         return NotFound("The specified diamond could not be found.");
 
-                    await _orderRepo.CreateOrder(Order);
-
                     var modelOrderItem = orderItem.ToOrderItemFromCreateDTO();
                     modelOrderItem.OrderId = Order.OrderId;
                     modelOrderItem.DiamondId = orderItem.ProductId;
 
-                    await _orderItemRepo.CreateAsync(modelOrderItem);
+                    orderItems.Add(modelOrderItem);
                 }
                 else
                 {
                     return BadRequest();
                 }
             }
+            await _orderRepo.CreateOrder(Order);
+            await _ringPairingRepo.CreateRingPairings(ringPairings);
+            await _pendantPairingRepo.CreatePendantPairings(pendantPairings);
+            await _earringPairingRepo.CreateEarringPairings(earringPairings);
+            await _orderItemRepo.CreateOrderItems(orderItems);
             return Ok(Order.ToOrderRequestDTO());
         }
 

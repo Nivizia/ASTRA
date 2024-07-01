@@ -9,5 +9,6 @@ namespace DiamondAPI.Interfaces
         public Task<Ringpairing> CreateAsync(Ringpairing ringPairing);
         public Task<Ringpairing?> Update(Ringpairing ringPairing);
         public Task<Ringpairing?> Delete(Guid id);
+        public Task<List<Ringpairing>> CreateRingPairings(List<Ringpairing> ringpairings);
     }
 }

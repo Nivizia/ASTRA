@@ -20,6 +20,13 @@ namespace DiamondAPI.Repositories
             return ringPairing;
         }
 
+        public async Task<List<Ringpairing>> CreateRingPairings(List<Ringpairing> ringpairings)
+        {
+            await _context.Ringpairings.AddRangeAsync(ringpairings);
+            await _context.SaveChangesAsync();
+            return ringpairings;
+        }
+
         public async Task<Ringpairing?> Delete(Guid id)
         {
             var ringPairing = await _context.Ringpairings.FirstOrDefaultAsync(r => r.RProductId.Equals(id));
