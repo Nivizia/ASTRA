@@ -1,4 +1,5 @@
 ﻿using DiamondAPI.DTOs.Order;
+using DiamondAPI.DTOs.RingPairing;
 using DiamondAPI.Interfaces;
 using DiamondAPI.Mappers;
 using DiamondAPI.Models;
@@ -56,16 +57,16 @@ namespace DiamondAPI.Controllers
             {
                 if (orderItem.ProductType == "RingPairing")
                 {
-                    if (await _diamondRepo.IsAvailable(orderItem.CreateRingPairingDTO?.RingId))
-                        return BadRequest("The diamond is already ordered.");
+                    if (await _diamondRepo.IsAvailable(orderItem.CreateRingPairingDTO?.DiamondId))
+                        return BadRequest("The diamond was already ordered. ID = " + orderItem.CreateRingPairingDTO?.DiamondId);
 
                     var ring = await _ringRepo.GetByIDAsync(orderItem.CreateRingPairingDTO?.RingId);
                     if (ring == null)
-                        return NotFound("The specified ring could not be found.");
+                        return NotFound("The specified ring could not be found. ID = " + orderItem.CreateRingPairingDTO?.RingId);
 
                     var diamond = await _diamondRepo.GetByIDAsync(orderItem.CreateRingPairingDTO?.DiamondId);
                     if (diamond == null)
-                        return NotFound("The specified diamond could not be found.");
+                        return NotFound("The specified diamond could not be found. ID = " + orderItem.CreateRingPairingDTO?.DiamondId);
 
                     diamond.Available = true;
 
@@ -82,16 +83,16 @@ namespace DiamondAPI.Controllers
                 }
                 else if (orderItem.ProductType == "PendantPairing")
                 {
-                    if (await _diamondRepo.IsAvailable(orderItem.CreatePendantPairingDTO?.PendantId))
-                        return BadRequest("The diamond is already ordered.");
+                    if (await _diamondRepo.IsAvailable(orderItem.CreatePendantPairingDTO?.DiamondId))
+                        return BadRequest("The diamond was already ordered. ID = " + orderItem.CreateRingPairingDTO?.DiamondId);
 
                     var pendant = await _pendantRepo.GetByIDAsync(orderItem.CreatePendantPairingDTO?.PendantId);
                     if (pendant == null)
-                        return NotFound("The specified pendant could not be found.");
+                        return NotFound("The specified pendant could not be found. ID = " + orderItem.CreatePendantPairingDTO?.PendantId);
 
                     var diamond = await _diamondRepo.GetByIDAsync(orderItem.CreatePendantPairingDTO?.DiamondId);
                     if (diamond == null)
-                        return NotFound("The specified diamond could not be found.");
+                        return NotFound("The specified diamond could not be found. ID = " + orderItem.CreatePendantPairingDTO?.DiamondId);
 
                     diamond.Available = true;
 
@@ -108,16 +109,16 @@ namespace DiamondAPI.Controllers
                 }
                 else if (orderItem.ProductType == "EarringPairing")
                 {
-                    if (await _diamondRepo.IsAvailable(orderItem.CreateEarringPairingDTO?.EarringId))
-                        return BadRequest("The diamond is already ordered.");
+                    if (await _diamondRepo.IsAvailable(orderItem.CreateEarringPairingDTO?.DiamondId))
+                        return BadRequest("The diamond was already ordered. ID = " + orderItem.CreateRingPairingDTO?.DiamondId);
 
                     var earring = await _earringRepo.GetByIDAsync(orderItem.CreateEarringPairingDTO?.EarringId);
                     if (earring == null)
-                        return NotFound("The specified earring could not be found.");
+                        return NotFound("The specified earring could not be found. ID = " + orderItem.CreateEarringPairingDTO?.EarringId);
 
                     var diamond = await _diamondRepo.GetByIDAsync(orderItem.CreateEarringPairingDTO?.DiamondId);
                     if (diamond == null)
-                        return NotFound("The specified diamond could not be found.");
+                        return NotFound("The specified diamond could not be found. ID = " + orderItem.CreateEarringPairingDTO?.DiamondId);
 
                     diamond.Available = true;
 
@@ -135,11 +136,11 @@ namespace DiamondAPI.Controllers
                 else if (orderItem.ProductType == "Diamond")
                 {
                     if (await _diamondRepo.IsAvailable(orderItem.ProductId))
-                        return BadRequest("The diamond is already ordered.");
+                        return BadRequest("The diamond is already ordered. ID = " + orderItem.ProductId);
 
                     var diamond = await _diamondRepo.GetByIDAsync(orderItem.ProductId);
                     if (diamond == null)
-                        return NotFound("The specified diamond could not be found.");
+                        return NotFound("The specified diamond could not be found. ID = " + orderItem.ProductId);
 
                     diamond.Available = true;
 
@@ -151,7 +152,7 @@ namespace DiamondAPI.Controllers
                 }
                 else
                 {
-                    return BadRequest();
+                    return BadRequest("Product type not recognised.");
                 }
             }
             await _orderRepo.CreateOrder(Order);
