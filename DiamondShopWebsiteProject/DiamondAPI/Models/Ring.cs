@@ -15,6 +15,10 @@ public partial class Ring
 
     public Guid? MetalTypeId { get; set; }
 
+    public Guid? StoneCutId { get; set; }
+
+    public Guid? SpecialFeatureId { get; set; }
+
     public string? RingSize { get; set; }
 
     public string? RingName { get; set; }
@@ -36,4 +40,8 @@ public partial class Ring
     public virtual ICollection<Ringpairing> Ringpairings { get; set; } = new List<Ringpairing>();
 
     public virtual ICollection<Ringshapedetail> Ringshapedetails { get; set; } = new List<Ringshapedetail>();
+
+    public virtual Specialfeature? SpecialFeature { get; set; }
+
+    public virtual Stonecut? StoneCut { get; set; }
 }

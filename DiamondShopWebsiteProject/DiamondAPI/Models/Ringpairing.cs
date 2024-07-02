@@ -13,7 +13,7 @@ public partial class Ringpairing
 
     public virtual Diamond? Diamond { get; set; }
 
-    public virtual Ring? Ring { get; set; }
-
     public virtual ICollection<Orderitem> Orderitems { get; set; } = new List<Orderitem>();
+
+    public virtual Ring? Ring { get; set; }
 }
