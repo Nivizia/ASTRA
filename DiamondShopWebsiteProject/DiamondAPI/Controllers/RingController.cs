@@ -23,7 +23,7 @@ namespace DiamondAPI.Controllers
         public async Task<IActionResult> GetAll()
         {
             var rings = await _ringRepo.GetAllAsync();
-            var ringDTOs = rings.Select(r => r.toRingDTO());
+            var ringDTOs = rings.Select(r => r.ToRingDTO());
             return Ok(ringDTOs);
         }
 
@@ -35,7 +35,7 @@ namespace DiamondAPI.Controllers
             {
                 return NotFound();
             }
-            return Ok(ring.toRingDTO());
+            return Ok(ring.ToRingDTO());
         }
 
         [HttpPost]
@@ -43,7 +43,7 @@ namespace DiamondAPI.Controllers
         {
             var ringModel = ringDTO.toRingFromCreateDTO();
             await _ringRepo.CreateAsync(ringModel);
-            return CreatedAtAction(nameof(GetByID), new { RingId = ringModel.RingId }, ringModel.toRingDTO());
+            return CreatedAtAction(nameof(GetByID), new { RingId = ringModel.RingId }, ringModel.ToRingDTO());
         }
 
         [HttpPut]
@@ -56,7 +56,7 @@ namespace DiamondAPI.Controllers
                 return NotFound();
             }
 
-            return Ok(ring.toRingDTO());
+            return Ok(ring.ToRingDTO());
         }
 
         [HttpDelete]

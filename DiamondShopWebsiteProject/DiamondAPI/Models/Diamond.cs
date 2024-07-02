@@ -11,7 +11,7 @@ public partial class Diamond
 
     public string? ImageUrl { get; set; }
 
-    public string? DType { get; set; }
+    public Guid? ShapeId { get; set; }
 
     public double? CaratWeight { get; set; }
 
@@ -32,4 +32,6 @@ public partial class Diamond
     public virtual ICollection<Pendantpairing> Pendantpairings { get; set; } = new List<Pendantpairing>();
 
     public virtual ICollection<Ringpairing> Ringpairings { get; set; } = new List<Ringpairing>();
+
+    public virtual Shape? Shape { get; set; }
 }

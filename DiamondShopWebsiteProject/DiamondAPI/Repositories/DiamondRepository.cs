@@ -33,13 +33,15 @@ namespace DiamondAPI.Repositories
             return diamondModel;
         }
 
-        public async Task<List<Diamond>> FilterAsync(String DType, decimal? LowerPrice, decimal? UpperPrice, double? LowerCaratWeight, double? UpperCaratWeight, int? LowerColor, int? UpperColor, int? LowerClarity, int? UpperClariry, int? LowerCut, int? UpperCut)
+
+
+        public async Task<List<Diamond>> FilterAsync(String ShapeName, decimal? LowerPrice, decimal? UpperPrice, double? LowerCaratWeight, double? UpperCaratWeight, int? LowerColor, int? UpperColor, int? LowerClarity, int? UpperClariry, int? LowerCut, int? UpperCut)
         {
             var diamonds = _context.Diamonds.AsQueryable();
 
-            if (!string.IsNullOrEmpty(DType))
+            if (!string.IsNullOrEmpty(ShapeName))
             {
-                diamonds = diamonds.Where(d => d.DType == DType);
+                diamonds = diamonds.Where(d => d.Shape != null && d.Shape.ShapeName == ShapeName);
             }
 
             if (LowerPrice != 0)
@@ -132,7 +134,10 @@ namespace DiamondAPI.Repositories
             }
 
             existingDiamond.ImageUrl = diamondDTO.ImageUrl;
-            existingDiamond.DType = diamondDTO.DType;
+            if (existingDiamond.Shape != null)
+            {
+                existingDiamond.Shape.ShapeName = diamondDTO.ShapeName ?? existingDiamond.Shape.ShapeName;
+            }
             existingDiamond.CaratWeight = diamondDTO.CaratWeight;
             existingDiamond.Color = diamondDTO.Color;
             existingDiamond.Clarity = diamondDTO.Clarity;

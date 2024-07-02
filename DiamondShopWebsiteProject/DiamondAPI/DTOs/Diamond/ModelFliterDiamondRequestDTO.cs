@@ -2,7 +2,7 @@
 {
     public class ModelFliterDiamondRequestDTO
     {
-        public required string DType { get; set; }
+        public required string ShapeName { get; set; }
         public decimal? LowerPrice { get; set; }
         public decimal? UpperPrice { get; set; }
         public double? LowerCaratWeight { get; set; }

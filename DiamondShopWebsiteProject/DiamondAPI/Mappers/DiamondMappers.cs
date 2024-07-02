@@ -1,4 +1,5 @@
-﻿using DiamondAPI.DTOs.Diamond;
+﻿using DiamondAPI.Data;
+using DiamondAPI.DTOs.Diamond;
 using DiamondAPI.Models;
 using Humanizer;
 
@@ -6,14 +7,14 @@ namespace DiamondAPI.Mappers
 {
     public static class DiamondMapper
     {
-        public static DiamondDTO toDiamondDTO(this Diamond diamond)
+        public static DiamondDTO ToDiamondDTO(this Diamond diamond)
         {
             return new DiamondDTO
             {
                 DProductId = diamond.DProductId,
                 Price = diamond.Price,
                 ImageUrl = diamond.ImageUrl,
-                DType = diamond.DType,
+                ShapeName = diamond.Shape?.ShapeName,
                 CaratWeight = diamond.CaratWeight,
                 Color = diamond.Color switch
                 {
@@ -50,13 +51,13 @@ namespace DiamondAPI.Mappers
             };
         }
 
-        public static Diamond toDiamondFromCreateDTO(this CreateDiamondRequestDTO dto)
+        public static Diamond ToDiamondFromCreateDTO(this CreateDiamondRequestDTO dto)
         {
             return new Diamond
             {
                 DProductId = Guid.NewGuid(),
                 ImageUrl = dto.ImageUrl,
-                DType = dto.DType,
+                ShapeId = GetShapeIdFromName(dto.ShapeName),
                 CaratWeight = dto.CaratWeight,
                 Color = dto.Color switch
                 {
@@ -93,11 +94,27 @@ namespace DiamondAPI.Mappers
             };
         }
 
+        private static Guid GetShapeIdFromName(string? shapeName)
+        {
+            using (var context = new DiamondprojectContext())
+            {
+                var shape = context.Shapes
+                    .FirstOrDefault(s => s.ShapeName == shapeName);
+
+                if (shape == null)
+                {
+                    throw new ArgumentException($"Shape with name {shapeName} not found.");
+                }
+
+                return shape.ShapeId;
+            }
+        }
+
         public static ModelFliterDiamondRequestDTO ToModelFilterFromModelFliterDiamondRequestDTO(this FilterDiamondRequestDTO filterDiamondRequestDTO)
         {
             return new ModelFliterDiamondRequestDTO
             {
-                DType = filterDiamondRequestDTO.DType,
+                ShapeName = filterDiamondRequestDTO.ShapeName,
                 LowerPrice = filterDiamondRequestDTO.LowerPrice,
                 UpperPrice = filterDiamondRequestDTO.UpperPrice,
                 LowerCaratWeight = filterDiamondRequestDTO.LowerCaratWeight,
@@ -174,7 +191,7 @@ namespace DiamondAPI.Mappers
             return new ModelUpdateDiamondRequestDTO
             {
                 ImageUrl = dto.ImageUrl,
-                DType = dto.DType,
+                ShapeName = dto.ShapeName,
                 CaratWeight = dto.CaratWeight,
                 Color = dto.Color switch
                 {

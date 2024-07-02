@@ -4,7 +4,7 @@
     {
         public string? ImageUrl { get; set; }
 
-        public string? DType { get; set; }
+        public string? ShapeName { get; set; }
 
         public double? CaratWeight { get; set; }
 

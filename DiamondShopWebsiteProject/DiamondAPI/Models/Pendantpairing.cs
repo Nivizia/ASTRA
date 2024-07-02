@@ -14,6 +14,6 @@ public partial class Pendantpairing
     public virtual Diamond? Diamond { get; set; }
 
     public virtual Pendant? Pendant { get; set; }
-    
+
     public virtual ICollection<Orderitem> Orderitems { get; set; } = new List<Orderitem>();
 }

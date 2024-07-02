@@ -27,7 +27,7 @@ namespace DiamondAPI.Controllers
         public async Task<IActionResult> GetAll()
         {
             var diamonds = await _diamondRepo.GetAllAsync();
-            var diamondsDTO = diamonds.Select(d => d.toDiamondDTO());
+            var diamondsDTO = diamonds.Select(d => d.ToDiamondDTO());
             return Ok(diamondsDTO);
         }
 
@@ -56,8 +56,8 @@ namespace DiamondAPI.Controllers
         public async Task<IActionResult> Filter([FromQuery] FilterDiamondRequestDTO filterDiamondDTO)
         {
             var modelFilter = filterDiamondDTO.ToModelFilterFromModelFliterDiamondRequestDTO();
-            var diamonds = await _diamondRepo.FilterAsync(modelFilter.DType, modelFilter.LowerPrice, modelFilter.UpperPrice, modelFilter.LowerCaratWeight, modelFilter.UpperCaratWeight, modelFilter.LowerColor, modelFilter.UpperColor, modelFilter.LowerClarity, modelFilter.UpperClarity, modelFilter.LowerCut, modelFilter.UpperCut);
-            var diamondsDTO = diamonds.Select(d => d.toDiamondDTO());
+            var diamonds = await _diamondRepo.FilterAsync(modelFilter.ShapeName, modelFilter.LowerPrice, modelFilter.UpperPrice, modelFilter.LowerCaratWeight, modelFilter.UpperCaratWeight, modelFilter.LowerColor, modelFilter.UpperColor, modelFilter.LowerClarity, modelFilter.UpperClarity, modelFilter.LowerCut, modelFilter.UpperCut);
+            var diamondsDTO = diamonds.Select(d => d.ToDiamondDTO());
             return Ok(diamondsDTO);
         }
 
@@ -69,16 +69,16 @@ namespace DiamondAPI.Controllers
             {
                 return NotFound();
             }
-            return Ok(diamond.toDiamondDTO());
+            return Ok(diamond.ToDiamondDTO());
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateDiamondRequestDTO diamondDTO)
         {
-            var diamondModel = diamondDTO.toDiamondFromCreateDTO();
+            var diamondModel = diamondDTO.ToDiamondFromCreateDTO();
             diamondModel.Price = _diaCalService.CalculateDiamondPrice(diamondDTO.CaratWeight, diamondDTO.Cut, diamondDTO.Color, diamondDTO.Clarity);
             await _diamondRepo.CreateAsync(diamondModel);
-            return CreatedAtAction(nameof(GetByID), new { D_ProductID = diamondModel.DProductId }, diamondModel.toDiamondDTO());
+            return CreatedAtAction(nameof(GetByID), new { D_ProductID = diamondModel.DProductId }, diamondModel.ToDiamondDTO());
         }
 
         [HttpPut]
@@ -92,7 +92,7 @@ namespace DiamondAPI.Controllers
                 return NotFound();
             }
 
-            return Ok(diamond.toDiamondDTO());
+            return Ok(diamond.ToDiamondDTO());
         }
 
         [HttpDelete]

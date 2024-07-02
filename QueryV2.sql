@@ -126,6 +126,7 @@ CREATE TABLE RING (
     RingSubtypeID UNIQUEIDENTIFIER,
     FrameTypeID UNIQUEIDENTIFIER NULL,
     MetalTypeID UNIQUEIDENTIFIER,
+	RingSize VARCHAR(20),
     RingName VARCHAR(500),
     Price MONEY,
     StockQuantity INT,

@@ -47,7 +47,7 @@ namespace DiamondAPI.Repositories
             return await _context.Rings.FindAsync(R_ProductID);
         }
 
-        public async Task<Ring?> UpdateAsync(Guid R_ProductID, UpdateRingRequestDTO ringDTO)
+        public async Task<Ring?> UpdateAsync(Guid R_ProductID, UpdateRingRequestDTO updateRingDTO)
         {
             var existingRing = await _context.Rings.FirstOrDefaultAsync(r => r.RingId == R_ProductID);
 
@@ -56,12 +56,15 @@ namespace DiamondAPI.Repositories
                 return null;
             }
 
-            existingRing.Name = ringDTO.Name;
-            existingRing.Price = ringDTO.Price;
-            existingRing.StockQuantity = ringDTO.StockQuantity;
-            existingRing.ImageUrl = ringDTO.ImageUrl;
-            existingRing.MetalType = ringDTO.MetalType;
-            existingRing.RingSize = ringDTO.RingSize;
+            if (existingRing.RingType != null) existingRing.RingType.TypeName = updateRingDTO.RingType ?? existingRing.RingType.TypeName;
+            if (existingRing.RingSubtype != null) existingRing.RingSubtype.SubtypeName = updateRingDTO.RingSubtype ?? existingRing.RingSubtype.SubtypeName;
+            if (existingRing.FrameType != null) existingRing.FrameType.FrameTypeName = updateRingDTO.FrameType ?? existingRing.FrameType.FrameTypeName;
+            if (existingRing.MetalType != null) existingRing.MetalType.MetalTypeName = updateRingDTO.MetalType ?? existingRing.MetalType.MetalTypeName;
+            existingRing.RingSize = updateRingDTO.RingSize;
+            existingRing.RingName = updateRingDTO.RingName;
+            existingRing.Price = updateRingDTO.Price;
+            existingRing.StockQuantity = updateRingDTO.StockQuantity;
+            existingRing.ImageUrl = updateRingDTO.ImageUrl;
 
             await _context.SaveChangesAsync();
 
