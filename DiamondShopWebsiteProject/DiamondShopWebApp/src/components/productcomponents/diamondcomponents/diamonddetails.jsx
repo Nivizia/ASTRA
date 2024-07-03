@@ -18,7 +18,6 @@ const DiamondDetails = () => {
       try {
         const data = await fetchDiamondById(diamondId);
         setDiamond(data);
-        console.log(data);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -54,10 +53,11 @@ const DiamondDetails = () => {
       <div className="details-section">
         <h2>{`${diamond.caratWeight} Carat ${diamond.color}-${diamond.clarity} ${diamond.cut} cut ${diamond.shape} Diamond`}</h2>
         <div className="badge-group">
-          <span className="badge">{`${diamond.caratWeight}ct`}</span>
-          <span className="badge">{`${diamond.color} Color`}</span>
-          <span className="badge">{`${diamond.clarity} Clarity`}</span>
-          <span className="badge">{`Excellent`}</span>
+          <span className="badge">{`${diamond.caratWeight}ct` || 'Unknown'}</span>
+          <span className="badge">{`${diamond.color} Color` || 'Unknown'}</span>
+          <span className="badge">{`${diamond.clarity} Clarity` || 'Unknown'}</span>
+          <span className="badge">{`${diamond.cut}` || 'Unknown'}</span>
+          <span className="badge">{`${diamond.shape}` || 'Unknown'}</span>
         </div>
         <p className="price">${diamond.price.toFixed(2)}</p>
         <TemporaryDrawer diamondId={diamondId}/>

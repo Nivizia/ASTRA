@@ -12,7 +12,7 @@ const RingBox = ({ ringId, diamondId, name, price, stockQuantity, imageUrl }) =>
                     <img src='/src/images/ring.png' alt={name} className="diamond-image" />
                 </div>
                 <div className="diamond-details">
-                    <h2>{`${name}`}</h2>
+                    <h3>{`${name}`}</h3>
                     <p className="price">${price.toFixed(2)}</p>
                 </div>
             </div>

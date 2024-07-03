@@ -56,67 +56,70 @@ const SignUp = () => {
     };
 
     return (
-        <div className={styles.signupContainer}>
-            {redirectToIndex && <Navigate to="/" />}
-            <h2 className={styles.textInLoginForm}>Sign Up</h2>
-            <form className={styles.signupForm} onSubmit={handleSubmit}>
-                <div className={styles.divInLoginForm}>
-                    <label className={styles.signupLabel} htmlFor="firstName">First Name:</label>
-                    <input
-                        type="text"
-                        id="firstName"
-                        placeholder="Enter your first name"
-                        className={styles.signupInput}
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        required
-                    />
+        <div>
+            <div className={styles.backgroundContainer}></div> {/* Background container */}
+            <div className={styles.signupContainer}>
+                {redirectToIndex && <Navigate to="/" />}
+                <h2 className={styles.textInLoginForm}>Sign Up</h2>
+                <form className={styles.signupForm} onSubmit={handleSubmit}>
+                    <div className={styles.divInLoginForm}>
+                        <label className={styles.signupLabel} htmlFor="firstName">First Name:</label>
+                        <input
+                            type="text"
+                            id="firstName"
+                            placeholder="Enter your first name"
+                            className={styles.signupInput}
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className={styles.divInLoginForm}>
+                        <label className={styles.signupLabel} htmlFor="lastName">Last Name:</label>
+                        <input
+                            type="text"
+                            id="lastName"
+                            placeholder="Enter your last name"
+                            className={styles.signupInput}
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className={styles.divInLoginForm}>
+                        <label className={styles.signupLabel} htmlFor="username">Username:</label>
+                        <input
+                            type="text"
+                            id="username"
+                            placeholder="Enter your username"
+                            className={styles.signupInput}
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className={styles.divInLoginForm}>
+                        <label className={styles.signupLabel} htmlFor="password">Password:</label>
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="Enter your password"
+                            className={styles.signupInput}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    {error && <div className={styles.signupError}>{error}</div>}
+                    <button className={styles.signupButton} type="submit" disabled={loading}>
+                        {loading ? <CircularIndeterminate size={24} /> : 'Sign Up'}
+                    </button>
+                </form>
+                <div className={styles.signupFooter}>
+                    <p className={styles.textInLoginForm}>
+                        Already have an account? <a className={styles.signupLink} href="/login">Login</a>
+                    </p>
                 </div>
-                <div className={styles.divInLoginForm}>
-                    <label className={styles.signupLabel} htmlFor="lastName">Last Name:</label>
-                    <input
-                        type="text"
-                        id="lastName"
-                        placeholder="Enter your last name"
-                        className={styles.signupInput}
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className={styles.divInLoginForm}>
-                    <label className={styles.signupLabel} htmlFor="username">Username:</label>
-                    <input
-                        type="text"
-                        id="username"
-                        placeholder="Enter your username"
-                        className={styles.signupInput}
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className={styles.divInLoginForm}>
-                    <label className={styles.signupLabel} htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        placeholder="Enter your password"
-                        className={styles.signupInput}
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                {error && <div className={styles.signupError}>{error}</div>}
-                <button className={styles.signupButton} type="submit" disabled={loading}>
-                    {loading ? <CircularIndeterminate size={24} /> : 'Sign Up'}
-                </button>
-            </form>
-            <div className={styles.signupFooter}>
-                <p className={styles.textInLoginForm}>
-                    Already have an account? <a className={styles.signupLink} href="/login">Login</a>
-                </p>
             </div>
         </div>
     );

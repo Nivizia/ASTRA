@@ -1,5 +1,5 @@
 // accountButton.jsx
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import AccountButtonNotLoggedIn from './accountButtonNotLoggedIn';
 import AccountButtonLoggedIn from './accountButtonLoggedIn';

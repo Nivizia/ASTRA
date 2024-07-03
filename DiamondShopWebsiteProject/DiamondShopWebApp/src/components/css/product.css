@@ -19,15 +19,30 @@
   max-width: 400px;
 }
 
+.diamond-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 12.5em;
+}
+
 .diamond-details h2 {
-  margin: 0;
+  font-size: 24px;
+  margin: auto 1em;
+  color: #333;
+}
+
+.diamond-details h3 {
+  font-size: 20px;
+  margin: auto 1em;
   color: #333;
 }
 
 .price {
-  font-size: 24px;
+  font-size: 32px;
   color: #000;
-  margin-top: 8px;
+  margin: auto;
   font-weight: bold;
 }
 
@@ -101,12 +116,6 @@
   background-color: #f0f0f0;
   padding: 5px 10px;
   border-radius: 5px;
-}
-
-.price {
-  font-size: 32px;
-  font-weight: bold;
-  margin-bottom: 20px;
 }
 
 .order-info {

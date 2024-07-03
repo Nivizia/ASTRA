@@ -17,7 +17,7 @@ const OrderButton = () => {
         setError(null); // Clear any previous error
 
         if (!user) {
-            navigate('/');
+            navigate('/login?cart=true'); // Redirect to login page with cart query parameter
             setLoading(false);
             return;
         }
@@ -72,10 +72,8 @@ const OrderButton = () => {
             console.log('Order created successfully:', orderResponse);
 
             // Navigate to the order confirmation page
-            setTimeout(() => {
-                navigate('/order-confirmation');
-                setLoading(false);
-            }, 1000);
+            navigate('/order-confirmation');
+            setLoading(false);
         } catch (error) {
             console.error('Error creating order:', error);
             setError('Failed to place order. Please try again later.');

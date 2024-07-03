@@ -5,8 +5,6 @@
     display: flex;
     align-items: flex-start;
     place-content: center;
-
-    margin-top: 1em;
 }
 
 .footer-content {

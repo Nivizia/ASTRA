@@ -1,68 +1,107 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../../javascript/apiService';
+import React, { useState, useEffect, useContext } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+import CircularIndeterminate from './loading';
+
+import { AuthContext } from '../contexts/AuthContext';
+
 import styles from './css/account.module.css';
 
 const LoginPage = () => {
+    const { user, login } = useContext(AuthContext);
+    const [hasUserLoggedIn, setHasUserLoggedIn] = useState(!!user);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+
     const navigate = useNavigate();
 
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+
+    const cart = params.get('cart');
+
     useEffect(() => {
-        const token = localStorage.getItem('authToken');
-        setIsLoggedIn(!!token); // Convert token presence to boolean
-    }, []);
+        if (user) {
+            setTimeout(() => {
+                navigate('/'); // Change '/home' to your home route as needed
+            }, 3000); // Waits for 2 seconds before redirecting
+        }
+    }, [user, navigate]);
+
+    const handleLoginSuccess = () => {
+        setHasUserLoggedIn(true);
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         setError(null);
+        setLoading(true); // Set loading to true when login starts
 
         try {
-            const token = await loginUser(username, password);
-            if (token) {
-                console.log('Login successful. Token:', token);
-                navigate('/diamond');
+            const result = await login(username, password);
+            if (result.success) {
+                handleLoginSuccess();
+                if (cart) {
+                    navigate('/cart');
+                } else {
+                    navigate('/'); // Change '/home' to your home route as needed
+                }
+            } else {
+                setError(result.message);
             }
         } catch (error) {
             console.error('Error during login:', error);
-            setError('Invalid username or password');
+            setError('Server error. Please try again later.');
+        } finally {
+            setLoading(false); // Set loading to false when login completes
         }
     };
-
     return (
-        <div className={styles.container}>
-            <h2 className={styles.textInLoginForm}>Login</h2>
-            <form onSubmit={handleSubmit}>
-                <div className={styles.divInLoginForm}>
-                    <label className={styles.textInLoginForm} htmlFor="username">Username:</label>
-                    <input
-                        type="text"
-                        id="username"
-                        placeholder="Enter your username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    />
+        <>
+            {!hasUserLoggedIn && !user ? (
+                <div className={styles.container}>
+                    <h2 className={styles.textInLoginForm}>Login</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div className={styles.divInLoginForm}>
+                            <label className={styles.textInLoginForm}>Username:</label>
+                            <input
+                                type="text"
+                                id="username"
+                                placeholder='Enter your username'
+                                onChange={(e) => setUsername(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className={styles.divInLoginForm}>
+                            <label className={styles.textInLoginForm}>Password:</label>
+                            <input
+                                type="password"
+                                id="password"
+                                placeholder='Enter your password'
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                        </div>
+                        {error && <div className={styles.error}>{error}</div>}
+                        <button className={styles.buttonLogin} type="submit" disabled={loading}>
+                            {loading ? <CircularIndeterminate size={24} /> : 'Login'}
+                        </button>
+                    </form>
+                    <div className={styles.footer}>
+                        <p className={styles.textInLoginForm}>Don't have an account? <a className={styles.signUp} href="/signup">Sign Up</a></p>
+                    </div>
                 </div>
-                <div className={styles.divInLoginForm}>
-                    <label className={styles.textInLoginForm} htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        placeholder="Enter your password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
+            ) : (
+                <div>
+                    <CircularIndeterminate size={54} />
+                    <h2>You are already logged in! Redirecting you to home.</h2>
                 </div>
-                {error && <div className={styles.error}>{error}</div>}
-                <button className={styles.buttonLogin} type="submit">Login</button>
-            </form>
-            <div className={styles.footer}>
-                <p className={styles.textInLoginForm}>Don't have an account? <a className={styles.signUp} href="/signup">Sign Up</a></p>
-            </div>
-        </div>
+
+            )}
+        </>
     );
 };
 

@@ -9,9 +9,11 @@ import SnackbarCart from './SnackbarCart';
 import styles from '../css/shoppingcart.module.css';
 
 const ShoppingCart = () => {
-    const location = useLocation();
     const navigate = useNavigate();
+
+    const location = useLocation();
     const params = new URLSearchParams(location.search);
+    
     // Diamond ID for loose diamond
     const diamondId = params.get('diamondId');
 
@@ -215,6 +217,37 @@ const ShoppingCart = () => {
         }, 0); // Initialize total with 0
     };
 
+    const getRingName = (ring) => {
+        let RingName = '';
+      
+        // Helper function to return non-null values or an empty string
+        const safeValue = (value) => value ? value : '';
+      
+        // Build the ring name based on the type
+        if (ring.ringType === 'Solitaire') {
+          RingName = `${safeValue(ring.ringSubtype)} ${safeValue(ring.frameType)} ${safeValue(ring.ringType)} Engagement Ring in ${safeValue(ring.metalType)}`.trim();
+        } else if (ring.ringType === 'Halo') {
+          RingName = `${safeValue(ring.ringSubtype)} ${safeValue(ring.ringType)} Diamond Engagement Ring in ${safeValue(ring.metalType)}`.trim();
+        } else if (ring.ringType === 'Sapphire sidestone') {
+          RingName = `${safeValue(ring.ringSubtype)} Sapphire and Diamond Engagement Ring in ${safeValue(ring.metalType)}`.trim();
+        } else if (ring.ringType === 'Three-stone') {
+          RingName = `${safeValue(ring.ringSubtype)} ${safeValue(ring.ringType)} Diamond Engagement Ring in ${safeValue(ring.metalType)}`.trim();
+        }
+      
+        // Add optional attributes like stoneCut or specialFeatures
+        if (ring.stoneCut) {
+          RingName = `${ring.stoneCut} ${RingName}`.trim();
+        }
+        if (ring.specialFeatures) {
+          RingName = `${RingName} featuring ${ring.specialFeatures}`.trim();
+        }
+      
+        // Remove any extra spaces
+        RingName = RingName.replace(/\s+/g, ' ').trim();
+      
+        return RingName;
+      };
+
     return (
         <>
             {error ? (
@@ -246,11 +279,11 @@ const ShoppingCart = () => {
                                                 <img src={item.ring ? '/src/images/ring.png' : '/src/images/pendant.png'} alt={item.ring ? "Ring" : "Pendant"} className={styles.cartItemImage} />
                                                 <div className={styles.cartItemInfo}>
                                                     <p>
-                                                        {item.ring ? item.ring.name : item.pendant.name} - {item.diamond.caratWeight} Carat {item.diamond.color}-{item.diamond.clarity} {item.diamond.cut} Cut {item.diamond.dType} Diamond
+                                                        {item.ring ? getRingName(item.ring) : item.pendant.name} - {item.diamond.caratWeight} Carat {item.diamond.color}-{item.diamond.clarity} {item.diamond.cut} Cut {item.diamond.dType} Diamond
                                                     </p>
                                                     <p>Diamond: {item.diamond.caratWeight} Carat {item.diamond.color}-{item.diamond.clarity} {item.diamond.cut} Cut {item.diamond.dType} Diamond - ${item.diamond.price}</p>
                                                     {item.ring && (
-                                                        <p>Ring: {item.ring.name} - ${item.ring.price}</p>
+                                                        <p>Ring: {getRingName(item.ring)} - ${item.ring.price}</p>
                                                     )}
                                                     {item.pendant && (
                                                         <p>Pendant: {item.pendant.name} - ${item.pendant.price}</p>

@@ -25,7 +25,6 @@ const RingDetails = () => {
     async function getRing() {
       try {
         const data = await fetchRingById(ringId);
-        console.log(data);
         setRing(data);
       } catch (error) {
         setError(error.message);
@@ -94,8 +93,8 @@ const RingDetails = () => {
       <div className="details-section">
         <h2>{getRingName(ring)}</h2>
         <div className="badge-group">
+          <span className="badge">{ring.ringType || 'Unknown'}</span>
           <span className="badge">{ring.metalType || 'Unknown'}</span>
-          <span className="badge">{ring.ringSize || 'Unknown'}</span>
         </div>
         <p className="price">${ring.price.toFixed(2)}</p>
         {diamondId ? (
@@ -121,10 +120,6 @@ const RingDetails = () => {
       <div className="specifications-section">
         <table>
           <tbody>
-            <tr>
-              <td>Name</td>
-              <td>{ring.name}</td>
-            </tr>
             <tr>
               <td>Price</td>
               <td>{ring.price}</td>
