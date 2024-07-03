@@ -1,6 +1,7 @@
 ﻿using DiamondAPI.Data;
 using DiamondAPI.DTOs.Diamond;
 using DiamondAPI.Interfaces;
+using DiamondAPI.Mappers;
 using DiamondAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,11 +15,12 @@ namespace DiamondAPI.Repositories
             _context = context;
         }
 
-        public async Task<Diamond> CreateAsync(Diamond diamondModel)
+        public async Task<Diamond?> CreateAsync(Diamond diamond)
         {
-            await _context.Diamonds.AddAsync(diamondModel);
+            await _context.Diamonds.AddAsync(diamond);
             await _context.SaveChangesAsync();
-            return diamondModel;
+            return diamond;
+
         }
 
         public async Task<Diamond?> DeleteAsync(Guid D_ProductID)
@@ -99,7 +101,7 @@ namespace DiamondAPI.Repositories
 
         public async Task<List<Diamond>> GetAllAsync()
         {
-            return await _context.Diamonds.ToListAsync();
+            return await _context.Diamonds.Include(d => d.Shape).ToListAsync();
         }
 
         public async Task<Diamond?> GetByIDAsync(Guid? D_ProductID)

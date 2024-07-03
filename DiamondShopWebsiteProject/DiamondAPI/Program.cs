@@ -51,6 +51,7 @@ builder.Services.AddScoped<IRingRepository, RingRepository>();
 builder.Services.AddScoped<IRingPairingRepository, RingPairingRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderitemRepository, OrderitemRepository>();
+builder.Services.AddScoped<IShapeRepository, ShapeRepository>();
 
 // Register TokenService for Token-Based Authentication (JWT)
 builder.Services.AddScoped<TokenService>();

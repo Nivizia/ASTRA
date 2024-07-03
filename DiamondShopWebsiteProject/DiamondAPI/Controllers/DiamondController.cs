@@ -12,14 +12,14 @@ namespace DiamondAPI.Controllers
     [ApiController]
     public class DiamondController : ControllerBase
     {
-        private readonly DiamondprojectContext _context;
         private readonly IDiamondRepository _diamondRepo;
+        private readonly IShapeRepository _shapeRepo;
         private readonly DiamondCalculatorService _diaCalService;
 
-        public DiamondController(DiamondprojectContext context, IDiamondRepository diamondRepo, DiamondCalculatorService diaCalService)
+        public DiamondController(IDiamondRepository diamondRepo, DiamondCalculatorService diaCalService, IShapeRepository shapeRepo)
         {
             _diamondRepo = diamondRepo;
-            _context = context;
+            _shapeRepo = shapeRepo;
             _diaCalService = diaCalService;
         }
 
@@ -76,7 +76,19 @@ namespace DiamondAPI.Controllers
         public async Task<IActionResult> Create([FromBody] CreateDiamondRequestDTO diamondDTO)
         {
             var diamondModel = diamondDTO.ToDiamondFromCreateDTO();
+
             diamondModel.Price = _diaCalService.CalculateDiamondPrice(diamondDTO.CaratWeight, diamondDTO.Cut, diamondDTO.Color, diamondDTO.Clarity);
+
+            if (diamondDTO.Shape == null)
+                return BadRequest("Shape is required.");
+
+            diamondModel.ShapeId = await _shapeRepo.GetIDByName(diamondDTO.Shape);
+
+            if (diamondModel.ShapeId == null)
+            {
+                return BadRequest("Invalid shape name.");
+            }
+
             await _diamondRepo.CreateAsync(diamondModel);
             return CreatedAtAction(nameof(GetByID), new { D_ProductID = diamondModel.DProductId }, diamondModel.ToDiamondDTO());
         }

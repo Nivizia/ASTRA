@@ -1,6 +1,8 @@
 ﻿using DiamondAPI.Data;
 using DiamondAPI.DTOs.Diamond;
+using DiamondAPI.Interfaces;
 using DiamondAPI.Models;
+using DiamondAPI.Repositories;
 using Humanizer;
 
 namespace DiamondAPI.Mappers
@@ -14,7 +16,7 @@ namespace DiamondAPI.Mappers
                 DProductId = diamond.DProductId,
                 Price = diamond.Price,
                 ImageUrl = diamond.ImageUrl,
-                ShapeName = diamond.Shape?.ShapeName,
+                Shape = diamond.Shape?.ShapeName,
                 CaratWeight = diamond.CaratWeight,
                 Color = diamond.Color switch
                 {
@@ -47,7 +49,8 @@ namespace DiamondAPI.Mappers
                     3 => "Ideal",
                     4 => "Astor Ideal",
                     _ => "Unknown"
-                }
+                },
+                Available = diamond.Available
             };
         }
 
@@ -57,7 +60,6 @@ namespace DiamondAPI.Mappers
             {
                 DProductId = Guid.NewGuid(),
                 ImageUrl = dto.ImageUrl,
-                ShapeId = GetShapeIdFromName(dto.ShapeName),
                 CaratWeight = dto.CaratWeight,
                 Color = dto.Color switch
                 {
@@ -90,7 +92,8 @@ namespace DiamondAPI.Mappers
                     "Ideal" => 3,
                     "Astor Ideal" => 4,
                     _ => 0
-                }
+                },
+                Available = dto.Available
             };
         }
 
