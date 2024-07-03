@@ -3,6 +3,7 @@ GO
 
 DELETE FROM RINGSHAPEDETAIL
 DELETE FROM RING;
+DELETE FROM DIAMOND;
 DELETE FROM SHAPE;
 DELETE FROM SPECIALFEATURE;
 DELETE FROM STONECUT;
@@ -10,7 +11,7 @@ DELETE FROM METALTYPE;
 DELETE FROM FRAMETYPE;
 DELETE FROM RINGSUBTYPE;
 DELETE FROM RINGTYPE;
-DELETE FROM DIAMOND;
+
 
 INSERT INTO RINGTYPE (RingTypeID, TypeName)
 VALUES
@@ -25,17 +26,29 @@ VALUES
     (NEWID(), (SELECT RingTypeID FROM RINGTYPE WHERE TypeName = 'Solitaire'), 'Petite'),
     (NEWID(), (SELECT RingTypeID FROM RINGTYPE WHERE TypeName = 'Solitaire'), 'Classic'),
     (NEWID(), (SELECT RingTypeID FROM RINGTYPE WHERE TypeName = 'Solitaire'), 'Petite Nouveau'),
+	(NEWID(), (SELECT RingTypeID FROM RINGTYPE WHERE TypeName = 'Solitaire'), 'Riviera'),
+	(NEWID(), (SELECT RingTypeID FROM RINGTYPE WHERE TypeName = 'Solitaire'), 'Classic Simple'),
+	(NEWID(), (SELECT RingTypeID FROM RINGTYPE WHERE TypeName = 'Solitaire'), 'Petite Hidden Halo'),
+	(NEWID(), (SELECT RingTypeID FROM RINGTYPE WHERE TypeName = 'Solitaire'), 'Petite Cathedral'),
     (NEWID(), (SELECT RingTypeID FROM RINGTYPE WHERE TypeName = 'Halo'), 'Twisted'),
     (NEWID(), (SELECT RingTypeID FROM RINGTYPE WHERE TypeName = 'Halo'), 'Twisted Band'),
     (NEWID(), (SELECT RingTypeID FROM RINGTYPE WHERE TypeName = 'Halo'), 'Classic'),
     (NEWID(), (SELECT RingTypeID FROM RINGTYPE WHERE TypeName = 'Sapphire sidestone'), 'Classic'),
-    (NEWID(), (SELECT RingTypeID FROM RINGTYPE WHERE TypeName = 'Three-stone'), 'NULL');
+	(NEWID(), (SELECT RingTypeID FROM RINGTYPE WHERE TypeName = 'Sapphire sidestone'), 'Riviera'),
+	(NEWID(), (SELECT RingTypeID FROM RINGTYPE WHERE TypeName = 'Sapphire sidestone'), 'Riviera Micropavé'),
+	(NEWID(), (SELECT RingTypeID FROM RINGTYPE WHERE TypeName = 'Sapphire sidestone'), 'Three Row'),
+    (NEWID(), (SELECT RingTypeID FROM RINGTYPE WHERE TypeName = 'Three-stone'), 'Trapezoid'),
+	(NEWID(), (SELECT RingTypeID FROM RINGTYPE WHERE TypeName = 'Three-stone'), 'Tapered Baguette');
 
 -- Insert data into FRAMETYPE table
 INSERT INTO FRAMETYPE (FrameTypeID, FrameTypeName)
 VALUES
     (NEWID(), 'Solitaire'),
+	(NEWID(), 'Six-Prong'),
+	(NEWID(), 'Four-Prong'),
+	(NEWID(), 'Pavé'),
     (NEWID(), 'Halo'),
+	(NEWID(), 'Sidestone'),
     (NEWID(), 'Three-stone');
 
 -- Insert data into METALTYPE table

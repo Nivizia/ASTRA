@@ -20,6 +20,7 @@ const RingList = () => {
         const data = await fetchRings();
         if (Array.isArray(data)) {
           setRings(data);
+          console.log(data);
         } else {
           setError("Unable to fetch rings");
         }
@@ -51,10 +52,35 @@ const RingList = () => {
     return <p>There's no pendant</p>;
   }
 
+  const getRingName = (ring) => {
+    let RingName = '';
+  
+    if (ring.ringType === 'Solitaire') {
+      RingName = `${ring.ringSubtype} ${ring.frameType} ${ring.ringType} Engagement Ring in ${ring.metalType}`;
+    } else if (ring.ringType === 'Halo') {
+      RingName = `${ring.ringSubtype} ${ring.ringType} Diamond Engagement Ring in ${ring.metalType}`;
+    } else if (ring.ringType === 'Sapphire Sidestone') {
+      RingName = `${ring.ringSubtype} Sapphire and Diamond Engagement Ring in ${ring.metalType}`;
+    } else if (ring.ringType === 'Three-Stone') {
+      RingName = `${ring.ringSubtype} ${ring.ringType} Diamond Engagement Ring in ${ring.metalType}`;
+    }
+  
+    // Add optional attributes like stoneCut or specialFeatures
+    if (ring.stoneCut) {
+      RingName = `${ring.stoneCut} ${RingName}`;
+    }
+    if (ring.specialFeatures) {
+      RingName = `${RingName} featuring ${ring.specialFeatures}`;
+    }
+  
+    return RingName;
+  };
+
   return (
     <div>
       <div className="diamond-list">
         {rings.map((ring) => (
+          
           diamondId && !ringId ? (
             // Condition for diamondId is defined and ringId is undefined
             <RingBox
@@ -62,7 +88,7 @@ const RingList = () => {
               ringId={ring.ringId}
               diamondId={diamondId} // Passed from the parent component or context
               // ringId is intentionally not passed here based on your condition
-              name={ring.name}
+              name={getRingName(ring)}
               price={ring.price}
               stockQuantity={ring.stockQuantity}
               imageUrl={ring.imageUrl}
@@ -74,7 +100,7 @@ const RingList = () => {
             <RingBox
               key={ring.ringId}
               ringId={ring.ringId}
-              name={ring.name}
+              name={getRingName(ring)}
               price={ring.price}
               stockQuantity={ring.stockQuantity}
               imageUrl={ring.imageUrl}

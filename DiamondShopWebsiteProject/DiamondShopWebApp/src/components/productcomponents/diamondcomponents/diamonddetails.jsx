@@ -18,6 +18,7 @@ const DiamondDetails = () => {
       try {
         const data = await fetchDiamondById(diamondId);
         setDiamond(data);
+        console.log(data);
       } catch (error) {
         setError(error.message);
       } finally {
