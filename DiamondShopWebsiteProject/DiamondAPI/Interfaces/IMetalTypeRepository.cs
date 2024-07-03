@@ -2,6 +2,6 @@
 {
     public interface IMetalTypeRepository
     {
-        public Task<Guid> GetMetalTypeIdFromName();
+        public Task<Guid?> GetMetalTypeIdFromName(string? metalTypeName);
     }
 }

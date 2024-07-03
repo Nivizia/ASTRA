@@ -10,12 +10,18 @@ namespace DiamondAPI.Controllers
     [ApiController]
     public class RingController : ControllerBase
     {
-        private readonly DiamondprojectContext _context;
         private readonly IRingRepository _ringRepo;
-        public RingController(DiamondprojectContext context, IRingRepository ringRepo)
+        private readonly IRingTypeRepository _ringTypeRepo;
+        private readonly IRingSubtypeRepository _ringSubtypeRepo;
+        private readonly IMetalTypeRepository _metalTypeRepo;
+        private readonly IFrameTypeRepository _frameTypeRepo;
+        public RingController(IRingRepository ringRepo, IRingTypeRepository ringTypeRepo, IRingSubtypeRepository ringSubtypeRepo, IMetalTypeRepository metalTypeRepo, IFrameTypeRepository frameTypeRepo)
         {
-            _context = context;
             _ringRepo = ringRepo;
+            _ringTypeRepo = ringTypeRepo;
+            _ringSubtypeRepo = ringSubtypeRepo;
+            _metalTypeRepo = metalTypeRepo;
+            _frameTypeRepo = frameTypeRepo;
 
         }
 
@@ -42,6 +48,10 @@ namespace DiamondAPI.Controllers
         public async Task<IActionResult> Create([FromBody] CreateRingRequestDTO ringDTO)
         {
             var ringModel = ringDTO.toRingFromCreateDTO();
+            ringModel.RingTypeId = _ringTypeRepo.GetRingTypeIdFromName(ringDTO.RingType).Result;
+            ringModel.RingSubtypeId = _ringSubtypeRepo.GetRingSubtypeIdFromName(ringDTO.RingSubtype).Result;
+            ringModel.MetalTypeId = _metalTypeRepo.GetMetalTypeIdFromName(ringDTO.MetalType).Result;
+            ringModel.FrameTypeId = _frameTypeRepo.GetFrameTypeIdFromName(ringDTO.FrameType).Result;
             await _ringRepo.CreateAsync(ringModel);
             return CreatedAtAction(nameof(GetByID), new { RingId = ringModel.RingId }, ringModel.ToRingDTO());
         }
