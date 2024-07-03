@@ -55,14 +55,17 @@ namespace DiamondAPI.Controllers
 
             foreach (var orderItem in createOrderRequestDTO.Orderitems)
             {
-                if (orderItem.ProductType == "RingPairing")
+                // Convert the product type to lowercase for case-insensitive comparison
+                var productType = orderItem.ProductType.ToLower();
+
+                if (productType == "ringpairing")
                 {
                     var ring = await _ringRepo.GetByIDAsync(orderItem.CreateRingPairingDTO?.RingId);
                     if (ring == null)
                         return NotFound("The specified ring could not be found. ID = " + orderItem.CreateRingPairingDTO?.RingId);
 
-                    if (await _diamondRepo.IsAvailable(orderItem.CreateRingPairingDTO?.DiamondId))
-                        return BadRequest("The diamond was already ordered. ID = " + orderItem.CreateRingPairingDTO?.DiamondId);
+                    var isAvailable = await _diamondRepo.IsAvailable(orderItem.ProductId);
+                    if (!isAvailable) return BadRequest("The diamond is already ordered. ID = " + orderItem.ProductId);
 
                     if (ring.StockQuantity < 1)
                         return BadRequest("The ring is out of stock. ID = " + orderItem.CreateRingPairingDTO?.RingId);
@@ -73,7 +76,7 @@ namespace DiamondAPI.Controllers
                     if (diamond == null)
                         return NotFound("The specified diamond could not be found. ID = " + orderItem.CreateRingPairingDTO?.DiamondId);
 
-                    diamond.Available = true;
+                    diamond.Available = false;
 
                     var ringPairing = orderItem.CreateRingPairingDTO?.ToRingPairingFromCreateDTO();
                     if (ringPairing == null)
@@ -86,14 +89,14 @@ namespace DiamondAPI.Controllers
                     ringPairings.Add(ringPairing);
                     orderItems.Add(modelOrderItem);
                 }
-                else if (orderItem.ProductType == "PendantPairing")
+                else if (orderItem.ProductType == "pendantpairing")
                 {
                     var pendant = await _pendantRepo.GetByIDAsync(orderItem.CreatePendantPairingDTO?.PendantId);
                     if (pendant == null)
                         return NotFound("The specified pendant could not be found. ID = " + orderItem.CreatePendantPairingDTO?.PendantId);
 
-                    if (await _diamondRepo.IsAvailable(orderItem.CreatePendantPairingDTO?.DiamondId))
-                        return BadRequest("The diamond was already ordered. ID = " + orderItem.CreateRingPairingDTO?.DiamondId);
+                    var isAvailable = await _diamondRepo.IsAvailable(orderItem.ProductId);
+                    if (!isAvailable) return BadRequest("The diamond is already ordered. ID = " + orderItem.ProductId);
 
                     if (pendant.StockQuantity < 1)
                         return BadRequest("The pendant is out of stock. ID = " + orderItem.CreatePendantPairingDTO?.PendantId);
@@ -104,7 +107,7 @@ namespace DiamondAPI.Controllers
                     if (diamond == null)
                         return NotFound("The specified diamond could not be found. ID = " + orderItem.CreatePendantPairingDTO?.DiamondId);
 
-                    diamond.Available = true;
+                    diamond.Available = false;
 
                     var pendantPairing = orderItem.CreatePendantPairingDTO?.ToPendantPairingFromCreateDTO();
                     if (pendantPairing == null)
@@ -117,14 +120,14 @@ namespace DiamondAPI.Controllers
                     pendantPairings.Add(pendantPairing);
                     orderItems.Add(modelOrderItem);
                 }
-                else if (orderItem.ProductType == "EarringPairing")
+                else if (orderItem.ProductType == "earringpairing")
                 {
                     var earring = await _earringRepo.GetByIDAsync(orderItem.CreateEarringPairingDTO?.EarringId);
                     if (earring == null)
                         return NotFound("The specified earring could not be found. ID = " + orderItem.CreateEarringPairingDTO?.EarringId);
 
-                    if (await _diamondRepo.IsAvailable(orderItem.CreateEarringPairingDTO?.DiamondId))
-                        return BadRequest("The diamond was already ordered. ID = " + orderItem.CreateRingPairingDTO?.DiamondId);
+                    var isAvailable = await _diamondRepo.IsAvailable(orderItem.ProductId);
+                    if (!isAvailable) return BadRequest("The diamond is already ordered. ID = " + orderItem.ProductId);
 
                     if (earring.StockQuantity < 1)
                         return BadRequest("The earring is out of stock. ID = " + orderItem.CreateEarringPairingDTO?.EarringId);
@@ -135,7 +138,7 @@ namespace DiamondAPI.Controllers
                     if (diamond == null)
                         return NotFound("The specified diamond could not be found. ID = " + orderItem.CreateEarringPairingDTO?.DiamondId);
 
-                    diamond.Available = true;
+                    diamond.Available = false;
 
                     var earringPairing = orderItem.CreateEarringPairingDTO?.ToEarringPairingFromCreateDTO();
                     if (earringPairing == null)
@@ -148,16 +151,16 @@ namespace DiamondAPI.Controllers
                     earringPairings.Add(earringPairing);
                     orderItems.Add(modelOrderItem);
                 }
-                else if (orderItem.ProductType == "Diamond")
+                else if (orderItem.ProductType.ToLower() == "diamond")
                 {
                     var diamond = await _diamondRepo.GetByIDAsync(orderItem.ProductId);
                     if (diamond == null)
                         return NotFound("The specified diamond could not be found. ID = " + orderItem.ProductId);
 
-                    if (await _diamondRepo.IsAvailable(orderItem.ProductId))
-                        return BadRequest("The diamond is already ordered. ID = " + orderItem.ProductId);
+                    var isAvailable = await _diamondRepo.IsAvailable(orderItem.ProductId);
+                    if (!isAvailable) return BadRequest("The diamond is already ordered. ID = " + orderItem.ProductId);
 
-                    diamond.Available = true;
+                    diamond.Available = false;
 
                     var modelOrderItem = orderItem.ToOrderItemFromCreateDTO();
                     modelOrderItem.OrderId = Order.OrderId;

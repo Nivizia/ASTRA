@@ -6,7 +6,7 @@ import Slide from '@mui/material/Slide';
 
 function SlideTransition(props) {
     return <Slide {...props} direction="up" />;
-  }
+}
 
 const SnackbarCart = ({ open, handleClose, message, severity = 'success', key }) => {
     return (

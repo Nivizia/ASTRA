@@ -6,7 +6,7 @@ import styles from "../css/temporarydrawer.module.css";
 
 import PersistentDrawerRight from './persistentDrawerRight';
 
-export default function TemporaryDrawer({diamondId}) {
+export default function TemporaryDrawer({ diamondId, diamondShape }) {
     const [open, setOpen] = useState(false);
 
     const toggleDrawer = (newOpen) => () => {
@@ -22,7 +22,7 @@ export default function TemporaryDrawer({diamondId}) {
                     role="presentation"
                     sx={{ position: 'relative', overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column' }}
                 >
-                    <PersistentDrawerRight diamondId = {diamondId}/>
+                    <PersistentDrawerRight diamondId={diamondId} diamondShape={diamondShape} />
                 </Box>
             </Drawer>
         </>

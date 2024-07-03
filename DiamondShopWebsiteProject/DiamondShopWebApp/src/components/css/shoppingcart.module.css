@@ -1,5 +1,5 @@
 /* Container for both Shopping Cart and Checkout Box */
-.shoppingCartAndCheckoutBoxContainer{
+.shoppingCartAndCheckoutBoxContainer {
     width: 90vw;
     display: flex;
     justify-content: space-between;

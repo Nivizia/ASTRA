@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import CircularIndeterminate from '../loading';
-import { getCartItems } from '../../../javascript/cartService';
+import { getCartItems, clearCart } from '../../../javascript/cartService';
 import { createOrder } from '../../../javascript/apiService';
 import styles from '../css/orderButton.module.css';
 
@@ -73,6 +73,7 @@ const OrderButton = () => {
 
             // Navigate to the order confirmation page
             navigate('/order-confirmation');
+            clearCart(); // Clear the cart after placing the order
             setLoading(false);
         } catch (error) {
             console.error('Error creating order:', error);

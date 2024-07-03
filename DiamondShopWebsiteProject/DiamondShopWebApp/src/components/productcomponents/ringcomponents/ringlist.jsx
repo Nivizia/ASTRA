@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { fetchRings } from '../../../../javascript/apiService';
+import { useLocation, useParams } from 'react-router-dom';
+import { fetchRings, fetchRingsByShape } from '../../../../javascript/apiService';
 
 import CircularIndeterminate from '../../loading';
 import RingBox from './ringbox';
@@ -12,12 +12,22 @@ const RingList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const { diamondId, ringId } = useParams();
+  const { diamondId } = useParams();
+
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+
+  const shape = params.get('shape');
 
   useEffect(() => {
     async function getRings() {
       try {
-        const data = await fetchRings();
+        let data;
+        if (diamondId) {
+          data = await fetchRingsByShape(shape);
+        } else {
+          data = await fetchRings();
+        }
         if (Array.isArray(data)) {
           setRings(data);
           console.log(data);
@@ -31,8 +41,8 @@ const RingList = () => {
       }
     }
     getRings();
-    console.log(diamondId, ringId);
-  }, [diamondId, ringId]);
+    console.log(diamondId);
+  }, [diamondId, shape]);
 
   if (loading) {
     return <CircularIndeterminate size={56} />;
@@ -54,10 +64,10 @@ const RingList = () => {
 
   const getRingName = (ring) => {
     let RingName = '';
-  
+
     // Helper function to return non-null values or an empty string
     const safeValue = (value) => value ? value : '';
-  
+
     // Build the ring name based on the type
     if (ring.ringType === 'Solitaire') {
       RingName = `${safeValue(ring.ringSubtype)} ${safeValue(ring.frameType)} ${safeValue(ring.ringType)} Engagement Ring in ${safeValue(ring.metalType)}`.trim();
@@ -68,7 +78,7 @@ const RingList = () => {
     } else if (ring.ringType === 'Three-stone') {
       RingName = `${safeValue(ring.ringSubtype)} ${safeValue(ring.ringType)} Diamond Engagement Ring in ${safeValue(ring.metalType)}`.trim();
     }
-  
+
     // Add optional attributes like stoneCut or specialFeatures
     if (ring.stoneCut) {
       RingName = `${ring.stoneCut} ${RingName}`.trim();
@@ -76,10 +86,10 @@ const RingList = () => {
     if (ring.specialFeatures) {
       RingName = `${RingName} featuring ${ring.specialFeatures}`.trim();
     }
-  
+
     // Remove any extra spaces
     RingName = RingName.replace(/\s+/g, ' ').trim();
-  
+
     return RingName;
   };
 
@@ -87,8 +97,8 @@ const RingList = () => {
     <div>
       <div className="diamond-list">
         {rings.map((ring) => (
-          
-          diamondId && !ringId ? (
+
+          diamondId ? (
             // Condition for diamondId is defined and ringId is undefined
             <RingBox
               key={ring.ringId}

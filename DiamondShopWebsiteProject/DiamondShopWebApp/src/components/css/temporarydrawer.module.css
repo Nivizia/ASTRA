@@ -75,11 +75,12 @@
     font-weight: bold !important;
     border: 1px solid !important;
     border-radius: 10px !important;
-    
+
     padding: auto !important;
     margin: auto !important;
     background-color: #0000c0 !important;
-    color: #fff !important; /* Added color for text */
+    color: #fff !important;
+    /* Added color for text */
     cursor: pointer;
     transition: background-color 250ms ease, transform 250ms ease;
 }

@@ -13,7 +13,7 @@ const ShoppingCart = () => {
 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
-    
+
     // Diamond ID for loose diamond
     const diamondId = params.get('diamondId');
 
@@ -219,34 +219,34 @@ const ShoppingCart = () => {
 
     const getRingName = (ring) => {
         let RingName = '';
-      
+
         // Helper function to return non-null values or an empty string
         const safeValue = (value) => value ? value : '';
-      
+
         // Build the ring name based on the type
         if (ring.ringType === 'Solitaire') {
-          RingName = `${safeValue(ring.ringSubtype)} ${safeValue(ring.frameType)} ${safeValue(ring.ringType)} Engagement Ring in ${safeValue(ring.metalType)}`.trim();
+            RingName = `${safeValue(ring.ringSubtype)} ${safeValue(ring.frameType)} ${safeValue(ring.ringType)} Engagement Ring in ${safeValue(ring.metalType)}`.trim();
         } else if (ring.ringType === 'Halo') {
-          RingName = `${safeValue(ring.ringSubtype)} ${safeValue(ring.ringType)} Diamond Engagement Ring in ${safeValue(ring.metalType)}`.trim();
+            RingName = `${safeValue(ring.ringSubtype)} ${safeValue(ring.ringType)} Diamond Engagement Ring in ${safeValue(ring.metalType)}`.trim();
         } else if (ring.ringType === 'Sapphire sidestone') {
-          RingName = `${safeValue(ring.ringSubtype)} Sapphire and Diamond Engagement Ring in ${safeValue(ring.metalType)}`.trim();
+            RingName = `${safeValue(ring.ringSubtype)} Sapphire and Diamond Engagement Ring in ${safeValue(ring.metalType)}`.trim();
         } else if (ring.ringType === 'Three-stone') {
-          RingName = `${safeValue(ring.ringSubtype)} ${safeValue(ring.ringType)} Diamond Engagement Ring in ${safeValue(ring.metalType)}`.trim();
+            RingName = `${safeValue(ring.ringSubtype)} ${safeValue(ring.ringType)} Diamond Engagement Ring in ${safeValue(ring.metalType)}`.trim();
         }
-      
+
         // Add optional attributes like stoneCut or specialFeatures
         if (ring.stoneCut) {
-          RingName = `${ring.stoneCut} ${RingName}`.trim();
+            RingName = `${ring.stoneCut} ${RingName}`.trim();
         }
         if (ring.specialFeatures) {
-          RingName = `${RingName} featuring ${ring.specialFeatures}`.trim();
+            RingName = `${RingName} featuring ${ring.specialFeatures}`.trim();
         }
-      
+
         // Remove any extra spaces
         RingName = RingName.replace(/\s+/g, ' ').trim();
-      
+
         return RingName;
-      };
+    };
 
     return (
         <>

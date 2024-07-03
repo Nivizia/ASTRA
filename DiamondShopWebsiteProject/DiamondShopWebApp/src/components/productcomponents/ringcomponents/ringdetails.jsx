@@ -26,6 +26,7 @@ const RingDetails = () => {
       try {
         const data = await fetchRingById(ringId);
         setRing(data);
+        console.log(data);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -50,10 +51,10 @@ const RingDetails = () => {
 
   const getRingName = (ring) => {
     let RingName = '';
-  
+
     // Helper function to return non-null values or an empty string
     const safeValue = (value) => value ? value : '';
-  
+
     // Build the ring name based on the type
     if (ring.ringType === 'Solitaire') {
       RingName = `${safeValue(ring.ringSubtype)} ${safeValue(ring.frameType)} ${safeValue(ring.ringType)} Engagement Ring in ${safeValue(ring.metalType)}`.trim();
@@ -64,7 +65,7 @@ const RingDetails = () => {
     } else if (ring.ringType === 'Three-stone') {
       RingName = `${safeValue(ring.ringSubtype)} ${safeValue(ring.ringType)} Diamond Engagement Ring in ${safeValue(ring.metalType)}`.trim();
     }
-  
+
     // Add optional attributes like stoneCut or specialFeatures
     if (ring.stoneCut) {
       RingName = `${ring.stoneCut} ${RingName}`.trim();
@@ -72,10 +73,10 @@ const RingDetails = () => {
     if (ring.specialFeatures) {
       RingName = `${RingName} featuring ${ring.specialFeatures}`.trim();
     }
-  
+
     // Remove any extra spaces
     RingName = RingName.replace(/\s+/g, ' ').trim();
-  
+
     return RingName;
   };
 
@@ -98,10 +99,10 @@ const RingDetails = () => {
         </div>
         <p className="price">${ring.price.toFixed(2)}</p>
         {diamondId ? (
-            <Button className={styles.selectDiamondButton} onClick={handleSelectRing}>CHOOSE RING</Button>
-          ) : (
-            <Button className={styles.selectDiamondButton} onClick={handleSelectRing}>Go Home</Button>
-          )}
+          <Button className={styles.selectDiamondButton} onClick={handleSelectRing}>CHOOSE RING</Button>
+        ) : (
+          <Button className={styles.selectDiamondButton} onClick={handleSelectRing}>Go Home</Button>
+        )}
         <div className="order-info">
           <h3>Your Order Includes:</h3>
           <div className="order-detail">
@@ -131,6 +132,12 @@ const RingDetails = () => {
             <tr>
               <td>Ring Size</td>
               <td>{ring.ringSize}</td>
+            </tr>
+            <tr>
+              <td>Suitable Shapes</td>
+              <td>{ring.shapes.map((shape, index) => (
+                <div key={index}>{shape}</div>
+              ))}</td>
             </tr>
           </tbody>
         </table>

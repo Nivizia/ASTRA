@@ -38,7 +38,7 @@ const ToggleButton = styled(MuiToggleButton)(({ selectedcolor }) => ({
     },
 }));
 
-export default function PersistentDrawerRight({ diamondId }) {
+export default function PersistentDrawerRight({ diamondId, diamondShape }) {
     const [open, setOpen] = React.useState(false);
     const [selectedMode, setSelectedMode] = React.useState('');
     const navigate = useNavigate(); // Initialize useNavigate hook
@@ -57,7 +57,7 @@ export default function PersistentDrawerRight({ diamondId }) {
         let path;
         switch (selectedMode) {
             case 'ring':
-                path = `/diamond/${diamondId}/choose-ring/`;
+                path = `/diamond/${diamondId}/choose-ring?shape=${diamondShape}`;
                 break;
             case 'pendant':
                 path = `/diamond/${diamondId}/choose-pendant/`;

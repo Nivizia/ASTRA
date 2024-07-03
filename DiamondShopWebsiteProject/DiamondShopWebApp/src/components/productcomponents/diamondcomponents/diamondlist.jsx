@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchDiamonds } from '../../../../javascript/apiService';
+import { fetchDiamondsAvailable } from '../../../../javascript/apiService';
 
 import CircularIndeterminate from '../../loading';
 import DiamondBox from './diamondbox';
@@ -14,7 +14,7 @@ const DiamondList = () => {
   useEffect(() => {
     async function getDiamonds() {
       try {
-        const data = await fetchDiamonds();
+        const data = await fetchDiamondsAvailable();
         if (Array.isArray(data)) {
           setDiamonds(data);
         } else {
@@ -46,7 +46,6 @@ const DiamondList = () => {
   if (diamonds.length === 0) {
     return <p>There's no diamond</p>;
   }
-
 
   return (
     <div>

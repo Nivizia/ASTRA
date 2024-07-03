@@ -55,10 +55,20 @@ export const fetchDiamonds = async () => {
         const response = await axios.get(`${BASE_URL}/Diamond`);
         return response.data;
     } catch (error) {
-        console.error('There was a problem with the fetch operation:', error);
+        console.error('Error in fetchDiamonds:', error);
         throw error;
     }
 };
+
+export const fetchDiamondsAvailable = async () => {
+    try {
+        const diamonds = await fetchDiamonds();
+        return diamonds.filter(diamond => diamond.available === true);
+    } catch (error) {
+        console.error('Error in fetchDiamondsAvailable:', error);
+        throw error;
+    }
+}
 
 // Function to fetch a single diamond by ID
 export const fetchDiamondById = async (id) => {
@@ -150,6 +160,21 @@ export const fetchRingById = async (id) => {
     }
 };
 
+// Function to fetch rings by shape
+export const fetchRingsByShape = async (shape) => {
+    if (!shape) {
+        throw new Error('Shape must be provided');
+    }
+
+    try {
+        const rings = await fetchRings();
+        return rings.filter(ring => ring.shapes.includes(shape));
+    } catch (error) {
+        console.error('Error in fetchRingsByShape:', error);
+        throw error;
+    }
+};
+
 // CRUD Pendant:
 // Function to fetch all pendants
 export const fetchPendants = async () => {
@@ -179,6 +204,7 @@ export const fetchPendantById = async (id) => {
 
 // Order:
 // Function to create a new order
+// apiService.js
 export const createOrder = async (orderDetails) => {
     try {
         const token = getToken();
@@ -191,6 +217,13 @@ export const createOrder = async (orderDetails) => {
         return response.data;
     } catch (error) {
         console.error('Error creating order:', error);
-        throw error;
+
+        if (error.response && error.response.data) {
+            // Return the specific error message from the response
+            throw new Error(error.response.data);
+        } else {
+            throw new Error('An unexpected error occurred.');
+        }
     }
 };
+
