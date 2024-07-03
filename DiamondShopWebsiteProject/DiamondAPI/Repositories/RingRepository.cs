@@ -37,7 +37,12 @@ namespace DiamondAPI.Repositories
 
         public async Task<List<Ring>> GetAllAsync()
         {
-            return await _context.Rings.ToListAsync();
+            return await _context.Rings
+                .Include(r => r.FrameType)
+                .Include(r => r.MetalType)
+                .Include(r => r.RingSubtype)
+                .Include(r => r.RingType)
+                .ToListAsync();
         }
 
         public async Task<Ring?> GetByIDAsync(Guid? R_ProductID)
