@@ -108,7 +108,7 @@ namespace DiamondAPI.Repositories
         {
             if (D_ProductID == null)
                 return null;
-            return await _context.Diamonds.FindAsync(D_ProductID);
+            return await _context.Diamonds.Include(d => d.Shape).FirstOrDefaultAsync(d => d.DProductId == D_ProductID);
         }
 
         public async Task<bool> IsAvailable(Guid? D_ProductID)

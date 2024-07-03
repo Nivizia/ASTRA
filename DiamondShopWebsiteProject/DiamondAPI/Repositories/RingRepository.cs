@@ -42,6 +42,8 @@ namespace DiamondAPI.Repositories
                 .Include(r => r.MetalType)
                 .Include(r => r.RingSubtype)
                 .Include(r => r.RingType)
+                .Include(r => r.StoneCut)
+                .Include(r => r.SpecialFeature)
                 .ToListAsync();
         }
 

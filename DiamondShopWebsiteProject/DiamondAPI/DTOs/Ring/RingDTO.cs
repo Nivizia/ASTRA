@@ -12,6 +12,10 @@
 
         public string? MetalType { get; set; }
 
+        public string? StoneCut { get; set; }
+
+        public string? SpecialFeature { get; set; }
+
         public string? RingSize { get; set; }
 
         public string? RingName { get; set; }

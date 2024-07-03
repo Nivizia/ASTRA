@@ -15,6 +15,8 @@ namespace DiamondAPI.Mappers
                 RingSubtype = ring.RingSubtype?.SubtypeName,
                 FrameType = ring.FrameType?.FrameTypeName,
                 MetalType = ring.MetalType?.MetalTypeName,
+                StoneCut = ring.StoneCut?.StoneCutName,
+                SpecialFeature = ring.SpecialFeature?.FeatureDescription,
                 RingSize = ring.RingSize,
                 RingName = ring.RingName,
                 Price = ring.Price,
