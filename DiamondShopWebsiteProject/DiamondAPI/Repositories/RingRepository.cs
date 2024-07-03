@@ -51,7 +51,14 @@ namespace DiamondAPI.Repositories
         {
             if (R_ProductID == null)
                 return null;
-            return await _context.Rings.FindAsync(R_ProductID);
+            return await _context.Rings
+                .Include(r => r.FrameType)
+                .Include(r => r.MetalType)
+                .Include(r => r.RingSubtype)
+                .Include(r => r.RingType)
+                .Include(r => r.StoneCut)
+                .Include(r => r.SpecialFeature)
+                .FirstOrDefaultAsync(r => r.RingId == R_ProductID);
         }
 
         public async Task<Ring?> UpdateAsync(Guid R_ProductID, UpdateRingRequestDTO updateRingDTO)
