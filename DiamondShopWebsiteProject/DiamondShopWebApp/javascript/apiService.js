@@ -60,6 +60,7 @@ export const fetchDiamonds = async () => {
     }
 };
 
+// Function to fetch available diamonds
 export const fetchDiamondsAvailable = async () => {
     try {
         const diamonds = await fetchDiamonds();
@@ -68,7 +69,22 @@ export const fetchDiamondsAvailable = async () => {
         console.error('Error in fetchDiamondsAvailable:', error);
         throw error;
     }
-}
+};
+
+// Function to fetch available diamonds by suitable shapes
+export const fetchAvailableDiamondsByShape = async (suitableShapes) => {
+    if (!suitableShapes || !Array.isArray(suitableShapes) || suitableShapes.length === 0) {
+        throw new Error('A non-empty array of suitable shapes must be provided');
+    }
+
+    try {
+        const availableDiamonds = await fetchDiamondsAvailable();
+        return availableDiamonds.filter(diamond => suitableShapes.includes(diamond.shape));
+    } catch (error) {
+        console.error('Error in fetchAvailableDiamondsByShape:', error);
+        throw error;
+    }
+};
 
 // Function to fetch a single diamond by ID
 export const fetchDiamondById = async (id) => {

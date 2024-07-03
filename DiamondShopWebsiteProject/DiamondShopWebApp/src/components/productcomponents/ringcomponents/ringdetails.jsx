@@ -26,7 +26,6 @@ const RingDetails = () => {
       try {
         const data = await fetchRingById(ringId);
         setRing(data);
-        console.log(data);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -34,7 +33,7 @@ const RingDetails = () => {
       }
     }
     getRing();
-    console.log(`${diamondId}, ${ringId}`);
+    console.log(`diamondId: ${diamondId}, ringId: ${ringId}`);
   }, [diamondId, ringId]);
 
   if (loading) {
@@ -99,9 +98,9 @@ const RingDetails = () => {
         </div>
         <p className="price">${ring.price.toFixed(2)}</p>
         {diamondId ? (
-          <Button className={styles.selectDiamondButton} onClick={handleSelectRing}>CHOOSE RING</Button>
+          <Button className={styles.selectDiamondButton} onClick={handleSelectRing}>SELECT RING</Button>
         ) : (
-          <Button className={styles.selectDiamondButton} onClick={handleSelectRing}>CHOOSE A DIAMOND</Button>
+          <Button className={styles.selectDiamondButton} onClick={handleSelectRing}>SELECT A DIAMOND</Button>
         )}
         <div className="order-info">
           <h3>Your Order Includes:</h3>

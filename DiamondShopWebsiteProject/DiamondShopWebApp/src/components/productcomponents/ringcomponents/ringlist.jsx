@@ -12,7 +12,7 @@ const RingList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const { diamondId } = useParams();
+  const { diamondId, ringId } = useParams();
 
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -30,7 +30,6 @@ const RingList = () => {
         }
         if (Array.isArray(data)) {
           setRings(data);
-          console.log(data);
         } else {
           setError("Unable to fetch rings");
         }
@@ -41,7 +40,7 @@ const RingList = () => {
       }
     }
     getRings();
-    console.log(diamondId);
+    console.log(`diamondId: ${diamondId}, ringId: ${ringId}`);
   }, [diamondId, shape]);
 
   if (loading) {

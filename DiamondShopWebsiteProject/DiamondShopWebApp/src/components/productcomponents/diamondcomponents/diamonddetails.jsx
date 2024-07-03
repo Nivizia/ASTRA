@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { fetchDiamondById } from '../../../../javascript/apiService';
 
 import CircularIndeterminate from '../../loading';
 import TemporaryDrawer from '../../drawercomponents/temporaryDrawer';
+import Button from '@mui/material/Button';
 
 import '../../css/product.css';
+import styles from "../../css/temporarydrawer.module.css";
 
 const DiamondDetails = () => {
-  const { diamondId } = useParams();
+  const { diamondId, ringId, pendantId } = useParams();
   const [diamond, setDiamond] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
+
+  const handleSelectDiamond = () => {
+    const path = ringId ? `/cart?d=${diamondId}&r=${ringId}` : `/cart?d=${diamondId}&p=${pendantId}`;
+    navigate(path);
+  };
 
   useEffect(() => {
     async function getDiamond() {
@@ -25,6 +34,7 @@ const DiamondDetails = () => {
       }
     }
     getDiamond();
+    console.log(`diamondId: ${diamondId}, ringId: ${ringId}`);
   }, [diamondId]);
 
   if (loading) {
@@ -60,7 +70,11 @@ const DiamondDetails = () => {
           <span className="badge">{`${diamond.shape}` || 'Unknown'}</span>
         </div>
         <p className="price">${diamond.price.toFixed(2)}</p>
-        <TemporaryDrawer diamondId={diamondId} diamondShape={diamond.shape} />
+        {ringId || pendantId ? (
+          <Button className={styles.selectDiamondButton} onClick={handleSelectDiamond}>SELECT DIAMOND</Button>
+        ) : (
+          <TemporaryDrawer diamondId={diamondId} diamondShape={diamond.shape} />
+        )}
         <div className="order-info">
           <h3>Your Order Includes:</h3>
           <div className="order-detail">

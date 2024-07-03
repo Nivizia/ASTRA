@@ -1,9 +1,11 @@
 import React from 'react';
 import '../../css/product.css';
 
-const DiamondBox = ({ id, price, imageUrl, caratWeight, color, clarity, cut, shape }) => {
+const DiamondBox = ({ diamondId, ringId, pendantId, price, imageUrl, caratWeight, color, clarity, cut, shape }) => {
+
+    const href = ringId ? `/ring/${ringId}/choose-diamond/${diamondId}` : pendantId ? `/pendant/${pendantId}/choose-diamond/${diamondId}` : `/diamond/${diamondId}`;
     return (
-        <a href={`/diamond/${id}`} className="diamond-link">
+        <a href={href} className="diamond-link">
             <div className="diamond-box">
                 <div className='diamond-image-container'>
                     <img src='/src/images/diamond.png' alt="Diamond" className="diamond-image" />

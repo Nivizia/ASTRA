@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { fetchDiamondsAvailable } from '../../../../javascript/apiService';
+import { useParams } from 'react-router-dom';
+import { fetchAvailableDiamondsByShape, fetchDiamondsAvailable, fetchRingById } from '../../../../javascript/apiService';
 
 import CircularIndeterminate from '../../loading';
 import DiamondBox from './diamondbox';
 
 import '../../css/product.css';
 
+
 const DiamondList = () => {
+  const { diamondId, ringId, pendantId } = useParams();
   const [diamonds, setDiamonds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,7 +17,15 @@ const DiamondList = () => {
   useEffect(() => {
     async function getDiamonds() {
       try {
-        const data = await fetchDiamondsAvailable();
+        let data;
+        if (ringId) {
+          const ring = await fetchRingById(ringId);
+          data = await fetchAvailableDiamondsByShape(ring.shapes);
+        } else if (pendantId) {
+          console.log('Haro this is for pendant');
+        } else {
+          data = await fetchDiamondsAvailable();
+        }
         if (Array.isArray(data)) {
           setDiamonds(data);
         } else {
@@ -27,6 +38,7 @@ const DiamondList = () => {
       }
     }
     getDiamonds();
+    console.log(`diamondId: ${diamondId}, ringId: ${ringId}`);
   }, []);
 
   if (loading) {
@@ -51,18 +63,51 @@ const DiamondList = () => {
     <div>
       <div className="diamond-list">
         {diamonds.map((diamond) => (
-          <DiamondBox
-            key={diamond.dProductId}
-            id={diamond.dProductId}
-            price={diamond.price}
-            imageUrl={diamond.imageUrl}
-
-            caratWeight={diamond.caratWeight}
-            color={diamond.color}
-            clarity={diamond.clarity}
-            cut={diamond.cut}
-            shape={diamond.shape}
-          />
+          ringId ? (
+            // Condition for ringId is defined
+            <DiamondBox
+              key={diamond.dProductId}
+              diamondId={diamond.dProductId}
+              ringId={ringId} // Passed from the parent component or context
+              price={diamond.price}
+              imageUrl={diamond.imageUrl}
+              caratWeight={diamond.caratWeight}
+              color={diamond.color}
+              clarity={diamond.clarity}
+              cut={diamond.cut}
+              shape={diamond.shape}
+              // diamondId is intentionally passed here based on your condition
+            />
+          ) : pendantId ? (
+            // Condition for pendantId is defined
+            <DiamondBox
+              key={diamond.dProductId}
+              diamondId={diamond.dProductId}
+              pendantId={pendantId} // Passed from the parent component or context
+              price={diamond.price}
+              imageUrl={diamond.imageUrl}
+              caratWeight={diamond.caratWeight}
+              color={diamond.color}
+              clarity={diamond.clarity}
+              cut={diamond.cut}
+              shape={diamond.shape}
+              // diamondId is intentionally passed here based on your condition
+            />
+          ) : (
+            // Default case, assuming no ringId or pendantId
+            <DiamondBox
+              key={diamond.dProductId}
+              diamondId={diamond.dProductId}
+              price={diamond.price}
+              imageUrl={diamond.imageUrl}
+              caratWeight={diamond.caratWeight}
+              color={diamond.color}
+              clarity={diamond.clarity}
+              cut={diamond.cut}
+              shape={diamond.shape}
+              // Neither ringId nor pendantId is passed here
+            />
+          )
         ))}
       </div>
     </div>
