@@ -57,12 +57,12 @@ namespace DiamondAPI.Controllers
             {
                 if (orderItem.ProductType == "RingPairing")
                 {
-                    if (await _diamondRepo.IsAvailable(orderItem.CreateRingPairingDTO?.DiamondId))
-                        return BadRequest("The diamond was already ordered. ID = " + orderItem.CreateRingPairingDTO?.DiamondId);
-
                     var ring = await _ringRepo.GetByIDAsync(orderItem.CreateRingPairingDTO?.RingId);
                     if (ring == null)
                         return NotFound("The specified ring could not be found. ID = " + orderItem.CreateRingPairingDTO?.RingId);
+
+                    if (await _diamondRepo.IsAvailable(orderItem.CreateRingPairingDTO?.DiamondId))
+                        return BadRequest("The diamond was already ordered. ID = " + orderItem.CreateRingPairingDTO?.DiamondId);
 
                     if (ring.StockQuantity < 1)
                         return BadRequest("The ring is out of stock. ID = " + orderItem.CreateRingPairingDTO?.RingId);
@@ -88,12 +88,12 @@ namespace DiamondAPI.Controllers
                 }
                 else if (orderItem.ProductType == "PendantPairing")
                 {
-                    if (await _diamondRepo.IsAvailable(orderItem.CreatePendantPairingDTO?.DiamondId))
-                        return BadRequest("The diamond was already ordered. ID = " + orderItem.CreateRingPairingDTO?.DiamondId);
-
                     var pendant = await _pendantRepo.GetByIDAsync(orderItem.CreatePendantPairingDTO?.PendantId);
                     if (pendant == null)
                         return NotFound("The specified pendant could not be found. ID = " + orderItem.CreatePendantPairingDTO?.PendantId);
+
+                    if (await _diamondRepo.IsAvailable(orderItem.CreatePendantPairingDTO?.DiamondId))
+                        return BadRequest("The diamond was already ordered. ID = " + orderItem.CreateRingPairingDTO?.DiamondId);
 
                     if (pendant.StockQuantity < 1)
                         return BadRequest("The pendant is out of stock. ID = " + orderItem.CreatePendantPairingDTO?.PendantId);
@@ -119,12 +119,12 @@ namespace DiamondAPI.Controllers
                 }
                 else if (orderItem.ProductType == "EarringPairing")
                 {
-                    if (await _diamondRepo.IsAvailable(orderItem.CreateEarringPairingDTO?.DiamondId))
-                        return BadRequest("The diamond was already ordered. ID = " + orderItem.CreateRingPairingDTO?.DiamondId);
-
                     var earring = await _earringRepo.GetByIDAsync(orderItem.CreateEarringPairingDTO?.EarringId);
                     if (earring == null)
                         return NotFound("The specified earring could not be found. ID = " + orderItem.CreateEarringPairingDTO?.EarringId);
+
+                    if (await _diamondRepo.IsAvailable(orderItem.CreateEarringPairingDTO?.DiamondId))
+                        return BadRequest("The diamond was already ordered. ID = " + orderItem.CreateRingPairingDTO?.DiamondId);
 
                     if (earring.StockQuantity < 1)
                         return BadRequest("The earring is out of stock. ID = " + orderItem.CreateEarringPairingDTO?.EarringId);
@@ -150,12 +150,12 @@ namespace DiamondAPI.Controllers
                 }
                 else if (orderItem.ProductType == "Diamond")
                 {
-                    if (await _diamondRepo.IsAvailable(orderItem.ProductId))
-                        return BadRequest("The diamond is already ordered. ID = " + orderItem.ProductId);
-
                     var diamond = await _diamondRepo.GetByIDAsync(orderItem.ProductId);
                     if (diamond == null)
                         return NotFound("The specified diamond could not be found. ID = " + orderItem.ProductId);
+
+                    if (await _diamondRepo.IsAvailable(orderItem.ProductId))
+                        return BadRequest("The diamond is already ordered. ID = " + orderItem.ProductId);
 
                     diamond.Available = true;
 
