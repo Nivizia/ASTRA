@@ -62,7 +62,7 @@ const DiamondList = () => {
             color={diamond.color}
             clarity={diamond.clarity}
             cut={diamond.cut}
-            shape={diamond.dType}
+            shape={diamond.shape}
           />
         ))}
       </div>

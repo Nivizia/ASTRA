@@ -10,6 +10,27 @@ DELETE FROM METALTYPE;
 DELETE FROM FRAMETYPE;
 DELETE FROM RINGSUBTYPE;
 DELETE FROM RINGTYPE;
+DELETE FROM DIAMOND;
+
+INSERT INTO DIAMOND (Price, ImageURL, ShapeID, CaratWeight, Color, Clarity, Cut)
+VALUES
+(3850, 'imageURL_Pear_3850.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Pear'), 0.95, 6, 2, 1),
+(3700, 'imageURL_Marquise_3700.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Marquise'), 1.25, 5, 6, 3),
+(3550, 'imageURL_Asscher_3550.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Asscher'), 1.30, 7, 7, 4),
+(3400, 'imageURL_Cushion_3400.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Cushion'), 1.40, 8, 8, 4),
+(3250, 'imageURL_Radiant_3250.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Radiant'), 1.15, 3, 3, 1),
+(3100, 'imageURL_Heart_3100.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Heart'), 1.00, 2, 2, 2),
+(2950, 'imageURL_Round_2950.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Round'), 1.05, 1, 1, 1),
+(2800, 'imageURL_Princess_2800.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Princess'), 1.10, 7, 5, 3),
+(2650, 'imageURL_Emerald_2650.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Emerald'), 0.90, 4, 4, 2),
+(2500, 'imageURL_Oval_2500.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Oval'), 0.85, 6, 2, 1),
+(2350, 'imageURL_Pear_2350.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Pear'), 0.75, 5, 6, 3),
+(2200, 'imageURL_Marquise_2200.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Marquise'), 1.05, 3, 7, 4),
+(2050, 'imageURL_Asscher_2050.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Asscher'), 1.20, 7, 4, 2),
+(1900, 'imageURL_Cushion_1900.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Cushion'), 0.95, 8, 3, 1),
+(1750, 'imageURL_Radiant_1750.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Radiant'), 0.85, 2, 2, 3),
+(1600, 'imageURL_Heart_1600.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Heart'), 1.00, 1, 8, 4),
+(1450, 'imageURL_Round_1450.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Round'), 1.20, 8, 6, 2);
 
 INSERT INTO RINGTYPE (RingTypeID, TypeName)
 VALUES

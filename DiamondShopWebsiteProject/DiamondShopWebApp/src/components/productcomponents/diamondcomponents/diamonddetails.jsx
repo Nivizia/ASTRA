@@ -51,7 +51,7 @@ const DiamondDetails = () => {
         </div>
       </div>
       <div className="details-section">
-        <h2>{`${diamond.caratWeight} Carat ${diamond.color}-${diamond.clarity} ${diamond.cut} cut ${diamond.dType} Diamond`}</h2>
+        <h2>{`${diamond.caratWeight} Carat ${diamond.color}-${diamond.clarity} ${diamond.cut} cut ${diamond.shape} Diamond`}</h2>
         <div className="badge-group">
           <span className="badge">{`${diamond.caratWeight}ct`}</span>
           <span className="badge">{`${diamond.color} Color`}</span>
@@ -80,7 +80,7 @@ const DiamondDetails = () => {
           <tbody>
             <tr>
               <td>Shape</td>
-              <td>{diamond.dType}</td>
+              <td>{diamond.shape}</td>
             </tr>
             <tr>
               <td>Cut</td>
