@@ -22,6 +22,7 @@ namespace DiamondAPI.Mappers
                 Price = ring.Price,
                 StockQuantity = ring.StockQuantity,
                 ImageUrl = ring.ImageUrl,
+                Shapes = ring.Ringshapedetails.Select(r => r.Shape?.ShapeName).ToList()
             };
         }
 

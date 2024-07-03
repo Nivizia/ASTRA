@@ -44,6 +44,7 @@ namespace DiamondAPI.Repositories
                 .Include(r => r.RingType)
                 .Include(r => r.StoneCut)
                 .Include(r => r.SpecialFeature)
+                .Include(r => r.Ringshapedetails).ThenInclude(r => r.Shape)
                 .ToListAsync();
         }
 
@@ -58,6 +59,7 @@ namespace DiamondAPI.Repositories
                 .Include(r => r.RingType)
                 .Include(r => r.StoneCut)
                 .Include(r => r.SpecialFeature)
+                .Include(r => r.Ringshapedetails).ThenInclude(r => r.Shape)
                 .FirstOrDefaultAsync(r => r.RingId == R_ProductID);
         }
 

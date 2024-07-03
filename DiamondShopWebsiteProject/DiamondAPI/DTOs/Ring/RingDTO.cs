@@ -1,4 +1,6 @@
-﻿namespace DiamondAPI.DTOs.Ring
+﻿using DiamondAPI.Models;
+
+namespace DiamondAPI.DTOs.Ring
 {
     public class RingDTO
     {
@@ -25,5 +27,7 @@
         public int? StockQuantity { get; set; }
 
         public string? ImageUrl { get; set; }
+
+        public virtual List<string?> Shapes { get; set; } = new List<string?>();
     }
 }
