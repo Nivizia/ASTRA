@@ -25,6 +25,7 @@ const RingDetails = () => {
     async function getRing() {
       try {
         const data = await fetchRingById(ringId);
+        console.log(data);
         setRing(data);
       } catch (error) {
         setError(error.message);
@@ -48,6 +49,37 @@ const RingDetails = () => {
     return <p>Ring not found.</p>;
   }
 
+  const getRingName = (ring) => {
+    let RingName = '';
+  
+    // Helper function to return non-null values or an empty string
+    const safeValue = (value) => value ? value : '';
+  
+    // Build the ring name based on the type
+    if (ring.ringType === 'Solitaire') {
+      RingName = `${safeValue(ring.ringSubtype)} ${safeValue(ring.frameType)} ${safeValue(ring.ringType)} Engagement Ring in ${safeValue(ring.metalType)}`.trim();
+    } else if (ring.ringType === 'Halo') {
+      RingName = `${safeValue(ring.ringSubtype)} ${safeValue(ring.ringType)} Diamond Engagement Ring in ${safeValue(ring.metalType)}`.trim();
+    } else if (ring.ringType === 'Sapphire sidestone') {
+      RingName = `${safeValue(ring.ringSubtype)} Sapphire and Diamond Engagement Ring in ${safeValue(ring.metalType)}`.trim();
+    } else if (ring.ringType === 'Three-stone') {
+      RingName = `${safeValue(ring.ringSubtype)} ${safeValue(ring.ringType)} Diamond Engagement Ring in ${safeValue(ring.metalType)}`.trim();
+    }
+  
+    // Add optional attributes like stoneCut or specialFeatures
+    if (ring.stoneCut) {
+      RingName = `${ring.stoneCut} ${RingName}`.trim();
+    }
+    if (ring.specialFeatures) {
+      RingName = `${RingName} featuring ${ring.specialFeatures}`.trim();
+    }
+  
+    // Remove any extra spaces
+    RingName = RingName.replace(/\s+/g, ' ').trim();
+  
+    return RingName;
+  };
+
   return (
     <div className="diamond-details-container">
       <div className="image-section">
@@ -60,7 +92,7 @@ const RingDetails = () => {
         </div>
       </div>
       <div className="details-section">
-        <h2>{ring.name}</h2>
+        <h2>{getRingName(ring)}</h2>
         <div className="badge-group">
           <span className="badge">{ring.metalType || 'Unknown'}</span>
           <span className="badge">{ring.ringSize || 'Unknown'}</span>

@@ -55,23 +55,30 @@ const RingList = () => {
   const getRingName = (ring) => {
     let RingName = '';
   
+    // Helper function to return non-null values or an empty string
+    const safeValue = (value) => value ? value : '';
+  
+    // Build the ring name based on the type
     if (ring.ringType === 'Solitaire') {
-      RingName = `${ring.ringSubtype} ${ring.frameType} ${ring.ringType} Engagement Ring in ${ring.metalType}`;
+      RingName = `${safeValue(ring.ringSubtype)} ${safeValue(ring.frameType)} ${safeValue(ring.ringType)} Engagement Ring in ${safeValue(ring.metalType)}`.trim();
     } else if (ring.ringType === 'Halo') {
-      RingName = `${ring.ringSubtype} ${ring.ringType} Diamond Engagement Ring in ${ring.metalType}`;
-    } else if (ring.ringType === 'Sapphire Sidestone') {
-      RingName = `${ring.ringSubtype} Sapphire and Diamond Engagement Ring in ${ring.metalType}`;
-    } else if (ring.ringType === 'Three-Stone') {
-      RingName = `${ring.ringSubtype} ${ring.ringType} Diamond Engagement Ring in ${ring.metalType}`;
+      RingName = `${safeValue(ring.ringSubtype)} ${safeValue(ring.ringType)} Diamond Engagement Ring in ${safeValue(ring.metalType)}`.trim();
+    } else if (ring.ringType === 'Sapphire sidestone') {
+      RingName = `${safeValue(ring.ringSubtype)} Sapphire and Diamond Engagement Ring in ${safeValue(ring.metalType)}`.trim();
+    } else if (ring.ringType === 'Three-stone') {
+      RingName = `${safeValue(ring.ringSubtype)} ${safeValue(ring.ringType)} Diamond Engagement Ring in ${safeValue(ring.metalType)}`.trim();
     }
   
     // Add optional attributes like stoneCut or specialFeatures
     if (ring.stoneCut) {
-      RingName = `${ring.stoneCut} ${RingName}`;
+      RingName = `${ring.stoneCut} ${RingName}`.trim();
     }
     if (ring.specialFeatures) {
-      RingName = `${RingName} featuring ${ring.specialFeatures}`;
+      RingName = `${RingName} featuring ${ring.specialFeatures}`.trim();
     }
+  
+    // Remove any extra spaces
+    RingName = RingName.replace(/\s+/g, ' ').trim();
   
     return RingName;
   };
