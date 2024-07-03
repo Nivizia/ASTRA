@@ -40,7 +40,7 @@ const OrderButton = () => {
                 } else if (item.type === 'pairing') {
                     if (item.productType === 'ring') {
                         return {
-                            productId: null,
+                            productId: item.diamond.dProductId,
                             price: item.price,
                             productType: "RingPairing",
                             createRingPairingDTO: {
@@ -52,7 +52,7 @@ const OrderButton = () => {
                         };
                     } else if (item.productType === 'pendant') {
                         return {
-                            productId: null,
+                            productId: item.diamond.dProductId,
                             price: item.price,
                             productType: "PendantPairing",
                             createRingPairingDTO: null,

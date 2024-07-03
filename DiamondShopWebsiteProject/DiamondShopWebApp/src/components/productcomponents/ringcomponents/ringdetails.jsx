@@ -101,7 +101,7 @@ const RingDetails = () => {
         {diamondId ? (
           <Button className={styles.selectDiamondButton} onClick={handleSelectRing}>CHOOSE RING</Button>
         ) : (
-          <Button className={styles.selectDiamondButton} onClick={handleSelectRing}>Go Home</Button>
+          <Button className={styles.selectDiamondButton} onClick={handleSelectRing}>CHOOSE A DIAMOND</Button>
         )}
         <div className="order-info">
           <h3>Your Order Includes:</h3>
