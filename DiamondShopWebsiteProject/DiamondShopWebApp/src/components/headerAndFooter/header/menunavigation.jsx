@@ -162,7 +162,7 @@ export default function MenuNav() {
         <Button component={Link} to="/calculator/"
           className="nav-button"
         >
-          Diamond Calulator
+          Calulator
         </Button>
       </li>
     </ul>

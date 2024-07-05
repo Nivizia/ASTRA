@@ -1,6 +1,6 @@
 import React from "react";
-import Header from "./headerAndFooter/header";
-import Footer from "./headerAndFooter/footer";
+import Header from "./headerAndFooter/header/header";
+import Footer from "./headerAndFooter/footer/footer";
 import { AuthProvider } from "../contexts/AuthContext";
 
 import styled from 'styled-components';

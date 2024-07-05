@@ -1,10 +1,65 @@
-/* Dark Mode Styles for Login Form */
+.backgroundContainer {
+    position: fixed;
+    /* Ensure it covers the entire viewport */
+    top: 134px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../../images/loginbackground.png') no-repeat center center;
+    /* Add the background image */
+    background-size: cover;
+    /* Make sure the image covers the entire container */
+    z-index: -2;
+    /* Place it behind all other elements */
+    transition: background-position 0.3s ease;
+}
+
+/* Create a dim overlay using a pseudo-element */
+.backgroundContainer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent black for the dimming effect */
+    z-index: -1;
+    /* Ensure it sits above the background image but below the form */
+}
+
+.backgroundContainerLoggedInPage {
+    top: 0 !important;
+}
+
+.loggedInContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    color: #fff;
+    padding: 16px;
+    margin: 16px;
+    border: 1px solid #333;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.loginPageContainer {
+    margin: 16px !important;
+    border-radius: 1%;
+}
+
 .container {
     width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin: 0 auto;
-    padding: 1em;
+    overflow: visible;
     background-color: #1e1e1e;
-    /* Dark background for the container */
+    border: 1px solid #333;
+    transition: all 0.3s ease;
 }
 
 .container h2 {
@@ -26,7 +81,15 @@ label {
     color: white;
 }
 
+.submitForm {
+    display: flex;
+    width: 85%;
+    justify-content: center;
+    align-items: center;
+}
+
 .divInLoginForm {
+    width: 100%;
     margin: 10px 0;
 }
 
@@ -99,4 +162,18 @@ label {
 .footer {
     text-align: center;
     margin-top: 1em;
+}
+
+@media (max-width: 667px) {
+    .container {
+        width: 80vw;
+        transition: all 0.3s ease;
+    }
+}
+
+@media (max-width: 450px) {
+    .container {
+        width: 83vw;
+        transition: all 0.3s ease;
+    }
 }

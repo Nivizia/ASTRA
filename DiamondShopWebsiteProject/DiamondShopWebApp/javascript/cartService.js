@@ -51,13 +51,6 @@ export const addToCart = (item) => {
     localStorage.setItem('cart', JSON.stringify(cart));
 };
 
-// Getting the cart items
-export const getCartItems = () => {
-    // Get the cart items from local storage
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    return cart;
-};
-
 // Removing an item from the cart
 export const removeFromCart = (itemId, itemType) => {
     // Retrieve the current cart items from local storage
@@ -78,11 +71,21 @@ export const removeFromCart = (itemId, itemType) => {
 
     // Save the updated cart back to local storage
     localStorage.setItem('cart', JSON.stringify(cart));
+    // Trigger the storage event manually
+    window.dispatchEvent(new Event('storage'));
 };
 
 // Clearing the cart
 export const clearCart = () => {
     localStorage.removeItem('cart');
+    // Trigger the storage event manually
+    window.dispatchEvent(new Event('storage'));
+};
+
+// Getting the cart items
+export const getCartItems = () => {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    return cart;
 };
 
 // Getting the length of the cart

@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import AccountButtonNotLoggedIn from './accountButtonNotLoggedIn';
 import AccountButtonLoggedIn from './accountButtonLoggedIn';
 import SnackbarNotification from './SnackbarNotification';
-import { AuthContext } from '../../contexts/AuthContext';
+import { AuthContext } from '../../../../contexts/AuthContext';
 
 const AccountButton = () => {
     const { user, login, logout } = useContext(AuthContext);

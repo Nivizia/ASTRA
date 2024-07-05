@@ -148,8 +148,8 @@
 .emptyCartMessage {
     text-align: center;
     color: #777;
-    font-size: 1.2rem;
-    margin-top: 50px;
+    margin: 25vh;
+    font-size: 1.75rem;
 }
 
 /* Error Message */

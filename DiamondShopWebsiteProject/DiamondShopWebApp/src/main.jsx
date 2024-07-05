@@ -10,8 +10,8 @@ import {
 import Root from './components/root';
 import Index from './components/index'
 
-import LoginPage from './components/loginPage';
-import SignUp from './components/signUp/signUp';
+import LoginPage from './components/loginandsignup/loginPage';
+import SignUp from './components/loginandsignup/signUp';
 
 import DiamondPriceCalculator from './components/misc/diamondcalculator';
 

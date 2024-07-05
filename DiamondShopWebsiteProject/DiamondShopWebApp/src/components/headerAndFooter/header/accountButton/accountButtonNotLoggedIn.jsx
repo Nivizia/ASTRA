@@ -1,39 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Dialog } from '@mui/material';
+import { MdAccountCircle } from "react-icons/md";
+import CircularIndeterminate from '../../../misc/loading';
+import styles from '../../../css/account.module.css';
 
-import CircularIndeterminate from './misc/loading';
-
-import { AuthContext } from '../contexts/AuthContext';
-
-import styles from './css/account.module.css';
-
-const LoginPage = () => {
-    const { user, login } = useContext(AuthContext);
-    const [hasUserLoggedIn, setHasUserLoggedIn] = useState(!!user);
+const AccountButtonNotLoggedIn = ({ loginMethod, onLoginSuccess }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
     const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(false);
-
-    const navigate = useNavigate();
-
-    const location = useLocation();
-    const params = new URLSearchParams(location.search);
-
-    const cart = params.get('cart');
-
-    useEffect(() => {
-        if (user) {
-            setTimeout(() => {
-                navigate('/'); // Change '/home' to your home route as needed
-            }, 3000); // Waits for 2 seconds before redirecting
-        }
-    }, [user, navigate]);
-
-    const handleLoginSuccess = () => {
-        setHasUserLoggedIn(true);
-    };
+    const [openDialog, setOpenDialog] = useState(false);
+    const [loading, setLoading] = useState(false); // Add loading state
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -41,14 +17,10 @@ const LoginPage = () => {
         setLoading(true); // Set loading to true when login starts
 
         try {
-            const result = await login(username, password);
+            const result = await loginMethod(username, password);
             if (result.success) {
-                handleLoginSuccess();
-                if (cart) {
-                    navigate('/cart');
-                } else {
-                    navigate('/'); // Change '/home' to your home route as needed
-                }
+                onLoginSuccess();
+                setOpenDialog(false);
             } else {
                 setError(result.message);
             }
@@ -59,12 +31,24 @@ const LoginPage = () => {
             setLoading(false); // Set loading to false when login completes
         }
     };
+
+    const handleAccountClickOpen = () => {
+        setOpenDialog(true);
+    };
+
+    const handleClose = () => {
+        setOpenDialog(false);
+    };
+
     return (
         <>
-            {!hasUserLoggedIn && !user ? (
+            <div onClick={handleAccountClickOpen}>
+                <MdAccountCircle />
+            </div>
+            <Dialog open={openDialog} onClose={handleClose}>
                 <div className={styles.container}>
                     <h2 className={styles.textInLoginForm}>Login</h2>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} className={styles.submitForm}>
                         <div className={styles.divInLoginForm}>
                             <label className={styles.textInLoginForm}>Username:</label>
                             <input
@@ -94,15 +78,9 @@ const LoginPage = () => {
                         <p className={styles.textInLoginForm}>Don't have an account? <a className={styles.signUp} href="/signup">Sign Up</a></p>
                     </div>
                 </div>
-            ) : (
-                <div>
-                    <CircularIndeterminate size={54} />
-                    <h2>You are already logged in! Redirecting you to home.</h2>
-                </div>
-
-            )}
+            </Dialog>
         </>
     );
 };
 
-export default LoginPage;
+export default AccountButtonNotLoggedIn;

@@ -26,7 +26,7 @@
 
 .nav-and-header-right-container {
     display: flex;
-    margin-left: 53px;
+    margin-left: 30px;
     width: 100%;
     transition: all 0.3s ease;
 }
@@ -40,8 +40,9 @@
 
 .nav ul#navButtons {
     list-style: none;
+    width: 100%;
     display: flex;
-    gap: 2rem;
+    justify-content: space-evenly;
     padding: 0;
     transition: all 0.3s ease;
 }
@@ -102,8 +103,8 @@
 
 .header-right {
     display: flex;
-    width: 60%;
-    padding-left: 2em;
+    flex-grow: 2;
+    padding-left: 1em;
     align-items: center;
     justify-content: flex-end;
     gap: 2rem;
@@ -118,20 +119,28 @@
     transition: transform 0.3s ease;
 }
 
+.header-right div button {
+    transition: transform 0.3s ease;
+}
+
 .header-right svg:hover {
     transform: scale(1.1);
+    transition: all 0.3s ease;
 }
 
 .header-right svg:active {
     transform: scale(0.95);
+    transition: all 0.3s ease;
 }
 
 .header-right div button:hover {
     transform: scale(1.1);
+    transition: all 0.3s ease;
 }
 
 .header-right div button:active {
     transform: scale(0.95);
+    transition: all 0.3s ease;
 }
 
 .search-bar {
@@ -143,18 +152,45 @@
     transition: width 0.3s ease;
 }
 
-.icon {
-    font-size: 20px;
-    transition: font-size 0.3s ease;
+.icon svg{
+    color: #fff;
+    transition: all 0.3s ease;
+}
+.icon svg:hover {
+    color: grey;
+    transform: scale(1.1);
+    transition: all 0.3s ease;
 }
 
-@media (max-width: 800px) {
+.icon svg:active {
+    color: rgb(75, 75, 75);
+    transform: scale(0.95);
+    transition: all 0.3s ease;
+}
+
+.icon span span {
+    color: white;
+    background-color: #5200aa;
+}
+
+.icon span span:hover {
+    color: white;
+    background-color: #400084;
+}
+
+.icon span span:active {
+    color: white;
+    background-color: #35006d;
+}
+
+
+@media (max-width: 900px) {
     .header-content {
         margin: 10px 20px;
     }
 
     .nav-and-header-right-container {
-        margin-left: 50px;
+        margin-left: 25px;
     }
 }
 

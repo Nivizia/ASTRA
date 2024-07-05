@@ -47,7 +47,7 @@ const AccountButtonLoggedIn = ({ user, onLogout }) => {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                        <Avatar sx={{ width: 32, height: 32 }}>{user.unique_name.slice(0, 2)}</Avatar>
                     </IconButton>
                 </Tooltip>
             </Box>
