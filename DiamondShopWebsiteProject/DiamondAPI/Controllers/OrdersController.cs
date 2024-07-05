@@ -56,7 +56,10 @@ namespace DiamondAPI.Controllers
             foreach (var orderItem in createOrderRequestDTO.Orderitems)
             {
                 // Convert the product type to lowercase for case-insensitive comparison
-                var productType = orderItem.ProductType.ToLower();
+                var productType = orderItem.ProductType?.ToLower();
+
+                if (productType == null)
+                    return BadRequest("Product type is required.");
 
                 if (productType == "ringpairing")
                 {
@@ -89,7 +92,7 @@ namespace DiamondAPI.Controllers
                     ringPairings.Add(ringPairing);
                     orderItems.Add(modelOrderItem);
                 }
-                else if (orderItem.ProductType == "pendantpairing")
+                else if (productType == "pendantpairing")
                 {
                     var pendant = await _pendantRepo.GetByIDAsync(orderItem.CreatePendantPairingDTO?.PendantId);
                     if (pendant == null)
@@ -120,7 +123,7 @@ namespace DiamondAPI.Controllers
                     pendantPairings.Add(pendantPairing);
                     orderItems.Add(modelOrderItem);
                 }
-                else if (orderItem.ProductType == "earringpairing")
+                else if (productType == "earringpairing")
                 {
                     var earring = await _earringRepo.GetByIDAsync(orderItem.CreateEarringPairingDTO?.EarringId);
                     if (earring == null)
@@ -151,7 +154,7 @@ namespace DiamondAPI.Controllers
                     earringPairings.Add(earringPairing);
                     orderItems.Add(modelOrderItem);
                 }
-                else if (orderItem.ProductType.ToLower() == "diamond")
+                else if (productType == "diamond")
                 {
                     var diamond = await _diamondRepo.GetByIDAsync(orderItem.ProductId);
                     if (diamond == null)
