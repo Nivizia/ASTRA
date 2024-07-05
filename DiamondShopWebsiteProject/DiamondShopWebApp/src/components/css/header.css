@@ -26,7 +26,7 @@
 
 .nav-and-header-right-container {
     display: flex;
-    margin-left: 50px;
+    margin-left: 53px;
     width: 100%;
     transition: all 0.3s ease;
 }
@@ -46,48 +46,50 @@
     transition: all 0.3s ease;
 }
 
-.nav button {
-    color: white;
-    background-color: black;
-    text-transform: none;
-    padding: 0 5px;
-    border-radius: 5px;
-    font-size: 1rem;
+.nav-button{
+    color: white !important;
+    background-color: black !important;
+    text-transform: none !important;
+    padding: 0 5px !important;
+    border-radius: 5px !important;
+    font-size: 1rem !important;
     transition: background-color 0.3s ease;
 }
 
-.nav button:hover {
-    background-color: grey;
+.nav-button:hover {
+    background-color: grey !important;
 }
 
 .nav div {
+    position: absolute;
+    top: 50px !important;
     background-position-y: center;
     width: 100vw;
     height: 200px;
-    transition: all 0.3s ease;
 }
 
-.nav div ul {
+.nav div div{
+    position: absolute;
+    top: 0px !important;
+    background-position-y: center;
+    width: 100vw;
+    height: 200px;
+}
+
+.menu-list{
     color: white;
     background-color: black;
     height: 100%;
-    padding: 0;
-    border-style: solid;
-    border-width: 1px;
-    border-color: white;
-    transition: all 0.3s ease;
+    padding: 0 !important;
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
 }
 
-.nav div li {
-    width: 15%;
+.menu-option{
+    width: 100%;
+    height: 33.3%;
     padding: 5px 20px;
-    transition: all 0.3s ease;
-}
-
-.nav div a {
-    width: 15%;
-    padding: 5px 20px;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease
 }
 
 .nav div li:hover {
@@ -157,16 +159,14 @@
 }
 
 @media (max-width: 667px) {
+    .header{
+        border-bottom: 1px solid grey;
+    }
     .header-content {
         flex-direction: column;
+        margin: 0.5em 20px;
         padding: 0;
         transition: all 0.3s ease;
-    }
-
-    .logo {
-        width: 100px;
-        margin-bottom: 1rem;
-        transition: width 0.3s ease;
     }
 
     .nav-and-header-right-container {
@@ -179,6 +179,12 @@
         width: 100%;
         justify-content: center;
         transition: all 0.3s ease;
+    }
+    .nav div {
+        top: 24px !important;
+    }
+    .nav div div {
+        top: 0px !important;
     }
 
     .nav ul#navButtons {

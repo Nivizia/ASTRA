@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchPendants } from '../../../../javascript/apiService';
 
-import CircularIndeterminate from '../../loading';
+import CircularIndeterminate from '../../misc/loading';
 import PendantBox from './pendantbox';
 
 import '../../css/product.css';
@@ -30,7 +30,7 @@ const PendantList = () => {
       }
     }
     getPendants();
-    console.log(diamondId, pendantId);
+    console.log(`diamondId: ${diamondId}, ringId: ${pendantId}`);
   }, [diamondId, pendantId]);
 
   if (loading) {
@@ -55,7 +55,8 @@ const PendantList = () => {
     <div>
       <div className="diamond-list">
         {pendants.map((pendant) => (
-          diamondId && !pendantId ? (
+          
+          diamondId ? (
             // Condition for diamondId is defined and pendantId is undefined
             <PendantBox
               key={pendant.pendantId}

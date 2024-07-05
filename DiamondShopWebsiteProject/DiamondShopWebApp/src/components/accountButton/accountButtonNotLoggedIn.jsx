@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog } from '@mui/material';
 import { MdAccountCircle } from "react-icons/md";
-import CircularIndeterminate from '../loading';
+import CircularIndeterminate from '../misc/loading';
 import styles from '../css/account.module.css';
 
 const AccountButtonNotLoggedIn = ({ loginMethod, onLoginSuccess }) => {

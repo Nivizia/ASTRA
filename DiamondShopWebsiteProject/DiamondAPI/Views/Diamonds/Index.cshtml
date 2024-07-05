@@ -13,9 +13,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.ImageUrl)
             </th>
             <th>
@@ -40,9 +37,6 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ImageUrl)
                 </td>

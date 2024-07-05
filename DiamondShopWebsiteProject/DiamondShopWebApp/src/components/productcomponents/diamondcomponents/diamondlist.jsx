@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchAvailableDiamondsByShape, fetchDiamondsAvailable, fetchRingById } from '../../../../javascript/apiService';
 
-import CircularIndeterminate from '../../loading';
+import CircularIndeterminate from '../../misc/loading';
 import DiamondBox from './diamondbox';
 
 import '../../css/product.css';
@@ -20,10 +20,13 @@ const DiamondList = () => {
         let data;
         if (ringId) {
           const ring = await fetchRingById(ringId);
+          console.log("Ring route");
           data = await fetchAvailableDiamondsByShape(ring.shapes);
         } else if (pendantId) {
-          console.log('Haro this is for pendant');
+          console.log("Pendant route");
+          data = await fetchDiamondsAvailable();
         } else {
+          console.log("Diamond route");
           data = await fetchDiamondsAvailable();
         }
         if (Array.isArray(data)) {

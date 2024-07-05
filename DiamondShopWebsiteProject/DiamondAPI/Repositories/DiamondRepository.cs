@@ -35,8 +35,6 @@ namespace DiamondAPI.Repositories
             return diamondModel;
         }
 
-
-
         public async Task<List<Diamond>> FilterAsync(String ShapeName, decimal? LowerPrice, decimal? UpperPrice, double? LowerCaratWeight, double? UpperCaratWeight, int? LowerColor, int? UpperColor, int? LowerClarity, int? UpperClariry, int? LowerCut, int? UpperCut)
         {
             var diamonds = _context.Diamonds.AsQueryable();
@@ -48,12 +46,12 @@ namespace DiamondAPI.Repositories
 
             if (LowerPrice != 0)
             {
-                diamonds = diamonds.Where(d => d.Price >= LowerPrice);
+                
             }
 
             if (UpperPrice != 0)
             {
-                diamonds = diamonds.Where(d => d.Price <= UpperPrice);
+                
             }
 
             if (LowerCaratWeight != 0)

@@ -2,70 +2,111 @@
 {
     public class DiamondCalculatorService
     {
-        public decimal CalculateDiamondPrice(double? carat, string? cut, string? color, string? clarity)
+        public decimal CalculateDiamondPrice(double? carat, string? color, string? clarity, string? cut)
         {
-            // Check for null and assign default values if necessary
             if (!carat.HasValue)
             {
                 throw new ArgumentNullException(nameof(carat), "Carat cannot be null.");
             }
-            // Typecast carat to decimal after ensuring it's not null
+
             decimal caratDecimal = (decimal)carat;
+            color ??= "I";
+            clarity ??= "SI1";
+            cut ??= "fair";
 
-            // Provide default values or handle null for other parameters
-            cut ??= "Good"; // Default to "Good" if null
-            color ??= "I"; // Default to "I" if null
-            clarity ??= "SI1"; // Default to "SI1" if null
-
-            // Base price per carat. This is a simplified assumption.
-            decimal basePrice = 2000m;
-
-            // Adjust price based on carat weight
-            decimal caratPriceAdjustment = caratDecimal * basePrice;
-
-            // Adjust price based on cut quality
-            decimal cutPriceAdjustment = cut switch
-            {
-                "Astor Ideal" => 1.7m,
-                "Ideal" => 1.5m,
-                "Very Good" => 1.2m,
-                "Good" => 1.0m,
-                _ => 1.0m // Default case if the cut is not recognized
-            };
-
-            // Adjust price based on color grade
-            decimal colorPriceAdjustment = color switch
-            {
-                "D" => 1.5m,
-                "E" => 1.4m,
-                "F" => 1.3m,
-                "G" => 1.2m,
-                "H" => 1.1m,
-                "I" => 1.0m,
-                "J" => 0.9m,
-                "K" => 0.8m,
-                _ => 1.0m // Default case if the color is not recognized
-            };
-
-            // Adjust price based on clarity grade
-            decimal clarityPriceAdjustment = clarity switch
-            {
-                "FL" => 1.5m,
-                "IF" => 1.4m,
-                "VVS1" => 1.3m,
-                "VVS2" => 1.2m,
-                "VS1" => 1.1m,
-                "VS2" => 1.0m,
-                "SI1" => 0.9m,
-                "SI2" => 0.8m,
-                _ => 1.0m // Default case if the clarity is not recognized
-            };
-
-            // Calculate the final price
-            decimal finalPrice = caratPriceAdjustment * cutPriceAdjustment * colorPriceAdjustment * clarityPriceAdjustment;
-
-            return finalPrice;
+            return CalculatePrice(caratDecimal, color, clarity, cut);
         }
 
+        internal static decimal? CalculateDiamondPriceToDiamondDTO(double? caratWeight, int? color, int? clarity, int? cut)
+        {
+            if (!caratWeight.HasValue || !color.HasValue || !clarity.HasValue || !cut.HasValue)
+            {
+                throw new ArgumentNullException("One or more required parameters are null.");
+            }
+
+            // Convert int values to corresponding string values
+            string colorStr = color.Value switch
+            {
+                1 => "K",
+                2 => "J",
+                3 => "I",
+                4 => "H",
+                5 => "G",
+                6 => "F",
+                7 => "E",
+                8 => "D",
+                _ => throw new ArgumentOutOfRangeException(nameof(color), "Invalid color value.")
+            };
+
+            string clarityStr = clarity.Value switch
+            {
+                1 => "SI2",
+                2 => "SI1",
+                3 => "VS2",
+                4 => "VS1",
+                5 => "VVS2",
+                6 => "VVS1",
+                7 => "IF",
+                8 => "FL",
+                _ => throw new ArgumentOutOfRangeException(nameof(clarity), "Invalid clarity value.")
+            };
+
+            string cutStr = cut.Value switch
+            {
+                1 => "Fair",
+                2 => "Good",
+                3 => "Very Good",
+                4 => "Excellent",
+                _ => throw new ArgumentOutOfRangeException(nameof(cut), "Invalid cut value.")
+            };
+
+            return CalculatePrice((decimal)caratWeight, colorStr, clarityStr, cutStr);
+        }
+
+        private static decimal CalculatePrice(decimal carat, string color, string clarity, string cut)
+        {
+            // Base price per carat
+            decimal basePrice = 1000m;
+            decimal caratPriceAdjustment = carat * basePrice;
+
+            // Price adjustments based on characteristics
+            decimal colorPriceAdjustment = color switch
+            {
+                "D" => 3.3m,
+                "E" => 2.6m,
+                "F" => 2.3m,
+                "G" => 2m,
+                "H" => 1.7m,
+                "I" => 1.5m,
+                "J" => 1.2m,
+                "K" => 1.0m,
+                _ => 1.0m
+            };
+
+            decimal clarityPriceAdjustment = clarity switch
+            {
+                "FL" => 3.1m,
+                "IF" => 3m,
+                "VVS1" => 2.4m,
+                "VVS2" => 2.0m,
+                "VS1" => 1.8m,
+                "VS2" => 1.6m,
+                "SI1" => 1.2m,
+                "SI2" => 1.0m,
+                _ => 1.0m
+            };
+
+            decimal cutPriceAdjustment = cut switch
+            {
+                "excellent" => 1.5m,
+                "very good" => 1.3m,
+                "good" => 1.2m,
+                "fair" => 1.0m,
+                _ => 1.0m
+            };
+
+            decimal finalPrice = caratPriceAdjustment * colorPriceAdjustment * clarityPriceAdjustment * cutPriceAdjustment;
+            return finalPrice;
+        }
     }
 }

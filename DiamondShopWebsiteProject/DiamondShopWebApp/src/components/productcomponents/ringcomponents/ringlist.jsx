@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { fetchRings, fetchRingsByShape } from '../../../../javascript/apiService';
 
-import CircularIndeterminate from '../../loading';
+import CircularIndeterminate from '../../misc/loading';
 import RingBox from './ringbox';
 
 import '../../css/product.css';

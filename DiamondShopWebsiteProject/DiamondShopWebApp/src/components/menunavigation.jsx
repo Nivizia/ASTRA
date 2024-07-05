@@ -1,11 +1,13 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Grow from '@mui/material/Grow';
-import Paper from '@mui/material/Paper';
-import Popper from '@mui/material/Popper';
-import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
+import {
+  Button,
+  MenuItem,
+  MenuList,
+  Paper,
+  Popper,
+  Grow,
+  ClickAwayListener
+} from '@mui/material';
 
 import { Link } from 'react-router-dom';
 
@@ -69,6 +71,7 @@ export default function MenuNav() {
           aria-controls={diamondOpen ? 'diamond-menu' : undefined}
           aria-expanded={diamondOpen ? 'true' : undefined}
           aria-haspopup="true"
+          className="nav-button"
           onClick={handleDiamondToggle}
         >
           Diamond
@@ -95,11 +98,12 @@ export default function MenuNav() {
                     autoFocusItem={diamondOpen}
                     id="diamond-menu"
                     aria-labelledby="diamond-button"
+                    className="menu-list"
                     onKeyDown={(event) => handleListKeyDown(event, setDiamondOpen)}
                   >
-                    <MenuItem onClick={handleDiamondClose} component={Link} to="/diamond/">Diamond</MenuItem>
-                    <MenuItem onClick={handleDiamondClose} component={Link} to="/ring/">Ring</MenuItem>
-                    <MenuItem onClick={handleDiamondClose} component={Link} to="/pendant/">Pendant</MenuItem>
+                    <MenuItem onClick={handleDiamondClose} component={Link} to="/diamond/" className="menu-option">Diamond</MenuItem>
+                    <MenuItem onClick={handleDiamondClose} component={Link} to="/ring/" className="menu-option">Ring</MenuItem>
+                    <MenuItem onClick={handleDiamondClose} component={Link} to="/pendant/" className="menu-option">Pendant</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
@@ -114,6 +118,7 @@ export default function MenuNav() {
           aria-controls={educationOpen ? 'education-menu' : undefined}
           aria-expanded={educationOpen ? 'true' : undefined}
           aria-haspopup="true"
+          className="nav-button"
           onClick={handleEducationToggle}
         >
           Education
@@ -140,17 +145,25 @@ export default function MenuNav() {
                     autoFocusItem={educationOpen}
                     id="education-menu"
                     aria-labelledby="education-button"
+                    className="menu-list"
                     onKeyDown={(event) => handleListKeyDown(event, setEducationOpen)}
                   >
-                    <MenuItem onClick={handleEducationClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleEducationClose}>My account</MenuItem>
-                    <MenuItem onClick={handleEducationClose}>Logout</MenuItem>
+                    <MenuItem onClick={handleEducationClose} className="menu-option">Placeholder</MenuItem>
+                    <MenuItem onClick={handleEducationClose} className="menu-option">Placeholder</MenuItem>
+                    <MenuItem onClick={handleEducationClose} className="menu-option">Placeholder</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
             </Grow>
           )}
         </Popper>
+      </li>
+      <li>
+        <Button component={Link} to="/calculator/"
+          className="nav-button"
+        >
+          Diamond Calulator
+        </Button>
       </li>
     </ul>
   );

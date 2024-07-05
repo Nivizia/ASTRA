@@ -149,6 +149,60 @@ export const deleteDiamond = async (id) => {
     }
 };
 
+// Diamond price calculator
+export const calculateDiamondPrice = async (carat, color, clarity, cut) => {
+    try {
+        if (!carat || !color || !clarity || !cut) {
+            throw new Error('Carat, color, clarity, and cut must be provided');
+        }
+
+        // Construct the query parameters
+        const params = {
+            carat,
+            color,
+            clarity,
+            cut
+        };
+
+        // Make the GET request with query parameters
+        const response = await axios.get(`${BASE_URL}/Diamond/GetPrice`, { params });
+
+        // Return the price from the response data
+        return response.data;
+
+    } catch (error) {
+        console.error('Error in calculateDiamondPrice:', error);
+        throw error;
+    }
+};
+
+// Diamond price per carat calculator
+export const calculateDiamondPricePerCarat = async (carat, color, clarity, cut) => {
+    try {
+        if (!carat || !color || !clarity || !cut) {
+            throw new Error('Carat, color, clarity, and cut must be provided');
+        }
+
+        // Construct the query parameters
+        const params = {
+            carat,
+            color,
+            clarity,
+            cut
+        };
+
+        // Make the GET request with query parameters
+        const response = await axios.get(`${BASE_URL}/Diamond/GetPricePerCarat`, { params });
+
+        // Return the price per carat from the response data
+        return response.data;
+
+    } catch (error) {
+        console.error('Error in calculateDiamondPricePerCarat:', error);
+        throw error;
+    }
+};
+
 // CRUD Ring:
 // Function to fetch all rings
 export const fetchRings = async () => {

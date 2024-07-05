@@ -1,7 +1,8 @@
 ﻿USE DIAMONDPROJECT;
 GO
 
-DELETE FROM RINGSHAPEDETAIL
+DELETE FROM PENDANT;
+DELETE FROM RINGSHAPEDETAIL;
 DELETE FROM RING;
 DELETE FROM DIAMOND;
 DELETE FROM SHAPE;
@@ -93,25 +94,25 @@ VALUES
     (NEWID(), 'Radiant'),
     (NEWID(), 'Marquise');
 
-INSERT INTO DIAMOND (Price, ImageURL, ShapeID, CaratWeight, Color, Clarity, Cut)
+INSERT INTO DIAMOND (ImageURL, ShapeID, CaratWeight, Color, Clarity, Cut)
 VALUES
-(3850, 'imageURL_Pear_3850.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Pear'), 0.95, 6, 2, 1),
-(3700, 'imageURL_Marquise_3700.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Marquise'), 1.25, 5, 6, 3),
-(3550, 'imageURL_Asscher_3550.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Asscher'), 1.30, 7, 7, 4),
-(3400, 'imageURL_Cushion_3400.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Cushion'), 1.40, 8, 8, 4),
-(3250, 'imageURL_Radiant_3250.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Radiant'), 1.15, 3, 3, 1),
-(3100, 'imageURL_Heart_3100.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Heart'), 1.00, 2, 2, 2),
-(2950, 'imageURL_Round_2950.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Round'), 1.05, 1, 1, 1),
-(2800, 'imageURL_Princess_2800.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Princess'), 1.10, 7, 5, 3),
-(2650, 'imageURL_Emerald_2650.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Emerald'), 0.90, 4, 4, 2),
-(2500, 'imageURL_Oval_2500.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Oval'), 0.85, 6, 2, 1),
-(2350, 'imageURL_Pear_2350.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Pear'), 0.75, 5, 6, 3),
-(2200, 'imageURL_Marquise_2200.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Marquise'), 1.05, 3, 7, 4),
-(2050, 'imageURL_Asscher_2050.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Asscher'), 1.20, 7, 4, 2),
-(1900, 'imageURL_Cushion_1900.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Cushion'), 0.95, 8, 3, 1),
-(1750, 'imageURL_Radiant_1750.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Radiant'), 0.85, 2, 2, 3),
-(1600, 'imageURL_Heart_1600.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Heart'), 1.00, 1, 8, 4),
-(1450, 'imageURL_Round_1450.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Round'), 1.20, 8, 6, 2);
+('imageURL_Pear_3850.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Pear'), 0.95, 6, 2, 1),
+('imageURL_Marquise_3700.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Marquise'), 1.25, 5, 6, 3),
+('imageURL_Asscher_3550.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Asscher'), 1.30, 7, 7, 4),
+('imageURL_Cushion_3400.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Cushion'), 1.40, 8, 8, 4),
+('imageURL_Radiant_3250.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Radiant'), 1.15, 3, 3, 1),
+('imageURL_Heart_3100.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Heart'), 1.00, 2, 2, 2),
+('imageURL_Round_2950.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Round'), 1.05, 1, 1, 1),
+('imageURL_Princess_2800.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Princess'), 1.10, 7, 5, 3),
+('imageURL_Emerald_2650.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Emerald'), 0.90, 4, 4, 2),
+('imageURL_Oval_2500.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Oval'), 0.85, 6, 2, 1),
+('imageURL_Pear_2350.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Pear'), 0.75, 5, 6, 3),
+('imageURL_Marquise_2200.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Marquise'), 1.05, 3, 7, 4),
+('imageURL_Asscher_2050.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Asscher'), 1.20, 7, 4, 2),
+('imageURL_Cushion_1900.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Cushion'), 0.95, 8, 3, 1),
+('imageURL_Radiant_1750.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Radiant'), 0.85, 2, 2, 3),
+('imageURL_Heart_1600.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Heart'), 1.00, 1, 8, 4),
+('imageURL_Round_1450.jpg', (SELECT ShapeID FROM SHAPE WHERE ShapeName='Round'), 1.20, 8, 6, 2);
 
 INSERT INTO RING (RingID, RingTypeID, RingSubtypeID, FrameTypeID, MetalTypeID, StoneCutID, SpecialFeatureID, RingName, Price, StockQuantity, ImageURL)
 VALUES
@@ -772,3 +773,26 @@ INSERT INTO RINGSHAPEDETAIL (RingID, ShapeID, ImageURL, FrameDescription) VALUES
 ((SELECT RingID FROM RING WHERE RingName='Three-Stone Tapered Baguette Diamond Engagement Ring in 18k Yellow Gold'),
  (SELECT ShapeID FROM SHAPE WHERE ShapeName='Pear'),
  'imageURL_Pear.jpg', 'Suitable for pear diamond');
+
+ INSERT INTO PENDANT (Name, Price, StockQuantity, ChainType, ChainLength, ClaspType)
+ VALUES
+    ('Elegant Pearl Pendant', 150, 25, 'Cable Chain', '16-18 inches', 'Lobster Claw Clasp'),
+    ('Sparkling Diamond Pendant', 251, 30, 'Box Chain', '18 inches', 'Spring Ring Clasp'),
+    ('Golden Heart Pendant', 200, 10, 'Rope Chain', '20 inches', 'Magnetic Clasp'),
+    ('Silver Star Pendant', 121, 50, 'Snake Chain', '22 inches', 'Toggle Clasp'),
+    ('Rose Gold Infinity Pendant', 175, 15, 'Figaro Chain', '16 inches', 'Box Clasp'),
+    ('Emerald Teardrop Pendant', 220, 20, 'Ball Chain', '18-20 inches', 'Barrel Clasp'),
+    ('Blue Sapphire Pendant', 200, 12, 'Singapore Chain', '20 inches', 'S Hook Clasp'),
+    ('Ruby Pendant with Diamonds', 321, 5, 'Wheat Chain', '24 inches', 'Fish Hook Clasp'),
+    ('Platinum Cross Pendant', 275, 18, 'Cable Chain', '16-18 inches', 'Spring Ring Clasp'),
+    ('Amethyst Circle Pendant', 146, 25, 'Rope Chain', '18 inches', 'Magnetic Clasp'),
+    ('Pearl Pendant in Gold', 180, 22, 'Snake Chain', '20 inches', 'Lobster Claw Clasp'),
+    ('Garnet Heart Pendant', 160, 28, 'Box Chain', '22 inches', 'Toggle Clasp'),
+    ('Peridot Drop Pendant', 190, 16, 'Figaro Chain', '16-18 inches', 'Box Clasp'),
+    ('Citrine Sun Pendant', 175, 10, 'Ball Chain', '18-20 inches', 'Barrel Clasp'),
+    ('Opal Teardrop Pendant', 211, 7, 'Singapore Chain', '20 inches', 'S Hook Clasp'),
+    ('Aquamarine Pendant', 195, 30, 'Wheat Chain', '24 inches', 'Fish Hook Clasp'),
+    ('Turquoise Oval Pendant', 170, 12, 'Cable Chain', '16-18 inches', 'Spring Ring Clasp'),
+    ('Onyx Stone Pendant', 150, 20, 'Rope Chain', '18 inches', 'Magnetic Clasp'),
+    ('Moonstone Pendant', 226, 10, 'Snake Chain', '20 inches', 'Lobster Claw Clasp'),
+    ('Topaz Pendant with Silver', 205, 18, 'Box Chain', '22 inches', 'Toggle Clasp');

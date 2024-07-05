@@ -3,6 +3,7 @@ using DiamondAPI.DTOs.Diamond;
 using DiamondAPI.Interfaces;
 using DiamondAPI.Models;
 using DiamondAPI.Repositories;
+using DiamondAPI.Services;
 using Humanizer;
 
 namespace DiamondAPI.Mappers
@@ -14,7 +15,7 @@ namespace DiamondAPI.Mappers
             return new DiamondDTO
             {
                 DProductId = diamond.DProductId,
-                Price = diamond.Price,
+                Price = DiamondCalculatorService.CalculateDiamondPriceToDiamondDTO(diamond.CaratWeight, diamond.Color, diamond.Clarity, diamond.Cut),
                 ImageUrl = diamond.ImageUrl,
                 Shape = diamond.Shape?.ShapeName,
                 CaratWeight = diamond.CaratWeight,
@@ -44,10 +45,10 @@ namespace DiamondAPI.Mappers
                 },
                 Cut = diamond.Cut switch
                 {
-                    1 => "Good",
-                    2 => "Very Good",
-                    3 => "Ideal",
-                    4 => "Astor Ideal",
+                    1 => "Fair",
+                    2 => "Good",
+                    3 => "Very Good",
+                    4 => "Excellent",
                     _ => "Unknown"
                 },
                 Available = diamond.Available
@@ -87,30 +88,14 @@ namespace DiamondAPI.Mappers
                 },
                 Cut = dto.Cut switch
                 {
-                    "Good" => 1,
-                    "Very Good" => 2,
-                    "Ideal" => 3,
-                    "Astor Ideal" => 4,
+                    "Fair" => 1,
+                    "Good" => 2,
+                    "Very Good" => 3,
+                    "Excellent" => 4,
                     _ => 0
                 },
                 Available = dto.Available
             };
-        }
-
-        private static Guid GetShapeIdFromName(string? shapeName)
-        {
-            using (var context = new DiamondprojectContext())
-            {
-                var shape = context.Shapes
-                    .FirstOrDefault(s => s.ShapeName == shapeName);
-
-                if (shape == null)
-                {
-                    throw new ArgumentException($"Shape with name {shapeName} not found.");
-                }
-
-                return shape.ShapeId;
-            }
         }
 
         public static ModelFliterDiamondRequestDTO ToModelFilterFromModelFliterDiamondRequestDTO(this FilterDiamondRequestDTO filterDiamondRequestDTO)
@@ -172,18 +157,18 @@ namespace DiamondAPI.Mappers
                 },
                 LowerCut = filterDiamondRequestDTO.LowerCut switch
                 {
-                    "Good" => 1,
-                    "Very Good" => 2,
-                    "Ideal" => 3,
-                    "Astor Ideal" => 4,
+                    "Fair" => 1,
+                    "Good" => 2,
+                    "Very Good" => 3,
+                    "Excellent" => 4,
                     _ => 0
                 },
                 UpperCut = filterDiamondRequestDTO.UpperCut switch
                 {
-                    "Good" => 1,
-                    "Very Good" => 2,
-                    "Ideal" => 3,
-                    "Astor Ideal" => 4,
+                    "Fair" => 1,
+                    "Good" => 2,
+                    "Very Good" => 3,
+                    "Excellent" => 4,
                     _ => 0
                 }
             };
@@ -222,10 +207,10 @@ namespace DiamondAPI.Mappers
                 },
                 Cut = dto.Cut switch
                 {
-                    "Good" => 1,
-                    "Very Good" => 2,
-                    "Ideal" => 3,
-                    "Astor Ideal" => 4,
+                    "Fair" => 1,
+                    "Good" => 2,
+                    "Very Good" => 3,
+                    "Excellent" => 4,
                     _ => 0
                 }
             };

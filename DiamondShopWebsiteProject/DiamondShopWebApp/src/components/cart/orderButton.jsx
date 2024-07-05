@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import CircularIndeterminate from '../loading';
+import CircularIndeterminate from '../misc/loading';
 import { getCartItems, clearCart } from '../../../javascript/cartService';
 import { createOrder } from '../../../javascript/apiService';
 import styles from '../css/orderButton.module.css';

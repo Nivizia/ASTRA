@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
+import {
+    Box,
+    Drawer,
+    Button,
+} from '@mui/material';
 import styles from "../css/temporarydrawer.module.css";
 
 import PersistentDrawerRight from './persistentDrawerRight';

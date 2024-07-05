@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchDiamondById } from '../../../../javascript/apiService';
 
-import CircularIndeterminate from '../../loading';
+import CircularIndeterminate from '../../misc/loading';
 import TemporaryDrawer from '../../drawercomponents/temporaryDrawer';
 import Button from '@mui/material/Button';
 

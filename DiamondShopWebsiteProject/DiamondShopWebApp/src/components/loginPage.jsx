@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import CircularIndeterminate from './loading';
+import CircularIndeterminate from './misc/loading';
 
 import { AuthContext } from '../contexts/AuthContext';
 

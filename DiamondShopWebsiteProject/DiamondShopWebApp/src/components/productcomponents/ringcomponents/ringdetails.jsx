@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchRingById } from '../../../../javascript/apiService';
 
-import CircularIndeterminate from '../../loading';
+import CircularIndeterminate from '../../misc/loading';
 import Button from '@mui/material/Button';
 
 import '../../css/product.css';

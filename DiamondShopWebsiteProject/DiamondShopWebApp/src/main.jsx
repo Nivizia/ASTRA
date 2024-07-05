@@ -13,6 +13,8 @@ import Index from './components/index'
 import LoginPage from './components/loginPage';
 import SignUp from './components/signUp/signUp';
 
+import DiamondPriceCalculator from './components/misc/diamondcalculator';
+
 // Product Components
 import DiamondList from './components/productcomponents/diamondcomponents/diamondlist';
 import DiamondDetails from './components/productcomponents/diamondcomponents/diamonddetails';
@@ -32,6 +34,7 @@ import PersistentDrawerRight from './components/drawercomponents/persistentDrawe
 
 //Css Imports
 import './index.css'
+
 
 
 const router = createBrowserRouter([
@@ -117,6 +120,12 @@ const router = createBrowserRouter([
       {
         path: "/order-confirmation/",
         element: <OrderConfirmation />
+      },
+
+      // Calculator
+      {
+        path: "/calculator/",
+        element: <DiamondPriceCalculator />
       }
     ]
   },

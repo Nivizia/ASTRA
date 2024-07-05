@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchPendantById } from '../../../../javascript/apiService';
 
-import CircularIndeterminate from '../../loading';
+import CircularIndeterminate from '../../misc/loading';
 import Button from '@mui/material/Button';
 
 import '../../css/product.css';
@@ -17,7 +17,7 @@ const PendantDetails = () => {
   const navigate = useNavigate();
 
   const handleSelectPendant = () => {
-    const path = diamondId ? `/cart?d=${diamondId}&p=${pendantId}` : `/`;
+    const path = diamondId ? `/cart?d=${diamondId}&p=${pendantId}` : `/pendant/${pendantId}/choose-diamond/`;
     navigate(path);
   };
 
@@ -51,7 +51,7 @@ const PendantDetails = () => {
   return (
     <div className="diamond-details-container">
       <div className="image-section">
-        <img src='/src/images/diamond.png' alt="Diamond" className="diamond-image" />
+        <img src='/src/images/pendant.png' alt="Diamond" className="diamond-image" />
         <div className="thumbnail-gallery">
           <img src='/src/images/diamond-thumbnail1.png' alt="Thumbnail 1" />
           <img src='/src/images/diamond-thumbnail2.png' alt="Thumbnail 2" />
@@ -68,9 +68,9 @@ const PendantDetails = () => {
         </div>
         <p className="price">${pendant.price.toFixed(2)}</p>
         {diamondId ? (
-          <Button className={styles.selectDiamondButton} onClick={handleSelectPendant}>CHOOSE PENDANT</Button>
+          <Button className={styles.selectDiamondButton} onClick={handleSelectPendant}>SELECT PENDANT</Button>
         ) : (
-          <Button className={styles.selectDiamondButton} onClick={handleSelectPendant}>Go Home</Button>
+          <Button className={styles.selectDiamondButton} onClick={handleSelectPendant}>SELECT A DIAMOND</Button>
         )}
         <div className="order-info">
           <h3>Your Order Includes:</h3>

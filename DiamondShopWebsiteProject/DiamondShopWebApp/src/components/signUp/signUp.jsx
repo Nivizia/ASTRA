@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { signUpUser } from '../../../javascript/apiService'; // Import signUpUser and loginUser functions
 import { AuthContext } from '../../contexts/AuthContext'; // Import the AuthContext
 
-import CircularIndeterminate from '../loading';
+import CircularIndeterminate from '../misc/loading';
 import styles from '../css/signUp.module.css'; // Import the CSS module
 
 const SignUp = () => {

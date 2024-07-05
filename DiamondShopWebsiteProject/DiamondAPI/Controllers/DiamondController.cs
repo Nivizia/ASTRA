@@ -33,15 +33,37 @@ namespace DiamondAPI.Controllers
 
         // GET api/diamond/price?carat=1.5&cut=Excellent&color=D&clarity=VVS1
         [HttpGet("GetPrice")]
-        public ActionResult<decimal> GetDiamondPrice(double carat, string cut, string color, string clarity)
+        public ActionResult<decimal> GetDiamondPrice(double carat, string color, string clarity, string cut)
         {
             try
             {
                 // Assuming CalculateDiamondPrice is a method that calculates the diamond's price
                 // based on carat, cut, color, and clarity.
-                decimal price = _diaCalService.CalculateDiamondPrice(carat, cut, color, clarity);
+                decimal price = _diaCalService.CalculateDiamondPrice(carat, color, clarity, cut);
 
                 return Ok(price);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception details
+                // Return an appropriate error response
+                return StatusCode(500, "An error occurred while calculating the diamond price. " + ex.Message);
+            }
+        }
+
+        [HttpGet("GetPricePerCarat")]
+        public ActionResult<decimal> GetDiamondPricePerCarat(double carat, string color, string clarity, string cut)
+        {
+            try
+            {
+                // Assuming CalculateDiamondPrice is a method that calculates the diamond's price
+                // based on carat, cut, color, and clarity.
+                decimal price = _diaCalService.CalculateDiamondPrice(carat, color, clarity, cut);
+
+                // Calculate price per carat
+                decimal pricePerCt = price / (decimal)carat;
+
+                return Ok(pricePerCt);
             }
             catch (Exception ex)
             {
@@ -76,8 +98,6 @@ namespace DiamondAPI.Controllers
         public async Task<IActionResult> Create([FromBody] CreateDiamondRequestDTO diamondDTO)
         {
             var diamondModel = diamondDTO.ToDiamondFromCreateDTO();
-
-            diamondModel.Price = _diaCalService.CalculateDiamondPrice(diamondDTO.CaratWeight, diamondDTO.Cut, diamondDTO.Color, diamondDTO.Clarity);
 
             if (diamondDTO.Shape == null)
                 return BadRequest("Shape is required.");
