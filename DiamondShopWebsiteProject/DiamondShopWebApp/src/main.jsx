@@ -31,6 +31,7 @@ import OrderConfirmation from './components/cart/orderConfirmation';
 
 //Testing components
 import PersistentDrawerRight from './components/drawercomponents/persistentDrawerRight';
+import Profile from './components/profile/profile';
 
 //Css Imports
 import './index.css'
@@ -126,6 +127,12 @@ const router = createBrowserRouter([
       {
         path: "/calculator/",
         element: <DiamondPriceCalculator />
+      },
+
+      // Testing
+      {
+        path: "/profile/",
+        element: <Profile />
       }
     ]
   },
