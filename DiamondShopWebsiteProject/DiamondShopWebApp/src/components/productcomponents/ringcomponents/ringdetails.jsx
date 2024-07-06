@@ -112,12 +112,12 @@ const RingDetails = () => {
           <div className="order-detail">
             <h4>GIA Grading Report</h4>
           </div>
-          <div className="order-detail">
-            <h4>Product Details</h4>
-          </div>
         </div>
       </div>
       <div className="specifications-section">
+        <div className="product-detail">
+          <h4>Product Details</h4>
+        </div>
         <table>
           <tbody>
             <tr>

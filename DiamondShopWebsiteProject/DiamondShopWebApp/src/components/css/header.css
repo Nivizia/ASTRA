@@ -39,27 +39,49 @@
     transition: all 0.3s ease;
 }
 
-.nav ul#navButtons {
+.nav-button-container {
     list-style: none;
     width: 100%;
     display: flex;
+    margin: auto;
     justify-content: space-evenly;
     padding: 0;
-    transition: all 0.3s ease;
 }
 
-.nav-button{
+.nav-button {
     color: white !important;
     background-color: black !important;
     text-transform: none !important;
     padding: 0 5px !important;
-    border-radius: 5px !important;
     font-size: 1rem !important;
-    transition: background-color 0.3s ease;
+    height: 100%;
+    position: relative; /* Position relative for ::after to work */
+}
+
+.nav-button::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px; /* Position the border slightly below the button */
+    width: 100%;
+    height: 3px; /* Height of the underline */
+    background-color: white; /* Color of the underline */
+    transform: scaleX(0); /* Start with scale 0 */
+    transition: transform 0.5s ease; /* Smooth transition */
+    transform-origin: left;
+}
+
+.nav-button:hover::after {
+    transform: scaleX(1); /* Scale to full width on hover */
 }
 
 .nav-button:hover {
-    background-color: grey !important;
+    border: 0px;
+    color: white !important; /* Ensure text color stays the same on hover */
+}
+
+.nav-button:active {
+    border: 0px;
 }
 
 .nav div {
@@ -171,17 +193,17 @@
 
 .icon span span {
     color: white;
-    background-color: #5200aa;
+    background-color: rgb(0, 0, 200);
 }
 
 .icon span span:hover {
     color: white;
-    background-color: #400084;
+    background-color: rgb(0, 0, 150);
 }
 
 .icon span span:active {
     color: white;
-    background-color: #35006d;
+    background-color: rgb(0, 0, 100);
 }
 
 
@@ -222,11 +244,6 @@
     }
     .nav div div {
         top: 0px !important;
-    }
-
-    .nav ul#navButtons {
-        gap: 1rem;
-        transition: gap 0.3s ease;
     }
 
     .header-right {

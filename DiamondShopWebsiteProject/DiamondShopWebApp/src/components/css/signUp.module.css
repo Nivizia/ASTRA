@@ -38,10 +38,10 @@
     width: 400px;
     margin: 1rem auto;
     padding: 1em;
-    background-color: #1e1e1e;
+    background-color: rgb(30, 30, 30);
     /* Dark background for the container */
     border-radius: 8px;
-    border: 1px solid #333;
+    border: 1px solid rgb(50, 50, 50);
     z-index: 1;
     /* Ensure it is above the background and overlay */
 }
@@ -74,14 +74,14 @@
     width: 100%;
     padding: 0.5em;
     box-sizing: border-box;
-    border: 1px solid #444;
+    border: 1px solid rgb(50, 50, 50);
     border-radius: 4px;
-    background-color: #333;
+    background-color: rgb(70, 70, 70);
     color: #ffffff;
 }
 
 .signupInput::placeholder {
-    color: #888;
+    color: rgb(150, 150, 150);
 }
 
 /* Button styling */
@@ -89,34 +89,34 @@
     width: 100%;
     margin-top: 20px;
     padding: 0.5em;
-    background-color: #5200aa;
+    background-color: rgb(0, 0, 200);
     /* Dark purple button background */
     color: #ffffff;
     /* Light text color for button */
     border: none;
     border-radius: 4px;
-    cursor: pointer;
     display: flex;
     /* Use Flexbox for centering */
     justify-content: center;
     /* Center content horizontally */
     align-items: center;
     /* Center content vertically */
+    transition: all 0.3s ease;
 }
 
 .signupButton:hover {
-    background-color: #400084;
+    background-color: rgb(0, 0, 150);
     transform: scale(1.025);
 }
 
 .signupButton:active {
-    background-color: #35006d;
+    background-color: rgb(0, 0, 100);
     transform: scale(0.95);
 }
 
 /* Error message styling */
 .signupError {
-    color: #ff5252;
+    color: rgb(200, 15, 15);
     /* Red color for error messages */
     margin-bottom: 1em;
     text-align: center;
@@ -124,13 +124,19 @@
 
 /* Link styling */
 .signupLink {
-    color: #6000c7;
+    color: rgb(0, 0, 200);
+    transition: all 0.3s ease;
     /* Light purple for links */
 }
 
 .signupLink:hover {
-    color: #5200aa;
+    color: rgb(0, 0, 150);
     /* Light color on hover */
+}
+
+.signupLink:active {
+    color: rgb(0, 0, 100);
+    /* Dark color on click */
 }
 
 /* Footer styling */

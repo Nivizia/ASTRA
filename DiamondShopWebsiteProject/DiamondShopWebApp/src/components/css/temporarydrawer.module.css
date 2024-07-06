@@ -1,25 +1,25 @@
 /* Styling for the button that opens the drawer */
 .selectDiamondButton {
-    background-color: #0000c0 !important;
+    background-color: rgb(0, 0, 200) !important;
     color: #fff !important;
     padding: 15px 30px !important;
     border: none !important;
     border-radius: 5px !important;
     cursor: pointer !important;
     font-size: 18px !important;
-    transition: background-color 250ms ease, transform 250ms ease;
+    transition: all 0.3s ease;
 }
 
 .selectDiamondButton:hover {
-    background-color: #000080 !important;
+    background-color: rgb(0, 0, 150) !important;
     transform: scale(1.05) !important;
-    transition: background-color 250ms ease, transform 250ms ease;
+    transition: all 0.3s ease;
 }
 
 .selectDiamondButton:active {
-    background-color: #000060 !important;
+    background-color: rgb(0, 0, 100) !important;
     transform: scale(0.95) !important;
-    transition: background-color 250ms ease, transform 250ms ease;
+    transition: all 0.3s ease;
 }
 
 
@@ -48,7 +48,7 @@
     font-weight: bold !important;
     border: 1px solid !important;
     border-radius: 10px !important;
-    transition: background-color 250ms ease, transform 250ms ease;
+    transition: all 0.3s ease;
 
     padding: 0 !important;
     margin: 1rem 0 !important;
@@ -57,12 +57,12 @@
 
 .drawerBox:hover {
     transform: scale(1.05);
-    transition: background-color 250ms ease, transform 250ms ease;
+    transition: all 0.3s ease;
 }
 
 .drawerBox:active {
     transform: scale(0.95);
-    transition: background-color 250ms ease, transform 250ms ease;
+    transition: all 0.3s ease;
 }
 
 .confirmButton {
@@ -73,28 +73,27 @@
     height: 50px !important;
     font-size: 16px !important;
     font-weight: bold !important;
-    border: 1px solid !important;
     border-radius: 10px !important;
 
     padding: auto !important;
     margin: auto !important;
-    background-color: #0000c0 !important;
+    background-color: rgb(0, 0, 200) !important;
     color: #fff !important;
     /* Added color for text */
     cursor: pointer;
-    transition: background-color 250ms ease, transform 250ms ease;
+    transition: all 0.3s ease;
 }
 
 .confirmButton:hover {
-    background-color: #000080 !important;
+    background-color: rgb(0, 0, 150) !important;
     transform: scale(1.05);
-    transition: background-color 250ms ease, transform 250ms ease;
+    transition: all 0.3s ease;
 }
 
 .confirmButton:active {
-    background-color: #000060 !important;
+    background-color: rgb(0, 0, 100) !important;
     transform: scale(0.95);
-    transition: background-color 250ms ease, transform 250ms ease;
+    transition: all 0.3s ease;
 }
 
 /* Responsive design for smaller screens */

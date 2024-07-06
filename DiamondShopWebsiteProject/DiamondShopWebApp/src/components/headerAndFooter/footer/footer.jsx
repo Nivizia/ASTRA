@@ -3,6 +3,9 @@ import '../../css/footer.css';
 import logo from '../../../images/logo-no-background.png';
 
 const Footer = () => {
+
+  const href = "/diamond?shape="
+
   return (
     <footer className="footer">
 
@@ -10,8 +13,8 @@ const Footer = () => {
         <div className="footer-column-wrapper">
           <div className="footer-column">
             <h3>Diamond Shapes</h3>
-            <ul>
-              <li>Round</li>
+            <ul className="footer-list">
+              <li><a href={`${href}round`}>Round</a></li>
               <li>Princess</li>
               <li>Cushion</li>
               <li>Oval</li>

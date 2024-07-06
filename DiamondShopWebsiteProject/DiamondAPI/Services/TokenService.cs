@@ -39,13 +39,17 @@ namespace DiamondAPI.Services
             // Check customer properties for null values
             var customerId = customer.CustomerId.ToString() ?? throw new ArgumentNullException(nameof(customer.CustomerId));
             var customerUsername = customer.Username ?? throw new ArgumentNullException(nameof(customer.Username));
-            var fullName = $"{customer.FirstName ?? string.Empty} {customer.LastName ?? string.Empty}".Trim();
+            var firstName = customer.FirstName ?? throw new ArgumentNullException(nameof(customer.FirstName));
+            var lastName = customer.LastName ?? throw new ArgumentNullException(nameof(customer.LastName));
+
+            // var fullName = $"{customer.FirstName ?? string.Empty} {customer.LastName ?? string.Empty}".Trim();
 
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, customerId),
                 new Claim(JwtRegisteredClaimNames.UniqueName, customerUsername),
-                new Claim("FullName", fullName)
+                new Claim("FirstName", firstName),
+                new Claim("LastName", lastName),
             };
 
             var token = new JwtSecurityToken(

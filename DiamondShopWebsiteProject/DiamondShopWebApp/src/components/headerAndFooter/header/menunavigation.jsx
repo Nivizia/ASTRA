@@ -18,15 +18,20 @@ export default function MenuNav() {
   const diamondAnchorRef = React.useRef(null);
   const educationAnchorRef = React.useRef(null);
 
-  const handleDiamondToggle = () => {
-    setDiamondOpen((prevOpen) => !prevOpen);
+  const handleDiamondHover = () => {
+    setDiamondOpen(true);
     if (educationOpen) setEducationOpen(false);
   };
 
-  const handleEducationToggle = () => {
-    setEducationOpen((prevOpen) => !prevOpen);
+  const handleEducationHover = () => {
+    setEducationOpen(true);
     if (diamondOpen) setDiamondOpen(false);
   };
+
+  const handleCalculatorHover = () => {
+    if (diamondOpen) setDiamondOpen(false);
+    if (educationOpen) setEducationOpen(false);
+  }
 
   const handleClose = (event, setState, anchorRef) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -52,18 +57,8 @@ export default function MenuNav() {
     }
   }
 
-  // Ensure focus returns to the button when the menu closes
-  React.useEffect(() => {
-    if (diamondOpen) {
-      diamondAnchorRef.current.focus();
-    }
-    if (educationOpen) {
-      educationAnchorRef.current.focus();
-    }
-  }, [diamondOpen, educationOpen]);
-
   return (
-    <ul id='navButtons'>
+    <ul class='nav-button-container'>
       <li>
         <Button
           ref={diamondAnchorRef}
@@ -72,7 +67,7 @@ export default function MenuNav() {
           aria-expanded={diamondOpen ? 'true' : undefined}
           aria-haspopup="true"
           className="nav-button"
-          onClick={handleDiamondToggle}
+          onMouseEnter={handleDiamondHover}
         >
           Diamond
         </Button>
@@ -119,7 +114,7 @@ export default function MenuNav() {
           aria-expanded={educationOpen ? 'true' : undefined}
           aria-haspopup="true"
           className="nav-button"
-          onClick={handleEducationToggle}
+          onMouseEnter={handleEducationHover}
         >
           Education
         </Button>
@@ -161,6 +156,7 @@ export default function MenuNav() {
       <li>
         <Button component={Link} to="/calculator/"
           className="nav-button"
+          onMouseEnter={handleCalculatorHover}
         >
           Calulator
         </Button>

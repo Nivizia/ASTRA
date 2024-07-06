@@ -18,14 +18,14 @@
 
 .product-link:hover {
   transform: scale(1.05);
-  border: solid #000;
+  border: solid black;
   transition: background-color 250ms ease, transform 250ms ease;
 }
 
 .product-box {
   border-radius: 8px;
   padding: 0;
-  background-color: #fff;
+  background-color: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
   margin: 0 auto;
@@ -54,20 +54,21 @@
 .product-details h2 {
   font-size: 24px;
   margin: auto 1em;
-  color: #333;
+  color: black;
 }
 
 /* For product name (Longer) */
 .product-details h3 {
   font-size: 20px;
   margin: auto 1em;
-  color: #333;
+  color: black;
 }
 
 .price {
   font-size: 32px;
-  color: #000;
-  margin: auto;
+  color: black;
+  margin: 0;
+  margin-bottom: 10px;
   font-weight: bold;
 }
 
@@ -78,7 +79,7 @@
   flex-wrap: wrap;
   justify-content: center;
   padding: 20px;
-  max-width: 85vw;
+  width: 85vw;
   margin: 0 auto;
 }
 
@@ -87,7 +88,8 @@
   flex-direction: column;
   flex: 1;
   min-width: 300px;
-  margin: 10px;
+  max-width: 400px;
+  margin: 16px;
   text-align: center;
   align-items: center;
 }
@@ -95,14 +97,16 @@
 .product-details-image {
   width: 60%;
   min-width: 300px;
+  max-width: 400px;
   border-radius: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid rgb(200, 200, 200);
 }
 
 .thumbnail-gallery {
-  display: flex;
   width: 60%;
   min-width: 300px;
+  max-width: 400px;
+  display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 }
@@ -112,12 +116,13 @@
   min-width: 70px;
   height: auto;
   border-radius: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid rgb(200, 200, 200);
 }
 
 .details-section {
   flex: 2;
-  min-width: 400px;
+  min-width: 350px;
+  max-width: 500px;
   margin: 10px;
 }
 
@@ -151,7 +156,7 @@
 .order-detail {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 16px;
   margin-bottom: 10px;
 }
 
@@ -161,8 +166,17 @@
 
 .specifications-section {
   flex: 1;
-  min-width: 300px;
-  margin: 10px;
+  min-width: 350px;
+  max-width: 400px;
+  margin: 16px;
+}
+
+.product-detail {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 10px;
+  height: 20px;
 }
 
 .specifications-section table {

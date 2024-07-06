@@ -85,13 +85,13 @@ export default function PersistentDrawerRight({ diamondId, diamondShape }) {
                     exclusive
                     onChange={handleToggleButtonChange}
                 >
-                    <ToggleButton className={styles.drawerBox} value="ring" selectedcolor="#0000c0">
+                    <ToggleButton className={styles.drawerBox} value="ring" selectedcolor="rgb(0, 0, 200)">
                         Choose Ring
                     </ToggleButton>
-                    <ToggleButton className={styles.drawerBox} value="pendant" selectedcolor="#0000c0">
+                    <ToggleButton className={styles.drawerBox} value="pendant" selectedcolor="rgb(0, 0, 200)">
                         Choose Pendant
                     </ToggleButton>
-                    <ToggleButton className={styles.drawerBox} value="cart" selectedcolor="#0000c0">
+                    <ToggleButton className={styles.drawerBox} value="cart" selectedcolor="rgb(0, 0, 200)">
                         Add To Cart
                     </ToggleButton>
                 </ToggleButtonGroup>

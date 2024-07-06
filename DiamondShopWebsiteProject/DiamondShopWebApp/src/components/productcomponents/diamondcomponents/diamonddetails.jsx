@@ -52,7 +52,7 @@ const DiamondDetails = () => {
   return (
     <div className="product-details-container">
       <div className="image-section">
-        <img src='/src/images/diamond.png' alt="Diamond" className="product-details-image" />
+        <img src='/src/images/diamond.png' alt="Diamond" className="product-image" />
         <div className="thumbnail-gallery">
           <img src='/src/images/diamond-thumbnail1.png' alt="Thumbnail 1" />
           <img src='/src/images/diamond-thumbnail2.png' alt="Thumbnail 2" />
@@ -85,12 +85,12 @@ const DiamondDetails = () => {
           <div className="order-detail">
             <h4>GIA Grading Report</h4>
           </div>
-          <div className="order-detail">
-            <h4>Product Details</h4>
-          </div>
         </div>
       </div>
       <div className="specifications-section">
+        <div className="product-detail">
+          <h4>Product Details</h4>
+        </div>
         <table>
           <tbody>
             <tr>

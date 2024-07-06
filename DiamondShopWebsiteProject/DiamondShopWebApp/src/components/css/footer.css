@@ -53,6 +53,10 @@
     font-size: 12px;
 }
 
+.footer-list li a{
+    color: white
+}
+
 @media (max-width: 800px) {
     .footer-content {
         margin: 10px 45px;

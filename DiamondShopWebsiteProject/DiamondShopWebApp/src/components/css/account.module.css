@@ -32,6 +32,7 @@
     top: 0 !important;
 }
 
+/* Container for login page when user is logged in */
 .loggedInContainer {
     display: flex;
     flex-direction: column;
@@ -41,7 +42,7 @@
     color: #fff;
     padding: 16px;
     margin: 16px;
-    border: 1px solid #333;
+    border: 1px solid rgb(50, 50, 50);
     background: rgba(0, 0, 0, 0.5);
 }
 
@@ -57,8 +58,8 @@
     align-items: center;
     margin: 0 auto;
     overflow: visible;
-    background-color: #1e1e1e;
-    border: 1px solid #333;
+    background-color: rgb(30, 30, 30);
+    border: 1px solid rgb(50, 50, 50);
     transition: all 0.3s ease;
 }
 
@@ -101,48 +102,50 @@ label {
     width: 100%;
     padding: 0.5em;
     box-sizing: border-box;
-    border: 1px solid #444;
+    border: 1px solid rgb(70, 70, 70);
     border-radius: 4px;
-    background-color: #333;
+    background-color: rgb(50, 50, 50);
     color: #ffffff;
 }
 
 .divInLoginForm input::placeholder {
-    color: #888;
+    color: rgb(150, 150, 150);
 }
 
 .buttonLogin {
     width: 100%;
     margin-top: 20px;
     padding: 0.5em;
-    background-color: #5200aa;
+    background-color: rgb(0, 0, 200);
     /* Dark purple button background */
     color: #ffffff;
     /* Light text color for button */
     border: none;
     border-radius: 4px;
-    cursor: pointer;
     display: flex;
     /* Use Flexbox for centering */
     justify-content: center;
     /* Center content horizontally */
     align-items: center;
     /* Center content vertically */
+    transition: all 0.3s ease;
 }
 
 
 .buttonLogin:hover {
-    background-color: #400084;
+    background-color: rgb(0, 0, 150);
     transform: scale(1.025);
+    transition: all 0.3s ease;
 }
 
 .buttonLogin:active {
-    background-color: #35006d;
+    background-color: rgb(0, 0, 100);
     transform: scale(0.95);
+    transition: all 0.3s ease;
 }
 
 .error {
-    color: #ff5252;
+    color: rgb(200, 15, 15);
     /* Red color for error messages */
     margin-bottom: 1em;
     text-align: center;
@@ -150,13 +153,21 @@ label {
 
 /* Additional link styling */
 .signUp {
-    color: #6000c7;
+    color: rgb(0, 0, 200);
+    transition: all 0.3s ease;
     /* Light purple for links */
 }
 
 .signUp:hover {
-    color: #5200aa;
+    color: rgb(0, 0, 150);
+    transition: all 0.3s ease;
     /* Light color on hover */
+}
+
+.signUp:active {
+    color: rgb(0, 0, 100);
+    transition: all 0.3s ease;
+    /* Dark color on click */
 }
 
 .footer {
