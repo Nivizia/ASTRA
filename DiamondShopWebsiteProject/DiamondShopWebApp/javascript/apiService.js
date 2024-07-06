@@ -73,19 +73,28 @@ export const fetchDiamondsAvailable = async () => {
 
 // Function to fetch available diamonds by suitable shapes
 export const fetchAvailableDiamondsByShape = async (suitableShapes) => {
-    if (!suitableShapes || !Array.isArray(suitableShapes) || suitableShapes.length === 0) {
-        throw new Error('A non-empty array of suitable shapes must be provided');
+    // If suitableShapes is not an array, wrap it in an array
+    if (!Array.isArray(suitableShapes)) {
+        suitableShapes = [suitableShapes];
+    }
+
+    // Convert all shapes in suitableShapes to lowercase
+    suitableShapes = suitableShapes.map(shape => shape.toLowerCase());
+
+    // Check if the array is empty
+    if (suitableShapes.length === 0) {
+        throw new Error('A non-empty array or a single shape must be provided');
     }
 
     try {
         const availableDiamonds = await fetchDiamondsAvailable();
-        return availableDiamonds.filter(diamond => suitableShapes.includes(diamond.shape));
+        // Convert diamond.shape to lowercase before comparison
+        return availableDiamonds.filter(diamond => suitableShapes.includes(diamond.shape.toLowerCase()));
     } catch (error) {
         console.error('Error in fetchAvailableDiamondsByShape:', error);
         throw error;
     }
 };
-
 // Function to fetch a single diamond by ID
 export const fetchDiamondById = async (id) => {
     if (!id) {
@@ -306,4 +315,3 @@ export const createOrder = async (orderDetails) => {
         }
     }
 };
-

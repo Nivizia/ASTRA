@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { fetchAvailableDiamondsByShape, fetchDiamondsAvailable, fetchRingById } from '../../../../javascript/apiService';
 
 import CircularIndeterminate from '../../misc/loading';
@@ -14,6 +14,11 @@ const DiamondList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+
+  const shape = params.get('shape');
+
   useEffect(() => {
     async function getDiamonds() {
       try {
@@ -21,10 +26,15 @@ const DiamondList = () => {
         if (ringId) {
           const ring = await fetchRingById(ringId);
           console.log("Ring route");
+          console.log(ring);
           data = await fetchAvailableDiamondsByShape(ring.shapes);
         } else if (pendantId) {
           console.log("Pendant route");
           data = await fetchDiamondsAvailable();
+        } else if (shape) {
+          console.log("Diamond with shape route");
+          console.log(shape);
+          data = await fetchAvailableDiamondsByShape(shape);
         } else {
           console.log("Diamond route");
           data = await fetchDiamondsAvailable();

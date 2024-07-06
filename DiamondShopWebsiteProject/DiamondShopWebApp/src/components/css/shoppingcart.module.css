@@ -35,7 +35,8 @@
 /* Header */
 .shoppingCartContainer h1 {
     text-align: center;
-    color: rgb(50, 50, 50);;
+    color: rgb(50, 50, 50);
+    ;
     font-size: 2rem;
     margin-bottom: 20px;
 }
@@ -54,14 +55,15 @@
     justify-content: space-between;
     padding: 15px;
     margin-bottom: 10px;
-    background: #ffffff;
+    background: white;
     border: 1px solid #ddd;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .shoppingCartItem:hover {
-    background-color: #f1f1f1;
+    background-color: rgb(240, 240, 240);
+    transition: all 0.3s ease;
 }
 
 /* Item Details */
@@ -91,10 +93,37 @@
     font-size: 0.9rem;
 }
 
+/* First Child */
 .cartItemInfo p:first-child {
     font-size: 1.1rem;
     font-weight: bold;
     color: black;
+}
+
+.cartItemInfo p:first-child a {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: black;
+}
+
+.cartItemInfo p:first-child a {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: black;
+}
+
+.cartItemInfo p:first-child a:hover {
+    text-decoration: underline;
+}
+
+.cartItemInfo p a {
+    margin: 0;
+    color: rgb(50, 50, 50);
+    font-size: 0.9rem;
+}
+
+.cartItemInfo p a:hover {
+    text-decoration: underline;
 }
 
 .cartItemPrice {
@@ -106,7 +135,7 @@
 /* Buttons */
 .cartItemRemoveButton,
 .clearCartButton {
-    background-color: rgb(0, 0, 200);
+    background-color: black;
     color: white;
     border: none;
     border-radius: 5px;
@@ -116,24 +145,24 @@
 }
 
 .cartItemRemoveButton:hover {
-    background-color: rgb(0, 0, 150);
+    background-color: rgb(80, 80, 80);
     transform: scale(1.05);
     transition: all 0.3s ease;
 }
 
 .cartItemRemoveButton:active {
-    background-color: rgb(0, 0, 100);
+    background-color: rgb(50, 50, 50);
     transform: scale(0.95);
 }
 
 .clearCartButton:hover {
-    background-color: rgb(0, 0, 150);
-    transform: scale(1.025);
+    background-color: rgb(80, 80, 80);
+    transform: scale(1.015);
     transition: all 0.3s ease;
 }
 
 .clearCartButton:active {
-    background-color: rgb(0, 0, 100);
+    background-color: rgb(50, 50, 50);
     transform: scale(0.975);
 }
 

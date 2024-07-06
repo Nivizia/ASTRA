@@ -267,7 +267,7 @@ const ShoppingCart = () => {
                                             <div className={styles.cartItemDetails}>
                                                 <img src='/src/images/diamond.png' alt="Diamond" className={styles.cartItemImage} />
                                                 <div className={styles.cartItemInfo}>
-                                                    <p>{item.details.caratWeight} Carat {item.details.color}-{item.details.clarity} {item.details.cut} Cut {item.details.dType} Diamond - ${item.details.price}</p>
+                                                    <p><a href={`/diamond/${item.details.dProductId}`}>{item.details.caratWeight} Carat {item.details.color}-{item.details.clarity} {item.details.cut} Cut {item.details.dType} Diamond</a> - ${item.details.price}</p>
                                                     <p>Carat: {item.details.caratWeight} - Color: {item.details.color}</p>
                                                     <p>Clarity: {item.details.clarity} - Cut: {item.details.cut}</p>
                                                     <p>Diamond Type: {item.details.shape}</p>
@@ -281,12 +281,19 @@ const ShoppingCart = () => {
                                                     <p>
                                                         {item.ring ? getRingName(item.ring) : item.pendant.name} - {item.diamond.caratWeight} Carat {item.diamond.color}-{item.diamond.clarity} {item.diamond.cut} Cut {item.diamond.shape} Diamond
                                                     </p>
-                                                    <p>Diamond: {item.diamond.caratWeight} Carat {item.diamond.color}-{item.diamond.clarity} {item.diamond.cut} Cut {item.diamond.shape} Diamond - ${item.diamond.price}</p>
+                                                    <p>Diamond: <a href={item.ring ? (
+                                                            `/ring/${item.ring.ringId}/choose-diamond/${item.diamond.dProductId}?cart=true`
+                                                        ) : (
+                                                            `/pendant/${item.pendant.pendantId}/choose-diamond/${item.diamond.dProductId}?cart=true`
+                                                        )}>
+                                                            {item.diamond.caratWeight} Carat {item.diamond.color}-{item.diamond.clarity} {item.diamond.cut} Cut {item.diamond.shape} Diamond
+                                                        </a> - ${item.diamond.price}
+                                                    </p>
                                                     {item.ring && (
-                                                        <p>Ring: {getRingName(item.ring)} - ${item.ring.price}</p>
+                                                        <p>Ring: <a href={`/diamond/${item.diamond.dProductId}/choose-ring/${item.ring.ringId}?cart=true`}>{getRingName(item.ring)}</a> - ${item.ring.price}</p>
                                                     )}
                                                     {item.pendant && (
-                                                        <p>Pendant: {item.pendant.name} - ${item.pendant.price}</p>
+                                                        <p>Pendant: <a href={`/diamond/${item.diamond.dProductId}/choose-pendant/${item.pendant.pendantId}?cart=true`}>{item.pendant.name}</a> - ${item.pendant.price}</p>
                                                     )}
                                                     <p>Total Price: ${item.price}</p>
                                                 </div>

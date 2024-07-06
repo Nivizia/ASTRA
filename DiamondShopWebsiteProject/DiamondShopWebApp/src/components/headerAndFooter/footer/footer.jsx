@@ -15,15 +15,15 @@ const Footer = () => {
             <h3>Diamond Shapes</h3>
             <ul className="footer-list">
               <li><a href={`${href}round`}>Round</a></li>
-              <li>Princess</li>
-              <li>Cushion</li>
-              <li>Oval</li>
-              <li>Emerald</li>
-              <li>Pear</li>
-              <li>Asscher</li>
-              <li>Heart</li>
-              <li>Oval</li>
-              <li>Emerald</li>
+              <li><a href={`${href}princess`}>Princess</a></li>
+              <li><a href={`${href}cushion`}>Cushion</a></li>
+              <li><a href={`${href}oval`}>Oval</a></li>
+              <li><a href={`${href}emerald`}>Emerald</a></li>
+              <li><a href={`${href}pear`}>Pear</a></li>
+              <li><a href={`${href}asscher`}>Asscher</a></li>
+              <li><a href={`${href}heart`}>Heart</a></li>
+              <li><a href={`${href}oval`}>Oval</a></li>
+              <li><a href={`${href}emerald`}>Emerald</a></li>
             </ul>
           </div>
           <div className="footer-column">

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { fetchDiamondById } from '../../../../javascript/apiService';
 
 import CircularIndeterminate from '../../misc/loading';
@@ -15,12 +15,22 @@ const DiamondDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+
+  const cart = params.get('cart');
+
   const navigate = useNavigate();
 
   const handleSelectDiamond = () => {
     const path = ringId ? `/cart?d=${diamondId}&r=${ringId}` : `/cart?d=${diamondId}&p=${pendantId}`;
     navigate(path);
   };
+
+  const handleSelectAnotherDiamond = () => {
+    const path = ringId ? `/ring/${ringId}/choose-diamond` : `/pendant/${pendantId}/choose-diamond/`;
+    navigate(path);
+  }
 
   useEffect(() => {
     async function getDiamond() {
@@ -70,11 +80,18 @@ const DiamondDetails = () => {
           <span className="badge">{`${diamond.shape}` || 'Unknown'}</span>
         </div>
         <p className="price">${diamond.price.toFixed(2)}</p>
-        {ringId || pendantId ? (
-          <Button className={styles.selectDiamondButton} onClick={handleSelectDiamond}>SELECT DIAMOND</Button>
-        ) : (
-          <TemporaryDrawer diamondId={diamondId} diamondShape={diamond.shape} />
-        )}
+        <div className={styles.selectButtonContainer}>
+          {ringId || pendantId ? (
+            <Button className={styles.selectDiamondButton} onClick={handleSelectDiamond}>SELECT DIAMOND</Button>
+          ) : (
+            <TemporaryDrawer diamondId={diamondId} diamondShape={diamond.shape} />
+          )}
+          {cart ? (
+            <Button className={styles.selectAnotherDiamondButton} onClick={handleSelectAnotherDiamond}>SELECT ANOTHER DIAMOND</Button>
+          ) : (
+            null
+          )}
+        </div>
         <div className="order-info">
           <h3>Your Order Includes:</h3>
           <div className="order-detail">

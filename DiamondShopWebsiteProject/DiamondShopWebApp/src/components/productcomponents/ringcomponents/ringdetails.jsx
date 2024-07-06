@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { fetchRingById } from '../../../../javascript/apiService';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { fetchRingById, fetchDiamondById } from '../../../../javascript/apiService';
 
 import CircularIndeterminate from '../../misc/loading';
 import Button from '@mui/material/Button';
@@ -10,9 +10,17 @@ import styles from "../../css/temporarydrawer.module.css";
 
 const RingDetails = () => {
   const { diamondId, ringId } = useParams();
+
+  const [shape, setShape] = useState(null);
+
   const [ring, setRing] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+
+  const cart = params.get('cart');
 
   const navigate = useNavigate();
 
@@ -20,6 +28,11 @@ const RingDetails = () => {
     const path = diamondId ? `/cart?d=${diamondId}&r=${ringId}` : `/ring/${ringId}/choose-diamond/`;
     navigate(path);
   };
+
+  const handleSelectAnotherRing = () => {
+    const path = diamondId ? `/diamond/${diamondId}/choose-ring?shape=${shape}` : `/ring/${ringId}/choose-diamond/`;
+    navigate(path);
+  }
 
   useEffect(() => {
     async function getRing() {
@@ -33,6 +46,18 @@ const RingDetails = () => {
       }
     }
     getRing();
+
+    async function getDiamond() {
+      try {
+        const data = await fetchDiamondById(diamondId);
+        setShape(data.shape);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    getDiamond();
     console.log(`diamondId: ${diamondId}, ringId: ${ringId}`);
   }, [diamondId, ringId]);
 
@@ -97,11 +122,18 @@ const RingDetails = () => {
           <span className="badge">{ring.metalType || 'Unknown'}</span>
         </div>
         <p className="price">${ring.price.toFixed(2)}</p>
-        {diamondId ? (
-          <Button className={styles.selectDiamondButton} onClick={handleSelectRing}>SELECT RING</Button>
-        ) : (
-          <Button className={styles.selectDiamondButton} onClick={handleSelectRing}>SELECT A DIAMOND</Button>
-        )}
+        <div className={styles.selectButtonContainer}>
+          {diamondId ? (
+            <Button className={styles.selectDiamondButton} onClick={handleSelectRing}>SELECT RING</Button>
+          ) : (
+            <Button className={styles.selectDiamondButton} onClick={handleSelectRing}>SELECT A DIAMOND</Button>
+          )}
+          {cart ? (
+            <Button className={styles.selectAnotherDiamondButton} onClick={handleSelectAnotherRing}>SELECT ANOTHER RING</Button>
+          ) : (
+            null
+          )}
+        </div>
         <div className="order-info">
           <h3>Your Order Includes:</h3>
           <div className="order-detail">

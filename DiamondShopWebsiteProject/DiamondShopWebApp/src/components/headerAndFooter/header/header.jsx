@@ -5,7 +5,10 @@ import logo from '../../../images/logo-no-background.png';
 import MenuNav from './menunavigation';
 import AccountButton from './accountButton/accountButton';
 
-import Badge from '@mui/material/Badge';
+import {
+  Badge,
+  Tooltip,
+} from '@mui/material';
 
 import { TiShoppingCart } from "react-icons/ti";
 
@@ -52,9 +55,11 @@ const Header = () => {
             <AccountButton />
             <span className="icon">
               <a href="/cart">
-                <Badge badgeContent={cartItemCount} color="primary">
-                  <TiShoppingCart />
-                </Badge>
+                <Tooltip title="Cart">
+                  <Badge badgeContent={cartItemCount} color="primary">
+                    <TiShoppingCart />
+                  </Badge>
+                </Tooltip>
               </a>
             </span>
           </div>

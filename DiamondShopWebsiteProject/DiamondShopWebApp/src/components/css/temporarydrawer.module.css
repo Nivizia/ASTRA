@@ -1,13 +1,22 @@
 /* Styling for the button that opens the drawer */
+.selectButtonContainer {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-top: 1rem !important;
+}
+
 .selectDiamondButton {
     background-color: rgb(0, 0, 200) !important;
+    flex: 3 !important;
     color: #fff !important;
     padding: 15px 30px !important;
     border: none !important;
     border-radius: 5px !important;
     cursor: pointer !important;
-    font-size: 18px !important;
-    transition: all 0.3s ease;
+    font-size: clamp(8px, .5vw + .5vh + .5vmin, 12px) !important;
+    white-space: nowrap !important;
+    transition: all 0.3s ease !important;
 }
 
 .selectDiamondButton:hover {
@@ -22,10 +31,36 @@
     transition: all 0.3s ease;
 }
 
+.selectAnotherDiamondButton {
+    background-color: rgb(130, 130, 130) !important;
+    margin-left: 16px !important;
+    flex: 4 !important;
+    color: #fff !important;
+    padding: 15px 30px !important;
+    border: none !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+    font-size: clamp(8px, .5vw + .5vh + .5vmin, 12px) !important;
+    white-space: nowrap !important;
+    transition: all 0.3s ease !important;
+}
+
+.selectAnotherDiamondButton:hover {
+    background-color: rgb(100, 100, 100) !important;
+    transform: scale(1.05) !important;
+    transition: all 0.3s ease;
+}
+
+.selectAnotherDiamondButton:active {
+    background-color: rgb(80, 80, 80) !important;
+    transform: scale(0.95) !important;
+    transition: all 0.3s ease;
+}
+
 
 /* Styling for the content inside the drawer */
 .drawerContent {
-    background-color: #fff !important;
+    background-color: white !important;
     height: 10rem !important;
     box-sizing: border-box !important;
     justify-content: center !important;
@@ -78,7 +113,7 @@
     padding: auto !important;
     margin: auto !important;
     background-color: rgb(0, 0, 200) !important;
-    color: #fff !important;
+    color: white !important;
     /* Added color for text */
     cursor: pointer;
     transition: all 0.3s ease;

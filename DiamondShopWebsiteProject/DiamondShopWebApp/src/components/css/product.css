@@ -68,7 +68,6 @@
   font-size: 32px;
   color: black;
   margin: 0;
-  margin-bottom: 10px;
   font-weight: bold;
 }
 
@@ -186,7 +185,7 @@
 }
 
 .specifications-section td {
-  border: 1px solid #ddd;
+  border: 1px solid rgb(200, 200, 200);
   padding: 10px;
   text-align: left;
 }

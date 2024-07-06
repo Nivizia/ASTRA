@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { fetchPendantById } from '../../../../javascript/apiService';
 
 import CircularIndeterminate from '../../misc/loading';
@@ -14,12 +14,22 @@ const PendantDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+
+  const cart = params.get('cart');
+
   const navigate = useNavigate();
 
   const handleSelectPendant = () => {
     const path = diamondId ? `/cart?d=${diamondId}&p=${pendantId}` : `/pendant/${pendantId}/choose-diamond/`;
     navigate(path);
   };
+
+  const handleSelectAnotherPendant = () => {
+    const path = diamondId ? `/diamond/${diamondId}/choose-pendant` : `/pendant/${pendantId}/choose-diamond/`;
+    navigate(path);
+  }
 
   useEffect(() => {
     async function getPendant() {
@@ -67,11 +77,18 @@ const PendantDetails = () => {
           <span className="badge">{pendant.claspType || 'Unknown'}</span>
         </div>
         <p className="price">${pendant.price.toFixed(2)}</p>
-        {diamondId ? (
-          <Button className={styles.selectDiamondButton} onClick={handleSelectPendant}>SELECT PENDANT</Button>
-        ) : (
-          <Button className={styles.selectDiamondButton} onClick={handleSelectPendant}>SELECT A DIAMOND</Button>
-        )}
+        <div className={styles.selectButtonContainer}>
+          {diamondId ? (
+            <Button className={styles.selectDiamondButton} onClick={handleSelectPendant}>SELECT PENDANT</Button>
+          ) : (
+            <Button className={styles.selectDiamondButton} onClick={handleSelectPendant}>SELECT A DIAMOND</Button>
+          )}
+          {cart ? (
+            <Button className={styles.selectAnotherDiamondButton} onClick={handleSelectAnotherPendant}>SELECT ANOTHER PENDANT</Button>
+          ) : (
+            null
+          )}
+        </div>
         <div className="order-info">
           <h3>Your Order Includes:</h3>
           <div className="order-detail">

@@ -54,7 +54,13 @@
 }
 
 .footer-list li a{
-    color: white
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.footer-list li a:hover{
+    color: rgb(200, 200, 200);
+    transition: all 0.3s ease;
 }
 
 @media (max-width: 800px) {
