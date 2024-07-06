@@ -49,9 +49,9 @@ const PendantDetails = () => {
   }
 
   return (
-    <div className="diamond-details-container">
+    <div className="product-details-container">
       <div className="image-section">
-        <img src='/src/images/pendant.png' alt="Diamond" className="diamond-image" />
+        <img src='/src/images/pendant.png' alt="Diamond" className="product-details-image" />
         <div className="thumbnail-gallery">
           <img src='/src/images/diamond-thumbnail1.png' alt="Thumbnail 1" />
           <img src='/src/images/diamond-thumbnail2.png' alt="Thumbnail 2" />

@@ -1,25 +1,48 @@
-.diamond-box {
-  border: 1px solid #ddd;
+/* [product]list.css */
+
+.product-list {
+  display: grid;
+  min-width: 95%;
+  gap: 16px;
+  padding: 16px;
+  margin: 16px auto;
+  grid-template-columns: repeat(4, 1fr);
+  /* 4 columns of equal width */
+}
+
+/* [product]box.css */
+
+.product-link {
+  transition: background-color 250ms ease, transform 250ms ease;
+}
+
+.product-link:hover {
+  transform: scale(1.05);
+  border: solid #000;
+  transition: background-color 250ms ease, transform 250ms ease;
+}
+
+.product-box {
   border-radius: 8px;
   padding: 0;
   background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
   margin: 0 auto;
 }
 
-.diamond-image-container {
+.product-image-container {
   height: auto;
   width: 100%;
   overflow: hidden;
 }
 
-.diamond-image {
+.product-image {
   width: 100%;
   max-width: 400px;
 }
 
-.diamond-details {
+.product-details {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,13 +50,15 @@
   height: 12.5em;
 }
 
-.diamond-details h2 {
+/* For diamond name (Shorter) */
+.product-details h2 {
   font-size: 24px;
   margin: auto 1em;
   color: #333;
 }
 
-.diamond-details h3 {
+/* For product name (Longer) */
+.product-details h3 {
   font-size: 20px;
   margin: auto 1em;
   color: #333;
@@ -46,58 +71,53 @@
   font-weight: bold;
 }
 
-.diamond-list {
-  display: grid;
-  gap: 16px;
-  padding: 16px;
-  grid-template-columns: repeat(4, 1fr);
-  /* 4 columns of equal width */
-}
+/* [product]details.css */
 
-/* diamondDetails.css */
-
-.diamond-link {
-  transition: background-color 250ms ease, transform 250ms ease;
-}
-
-.diamond-link:hover {
-  transform: scale(1.05);
-  border: solid #000;
-  transition: background-color 250ms ease, transform 250ms ease;
-}
-
-.diamond-details-container {
+.product-details-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   padding: 20px;
-  max-width: 1200px;
+  max-width: 85vw;
   margin: 0 auto;
 }
 
 .image-section {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   min-width: 300px;
   margin: 10px;
   text-align: center;
+  align-items: center;
+}
+
+.product-details-image {
+  width: 60%;
+  min-width: 300px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
 }
 
 .thumbnail-gallery {
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  width: 60%;
+  min-width: 300px;
+  justify-content: space-between;
   flex-wrap: wrap;
 }
 
 .thumbnail-gallery img {
-  width: 50px;
-  height: 50px;
+  width: 24%;
+  min-width: 70px;
+  height: auto;
   border-radius: 8px;
+  border: 1px solid #ddd;
 }
 
 .details-section {
   flex: 2;
-  min-width: 300px;
+  min-width: 400px;
   margin: 10px;
 }
 
@@ -162,33 +182,33 @@
 }
 
 @media (max-width: 1200px) {
-  .diamond-box {
+  .product-box {
     width: 27vw;
   }
 
-  .diamond-list {
+  .product-list {
     grid-template-columns: repeat(3, 1fr);
     /* 3 columns for medium screens */
   }
 }
 
 @media (max-width: 955px) {
-  .diamond-box {
+  .product-box {
     width: 39vw;
   }
 
-  .diamond-list {
+  .product-list {
     grid-template-columns: repeat(2, 1fr);
     /* 2 columns for smaller screens */
   }
 }
 
 @media (max-width: 667px) {
-  .diamond-box {
+  .product-box {
     width: 75vw;
   }
 
-  .diamond-list {
+  .product-list {
     grid-template-columns: 1fr;
     /* 1 column for very small screens */
   }

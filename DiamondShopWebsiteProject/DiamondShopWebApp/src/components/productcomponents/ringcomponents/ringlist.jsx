@@ -93,39 +93,37 @@ const RingList = () => {
   };
 
   return (
-    <div>
-      <div className="diamond-list">
-        {rings.map((ring) => (
+    <div className="product-list">
+      {rings.map((ring) => (
 
-          diamondId ? (
-            // Condition for diamondId is defined and ringId is undefined
-            <RingBox
-              key={ring.ringId}
-              ringId={ring.ringId}
-              diamondId={diamondId} // Passed from the parent component or context
-              // ringId is intentionally not passed here based on your condition
-              name={getRingName(ring)}
-              price={ring.price}
-              stockQuantity={ring.stockQuantity}
-              imageUrl={ring.imageUrl}
-              metalType={ring.metalType}
-              ringSize={ring.ringSize}
-            />
-          ) : (
-            // Default case, assuming ring-first route or any other case
-            <RingBox
-              key={ring.ringId}
-              ringId={ring.ringId}
-              name={getRingName(ring)}
-              price={ring.price}
-              stockQuantity={ring.stockQuantity}
-              imageUrl={ring.imageUrl}
-              metalType={ring.metalType}
-              ringSize={ring.ringSize}
-            />
-          )
-        ))}
-      </div>
+        diamondId ? (
+          // Condition for diamondId is defined and ringId is undefined
+          <RingBox
+            key={ring.ringId}
+            ringId={ring.ringId}
+            diamondId={diamondId} // Passed from the parent component or context
+            // ringId is intentionally not passed here based on your condition
+            name={getRingName(ring)}
+            price={ring.price}
+            stockQuantity={ring.stockQuantity}
+            imageUrl={ring.imageUrl}
+            metalType={ring.metalType}
+            ringSize={ring.ringSize}
+          />
+        ) : (
+          // Default case, assuming ring-first route or any other case
+          <RingBox
+            key={ring.ringId}
+            ringId={ring.ringId}
+            name={getRingName(ring)}
+            price={ring.price}
+            stockQuantity={ring.stockQuantity}
+            imageUrl={ring.imageUrl}
+            metalType={ring.metalType}
+            ringSize={ring.ringSize}
+          />
+        )
+      ))}
     </div>
   );
 };

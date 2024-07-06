@@ -6,12 +6,12 @@ const PendantBox = ({ pendantId, diamondId, name, price, stockQuantity, imageUrl
     const href = diamondId ? `/diamond/${diamondId}/choose-pendant/${pendantId}` : `/pendant/${pendantId}`;
     return (
 
-        <a href={href} className="diamond-link">
-            <div className="diamond-box">
-                <div className='diamond-image-container'>
-                    <img src='/src/images/pendant.png' alt={name} className="diamond-image" />
+        <a href={href} className="product-link">
+            <div className="product-box">
+                <div className='product-image-container'>
+                    <img src='/src/images/pendant.png' alt={name} className="product-image" />
                 </div>
-                <div className="diamond-details">
+                <div className="product-details">
                     <h2>{`${name}`}</h2>
                     <p className="price">${price.toFixed(2)}</p>
                 </div>

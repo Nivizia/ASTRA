@@ -52,37 +52,35 @@ const PendantList = () => {
   }
 
   return (
-    <div>
-      <div className="diamond-list">
-        {pendants.map((pendant) => (
-          
-          diamondId ? (
-            // Condition for diamondId is defined and pendantId is undefined
-            <PendantBox
-              key={pendant.pendantId}
-              pendantId={pendant.pendantId}
-              diamondId={diamondId} // Passed from the parent component or context
-              // pendantId is intentionally not passed here based on your condition
-              name={pendant.name}
-              price={pendant.price}
-              stockQuantity={pendant.stockQuantity}
-              imageUrl={pendant.imageUrl}
-              metalType={pendant.metalType}
-            />
-          ) : (
-            // Default case, assuming pendant-first route or any other case
-            <PendantBox
-              key={pendant.pendantId}
-              pendantId={pendant.pendantId}
-              name={pendant.name}
-              price={pendant.price}
-              stockQuantity={pendant.stockQuantity}
-              imageUrl={pendant.imageUrl}
-              metalType={pendant.metalType}
-            />
-          )
-        ))}
-      </div>
+    <div className="product-list">
+      {pendants.map((pendant) => (
+
+        diamondId ? (
+          // Condition for diamondId is defined and pendantId is undefined
+          <PendantBox
+            key={pendant.pendantId}
+            pendantId={pendant.pendantId}
+            diamondId={diamondId} // Passed from the parent component or context
+            // pendantId is intentionally not passed here based on your condition
+            name={pendant.name}
+            price={pendant.price}
+            stockQuantity={pendant.stockQuantity}
+            imageUrl={pendant.imageUrl}
+            metalType={pendant.metalType}
+          />
+        ) : (
+          // Default case, assuming pendant-first route or any other case
+          <PendantBox
+            key={pendant.pendantId}
+            pendantId={pendant.pendantId}
+            name={pendant.name}
+            price={pendant.price}
+            stockQuantity={pendant.stockQuantity}
+            imageUrl={pendant.imageUrl}
+            metalType={pendant.metalType}
+          />
+        )
+      ))}
     </div>
   );
 };

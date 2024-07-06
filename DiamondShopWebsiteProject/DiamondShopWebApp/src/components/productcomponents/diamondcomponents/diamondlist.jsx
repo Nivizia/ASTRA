@@ -63,56 +63,54 @@ const DiamondList = () => {
   }
 
   return (
-    <div>
-      <div className="diamond-list">
-        {diamonds.map((diamond) => (
-          ringId ? (
-            // Condition for ringId is defined
-            <DiamondBox
-              key={diamond.dProductId}
-              diamondId={diamond.dProductId}
-              ringId={ringId} // Passed from the parent component or context
-              price={diamond.price}
-              imageUrl={diamond.imageUrl}
-              caratWeight={diamond.caratWeight}
-              color={diamond.color}
-              clarity={diamond.clarity}
-              cut={diamond.cut}
-              shape={diamond.shape}
-              // diamondId is intentionally passed here based on your condition
-            />
-          ) : pendantId ? (
-            // Condition for pendantId is defined
-            <DiamondBox
-              key={diamond.dProductId}
-              diamondId={diamond.dProductId}
-              pendantId={pendantId} // Passed from the parent component or context
-              price={diamond.price}
-              imageUrl={diamond.imageUrl}
-              caratWeight={diamond.caratWeight}
-              color={diamond.color}
-              clarity={diamond.clarity}
-              cut={diamond.cut}
-              shape={diamond.shape}
-              // diamondId is intentionally passed here based on your condition
-            />
-          ) : (
-            // Default case, assuming no ringId or pendantId
-            <DiamondBox
-              key={diamond.dProductId}
-              diamondId={diamond.dProductId}
-              price={diamond.price}
-              imageUrl={diamond.imageUrl}
-              caratWeight={diamond.caratWeight}
-              color={diamond.color}
-              clarity={diamond.clarity}
-              cut={diamond.cut}
-              shape={diamond.shape}
-              // Neither ringId nor pendantId is passed here
-            />
-          )
-        ))}
-      </div>
+    <div className="product-list">
+      {diamonds.map((diamond) => (
+        ringId ? (
+          // Condition for ringId is defined
+          <DiamondBox
+            key={diamond.dProductId}
+            diamondId={diamond.dProductId}
+            ringId={ringId} // Passed from the parent component or context
+            price={diamond.price}
+            imageUrl={diamond.imageUrl}
+            caratWeight={diamond.caratWeight}
+            color={diamond.color}
+            clarity={diamond.clarity}
+            cut={diamond.cut}
+            shape={diamond.shape}
+          // diamondId is intentionally passed here based on your condition
+          />
+        ) : pendantId ? (
+          // Condition for pendantId is defined
+          <DiamondBox
+            key={diamond.dProductId}
+            diamondId={diamond.dProductId}
+            pendantId={pendantId} // Passed from the parent component or context
+            price={diamond.price}
+            imageUrl={diamond.imageUrl}
+            caratWeight={diamond.caratWeight}
+            color={diamond.color}
+            clarity={diamond.clarity}
+            cut={diamond.cut}
+            shape={diamond.shape}
+          // diamondId is intentionally passed here based on your condition
+          />
+        ) : (
+          // Default case, assuming no ringId or pendantId
+          <DiamondBox
+            key={diamond.dProductId}
+            diamondId={diamond.dProductId}
+            price={diamond.price}
+            imageUrl={diamond.imageUrl}
+            caratWeight={diamond.caratWeight}
+            color={diamond.color}
+            clarity={diamond.clarity}
+            cut={diamond.cut}
+            shape={diamond.shape}
+          // Neither ringId nor pendantId is passed here
+          />
+        )
+      ))}
     </div>
   );
 };

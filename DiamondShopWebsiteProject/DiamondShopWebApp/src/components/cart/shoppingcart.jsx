@@ -270,7 +270,7 @@ const ShoppingCart = () => {
                                                     <p>{item.details.caratWeight} Carat {item.details.color}-{item.details.clarity} {item.details.cut} Cut {item.details.dType} Diamond - ${item.details.price}</p>
                                                     <p>Carat: {item.details.caratWeight} - Color: {item.details.color}</p>
                                                     <p>Clarity: {item.details.clarity} - Cut: {item.details.cut}</p>
-                                                    <p>Diamond Type: {item.details.dType}</p>
+                                                    <p>Diamond Type: {item.details.shape}</p>
                                                 </div>
                                             </div>
                                         )}
@@ -279,9 +279,9 @@ const ShoppingCart = () => {
                                                 <img src={item.ring ? '/src/images/ring.png' : '/src/images/pendant.png'} alt={item.ring ? "Ring" : "Pendant"} className={styles.cartItemImage} />
                                                 <div className={styles.cartItemInfo}>
                                                     <p>
-                                                        {item.ring ? getRingName(item.ring) : item.pendant.name} - {item.diamond.caratWeight} Carat {item.diamond.color}-{item.diamond.clarity} {item.diamond.cut} Cut {item.diamond.dType} Diamond
+                                                        {item.ring ? getRingName(item.ring) : item.pendant.name} - {item.diamond.caratWeight} Carat {item.diamond.color}-{item.diamond.clarity} {item.diamond.cut} Cut {item.diamond.shape} Diamond
                                                     </p>
-                                                    <p>Diamond: {item.diamond.caratWeight} Carat {item.diamond.color}-{item.diamond.clarity} {item.diamond.cut} Cut {item.diamond.dType} Diamond - ${item.diamond.price}</p>
+                                                    <p>Diamond: {item.diamond.caratWeight} Carat {item.diamond.color}-{item.diamond.clarity} {item.diamond.cut} Cut {item.diamond.shape} Diamond - ${item.diamond.price}</p>
                                                     {item.ring && (
                                                         <p>Ring: {getRingName(item.ring)} - ${item.ring.price}</p>
                                                     )}

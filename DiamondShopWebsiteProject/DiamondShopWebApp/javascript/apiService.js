@@ -274,7 +274,6 @@ export const fetchPendantById = async (id) => {
 
 // Order:
 // Function to create a new order
-// apiService.js
 export const createOrder = async (orderDetails) => {
     try {
         const token = getToken();
@@ -284,15 +283,26 @@ export const createOrder = async (orderDetails) => {
                 'Content-Type': 'application/json'
             }
         });
-        return response.data;
+        return { success: true, data: response.data };
     } catch (error) {
         console.error('Error creating order:', error);
 
-        if (error.response && error.response.data) {
-            // Return the specific error message from the response
-            throw new Error(error.response.data);
+        if (error.response) {
+            // Handle 404 Not Found specifically
+            if (error.response.status === 404) {
+                return { success: false, message: 'User not found', noUser: true };
+            }
+            // Handle other HTTP errors
+            return {
+                success: false,
+                message: error.response.data.message || 'An error occurred. Please try again later.'
+            };
         } else {
-            throw new Error('An unexpected error occurred.');
+            // Handle errors without a response (network errors, etc.)
+            return {
+                success: false,
+                message: 'Failed to place order. Please check your connection and try again.'
+            };
         }
     }
 };

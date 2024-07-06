@@ -5,10 +5,12 @@ import CircularIndeterminate from '../misc/loading';
 import { getCartItems, clearCart } from '../../../javascript/cartService';
 import { createOrder } from '../../../javascript/apiService';
 import styles from '../css/orderButton.module.css';
+import { LinearProgress } from '@mui/material';
 
 const OrderButton = () => {
-    const { user } = useContext(AuthContext);
+    const { user, logout } = useContext(AuthContext);
     const [loading, setLoading] = useState(false);
+    const [errorLoading, setErrorLoading] = useState(false);
     const [error, setError] = useState(null); // Error state
     const navigate = useNavigate();
 
@@ -69,15 +71,30 @@ const OrderButton = () => {
 
         try {
             const orderResponse = await createOrder(orderDetails);
-            console.log('Order created successfully:', orderResponse);
+            if (orderResponse.success) {
+                console.log('Order created successfully:', orderResponse);
+                clearCart(); // Clear the cart after placing the order
+                navigate('/order-confirmation'); // Navigate to the order confirmation page
+            } else {
+                if (orderResponse.noUser) {
+                    console.log('User not found, displaying error and logging out...');
+                    setError('Failed to place order! User does not exist.');
+                    setErrorLoading(true);
 
-            // Navigate to the order confirmation page
-            navigate('/order-confirmation');
-            clearCart(); // Clear the cart after placing the order
-            setLoading(false);
+                    // Wait for 3 seconds before logging out and navigating
+                    setTimeout(() => {
+                        logout(); // Log the user out
+                        navigate('/login?cart=true'); // Redirect to the login page
+                        setErrorLoading(false);
+                    }, 3000);
+                } else {
+                    setError(`Failed to place order! ${orderResponse.message}`);
+                }
+            }
         } catch (error) {
-            console.error('Error creating order:', error);
-            setError('Failed to place order. Please try again later.');
+            console.error('Unexpected error:', error);
+            setError(`Failed to place order! ${error.message || 'Unknown error'}`);
+        } finally {
             setLoading(false);
         }
     };
@@ -88,6 +105,12 @@ const OrderButton = () => {
                 {loading ? <CircularIndeterminate size={24} /> : 'Place Order'}
             </button>
             {error && <p className={styles.errorMessage}>{error}</p>} {/* Display error message */}
+            {errorLoading ? (
+                <>
+                    <p>Redirecting to login...</p>
+                    <LinearProgress />
+                </>
+            ) : null}
         </div>
     );
 };
