@@ -55,29 +55,37 @@
     padding: 0 5px !important;
     font-size: 1rem !important;
     height: 100%;
-    position: relative; /* Position relative for ::after to work */
+    position: relative;
+    /* Position relative for ::after to work */
 }
 
 .nav-button::after {
     content: '';
     position: absolute;
     left: 0;
-    bottom: -5px; /* Position the border slightly below the button */
+    bottom: -5px;
+    /* Position the border slightly below the button */
     width: 100%;
-    height: 3px; /* Height of the underline */
-    background-color: white; /* Color of the underline */
-    transform: scaleX(0); /* Start with scale 0 */
-    transition: transform 0.5s ease; /* Smooth transition */
+    height: 3px;
+    /* Height of the underline */
+    background-color: white;
+    /* Color of the underline */
+    transform: scaleX(0);
+    /* Start with scale 0 */
+    transition: transform 0.5s ease;
+    /* Smooth transition */
     transform-origin: left;
 }
 
 .nav-button:hover::after {
-    transform: scaleX(1); /* Scale to full width on hover */
+    transform: scaleX(1);
+    /* Scale to full width on hover */
 }
 
 .nav-button:hover {
     border: 0px;
-    color: white !important; /* Ensure text color stays the same on hover */
+    color: white !important;
+    /* Ensure text color stays the same on hover */
 }
 
 .nav-button:active {
@@ -92,7 +100,7 @@
     height: 200px;
 }
 
-.nav div div{
+.nav div div {
     position: absolute;
     top: 0px !important;
     background-position-y: center;
@@ -100,7 +108,7 @@
     height: 200px;
 }
 
-.menu-list{
+.menu-list {
     color: white;
     background-color: black;
     height: 100%;
@@ -109,7 +117,7 @@
     border-bottom: 1px solid grey;
 }
 
-.menu-option{
+.menu-option {
     width: 100%;
     height: 33.3%;
     padding: 5px 20px;
@@ -176,10 +184,11 @@
     transition: width 0.3s ease;
 }
 
-.icon svg{
+.icon svg {
     color: #fff;
     transition: all 0.3s ease;
 }
+
 .icon svg:hover {
     color: grey;
     transform: scale(1.1);
@@ -219,9 +228,10 @@
 }
 
 @media (max-width: 667px) {
-    .header{
+    .header {
         border-bottom: 1px solid grey;
     }
+
     .header-content {
         flex-direction: column;
         margin: 0.5em 20px;
@@ -240,9 +250,19 @@
         justify-content: center;
         transition: all 0.3s ease;
     }
-    .nav div {
-        top: 24px !important;
+
+    .nav-button {
+        margin-bottom: 10px !important;
     }
+
+    .nav-button::after {
+        margin-bottom: 10px !important;
+    }
+
+    .nav div {
+        top: 8px !important;
+    }
+
     .nav div div {
         top: 0px !important;
     }

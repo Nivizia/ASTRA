@@ -33,6 +33,9 @@ const DiamondDetails = () => {
   }
 
   useEffect(() => {
+    setError(null);
+    setLoading(true);
+
     async function getDiamond() {
       try {
         const data = await fetchDiamondById(diamondId);
@@ -48,7 +51,7 @@ const DiamondDetails = () => {
   }, [diamondId]);
 
   if (loading) {
-    return <CircularIndeterminate />;
+    return <CircularIndeterminate size={56} />;
   }
 
   if (error) {
@@ -62,7 +65,7 @@ const DiamondDetails = () => {
   return (
     <div className="product-details-container">
       <div className="image-section">
-        <img src='/src/images/diamond.png' alt="Diamond" className="product-image" />
+        <img src='/src/images/diamond.png' alt="Diamond" className="product-details-image" />
         <div className="thumbnail-gallery">
           <img src='/src/images/diamond-thumbnail1.png' alt="Thumbnail 1" />
           <img src='/src/images/diamond-thumbnail2.png' alt="Thumbnail 2" />

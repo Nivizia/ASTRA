@@ -35,6 +35,9 @@ const RingDetails = () => {
   }
 
   useEffect(() => {
+    setError(null);
+    setLoading(true);
+
     async function getRing() {
       try {
         const data = await fetchRingById(ringId);
@@ -47,22 +50,24 @@ const RingDetails = () => {
     }
     getRing();
 
-    async function getDiamond() {
-      try {
-        const data = await fetchDiamondById(diamondId);
-        setShape(data.shape);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
+    if (diamondId) {
+      async function getDiamond() {
+        try {
+          const data = await fetchDiamondById(diamondId);
+          setShape(data.shape);
+        } catch (error) {
+          setError(error.message);
+        } finally {
+          setLoading(false);
+        }
       }
+      getDiamond();
     }
-    getDiamond();
     console.log(`diamondId: ${diamondId}, ringId: ${ringId}`);
   }, [diamondId, ringId]);
 
   if (loading) {
-    return <CircularIndeterminate />;
+    return <CircularIndeterminate size={56}/>;
   }
 
   if (error) {

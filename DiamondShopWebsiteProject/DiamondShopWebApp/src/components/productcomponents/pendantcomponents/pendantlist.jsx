@@ -15,6 +15,9 @@ const PendantList = () => {
   const { diamondId, pendantId } = useParams();
 
   useEffect(() => {
+    setError(null);
+    setLoading(true);
+
     async function getPendants() {
       try {
         const data = await fetchPendants();

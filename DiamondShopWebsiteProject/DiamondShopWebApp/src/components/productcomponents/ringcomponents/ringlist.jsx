@@ -20,6 +20,9 @@ const RingList = () => {
   const shape = params.get('shape');
 
   useEffect(() => {
+    setError(null);
+    setLoading(true);
+
     async function getRings() {
       try {
         let data;

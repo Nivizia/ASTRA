@@ -3,18 +3,28 @@ export const addToCart = (item) => {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
     if (item.type === 'pairing') {
+
+        // Check if a pairing with the same diamond already exists
+        const existingPairingIndex = cart.findIndex(cartItem =>
+            cartItem.type === 'pairing' &&
+            cartItem.diamond.dProductId === item.diamond.dProductId
+        );
+
+        // If a pairing with the same diamond exists, update it; otherwise, add new pairing
+        if (existingPairingIndex !== -1) {
+            cart[existingPairingIndex] = item;
+            console.log("Updated the pairing in the cart");
+            console.log("Existing pairing index: " + existingPairingIndex);
+        } else {
+            cart.push(item);
+            console.log("Added a new pairing to the cart");
+            console.log("Existing pairing index: " + existingPairingIndex);
+        }
+
         // Remove any loose diamond that matches the diamond in the pairing
         cart = cart.filter(cartItem => {
             if (cartItem.type === 'diamond') {
                 return cartItem.details.dProductId !== item.diamond.dProductId;
-            }
-            return true;
-        });
-
-        // Remove any existing pairing that includes the same diamond
-        cart = cart.filter(cartItem => {
-            if (cartItem.type === 'pairing') {
-                return cartItem.diamond.dProductId !== item.diamond.dProductId;
             }
             return true;
         });

@@ -30,109 +30,131 @@ import ShoppingCart from './components/cart/shoppingcart';
 import OrderConfirmation from './components/cart/orderConfirmation';
 
 //Testing components
-import PersistentDrawerRight from './components/drawercomponents/persistentDrawerRight';
 import Profile from './components/profile/profile';
+
+//Error Component
+import ErrorPage from './components/misc/errorpage';
 
 //Css Imports
 import './index.css'
-
-
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
         element: <Index />,
+        errorElement: <ErrorPage />,
       },
       {
         path: "/login/",
-        element: <LoginPage />
+        element: <LoginPage />,
+        errorElement: <ErrorPage />,
       },
       {
         path: "/signup/",
-        element: <SignUp />
+        element: <SignUp />,
+        errorElement: <ErrorPage />,
       },
       {
         path: "/diamond/",
-        element: <DiamondList />
+        element: <DiamondList />,
+        errorElement: <ErrorPage />,
       },
       {
         path: "/diamond/:diamondId",
         element: <DiamondDetails />,
+        errorElement: <ErrorPage />,
       },
       // Choose Diamond then Product
       {
         path: "/diamond/:diamondId/choose-ring/",
         element: <RingList />,
+        errorElement: <ErrorPage />,
       },
       {
         path: "/diamond/:diamondId/choose-ring/:ringId",
         element: <RingDetails />,
+        errorElement: <ErrorPage />,
       },
       {
         path: "/diamond/:diamondId/choose-pendant/",
         element: <PendantList />,
+        errorElement: <ErrorPage />,
       },
       {
         path: "/diamond/:diamondId/choose-pendant/:pendantId",
         element: <PendantDetails />,
+        errorElement: <ErrorPage />,
       },
       // Choose Product then Diamond
       {
         path: "/ring/",
         element: <RingList />,
+        errorElement: <ErrorPage />,
       },
       {
         path: "/ring/:ringId",
         element: <RingDetails />,
+        errorElement: <ErrorPage />,
       },
       {
         path: "/pendant/",
         element: <PendantList />,
+        errorElement: <ErrorPage />,
       },
       {
         path: "/pendant/:pendantId",
         element: <PendantDetails />,
+        errorElement: <ErrorPage />,
       },
       {
         path: "/ring/:ringId/choose-diamond/",
         element: <DiamondList />,
+        errorElement: <ErrorPage />,
       },
       {
         path: "/ring/:ringId/choose-diamond/:diamondId",
         element: <DiamondDetails />,
+        errorElement: <ErrorPage />,
       },
       {
         path: "/pendant/:pendantId/choose-diamond/",
         element: <DiamondList />,
+        errorElement: <ErrorPage />,
       },
       {
         path: "/pendant/:pendantId/choose-diamond/:diamondId",
         element: <DiamondDetails />,
+        errorElement: <ErrorPage />,
       },
       // Cart
       {
         path: "/cart/",
-        element: <ShoppingCart />
+        element: <ShoppingCart />,
+        errorElement: <ErrorPage />,
       },
       {
         path: "/order-confirmation/",
-        element: <OrderConfirmation />
+        element: <OrderConfirmation />,
+        errorElement: <ErrorPage />,
       },
 
       // Calculator
       {
         path: "/calculator/",
-        element: <DiamondPriceCalculator />
+        element: <DiamondPriceCalculator />,
+        errorElement: <ErrorPage />,
       },
 
       // Testing
       {
         path: "/profile/",
-        element: <Profile />
+        element: <Profile />,
+        errorElement: <ErrorPage />,
       }
     ]
   },

@@ -32,6 +32,9 @@ const PendantDetails = () => {
   }
 
   useEffect(() => {
+    setError(null);
+    setLoading(true);
+
     async function getPendant() {
       try {
         const data = await fetchPendantById(pendantId);
@@ -47,7 +50,7 @@ const PendantDetails = () => {
   }, [diamondId, pendantId]);
 
   if (loading) {
-    return <CircularIndeterminate />;
+    return <CircularIndeterminate size={56}/>;
   }
 
   if (error) {

@@ -20,6 +20,9 @@ const DiamondList = () => {
   const shape = params.get('shape');
 
   useEffect(() => {
+    setError(null);
+    setLoading(true);
+
     async function getDiamonds() {
       try {
         let data;

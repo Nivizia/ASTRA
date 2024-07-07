@@ -58,7 +58,7 @@ export default function MenuNav() {
   }
 
   return (
-    <ul class='nav-button-container'>
+    <ul className="nav-button-container">
       <li>
         <Button
           ref={diamondAnchorRef}

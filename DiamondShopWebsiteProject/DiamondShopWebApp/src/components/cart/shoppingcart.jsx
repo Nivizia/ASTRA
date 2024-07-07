@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { fetchDiamondById, fetchRingById, fetchPendantById, calculateDiamondPrice } from '../../../javascript/apiService';
+import { fetchDiamondById, fetchRingById, fetchPendantById } from '../../../javascript/apiService';
 import { getCartItems, addToCart, removeFromCart, clearCart } from '../../../javascript/cartService';
 
 import CheckoutBox from './checkoutbox';
