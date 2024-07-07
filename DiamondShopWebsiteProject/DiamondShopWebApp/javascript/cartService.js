@@ -1,25 +1,33 @@
 // Adding an item to the cart
-export const addToCart = (item) => {
+export const addToCart = (item, chooseAnother, oldDiamondId) => {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
     if (item.type === 'pairing') {
-
         // Check if a pairing with the same diamond already exists
         const existingPairingIndex = cart.findIndex(cartItem =>
             cartItem.type === 'pairing' &&
             cartItem.diamond.dProductId === item.diamond.dProductId
         );
 
-        // If a pairing with the same diamond exists, update it; otherwise, add new pairing
-        if (existingPairingIndex !== -1) {
-            cart[existingPairingIndex] = item;
-            console.log("Updated the pairing in the cart");
-            console.log("Existing pairing index: " + existingPairingIndex);
+        if (!chooseAnother && !oldDiamondId) {
+            // If a pairing with the same diamond exists, update it; otherwise, add new pairing
+            if (existingPairingIndex !== -1) {
+                cart[existingPairingIndex] = item;
+                console.log("Updated the pairing in the cart");
+                console.log("Existing pairing index: " + existingPairingIndex);
+            } else {
+                cart.push(item);
+                console.log("Added a new pairing to the cart");
+                console.log("Existing pairing index: " + existingPairingIndex);
+            }
         } else {
-            cart.push(item);
-            console.log("Added a new pairing to the cart");
-            console.log("Existing pairing index: " + existingPairingIndex);
+            // If the user chooses another diamond, replace the existing pairing
+            const oldPairingIndex = getExistingPairingIndex(oldDiamondId);
+            cart[oldPairingIndex] = item;
+            console.log("Replaced the existing pairing from the cart");
+            console.log("Existing pairing index: " + oldPairingIndex);
         }
+
 
         // Remove any loose diamond that matches the diamond in the pairing
         cart = cart.filter(cartItem => {
@@ -57,8 +65,18 @@ export const addToCart = (item) => {
             cart.push(item);
         }
     }
+
     // Save the updated cart back to local storage
     localStorage.setItem('cart', JSON.stringify(cart));
+};
+
+// Getting the index of an existing pairing in the cart with diamondId
+export const getExistingPairingIndex = (diamondId) => {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    return cart.findIndex(item =>
+        item.type === 'pairing' && item.diamond.dProductId === diamondId
+    );
 };
 
 // Removing an item from the cart

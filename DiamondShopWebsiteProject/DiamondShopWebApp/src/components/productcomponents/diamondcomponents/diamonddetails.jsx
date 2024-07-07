@@ -19,16 +19,27 @@ const DiamondDetails = () => {
   const params = new URLSearchParams(location.search);
 
   const cart = params.get('cart');
+  const chooseanother = params.get('choose-another');
+  const od = params.get('od');
 
   const navigate = useNavigate();
 
   const handleSelectDiamond = () => {
-    const path = ringId ? `/cart?d=${diamondId}&r=${ringId}` : `/cart?d=${diamondId}&p=${pendantId}`;
+    let path;
+    if (!chooseanother) {
+      path = ringId ? `/cart?d=${diamondId}&r=${ringId}`
+        : `/cart?d=${diamondId}&p=${pendantId}`;
+    } else {
+      path = ringId ? `/cart?d=${diamondId}&r=${ringId}&choose-another=true&od=${od}`
+        : `/cart?d=${diamondId}&p=${pendantId}&choose-another=true&od=${od}`;
+    }
+
     navigate(path);
   };
 
   const handleSelectAnotherDiamond = () => {
-    const path = ringId ? `/ring/${ringId}/choose-diamond` : `/pendant/${pendantId}/choose-diamond/`;
+    const path = ringId ? `/ring/${ringId}/choose-diamond?choose-another=true&od=${diamondId}`
+      : `/pendant/${pendantId}/choose-diamond?choose-another=true&od=${diamondId}`;
     navigate(path);
   }
 

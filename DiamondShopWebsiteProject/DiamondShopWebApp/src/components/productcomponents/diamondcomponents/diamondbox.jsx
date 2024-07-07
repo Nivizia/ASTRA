@@ -1,9 +1,25 @@
 import React from 'react';
 import '../../css/product.css';
 
-const DiamondBox = ({ diamondId, ringId, pendantId, price, imageUrl, caratWeight, color, clarity, cut, shape }) => {
+const DiamondBox = ({ diamondId, ringId, pendantId, price, imageUrl, caratWeight, color, clarity, cut, shape, chooseAnother, oldDiamondId }) => {
 
-    const href = ringId ? `/ring/${ringId}/choose-diamond/${diamondId}` : pendantId ? `/pendant/${pendantId}/choose-diamond/${diamondId}` : `/diamond/${diamondId}`;
+    let href;
+    if (!chooseAnother && !oldDiamondId) {
+        if (ringId) {
+            href = `/ring/${ringId}/choose-diamond/${diamondId}`;
+        } else if (pendantId) {
+            href = `/pendant/${pendantId}/choose-diamond/${diamondId}`;
+        } else {
+            href = `/diamond/${diamondId}`;
+        }
+    } else {
+        if (ringId) {
+            href = `/ring/${ringId}/choose-diamond/${diamondId}?choose-another=true&od=${oldDiamondId}`;
+        } else if (pendantId) {
+            href = `/pendant/${pendantId}/choose-diamond/${diamondId}?choose-another=true&od=${oldDiamondId}`;
+        }
+    }
+
     return (
         <a href={href} className="product-link">
             <div className="product-box">

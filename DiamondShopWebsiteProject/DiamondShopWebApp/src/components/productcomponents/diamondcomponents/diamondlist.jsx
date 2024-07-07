@@ -18,6 +18,8 @@ const DiamondList = () => {
   const params = new URLSearchParams(location.search);
 
   const shape = params.get('shape');
+  const chooseanother = params.get('choose-another');
+  const od = params.get('od');
 
   useEffect(() => {
     setError(null);
@@ -91,6 +93,8 @@ const DiamondList = () => {
             clarity={diamond.clarity}
             cut={diamond.cut}
             shape={diamond.shape}
+            chooseAnother={chooseanother}
+            oldDiamondId={od}
           // diamondId is intentionally passed here based on your condition
           />
         ) : pendantId ? (
@@ -106,6 +110,8 @@ const DiamondList = () => {
             clarity={diamond.clarity}
             cut={diamond.cut}
             shape={diamond.shape}
+            chooseAnother={chooseanother}
+            oldDiamondId={od}
           // diamondId is intentionally passed here based on your condition
           />
         ) : (
