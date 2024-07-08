@@ -70,7 +70,7 @@
             decimal caratPriceAdjustment = carat * basePrice;
 
             // Price adjustments based on characteristics
-            decimal colorPriceAdjustment = color switch
+            decimal colorPriceAdjustment = color.ToUpper() switch
             {
                 "D" => 3.3m,
                 "E" => 2.6m,
@@ -83,7 +83,7 @@
                 _ => 1.0m
             };
 
-            decimal clarityPriceAdjustment = clarity switch
+            decimal clarityPriceAdjustment = clarity.ToUpper() switch
             {
                 "FL" => 3.1m,
                 "IF" => 3m,
@@ -96,7 +96,7 @@
                 _ => 1.0m
             };
 
-            decimal cutPriceAdjustment = cut switch
+            decimal cutPriceAdjustment = cut.ToLower() switch
             {
                 "excellent" => 1.5m,
                 "very good" => 1.3m,

@@ -36,6 +36,9 @@ const ShoppingCart = () => {
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
+    const chooseanother = params.get('choose-another'); // Get chooseanother from URL
+    const oldDiamondId = params.get('od'); // Get the id of the old diamond from URL
+
     // Function to fetch details of a diamond and a ring/pendant to create a pairing
     async function fetchPairingDetails(diamondId, productId, productType) {
         try {
@@ -86,15 +89,15 @@ const ShoppingCart = () => {
                     if (diamondId) {
                         const diamond = await fetchDiamondById(diamondId);
                         const currentCart = getCartItems();
-            
+
                         const diamondAlreadyInCart = currentCart.some(
                             item => item.details?.dProductId === diamond.dProductId && item.type === 'diamond'
                         );
-            
+
                         const diamondInPairing = currentCart.some(item =>
                             item.type === 'pairing' && item.diamond.dProductId === diamond.dProductId
                         );
-            
+
                         if (!diamondAlreadyInCart && !diamondInPairing) {
                             addToCart({
                                 type: 'diamond',
@@ -106,10 +109,10 @@ const ShoppingCart = () => {
                         } else if (diamondInPairing) {
                             showSnackbar('The added diamond is already in another jewelry', 'info', Date.now());
                         }
-            
+
                         setCart(getCartItems());
                         navigate('/cart', { replace: true });
-            
+
                         console.log(diamondAlreadyInCart, diamondInPairing);
                     }
                 } catch (error) {
@@ -141,22 +144,18 @@ const ShoppingCart = () => {
                             productId = pendantId;
                         }
                         // Add more cases here for future types like 'earring', 'bracelet', etc.
-            
-                        const chooseanother = params.get('choose-another'); // Get chooseanother from URL
-                        
-                        const oldDiamondId = params.get('od'); // Get the id of the old diamond from URL
-            
+
                         const pairing = await fetchPairingDetails(diamondIdPairProduct, productId, productType);
                         let currentCart = getCartItems();
-            
+
                         const pairingHasDuplicatedDiamond = currentCart.some(
                             item => item.type === 'diamond' && item.details?.dProductId === pairing.diamond.dProductId
                         );
-            
+
                         const pairingHasPairingWithDuplicateDiamond = currentCart.some(
                             item => item.type === 'pairing' && item.diamond.dProductId === pairing.diamond.dProductId
                         );
-            
+
                         addToCart({
                             ...pairing,
                             chooseAnother: chooseanother,
@@ -164,15 +163,19 @@ const ShoppingCart = () => {
                         }, chooseanother, oldDiamondId);
 
                         setCart(getCartItems());
-            
-                        if (!pairingHasDuplicatedDiamond && !pairingHasPairingWithDuplicateDiamond) {
-                            showSnackbar(`Added ${pairing.productType === "ring" ? "ring" : pairing.productType === "pendant" ? "pendant" : "earring"} successfully`, 'success', Date.now());
-                        } else if (pairingHasDuplicatedDiamond) {
-                            showSnackbar(`Replaced existing diamond with ${pairing.productType === "ring" ? "ring" : pairing.productType === "pendant" ? "pendant" : "earring"}`, 'info', Date.now());
-                        } else if (pairingHasPairingWithDuplicateDiamond) {
-                            showSnackbar(`Replaced existing jewelry with new ${pairing.productType === "ring" ? "ring" : pairing.productType === "pendant" ? "pendant" : "earring"}`, 'info', Date.now());
+
+                        if (!chooseanother && !oldDiamondId) {
+                            if (!pairingHasDuplicatedDiamond && !pairingHasPairingWithDuplicateDiamond) {
+                                showSnackbar(`Added ${pairing.productType === "ring" ? "ring" : pairing.productType === "pendant" ? "pendant" : "earring"} successfully`, 'success', Date.now());
+                            } else if (pairingHasDuplicatedDiamond) {
+                                showSnackbar(`Replaced existing diamond with ${pairing.productType === "ring" ? "ring" : pairing.productType === "pendant" ? "pendant" : "earring"}`, 'info', Date.now());
+                            } else if (pairingHasPairingWithDuplicateDiamond) {
+                                showSnackbar(`Replaced existing jewelry with new ${pairing.productType === "ring" ? "ring" : pairing.productType === "pendant" ? "pendant" : "earring"}`, 'info', Date.now());
+                            }
+                        } else {
+                            showSnackbar('Replace diamond in your jewelry with a new diamond', 'info', Date.now());
                         }
-            
+
                         navigate('/cart', { replace: true });
                     }
                 } catch (error) {
@@ -292,12 +295,12 @@ const ShoppingCart = () => {
                                                         {item.ring ? getRingName(item.ring) : item.pendant.name} - {item.diamond.caratWeight} Carat {item.diamond.color}-{item.diamond.clarity} {item.diamond.cut} Cut {item.diamond.shape} Diamond
                                                     </p>
                                                     <p>Diamond: <a href={item.ring ? (
-                                                            `/ring/${item.ring.ringId}/choose-diamond/${item.diamond.dProductId}?cart=true`
-                                                        ) : (
-                                                            `/pendant/${item.pendant.pendantId}/choose-diamond/${item.diamond.dProductId}?cart=true`
-                                                        )}>
-                                                            {item.diamond.caratWeight} Carat {item.diamond.color}-{item.diamond.clarity} {item.diamond.cut} Cut {item.diamond.shape} Diamond
-                                                        </a> - ${item.diamond.price}
+                                                        `/ring/${item.ring.ringId}/choose-diamond/${item.diamond.dProductId}?cart=true`
+                                                    ) : (
+                                                        `/pendant/${item.pendant.pendantId}/choose-diamond/${item.diamond.dProductId}?cart=true`
+                                                    )}>
+                                                        {item.diamond.caratWeight} Carat {item.diamond.color}-{item.diamond.clarity} {item.diamond.cut} Cut {item.diamond.shape} Diamond
+                                                    </a> - ${item.diamond.price}
                                                     </p>
                                                     {item.ring && (
                                                         <p>Ring: <a href={`/diamond/${item.diamond.dProductId}/choose-ring/${item.ring.ringId}?cart=true`}>{getRingName(item.ring)}</a> - ${item.ring.price}</p>

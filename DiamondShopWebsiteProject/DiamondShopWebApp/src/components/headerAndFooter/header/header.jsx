@@ -15,6 +15,8 @@ import { TiShoppingCart } from "react-icons/ti";
 import '../../css/header.css';
 import { getCartLength } from '../../../../javascript/cartService';
 
+import { PiShoppingBagOpenDuotone } from "react-icons/pi";
+
 const Header = () => {
   const [cartItemCount, setCartItemCount] = useState(0);
   const location = useLocation();
@@ -57,7 +59,7 @@ const Header = () => {
               <a href="/cart">
                 <Tooltip title="Cart">
                   <Badge badgeContent={cartItemCount} color="primary">
-                    <TiShoppingCart />
+                    <PiShoppingBagOpenDuotone />
                   </Badge>
                 </Tooltip>
               </a>
