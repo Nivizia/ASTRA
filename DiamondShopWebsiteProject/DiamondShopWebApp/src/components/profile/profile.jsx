@@ -18,7 +18,7 @@ const Profile = () => {
             case 1:
                 return <AccountDetails />;
             default:
-                return <OrderHistory />;
+                return <AccountDetails />;
         }
     };
 
