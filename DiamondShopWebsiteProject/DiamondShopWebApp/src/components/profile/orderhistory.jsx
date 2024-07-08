@@ -1,40 +1,38 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { fetchOrderHistory } from '../../../javascript/apiService';
-
-// Import the AuthContext
 import { AuthContext } from '../../contexts/AuthContext';
+import styles from '../css/accountdetails.module.css';
 
 const OrderHistory = () => {
   const { user } = useContext(AuthContext);
-  const [existingUser, setExistingUser] = useState(user);
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    setExistingUser(user);
-
     const loadOrderHistory = async () => {
-      const data = await fetchOrderHistory(existingUser.sub);
-      setOrders(data);
+      if (user) {
+        const data = await fetchOrderHistory(user.sub);
+        setOrders(data);
+      }
     };
     loadOrderHistory();
   }, [user]);
 
   return (
-    <div>
+    <div className={styles.orderHistoryContainer}>
       <h2>Order History</h2>
       {orders.map((order) => (
-        <div key={order.orderId}>
-          <h3>Order ID: {order.orderId}</h3>
-          <p>Order Date: {order.orderDate}</p>
-          <p>Total Amount: {order.totalAmount}</p>
-          <p>Order Status: {order.orderStatus}</p>
+        <div key={order.orderId} className={styles.orderCard}>
+          <h3 className={styles.orderId}>Order ID: {order.orderId}</h3>
+          <p className={styles.orderDetails}>Order Date: {order.orderDate}</p>
+          <p className={styles.orderDetails}>Total Amount: {order.totalAmount}</p>
+          <p className={styles.orderDetails}>Order Status: {order.orderStatus}</p>
           <h4>Items:</h4>
-          {order.orderitems.map((item) => (
-            <div key={item.orderItemId}>
-              <p>Product Type: {item.productType}</p>
-              <p>Price: {item.price}</p>
-            </div>
-          ))}
+            {order.orderitems.map((item) => (
+              <div key={item.orderItemId} className={styles.item}>
+                <p className={styles.productType}>Product Type: {item.productType}</p>
+                <p className={styles.price}>Price: ${item.price}</p>
+              </div>
+            ))}
         </div>
       ))}
     </div>
