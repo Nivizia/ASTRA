@@ -315,3 +315,14 @@ export const createOrder = async (orderDetails) => {
         }
     }
 };
+
+//Function to return a list of order history
+export const fetchOrderHistory = async (CustomerID) => {
+    try{
+        const response = await axios.get(`${BASE_URL}/Orders/${CustomerID}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error in fetchOrderHistory:', error);
+        throw error;
+    }
+};

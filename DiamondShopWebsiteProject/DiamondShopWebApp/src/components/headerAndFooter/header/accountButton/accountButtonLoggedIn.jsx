@@ -15,9 +15,11 @@ import {
     Settings,
     Logout,
 } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 const AccountButtonLoggedIn = ({ user, onLogout }) => {
     const [anchorEl, setAnchorEl] = useState(null);
+    const navigate = useNavigate();
 
     const [hasUserLoggedIn, setHasUserLoggedIn] = useState(!!user);
     const open = Boolean(anchorEl);
@@ -39,6 +41,11 @@ const AccountButtonLoggedIn = ({ user, onLogout }) => {
         onLogout();
         handleClose();
     };
+
+    const handleProfileClick = () => {
+        navigate('/profile');
+        handleClose();
+    }
 
     return (
         <React.Fragment>
@@ -98,7 +105,7 @@ const AccountButtonLoggedIn = ({ user, onLogout }) => {
                         Welcome, Guest
                     </MenuItem>
                 )}
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={handleProfileClick}>
                     <Avatar /> Profile
                 </MenuItem>
                 <MenuItem onClick={handleClose}>
