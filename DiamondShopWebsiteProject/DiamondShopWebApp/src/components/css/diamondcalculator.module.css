@@ -18,7 +18,7 @@ h1 {
 }
 
 .inputField {
-    width: calc(100% - 24px);
+    width: 100%;
     padding: 8px;
     margin: 8px 0;
     border: 1px solid #ccc;
