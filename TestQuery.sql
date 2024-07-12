@@ -28,6 +28,7 @@ SELECT
     rsd.FrameDescription 
 FROM 
     RING r
+	--ogey (=w=)=b
 JOIN 
     RINGSHAPEDETAIL rsd ON r.RingID = rsd.RingID
 JOIN 
