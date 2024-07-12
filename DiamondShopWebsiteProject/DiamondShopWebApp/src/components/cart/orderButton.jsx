@@ -11,10 +11,10 @@ const OrderButton = () => {
 
     const handleOrderClick = () => {
         if (!user) {
-            navigate('/login?cart=true'); // Redirect to login page with cart query parameter
+            navigate('/login', { state: { fromCart: true } }); // Redirect to the login page if there is no user
             return;
         }
-        navigate('/order-confirmation', { state: { fromCart: true } }); // Navigate to the order confirmation page
+        navigate('/checkout', { state: { fromCart: true } }); // Navigate to the order confirmation page
     };
 
     return (

@@ -9,7 +9,7 @@ function SlideTransition(props) {
     return <Slide {...props} direction="up" />;
 }
 
-const SnackbarCart = ({ open, handleClose, message, severity = 'success', key }) => {
+const SnackbarCart = ({ open, handleClose, message, severity = 'success', snackbarKey }) => {
     return (
         <Snackbar
             open={open}
@@ -17,7 +17,7 @@ const SnackbarCart = ({ open, handleClose, message, severity = 'success', key })
             onClose={handleClose}
             TransitionComponent={SlideTransition}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            key={key}
+            key={snackbarKey}
         >
             <Alert
                 onClose={handleClose}

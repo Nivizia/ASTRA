@@ -80,8 +80,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 20px;
-  width: 85vw;
+  width: calc(100% - 8rem);
   margin: 0 auto;
 }
 

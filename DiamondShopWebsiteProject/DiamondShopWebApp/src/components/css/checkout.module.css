@@ -1,0 +1,97 @@
+/* src/components/css/checkout.module.css */
+/* used in checkout.jsx */
+
+.checkoutContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5vh auto;
+    width: 40vw;
+    min-width: 400px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.checkoutTitle {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #34495e;
+    text-align: center;
+}
+
+.checkoutDetails {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    width: calc(100% - 2rem);
+    padding: 1rem;
+    margin: 0 auto 1rem auto;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.userInfo {
+    margin-bottom: 20px;
+}
+
+.userInfoRow {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #bdc3c7;
+}
+
+.userInfoRow:last-child {
+    border-bottom: none;
+}
+
+.userInfoLabel {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.userInfoValue {
+    color: #7f8c8d;
+}
+
+.paymentMethod,
+.receivingMethod {
+    margin-bottom: 20px;
+}
+
+.paymentMethodTitle,
+.receivingMethodTitle {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.paymentOption,
+.receivingOption {
+    margin: 5px 0;
+}
+
+.orderButton {
+    background-color: #2ecc71;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.orderButton:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+.errorMessage {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+}

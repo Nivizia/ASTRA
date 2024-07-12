@@ -4,9 +4,9 @@
 .footer {
     background-color: black;
     color: #fff;
-
     display: flex;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
     place-content: center;
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.5);
 }

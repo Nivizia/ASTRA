@@ -18,12 +18,11 @@ const LoginPage = () => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const navigate = useNavigate();
-
     const location = useLocation();
+    const navigate = useNavigate();
     const params = new URLSearchParams(location.search);
 
-    const cart = params.get('cart');
+    const [fromCart, setFromCart] = useState(location.state?.fromCart);
 
     useEffect(() => {
         if (user) {
@@ -46,7 +45,8 @@ const LoginPage = () => {
             const result = await login(username, password);
             if (result.success) {
                 handleLoginSuccess();
-                if (cart) {
+                if (fromCart) {
+                    setFromCart(false);
                     navigate('/cart');
                 } else {
                     navigate('/'); // Change '/home' to your home route as needed

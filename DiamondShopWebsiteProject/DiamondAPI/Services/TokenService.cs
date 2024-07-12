@@ -41,6 +41,8 @@ namespace DiamondAPI.Services
             var customerUsername = customer.Username ?? throw new ArgumentNullException(nameof(customer.Username));
             var firstName = customer.FirstName ?? throw new ArgumentNullException(nameof(customer.FirstName));
             var lastName = customer.LastName ?? throw new ArgumentNullException(nameof(customer.LastName));
+            var password = customer.Password ?? throw new ArgumentNullException(nameof(customer.Password));
+            var passwordLength = password.Length.ToString();
 
             // var fullName = $"{customer.FirstName ?? string.Empty} {customer.LastName ?? string.Empty}".Trim();
 
@@ -48,6 +50,7 @@ namespace DiamondAPI.Services
             {
                 new Claim(JwtRegisteredClaimNames.Sub, customerId),
                 new Claim(JwtRegisteredClaimNames.UniqueName, customerUsername),
+                new Claim("PasswordLength", passwordLength),
                 new Claim("FirstName", firstName),
                 new Claim("LastName", lastName),
             };

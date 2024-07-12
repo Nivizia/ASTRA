@@ -27,6 +27,7 @@ import PendantDetails from './components/productcomponents/pendantcomponents/pen
 
 // Cart and Cart-related Components
 import ShoppingCart from './components/cart/shoppingcart';
+import CheckOut from './components/cart/checkout';
 import OrderConfirmation from './components/cart/orderConfirmation';
 
 //Testing components
@@ -138,6 +139,11 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
+        path: "/checkout/",
+        element: <CheckOut />,
+        errorElement: <ErrorPage />,
+      },
+      {
         path: "/order-confirmation/",
         element: <OrderConfirmation />,
         errorElement: <ErrorPage />,
@@ -150,7 +156,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
 
-      // Testing
+      // Profile
       {
         path: "/profile/",
         element: <Profile />,

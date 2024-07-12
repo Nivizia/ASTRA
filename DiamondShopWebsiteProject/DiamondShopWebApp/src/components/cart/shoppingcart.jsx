@@ -329,7 +329,7 @@ const ShoppingCart = () => {
                 handleClose={handleSnackbarClose}
                 message={snackbarMessage}
                 severity={snackbarSeverity}
-                key={snackbarOpen.id}
+                snackbarKey={snackbarOpen.id}
             />
         </>
 

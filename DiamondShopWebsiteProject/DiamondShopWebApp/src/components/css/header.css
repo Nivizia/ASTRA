@@ -7,7 +7,7 @@
     background-color: black;
     color: #fff;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     z-index: 1000;
     transition: all 0.3s ease;
@@ -18,8 +18,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    margin: 10px 5rem;
+    width: calc(100% - 8rem);
+    margin: 1rem auto;
     transition: all 0.3s ease;
 }
 
@@ -222,7 +222,7 @@
 
 @media (max-width: 900px) {
     .header-content {
-        margin: 10px 20px;
+        width: calc(100% - 2rem);
     }
 
     .nav-and-header-right-container {
