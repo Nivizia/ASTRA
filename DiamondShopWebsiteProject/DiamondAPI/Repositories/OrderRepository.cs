@@ -53,9 +53,14 @@ namespace DiamondAPI.Repositories
             return await _context.Orders.Include(o => o.Orderitems).Where(o => o.CustomerId == CustomerID).ToListAsync();
         }
 
-        public Task<Order> GetOrderById(Guid orderId)
+        public async Task<Order?> GetOrderById(Guid orderId)
         {
-            throw new NotImplementedException();
+            var order = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
+            if (order == null)
+                return null;
+            _context.Orders.Remove(order);
+            await _context.SaveChangesAsync();
+            return order;
         }
 
         public Task<Order> UpdateOrder(Guid orderId, UpdateOrderRequestDTO updateOrderRequestDTO)

@@ -27,7 +27,7 @@ namespace DiamondAPI.Repositories
             return ringpairings;
         }
 
-        public async Task<Ringpairing?> Delete(Guid id)
+        public async Task<Ringpairing?> Delete(Guid? id)
         {
             var ringPairing = await _context.Ringpairings.FirstOrDefaultAsync(r => r.RProductId.Equals(id));
 
@@ -45,8 +45,11 @@ namespace DiamondAPI.Repositories
             return await _context.Ringpairings.ToListAsync();
         }
 
-        public async Task<Ringpairing?> GetById(Guid id)
+        public async Task<Ringpairing?> GetById(Guid? id)
         {
+            if (id == null)
+                return null;
+
             return await _context.Ringpairings.FindAsync(id);
         }
 

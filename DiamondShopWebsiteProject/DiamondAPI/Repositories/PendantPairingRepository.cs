@@ -28,7 +28,7 @@ namespace DiamondAPI.Repositories
             return pendantPairings;
         }
 
-        public async Task<Pendantpairing?> DeletePendantPairingAsync(Guid id)
+        public async Task<Pendantpairing?> DeletePendantPairingAsync(Guid? id)
         {
             var pendantPairing = await _context.Pendantpairings.FindAsync(id);
             if (pendantPairing == null)
@@ -39,8 +39,10 @@ namespace DiamondAPI.Repositories
             return pendantPairing;
         }
 
-        public async Task<Pendantpairing?> GetPendantPairingAsync(Guid id)
+        public async Task<Pendantpairing?> GetPendantPairingAsync(Guid? id)
         {
+            if (id == null)
+                return null;
             return await _context.Pendantpairings.FindAsync(id);
         }
 

@@ -50,6 +50,11 @@ namespace DiamondAPI.Repositories
             return await _context.Orderitems.FindAsync(OrderitemId);
         }
 
+        public async Task<List<Orderitem>> GetOrderitemsByOrderId(Guid orderId)
+        {
+            return await _context.Orderitems.Where(o => o.OrderId == orderId).ToListAsync();
+        }
+
         public async Task<Orderitem?> UpdateAsync(Guid OrderitemId, UpdateOrderitemRequestDTO orderitemDTO)
         {
             var existingOrderItem = await _context.Orderitems.FirstOrDefaultAsync(o => o.OrderItemId == OrderitemId);

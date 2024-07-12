@@ -192,5 +192,97 @@ namespace DiamondAPI.Controllers
             var ordersDTO = orders.Select(o => o.ToOrderRequestDTO()).ToList();
             return Ok(ordersDTO);
         }
+
+        [HttpDelete]
+        [Route("{OrderID}")]
+        public async Task<IActionResult> DeleteOrder([FromRoute] Guid OrderID)
+        {
+            var orderitems = await _orderItemRepo.GetOrderitemsByOrderId(OrderID);
+            foreach (var orderitem in orderitems)
+            {
+                var OrderType = orderitem.ProductType?.ToLower();
+                if (OrderType == "ringpairing")
+                {
+                    var ringpairing = await _ringPairingRepo.GetById(orderitem.RingPairingId);
+
+                    if (ringpairing == null)
+                        return NotFound("Ringpairing not found.");
+
+                    var diamond = await _diamondRepo.GetByIDAsync(ringpairing.DiamondId);
+
+                    if (diamond == null)
+                        return NotFound("Diamond not found.");
+
+                    diamond.Available = true;
+
+                    var ring = await _ringRepo.GetByIDAsync(ringpairing.RingId);
+
+                    if (ring == null)
+                        return NotFound("Ring not found.");
+
+                    ring.StockQuantity++;
+
+                    await _orderItemRepo.DeleteAsync(orderitem.OrderItemId);
+
+                    if (orderitem.RingPairingId != null)
+                        await _ringPairingRepo.Delete(orderitem.RingPairingId);
+                }
+                else if (OrderType == "pendantpairing")
+                {
+                    var pendantpairing = await _pendantPairingRepo.GetPendantPairingAsync(orderitem.PendantPairingId);
+
+                    if (pendantpairing == null)
+                        return NotFound("Pendantpairing not found.");
+
+                    var diamond = await _diamondRepo.GetByIDAsync(pendantpairing.DiamondId);
+
+                    if (diamond == null) return NotFound("Diamond not found.");
+                    diamond.Available = true;
+
+                    var pendant = await _pendantRepo.GetByIDAsync(pendantpairing.PendantId);
+                    if (pendant == null) return NotFound("Pendant not found.");
+                    pendant.StockQuantity++;
+
+                    await _orderItemRepo.DeleteAsync(orderitem.OrderItemId);
+
+                    if (orderitem.PendantPairingId != null)
+                        await _pendantPairingRepo.DeletePendantPairingAsync(orderitem.PendantPairingId);
+                }
+                else if (OrderType == "earringpairing")
+                {
+                    var earringpairing = await _earringPairingRepo.GetByIDAsync(orderitem.EarringPairingId);
+
+                    if (earringpairing == null)
+                        return NotFound("Earringpairing not found.");
+
+                    var diamond = await _diamondRepo.GetByIDAsync(earringpairing.DiamondId);
+                    if (diamond == null) return NotFound("Diamond not found.");
+                    diamond.Available = true;
+
+                    var earring = await _earringRepo.GetByIDAsync(earringpairing.EarringId);
+                    if (earring == null) return NotFound("Earring not found.");
+                    earring.StockQuantity++;
+
+                    await _orderItemRepo.DeleteAsync(orderitem.OrderItemId);
+
+                    if (orderitem.EarringPairingId != null)
+                        await _earringPairingRepo.DeleteAsync(orderitem.EarringPairingId);
+                }
+                else if (OrderType == "diamond")
+                {
+                    var diamond = await _diamondRepo.GetByIDAsync(orderitem.DiamondId);
+                    if (diamond == null) return NotFound("Diamond not found.");
+                    diamond.Available = true;
+
+                    await _orderItemRepo.DeleteAsync(orderitem.OrderItemId);
+                }
+                else
+                {
+                    return BadRequest("Product type not recognised.");
+                }
+            }
+            await _orderRepo.DeleteOrder(OrderID);
+            return Ok("Order deleted.");
+        }
     }
 }

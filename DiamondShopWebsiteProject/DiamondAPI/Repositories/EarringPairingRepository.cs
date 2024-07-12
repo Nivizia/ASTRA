@@ -29,7 +29,7 @@ namespace DiamondAPI.Repositories
             return earringPairings;
         }
 
-        public async Task<Earringpairing?> DeleteAsync(Guid EProductID)
+        public async Task<Earringpairing?> DeleteAsync(Guid? EProductID)
         {
             var earringpairing = await _context.Earringpairings.FindAsync(EProductID);
             if (earringpairing == null)
@@ -45,8 +45,10 @@ namespace DiamondAPI.Repositories
             return await _context.Earringpairings.ToListAsync();
         }
 
-        public async Task<Earringpairing?> GetByIDAsync(Guid EProductID)
+        public async Task<Earringpairing?> GetByIDAsync(Guid? EProductID)
         {
+            if (EProductID == null)
+                return null;
             return await _context.Earringpairings.FindAsync(EProductID);
         }
 
