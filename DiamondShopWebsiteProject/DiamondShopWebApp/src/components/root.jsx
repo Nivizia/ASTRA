@@ -1,3 +1,5 @@
+// src/components/root.jsx
+
 import React from "react";
 import Header from "./headerAndFooter/header/header";
 import Footer from "./headerAndFooter/footer/footer";
@@ -29,4 +31,4 @@ const Root = () => {
 
   )
 }
-export default Root
+export default Root;

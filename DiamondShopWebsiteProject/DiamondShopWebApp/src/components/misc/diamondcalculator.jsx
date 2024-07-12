@@ -1,9 +1,10 @@
+// src/components/misc/diamondcalculator.jsx
+
 import React, { useState } from 'react';
 import { calculateDiamondPrice, calculateDiamondPricePerCarat } from '../../../javascript/apiService';
 
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-import { Tooltip } from '@mui/material';
 
 import styles from "../css/diamondcalculator.module.css";
 

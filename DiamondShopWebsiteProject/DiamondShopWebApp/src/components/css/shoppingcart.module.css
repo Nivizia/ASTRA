@@ -1,3 +1,6 @@
+/* src/components/css/shoppingcart.module.css */
+/* used in shoppingcart.jsx */
+
 /* Container for both Shopping Cart and Checkout Box */
 .shoppingCartAndCheckoutBoxContainer {
     width: 90vw;

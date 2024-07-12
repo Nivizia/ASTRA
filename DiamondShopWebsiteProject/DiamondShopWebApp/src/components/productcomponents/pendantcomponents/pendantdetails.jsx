@@ -1,3 +1,5 @@
+// src/components/productcomponents/pendantcomponents/pendantdetails.jsx
+
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { fetchPendantById } from '../../../../javascript/apiService';
@@ -92,7 +94,7 @@ const PendantDetails = () => {
             null
           )}
         </div>
-        <div className="order-info">
+        {/* <div className="order-info">
           <h3>Your Order Includes:</h3>
           <div className="order-detail">
             <span className="order-icon">🚚</span>
@@ -102,7 +104,7 @@ const PendantDetails = () => {
           <div className="order-detail">
             <h4>GIA Grading Report</h4>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="specifications-section">
         <div className="product-detail">

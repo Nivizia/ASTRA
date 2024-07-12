@@ -1,3 +1,6 @@
+/* src/components/css/temporarydrawer.module.css */
+/* used in temporaryDrawer.jsx, persistentDrawerRight.jsx */
+
 /* Styling for the button that opens the drawer */
 .selectButtonContainer {
     display: flex !important;

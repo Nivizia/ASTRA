@@ -1,3 +1,5 @@
+// src/components/profile/accountdetails.jsx
+
 import React, { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import styles from '../css/accountdetails.module.css';

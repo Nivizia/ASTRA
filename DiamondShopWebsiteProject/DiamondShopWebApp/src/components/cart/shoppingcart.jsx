@@ -1,3 +1,5 @@
+// src/components/cart/shoppingcart.jsx
+
 import React, { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchDiamondById, fetchRingById, fetchPendantById } from '../../../javascript/apiService';

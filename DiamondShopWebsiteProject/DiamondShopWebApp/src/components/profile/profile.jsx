@@ -1,3 +1,5 @@
+// src/components/profile/profile.jsx
+
 import React from 'react';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
@@ -39,4 +41,4 @@ const Profile = () => {
   );
 };
 
-export default Profile
+export default Profile;

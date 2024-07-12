@@ -1,3 +1,5 @@
+// src/components/productcomponents/pendantcomponents/pendantlist.jsx
+
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchPendants } from '../../../../javascript/apiService';

@@ -1,3 +1,5 @@
+// src/components/productcomponents/diamondcomponents/diamonddetails.jsx
+
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { fetchDiamondById } from '../../../../javascript/apiService';
@@ -106,7 +108,7 @@ const DiamondDetails = () => {
             null
           )}
         </div>
-        <div className="order-info">
+        {/* <div className="order-info">
           <h3>Your Order Includes:</h3>
           <div className="order-detail">
             <span className="order-icon">🚚</span>
@@ -116,7 +118,7 @@ const DiamondDetails = () => {
           <div className="order-detail">
             <h4>GIA Grading Report</h4>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="specifications-section">
         <div className="product-detail">

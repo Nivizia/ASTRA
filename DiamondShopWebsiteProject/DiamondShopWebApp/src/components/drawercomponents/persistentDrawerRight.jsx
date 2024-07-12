@@ -1,3 +1,5 @@
+// src/components/drawercomponents/persistentDrawerRight.jsx
+
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook from react-router-dom
 import { styled } from '@mui/material/styles';

@@ -1,3 +1,5 @@
+// src/components/productcomponents/ringcomponents/ringlist.jsx
+
 import React, { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { fetchRings, fetchRingsByShape } from '../../../../javascript/apiService';

@@ -1,3 +1,5 @@
+// src/components/productcomponents/diamondcomponents/diamondbox.jsx
+
 import React from 'react';
 import '../../css/product.css';
 

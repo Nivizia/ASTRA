@@ -1,3 +1,5 @@
+// src/components/productcomponents/diamondcomponents/diamondlist.jsx
+
 import React, { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { fetchAvailableDiamondsByShape, fetchDiamondsAvailable, fetchRingById } from '../../../../javascript/apiService';

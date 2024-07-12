@@ -1,4 +1,6 @@
-/* diamondcalculator.module.css */
+/* src/components/css/diamondcalculator.module.css */
+/* used in diamondcalculator.jsx */
+
 .container {
     width: 100%;
     max-width: 400px;

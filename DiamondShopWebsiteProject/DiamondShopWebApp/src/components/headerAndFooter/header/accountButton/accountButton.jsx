@@ -1,4 +1,5 @@
-// accountButton.jsx
+// src/components/headerAndFooter/header/accountButton/accountButton.jsx
+
 import React, { useState, useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import AccountButtonNotLoggedIn from './accountButtonNotLoggedIn';

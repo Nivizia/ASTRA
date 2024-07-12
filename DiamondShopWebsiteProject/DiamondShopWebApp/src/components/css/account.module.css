@@ -1,3 +1,6 @@
+/* src/components/css/account.module.css */
+/* used in loginPage.jsx, accountButtonNotLoggedIn.jsx */
+
 .backgroundContainer {
     position: fixed;
     /* Ensure it covers the entire viewport */

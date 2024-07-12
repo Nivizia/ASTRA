@@ -1,4 +1,5 @@
-// SnackbarNotification.jsx
+// src/components/headerAndFooter/header/accountButton/SnackbarNotification.jsx
+
 import React from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';

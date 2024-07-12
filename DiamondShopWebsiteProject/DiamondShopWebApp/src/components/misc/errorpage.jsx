@@ -1,3 +1,5 @@
+// src/components/misc/errorpage.jsx
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../css/errorPage.module.css'; // Adjust the path according to your project structure

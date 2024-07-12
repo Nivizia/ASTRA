@@ -1,4 +1,5 @@
-// signUp.jsx
+// src/components/loginandsignup/signUp.jsx
+
 import React, { useContext, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { signUpUser } from '../../../javascript/apiService'; // Import signUpUser and loginUser functions

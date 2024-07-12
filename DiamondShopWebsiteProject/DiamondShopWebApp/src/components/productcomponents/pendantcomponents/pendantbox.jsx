@@ -1,3 +1,5 @@
+// src/components/productcomponents/pendantcomponents/pendantbox.jsx
+
 import React from 'react';
 import '../../css/product.css';
 

@@ -1,4 +1,6 @@
-/* Add this to your CSS file, e.g., styles.css or directly in the JSX using a <style> tag */
+/* src/components/css/orderButton.module.css */
+/* used in orderButton.jsx */
+
 .orderButton {
     padding: 10px 20px;
     background-color: rgb(0, 0, 200);

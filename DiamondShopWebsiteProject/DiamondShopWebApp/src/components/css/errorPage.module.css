@@ -1,4 +1,5 @@
-/* src/components/ErrorPage/errorPage.module.css */
+/* src/components/css/errorPage.module.css */
+/* used in errorpage.jsx */
 
 .errorPage {
     display: flex;

@@ -1,4 +1,5 @@
-// accountButtonLoggedIn.jsx
+// src/components/headerAndFooter/header/accountButton/accountButtonLoggedIn.jsx
+
 import React, { useState, useEffect } from 'react';
 import {
     Box,
@@ -40,6 +41,7 @@ const AccountButtonLoggedIn = ({ user, onLogout }) => {
     const handleLogout = () => {
         onLogout();
         handleClose();
+        navigate('/login');
     };
 
     const handleProfileClick = () => {

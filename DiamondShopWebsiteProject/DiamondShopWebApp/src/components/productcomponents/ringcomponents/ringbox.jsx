@@ -1,3 +1,5 @@
+// src/components/productcomponents/ringcomponents/ringbox.jsx
+
 import React from 'react';
 import '../../css/product.css';
 

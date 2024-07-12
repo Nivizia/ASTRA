@@ -1,3 +1,6 @@
+/* src/components/css/header.css */
+/* used in header.jsx, also affecting accountButton.jsx, accountButtonNotLoggedIn.jsx and accountButtonLoggedIn.jsx */
+
 .header {
     position: sticky;
     top: 0;
