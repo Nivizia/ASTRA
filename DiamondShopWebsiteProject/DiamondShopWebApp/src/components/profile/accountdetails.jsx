@@ -3,7 +3,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import styles from '../css/accountdetails.module.css';
 
 const AccountDetails = () => {
-    const { user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   return (
     <div className={styles.container}>
       <h2>Account Details</h2>
@@ -20,11 +20,16 @@ const AccountDetails = () => {
             <div className={styles.detailsValue}>{user.LastName || '[Not set yet]'}</div>
           </div>
           <div className={styles.detailsRow}>
+            <div className={styles.detailsLabel}>Username:</div>
+            <div className={styles.detailsValue}>{user.unique_name || '[Not set yet]'}</div>
+          </div>
+
+        </div>
+        <div className={styles.detailsColumn}>
+          <div className={styles.detailsRow}>
             <div className={styles.detailsLabel}>Phone:</div>
             <div className={styles.detailsValue}>{user.phone || '[Not set yet]'}</div>
           </div>
-        </div>
-        <div className={styles.detailsColumn}>
           <div className={styles.detailsRow}>
             <div className={styles.detailsLabel}>Email:</div>
             <div className={styles.detailsValue}>{user.Email || '[Not set yet]'}</div>

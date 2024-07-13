@@ -16,6 +16,7 @@ import {
     Settings,
     Logout,
 } from '@mui/icons-material';
+import { BsPerson } from "react-icons/bs";
 import { useNavigate } from 'react-router-dom';
 
 const AccountButtonLoggedIn = ({ user, onLogout }) => {
@@ -60,7 +61,13 @@ const AccountButtonLoggedIn = ({ user, onLogout }) => {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        <Avatar sx={{ width: 32, height: 32 }}>{user.unique_name.slice(0, 2)}</Avatar>
+                        {
+                            user.unique_name ? (
+                                <Avatar sx={{ width: 32, height: 32 }}>{user.unique_name.slice(0, 2)}</Avatar>
+                            ) : (
+                                <Avatar sx={{ width: 32, height: 32 }}><BsPerson /></Avatar>
+                            )
+                        }
                     </IconButton>
                 </Tooltip>
             </Box>
@@ -111,7 +118,7 @@ const AccountButtonLoggedIn = ({ user, onLogout }) => {
                     <Avatar /> Profile
                 </MenuItem>
                 <Divider />
-                
+
                 <MenuItem onClick={handleLogout}>
                     <ListItemIcon>
                         <Logout fontSize="small" />

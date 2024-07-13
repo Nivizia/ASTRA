@@ -1,11 +1,13 @@
-// src/components/cart/checkout
-
 import { useState, useEffect, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 import { getCartItems, clearCart } from '../../../javascript/cartService';
 import { createOrder } from '../../../javascript/apiService';
-import { LinearProgress } from '@mui/material';
+import { LinearProgress, Tooltip, TextField } from '@mui/material';
+
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import Switch from '@mui/material/Switch';
 
 import CircularIndeterminate from '../misc/loading';
 
@@ -15,11 +17,19 @@ const CheckOut = () => {
     const { user, logout } = useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(true);
     const [fromCart, setFromCart] = useState(location.state?.fromCart);
-    const [paymentMethod, setPaymentMethod] = useState('cash');
-    const [receivingMethod, setReceivingMethod] = useState('delivery');
+
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const [paymentMethod, setPaymentMethod] = useState('cash');
+    const [receivingMethod, setReceivingMethod] = useState('takeatstore');
+    const [buyAsGift, setBuyAsGift] = useState(false);
+
+    const [giftFirstName, setGiftFirstName] = useState('');
+    const [giftLastName, setGiftLastName] = useState('');
+    const [giftEmail, setGiftEmail] = useState('');
+    const [giftPhone, setGiftPhone] = useState('');
 
     useEffect(() => {
         if (!fromCart) {
@@ -80,7 +90,13 @@ const CheckOut = () => {
                         };
                     }
                 }
-            })
+            }),
+            recipientInfo: buyAsGift ? {
+                firstName: giftFirstName,
+                lastName: giftLastName,
+                email: giftEmail,
+                phone: giftPhone
+            } : null
         };
 
         try {
@@ -109,6 +125,23 @@ const CheckOut = () => {
         }
     };
 
+    const handleSetPaymentMethod = (event, newPaymentMethod) => {
+        if (newPaymentMethod !== null) {
+            setPaymentMethod(newPaymentMethod);
+        }
+    };
+
+    const handleSetReceivingMethod = (event, newReceivingMethod) => {
+        if (newReceivingMethod !== null) {
+            setReceivingMethod(newReceivingMethod);
+        }
+    }
+
+    const handleSetBuyAsGift = (event) => {
+        setBuyAsGift(event.target.checked);
+        console.log(buyAsGift);
+    }
+
     return (
         <>
             {loading ? (
@@ -126,73 +159,136 @@ const CheckOut = () => {
                 </>
             ) : (
                 <div className={styles.checkoutContainer}>
-                    <h1 className={styles.checkoutTitle}>Order Confirmation</h1>
+                    <h1 className={styles.checkoutTitle}>CHECKOUT</h1>
                     <div className={styles.checkoutDetails}>
                         <div className={styles.userInfo}>
                             <h2>User Information</h2>
-                            <div className={styles.userInfoRow}>
-                                <div className={styles.userInfoLabel}>First Name:</div>
-                                <div className={styles.userInfoValue}>{user.FirstName}</div>
-                            </div>
-                            <div className={styles.userInfoRow}>
-                                <div className={styles.userInfoLabel}>Last Name:</div>
-                                <div className={styles.userInfoValue}>{user.LastName}</div>
-                            </div>
-                            <div className={styles.userInfoRow}>
-                                <div className={styles.userInfoLabel}>Phone:</div>
-                                <div className={styles.userInfoValue}>{user.phone}</div>
-                            </div>
-                            <div className={styles.userInfoRow}>
-                                <div className={styles.userInfoLabel}>Email:</div>
-                                <div className={styles.userInfoValue}>{user.Email}</div>
-                            </div>
+                            {!buyAsGift ? (
+                                <>
+                                    <div className={styles.userInfoRow}>
+                                        <div className={styles.userInfoLabel}>First Name:</div>
+                                        <div className={styles.userInfoValue}>{user.FirstName}</div>
+                                    </div>
+                                    <div className={styles.userInfoRow}>
+                                        <div className={styles.userInfoLabel}>Last Name:</div>
+                                        <div className={styles.userInfoValue}>{user.LastName}</div>
+                                    </div>
+                                    {user.phone ? (
+                                        <div className={styles.userInfoRow}>
+                                            <div className={styles.userInfoLabel}>Phone:</div>
+                                            <div className={styles.userInfoValue}>{user.phone}</div>
+                                        </div>
+                                    ) : null
+                                    }
+                                    <div className={styles.userInfoRow}>
+                                        <div className={styles.userInfoLabel}>Email:</div>
+                                        <div className={styles.userInfoValue}>{user.Email}</div>
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <TextField
+                                        label="First Name"
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                        required
+                                        value={giftFirstName}
+                                        onChange={(e) => setGiftFirstName(e.target.value)}
+                                    />
+                                    <TextField
+                                        label="Last Name"
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                        required
+                                        value={giftLastName}
+                                        onChange={(e) => setGiftLastName(e.target.value)}
+                                    />
+                                    <TextField
+                                        label="Email"
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                        required
+                                        value={giftEmail}
+                                        onChange={(e) => setGiftEmail(e.target.value)}
+                                    />
+                                    <TextField
+                                        label="Phone"
+                                        variant="outlined"
+                                        fullWidth
+                                        margin="normal"
+                                        required
+                                        value={giftPhone}
+                                        onChange={(e) => setGiftPhone(e.target.value)}
+                                    />
+                                </>
+                            )}
+                        </div>
+                        <div className={styles.buyAsAGiftContainer}>
+                            <h4>Buy as a gift: </h4>
+                            <Switch
+                                checked={buyAsGift}
+                                onChange={handleSetBuyAsGift}
+                                inputProps={{ 'aria-label': 'controlled' }}
+                            />
                         </div>
                         <div className={styles.paymentMethod}>
                             <h2 className={styles.paymentMethodTitle}>Payment Method</h2>
-                            <label className={styles.paymentOption}>
-                                <input
-                                    type="radio"
-                                    value="cash"
-                                    checked={paymentMethod === 'cash'}
-                                    onChange={(e) => setPaymentMethod(e.target.value)}
-                                />
-                                Cash
-                            </label>
-                            <label className={styles.paymentOption}>
-                                <input
-                                    type="radio"
-                                    value="card"
-                                    checked={paymentMethod === 'card'}
-                                    onChange={(e) => setPaymentMethod(e.target.value)}
-                                />
-                                Card
-                            </label>
+                            <ToggleButtonGroup
+                                value={paymentMethod}
+                                exclusive
+                                onChange={handleSetPaymentMethod}
+                                aria-label="text alignment"
+                            >
+                                <ToggleButton value="cash" aria-label="cash" className={styles.paymentOption}>
+                                    Cash
+                                </ToggleButton>
+                                <Tooltip title="Card payment is not available at the moment" arrow>
+                                    <span>
+                                        <ToggleButton value="card" aria-label="card" className={styles.paymentOption} disabled>
+                                            Card
+                                        </ToggleButton>
+                                    </span>
+                                </Tooltip>
+                            </ToggleButtonGroup>
                         </div>
                         <div className={styles.receivingMethod}>
                             <h2 className={styles.receivingMethodTitle}>Receiving Method</h2>
-                            <label className={styles.receivingOption}>
-                                <input
-                                    type="radio"
-                                    value="delivery"
-                                    checked={receivingMethod === 'delivery'}
-                                    onChange={(e) => setReceivingMethod(e.target.value)}
-                                />
-                                Delivery
-                            </label>
-                            <label className={styles.receivingOption}>
-                                <input
-                                    type="radio"
-                                    value="store"
-                                    checked={receivingMethod === 'store'}
-                                    onChange={(e) => setReceivingMethod(e.target.value)}
-                                />
-                                Take at Store
-                            </label>
+                            <ToggleButtonGroup
+                                value={receivingMethod}
+                                exclusive
+                                onChange={handleSetReceivingMethod}
+                                aria-label="text alignment"
+                            >
+                                <ToggleButton value="takeatstore" aria-label="takeatstore" className={styles.receivingOption}>
+                                    Take at store
+                                </ToggleButton>
+                                <Tooltip title="Delivery is not available at the moment" arrow>
+                                    <span>
+                                        <ToggleButton value="Delivery" aria-label="delivery" className={styles.receivingOption} disabled>
+                                            Delivery
+                                        </ToggleButton>
+                                    </span>
+                                </Tooltip>
+                            </ToggleButtonGroup>
                         </div>
                     </div>
-                    <button onClick={handlePlaceOrder} className={styles.orderButton} disabled={loading}>
-                        {loading ? <CircularIndeterminate size={24} /> : 'Place Order'}
-                    </button>
+                    {
+                        !giftFirstName || !giftLastName || !giftEmail || !giftPhone ? (
+                            <Tooltip title="Please fill all the fields above" arrow>
+                                <span>
+                                    <button className={styles.orderButton} disabled>Place Order</button>
+                                </span>
+                            </Tooltip>
+
+                        ) : (
+                            <button onClick={handlePlaceOrder} className={styles.orderButton} disabled={loading || (buyAsGift && (!giftFirstName || !giftLastName || !giftEmail || !giftPhone))}>
+                                {loading ? <CircularIndeterminate size={24} /> : 'Place Order'}
+                            </button>
+                        )
+                    }
                     {error && <p className={styles.errorMessage}>{error}</p>} {/* Display error message */}
                 </div>
             )}

@@ -39,7 +39,7 @@ const OrderHistory = () => {
 
   if (!loading && orders.length === 0) {
     return <div className={styles.orderHistoryContainer}><h2>Order History</h2>
-    <p>You have no order history.</p></div>;
+    <p>You have not ordered. Please order to see order history</p></div>;
   }
 
   return (
