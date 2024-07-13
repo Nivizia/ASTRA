@@ -221,11 +221,6 @@ namespace DiamondAPI.Controllers
                         return NotFound("Ring not found.");
 
                     ring.StockQuantity++;
-
-                    await _orderItemRepo.DeleteAsync(orderitem.OrderItemId);
-
-                    if (orderitem.RingPairingId != null)
-                        await _ringPairingRepo.Delete(orderitem.RingPairingId);
                 }
                 else if (OrderType == "pendantpairing")
                 {
@@ -242,11 +237,6 @@ namespace DiamondAPI.Controllers
                     var pendant = await _pendantRepo.GetByIDAsync(pendantpairing.PendantId);
                     if (pendant == null) return NotFound("Pendant not found.");
                     pendant.StockQuantity++;
-
-                    await _orderItemRepo.DeleteAsync(orderitem.OrderItemId);
-
-                    if (orderitem.PendantPairingId != null)
-                        await _pendantPairingRepo.DeletePendantPairingAsync(orderitem.PendantPairingId);
                 }
                 else if (OrderType == "earringpairing")
                 {
@@ -262,19 +252,12 @@ namespace DiamondAPI.Controllers
                     var earring = await _earringRepo.GetByIDAsync(earringpairing.EarringId);
                     if (earring == null) return NotFound("Earring not found.");
                     earring.StockQuantity++;
-
-                    await _orderItemRepo.DeleteAsync(orderitem.OrderItemId);
-
-                    if (orderitem.EarringPairingId != null)
-                        await _earringPairingRepo.DeleteAsync(orderitem.EarringPairingId);
                 }
                 else if (OrderType == "diamond")
                 {
                     var diamond = await _diamondRepo.GetByIDAsync(orderitem.DiamondId);
                     if (diamond == null) return NotFound("Diamond not found.");
                     diamond.Available = true;
-
-                    await _orderItemRepo.DeleteAsync(orderitem.OrderItemId);
                 }
                 else
                 {
