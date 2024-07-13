@@ -5,9 +5,8 @@ import { calculateDiamondPrice, calculateDiamondPricePerCarat } from '../../../j
 
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-import { Grid, TextField } from '@mui/material';
-import grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
+import { Grid, TextField, Typography } from '@mui/material';
+import { ToggleButtonGroup, ToggleButton } from '@mui/material';
 
 import styles from "../css/diamondcalculator.module.css";
 
@@ -63,13 +62,17 @@ const DiamondPriceCalculator = () => {
         setShape(event.target.value);
     };
 
+    // Color buttons
+    const handleColorChange = (event) => {
+        setColor(event.target.value);
+    };
+
     function valuetext(value) {
         return `${value}°C`;
     }
 
     return (
         <>
-
             <div className={styles.container}>
                 <h1 className={styles.title}>Diamond Price Calculator</h1>
                 <Grid container spacing={2}>
@@ -101,41 +104,42 @@ const DiamondPriceCalculator = () => {
                             className={styles.inputField} />
                     </Grid>
                 </Grid>
+                <Typography id="discrete-slider" gutterBottom>Shape</Typography>
                 <Grid container spacing={2}>
-                    <Grid item xs={3}>
-                        <Button variant="contained" color="primary" value="Round" onClick={handleShapeChange} className={styles.shapeButton}>Round</Button>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <Button variant="contained" color="primary" value="Princess" onClick={handleShapeChange} className={styles.shapeButton}>Princess</Button>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <Button variant="contained" color="primary" value="Emerald" onClick={handleShapeChange} className={styles.shapeButton}>Emerald</Button>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <Button variant="contained" color="primary" value="Asscher" onClick={handleShapeChange} className={styles.shapeButton}>Asscher</Button>
+                    <Grid item xs={12}>
+                        <ToggleButtonGroup value={shape} exclusive onChange={handleShapeChange} aria-label="shape">
+                            <Grid container spacing={2}>
+                                <Grid item xs={2.4}><ToggleButton className={styles.togglebutton} value="round" aria-label="round">Round</ToggleButton></Grid>
+                                <Grid item xs={2.4}><ToggleButton className={styles.togglebutton} value="cushion" aria-label="cushion">Cushion</ToggleButton></Grid>
+                                <Grid item xs={2.4}><ToggleButton className={styles.togglebutton} value="emerald" aria-label="emerald">Emerald</ToggleButton></Grid>
+                                <Grid item xs={2.4}><ToggleButton className={styles.togglebutton} value="oval" aria-label="oval">Oval</ToggleButton></Grid>
+                                <Grid item xs={2.4}><ToggleButton className={styles.togglebutton} value="princess" aria-label="princess">Princess</ToggleButton></Grid>
+                                <Grid item xs={2.4}><ToggleButton className={styles.togglebutton} value="pear" aria-label="pear">Pear</ToggleButton></Grid>
+                                <Grid item xs={2.4}><ToggleButton className={styles.togglebutton} value="radiant" aria-label="radiant">Radiant</ToggleButton></Grid>
+                                <Grid item xs={2.4}><ToggleButton className={styles.togglebutton} value="marquise" aria-label="marquise">Marquise</ToggleButton></Grid>
+                                <Grid item xs={2.4}><ToggleButton className={styles.togglebutton} value="asscher" aria-label="asscher">Asscher</ToggleButton></Grid>
+                                <Grid item xs={2.4}><ToggleButton className={styles.togglebutton} value="heart" aria-label="heart">Heart</ToggleButton></Grid>
+                            </Grid>
+                        </ToggleButtonGroup>
                     </Grid>
                 </Grid>
-                <Grid container spacing={2}>
-                    <Grid item xs={3}>
-                        <Button variant="contained" color="primary" value="Radiant" onClick={handleShapeChange} className={styles.shapeButton}>Radiant</Button>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <Button variant="contained" color="primary" value="Oval" onClick={handleShapeChange} className={styles.shapeButton}>Oval</Button>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <Button variant="contained" color="primary" value="Pear" onClick={handleShapeChange} className={styles.shapeButton}>Pear</Button>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <Button variant="contained" color="primary" value="Marquise" onClick={handleShapeChange} className={styles.shapeButton}>Marquise</Button>
+                <Typography id="discrete-slider" gutterBottom>Color</Typography>
+                <Grid container spacing={2} className={styles.colorbuttons}>
+                    <Grid item xs={12}>
+                        <ToggleButtonGroup value={color} exclusive onChange={handleShapeChange} aria-label="color">
+                            <Grid container spacing={2} className={styles.colorbuttons}>
+                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="K" aria-label="K">K</ToggleButton></Grid>
+                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="J" aria-label="J">J</ToggleButton></Grid>
+                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="I" aria-label="I">I</ToggleButton></Grid>
+                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="H" aria-label="H">H</ToggleButton></Grid>
+                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="G" aria-label="G">G</ToggleButton></Grid>
+                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="F" aria-label="F">F</ToggleButton></Grid>
+                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="E" aria-label="E">E</ToggleButton></Grid>
+                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="D" aria-label="D">D</ToggleButton></Grid>
+                            </Grid>
+                        </ToggleButtonGroup>
                     </Grid>
                 </Grid>
-                <input
-                    type="text"
-                    placeholder="Clarity"
-                    value={clarity}
-                    onChange={e => setClarity(e.target.value)}
-                    className={styles.inputField}
-                />
                 <input
                     type="text"
                     placeholder="Cut"
@@ -159,7 +163,6 @@ const DiamondPriceCalculator = () => {
                 {pricePerCarat !== null && <p className={styles.result}>Price Per Carat: ${pricePerCarat.toFixed(2)}</p>}
                 {error && <p className={styles.error}>Error: {error}</p>}
             </div>
-
         </>
     );
 };
