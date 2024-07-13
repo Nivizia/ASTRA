@@ -67,6 +67,16 @@ const DiamondPriceCalculator = () => {
         setColor(event.target.value);
     };
 
+    // Clarity buttons
+    const handleClarityChange = (event) => {
+        setClarity(event.target.value);
+    };
+
+    // Cut buttons
+    const handleCutChange = (event) => {
+        setCut(event.target.value);
+    };
+
     function valuetext(value) {
         return `${value}°C`;
     }
@@ -104,7 +114,7 @@ const DiamondPriceCalculator = () => {
                             className={styles.inputField} />
                     </Grid>
                 </Grid>
-                <Typography id="discrete-slider" gutterBottom>Shape</Typography>
+                <Typography variant="h5" gutterBottom>Shape</Typography>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <ToggleButtonGroup value={shape} exclusive onChange={handleShapeChange} aria-label="shape">
@@ -123,11 +133,11 @@ const DiamondPriceCalculator = () => {
                         </ToggleButtonGroup>
                     </Grid>
                 </Grid>
-                <Typography id="discrete-slider" gutterBottom>Color</Typography>
-                <Grid container spacing={2} className={styles.colorbuttons}>
-                    <Grid item xs={12}>
-                        <ToggleButtonGroup value={color} exclusive onChange={handleShapeChange} aria-label="color">
-                            <Grid container spacing={2} className={styles.colorbuttons}>
+                <Typography variant="h5" gutterBottom>Color</Typography>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} className={styles.colorbuttons}>
+                        <ToggleButtonGroup value={color} exclusive onChange={handleColorChange} aria-label="color">
+                            <Grid container spacing={2}>
                                 <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="K" aria-label="K">K</ToggleButton></Grid>
                                 <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="J" aria-label="J">J</ToggleButton></Grid>
                                 <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="I" aria-label="I">I</ToggleButton></Grid>
@@ -140,13 +150,36 @@ const DiamondPriceCalculator = () => {
                         </ToggleButtonGroup>
                     </Grid>
                 </Grid>
-                <input
-                    type="text"
-                    placeholder="Cut"
-                    value={cut}
-                    onChange={e => setCut(e.target.value)}
-                    className={styles.inputField}
-                />
+                <Typography variant="h5" gutterBottom>Clarity</Typography>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <ToggleButtonGroup value={clarity} exclusive onChange={handleClarityChange} aria-label="clarity">
+                            <Grid container spacing={2}>
+                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="I1" aria-label="I1">I1</ToggleButton></Grid>
+                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="SI2" aria-label="SI2">SI2</ToggleButton></Grid>
+                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="SI1" aria-label="SI1">SI1</ToggleButton></Grid>
+                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="VS2" aria-label="VS2">VS2</ToggleButton></Grid>
+                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="VS1" aria-label="VS1">VS1</ToggleButton></Grid>
+                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="VVS2" aria-label="VVS2">VVS2</ToggleButton></Grid>
+                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="VVS1" aria-label="VVS1">VVS1</ToggleButton></Grid>
+                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="IF" aria-label="IF">IF</ToggleButton></Grid>
+                            </Grid>
+                        </ToggleButtonGroup>
+                    </Grid>
+                </Grid>
+                <Typography variant="h5" gutterBottom>Cut</Typography>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} className={styles.colorbuttons}>
+                        <ToggleButtonGroup value={cut} exclusive onChange={handleCutChange} aria-label="cut">
+                            <Grid container spacing={2}>
+                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="Fair" aria-label="Fair">Fair</ToggleButton></Grid>
+                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="Good" aria-label="Good">Good</ToggleButton></Grid>
+                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="Very Good" aria-label="Very Good">Very Good</ToggleButton></Grid>
+                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="Excellent" aria-label="Excellent">Excellent</ToggleButton></Grid>
+                            </Grid>
+                        </ToggleButtonGroup>
+                    </Grid>
+                </Grid>
                 <button
                     onClick={handleCalculatePrice}
                     className={`${styles.button} ${styles.calculateButton}`}
