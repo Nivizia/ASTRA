@@ -28,7 +28,7 @@ const AccountDetails = () => {
         <div className={styles.detailsColumn}>
           <div className={styles.detailsRow}>
             <div className={styles.detailsLabel}>Phone:</div>
-            <div className={styles.detailsValue}>{user.phone || '[Not set yet]'}</div>
+            <div className={styles.detailsValue}>{user.Phone || '[Not set yet]'}</div>
           </div>
           <div className={styles.detailsRow}>
             <div className={styles.detailsLabel}>Email:</div>

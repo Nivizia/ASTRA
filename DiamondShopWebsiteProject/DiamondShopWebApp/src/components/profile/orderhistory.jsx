@@ -1,6 +1,7 @@
 // src/components/profile/orderhistory.jsx
 
 import React, { useState, useEffect, useContext } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { fetchOrderHistory } from '../../../javascript/apiService';
 import { AuthContext } from '../../contexts/AuthContext';
 
@@ -13,6 +14,8 @@ const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setError(null);
@@ -40,6 +43,10 @@ const OrderHistory = () => {
   if (!loading && orders.length === 0) {
     return <div className={styles.orderHistoryContainer}><h2>Order History</h2>
     <p>You have not ordered. Please order to see order history</p></div>;
+  }
+
+  if (!user) {
+    return <Navigate to="/login" />;
   }
 
   return (

@@ -4,7 +4,6 @@ namespace DiamondAPI.DTOs.Customer
 {
     public class RegisterCustomerDTO
     {
-        [Required]
         [StringLength(32, MinimumLength = 1, ErrorMessage = "Username cannot be blank or longer than 32 characters.")]
         public string? Username { get; set; }
 
@@ -20,6 +19,7 @@ namespace DiamondAPI.DTOs.Customer
         [StringLength(32, MinimumLength = 1, ErrorMessage = "Lastname cannot be blank or longer than 32 characters.")]
         public string? LastName { get; set; }
 
+        [Required]
         [EmailAddress]
         public string? Email { get; set; }
     }

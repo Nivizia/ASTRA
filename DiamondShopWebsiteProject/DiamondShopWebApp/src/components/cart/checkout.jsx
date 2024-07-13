@@ -1,3 +1,5 @@
+// src/components/cart/checkout
+
 import { useState, useEffect, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -125,6 +127,10 @@ const CheckOut = () => {
         }
     };
 
+    if (!user) {
+        return <Navigate to="/login" />;
+    }
+
     const handleSetPaymentMethod = (event, newPaymentMethod) => {
         if (newPaymentMethod !== null) {
             setPaymentMethod(newPaymentMethod);
@@ -188,7 +194,7 @@ const CheckOut = () => {
                             ) : (
                                 <>
                                     <TextField
-                                        label="First Name"
+                                        label="Recipient First Name"
                                         variant="outlined"
                                         fullWidth
                                         margin="normal"
@@ -197,7 +203,7 @@ const CheckOut = () => {
                                         onChange={(e) => setGiftFirstName(e.target.value)}
                                     />
                                     <TextField
-                                        label="Last Name"
+                                        label="Recipient Last Name"
                                         variant="outlined"
                                         fullWidth
                                         margin="normal"
@@ -206,7 +212,7 @@ const CheckOut = () => {
                                         onChange={(e) => setGiftLastName(e.target.value)}
                                     />
                                     <TextField
-                                        label="Email"
+                                        label="Recipient Email"
                                         variant="outlined"
                                         fullWidth
                                         margin="normal"
@@ -215,7 +221,7 @@ const CheckOut = () => {
                                         onChange={(e) => setGiftEmail(e.target.value)}
                                     />
                                     <TextField
-                                        label="Phone"
+                                        label="Recipient Phone"
                                         variant="outlined"
                                         fullWidth
                                         margin="normal"
@@ -275,7 +281,14 @@ const CheckOut = () => {
                             </ToggleButtonGroup>
                         </div>
                     </div>
-                    {
+                    {!buyAsGift ? (
+                        // Buy for self case
+                        <button onClick={handlePlaceOrder} className={styles.orderButton} disabled={loading}>
+                            {loading ? <CircularIndeterminate size={24} /> : 'Place Order'}
+                        </button>
+                    ) : (
+                        // Buy as gift case
+                        // Disable the button if any of the gift fields are empty
                         !giftFirstName || !giftLastName || !giftEmail || !giftPhone ? (
                             <Tooltip title="Please fill all the fields above" arrow>
                                 <span>
@@ -284,10 +297,12 @@ const CheckOut = () => {
                             </Tooltip>
 
                         ) : (
-                            <button onClick={handlePlaceOrder} className={styles.orderButton} disabled={loading || (buyAsGift && (!giftFirstName || !giftLastName || !giftEmail || !giftPhone))}>
+                            // Enable the button if all the gift fields are filled
+                            <button onClick={handlePlaceOrder} className={styles.orderButton} disabled={loading}>
                                 {loading ? <CircularIndeterminate size={24} /> : 'Place Order'}
                             </button>
                         )
+                    )
                     }
                     {error && <p className={styles.errorMessage}>{error}</p>} {/* Display error message */}
                 </div>

@@ -19,6 +19,7 @@ UPDATE DIAMOND
 SET Available = 1;
 --Ends here
 
+SELECT * FROM [dbo].[CUSTOMER]
 DELETE FROM [dbo].[CUSTOMER]
 
 --Don't touch here oge

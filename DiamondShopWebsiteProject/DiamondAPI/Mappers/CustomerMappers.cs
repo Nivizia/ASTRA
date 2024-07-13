@@ -39,7 +39,8 @@ namespace DiamondAPI.Mappers
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
                 Username = customer.Username,
-                Password = customer.Password
+                Password = customer.Password,
+                Email = customer.Email,
             };
         }
     }

@@ -115,6 +115,21 @@
     transform: scale(0.95);
 }
 
+.signupButtonDisabled {
+    background-color: rgb(100, 100, 100);
+    cursor: not-allowed;
+}
+
+.signupButtonDisabled:hover {
+    background-color: rgb(100, 100, 100);
+    transform: scale(1);
+}
+
+.signupButtonDisabled:active {
+    background-color: rgb(100, 100, 100);
+    transform: scale(1);
+}
+
 /* Error message styling */
 .signupError {
     color: rgb(200, 15, 15);
