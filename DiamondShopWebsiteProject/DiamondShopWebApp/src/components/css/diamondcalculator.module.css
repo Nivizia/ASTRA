@@ -126,6 +126,10 @@
     height: 100%;
 }
 
+.interestedDiamonds {
+    margin-top: 1rem !important;
+}
+
 .productList {
     display: grid;
     width: 100%;
@@ -137,7 +141,7 @@
 
 @media (max-width: 1199px) {
     .result {
-        font-size: 2.5rem !important;
+        font-size: 2.3rem !important;
         transition: font-size 0.3s ease;
     }
 }

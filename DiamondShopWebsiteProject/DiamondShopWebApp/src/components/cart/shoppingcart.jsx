@@ -263,6 +263,26 @@ const ShoppingCart = () => {
         return RingName;
     };
 
+    function handleClickLink(item) {
+        navigate(`/diamond/${item.details.dProductId}`);
+    }
+
+    function handleClickDiamondInPairingLink(item) {
+        if (item.ring) {
+            navigate(`/ring/${item.ring.ringId}/choose-diamond/${item.diamond.dProductId}?cart=true`);
+        } else if (item.pendant) {
+            navigate(`/pendant/${item.pendant.pendantId}/choose-diamond/${item.diamond.dProductId}?cart=true`);
+        }
+    }
+
+    function handleClickProductInPairing(item, productType) {
+        if (productType === 'ring') {
+            navigate(`/diamond/${item.diamond.dProductId}/choose-ring/${item.ring.ringId}?cart=true`);
+        } else if (productType === 'pendant') {
+            navigate(`/diamond/${item.diamond.dProductId}/choose-pendant/${item.pendant.pendantId}?cart=true`);
+        }
+    }
+
     return (
         <>
             {error ? (
@@ -270,60 +290,60 @@ const ShoppingCart = () => {
             ) : cart.length === 0 ? (
                 <p className={styles.emptyCartMessage}>Your cart is empty.</p>
             ) : (
-                <div className={styles.shoppingCartAndCheckoutBoxContainer}>
-                    <div className={styles.shoppingCartContainer}>
-                        <h1>Shopping Cart</h1>
-                        <ul className={styles.shoppingCartList}>
-                            {cart.map((item, index) => {
-                                const uniqueKey = item.details?.dProductId || item.pId || index;
-                                return (
-                                    <li key={`${uniqueKey}-${index}`} className={styles.shoppingCartItem}>
-                                        {item.type === 'diamond' && (
-                                            <div className={styles.cartItemDetails}>
-                                                <img src='/src/images/diamond.png' alt="Diamond" className={styles.cartItemImage} />
-                                                <div className={styles.cartItemInfo}>
-                                                    <p><a href={`/diamond/${item.details.dProductId}`}>{item.details.caratWeight} Carat {item.details.color}-{item.details.clarity} {item.details.cut} Cut {item.details.dType} Diamond</a> - ${item.details.price}</p>
-                                                    <p>Carat: {item.details.caratWeight} - Color: {item.details.color}</p>
-                                                    <p>Clarity: {item.details.clarity} - Cut: {item.details.cut}</p>
-                                                    <p>Diamond Type: {item.details.shape}</p>
+                <>
+                    <div className={styles.shoppingCartAndCheckoutBoxContainer}>
+                        <div className={styles.shoppingCartContainer}>
+                            <h1>Shopping Cart</h1>
+                            <ul className={styles.shoppingCartList}>
+                                {cart.map((item, index) => {
+                                    const uniqueKey = item.details?.dProductId || item.pId || index;
+                                    return (
+                                        <li key={`${uniqueKey}-${index}`} className={styles.shoppingCartItem}>
+                                            {item.type === 'diamond' && (
+                                                <div className={styles.cartItemDetails}>
+                                                    <img src='/src/images/diamond.png' alt="Diamond" className={styles.cartItemImage} />
+                                                    <div className={styles.cartItemInfo}>
+                                                        <p><a onClick={() => handleClickLink(item)} style={{ cursor: 'pointer' }}>{item.details.caratWeight} Carat {item.details.color}-{item.details.clarity} {item.details.cut} Cut {item.details.dType} Diamond</a> - ${item.details.price}</p>
+                                                        <p>Carat: {item.details.caratWeight} - Color: {item.details.color}</p>
+                                                        <p>Clarity: {item.details.clarity} - Cut: {item.details.cut}</p>
+                                                        <p>Diamond Type: {item.details.shape}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )}
-                                        {item.type === 'pairing' && (
-                                            <div className={styles.cartItemDetails}>
-                                                <img src={item.ring ? '/src/images/ring.png' : '/src/images/pendant.png'} alt={item.ring ? "Ring" : "Pendant"} className={styles.cartItemImage} />
-                                                <div className={styles.cartItemInfo}>
-                                                    <p>
-                                                        {item.ring ? getRingName(item.ring) : item.pendant.name} - {item.diamond.caratWeight} Carat {item.diamond.color}-{item.diamond.clarity} {item.diamond.cut} Cut {item.diamond.shape} Diamond
-                                                    </p>
-                                                    <p>Diamond: <a href={item.ring ? (
-                                                        `/ring/${item.ring.ringId}/choose-diamond/${item.diamond.dProductId}?cart=true`
-                                                    ) : (
-                                                        `/pendant/${item.pendant.pendantId}/choose-diamond/${item.diamond.dProductId}?cart=true`
-                                                    )}>
-                                                        {item.diamond.caratWeight} Carat {item.diamond.color}-{item.diamond.clarity} {item.diamond.cut} Cut {item.diamond.shape} Diamond
-                                                    </a> - ${item.diamond.price}
-                                                    </p>
-                                                    {item.ring && (
-                                                        <p>Ring: <a href={`/diamond/${item.diamond.dProductId}/choose-ring/${item.ring.ringId}?cart=true`}>{getRingName(item.ring)}</a> - ${item.ring.price}</p>
-                                                    )}
-                                                    {item.pendant && (
-                                                        <p>Pendant: <a href={`/diamond/${item.diamond.dProductId}/choose-pendant/${item.pendant.pendantId}?cart=true`}>{item.pendant.name}</a> - ${item.pendant.price}</p>
-                                                    )}
-                                                    <p>Total Price: ${item.price}</p>
+                                            )}
+                                            {item.type === 'pairing' && (
+                                                <div className={styles.cartItemDetails}>
+                                                    <img src={item.ring ? '/src/images/ring.png' : '/src/images/pendant.png'} alt={item.ring ? "Ring" : "Pendant"} className={styles.cartItemImage} />
+                                                    <div className={styles.cartItemInfo}>
+                                                        <p>
+                                                            {item.ring ? getRingName(item.ring) : item.pendant.name} - {item.diamond.caratWeight} Carat {item.diamond.color}-{item.diamond.clarity} {item.diamond.cut} Cut {item.diamond.shape} Diamond
+                                                        </p>
+                                                        <p>Diamond: <a onClick={() => handleClickDiamondInPairingLink(item)} style={{ cursor: 'pointer' }}>
+                                                            {item.diamond.caratWeight} Carat {item.diamond.color}-{item.diamond.clarity} {item.diamond.cut} Cut {item.diamond.shape} Diamond
+                                                        </a> - ${item.diamond.price}
+                                                        </p>
+                                                        {item.ring && (
+                                                            <p>Ring: <a onClick={() => handleClickProductInPairing(item, 'ring')} style={{ cursor: 'pointer' }}>{getRingName(item.ring)}</a> - ${item.ring.price}</p>
+                                                        )}
+                                                        {item.pendant && (
+                                                            <p>Pendant: <a onClick={() => handleClickProductInPairing(item, 'pendant')} style={{ cursor: 'pointer' }}>{item.pendant.name}</a> - ${item.pendant.price}</p>
+                                                        )}
+                                                        <p>Total Price: ${item.price}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )}
-                                        <button onClick={() => handleRemoveFromCart(item, item.details?.dProductId || item.pId, item.type)} className={styles.cartItemRemoveButton}>Remove</button>
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                        <button onClick={handleClearCart} className={styles.clearCartButton}>Clear Cart</button>
+                                            )
+                                            }
+                                            <button onClick={() => handleRemoveFromCart(item, item.details?.dProductId || item.pId, item.type)} className={styles.cartItemRemoveButton}>Remove</button>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                            <button onClick={handleClearCart} className={styles.clearCartButton}>Clear Cart</button>
+                        </div>
+                        <CheckoutBox totalPrice={calculateTotalPrice()} />
                     </div>
-                    <CheckoutBox totalPrice={calculateTotalPrice()} />
-                </div>
-            )}
+                </>
+            )
+            }
             <SnackbarCart
                 open={snackbarOpen.open}
                 handleClose={handleSnackbarClose}

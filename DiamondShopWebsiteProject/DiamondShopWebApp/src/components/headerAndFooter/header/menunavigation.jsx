@@ -71,7 +71,7 @@ export default function MenuNav() {
           className="nav-button"
           onMouseEnter={handleDiamondHover}
         >
-          Diamond
+          Menu
         </Button>
         <Popper
           open={diamondOpen}

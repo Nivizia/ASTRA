@@ -242,22 +242,27 @@ const DiamondPriceCalculator = () => {
                     </div>
                 </Grid>
                 <Grid item sm={12} className={styles.diamondGrid}>
-                    {diamonds ? (
-                        <div className={styles.productList}>
-                            {diamonds.map((diamond) => (
-                                <DiamondBox
-                                    key={diamond.dProductId}
-                                    diamondId={diamond.dProductId}
-                                    price={diamond.price}
-                                    imageUrl={diamond.imageUrl}
-                                    caratWeight={diamond.caratWeight}
-                                    color={diamond.color}
-                                    clarity={diamond.clarity}
-                                    cut={diamond.cut}
-                                    shape={diamond.shape}
-                                />
-                            ))}
-                        </div>
+                    {diamonds && diamonds.length > 0 ? (
+                        <>
+                            <Typography variant="h5" gutterBottom className={styles.interestedDiamonds}>Diamonds You Might Be Interested In:</Typography>
+                            <div className={styles.productList}>
+                                {diamonds.map((diamond) => (
+                                    <DiamondBox
+                                        key={diamond.dProductId}
+                                        diamondId={diamond.dProductId}
+                                        price={diamond.price}
+                                        imageUrl={diamond.imageUrl}
+                                        caratWeight={diamond.caratWeight}
+                                        color={diamond.color}
+                                        clarity={diamond.clarity}
+                                        cut={diamond.cut}
+                                        shape={diamond.shape}
+                                    />
+                                ))}
+                            </div>
+                        </>
+                    ) : loadingDiamonds ? (
+                        <CircularIndeterminate size={56} />
                     ) : null
                     }
                 </Grid>
