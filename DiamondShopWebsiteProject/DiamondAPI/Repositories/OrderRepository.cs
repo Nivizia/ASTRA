@@ -61,9 +61,24 @@ namespace DiamondAPI.Repositories
             return order;
         }
 
+        public IEnumerable<Order> GetOrdersWithStatus(string status)
+        {
+            return _context.Orders.Where(o => o.OrderStatus == status).ToList();
+        }
+
+        public void Save()
+        {
+            _context.SaveChanges();
+        }
+
         public Task<Order> UpdateOrder(Guid orderId, UpdateOrderRequestDTO updateOrderRequestDTO)
         {
             throw new NotImplementedException();
+        }
+
+        public void UpdateOrder(Order order)
+        {
+            _context.Orders.Update(order);
         }
     }
 }

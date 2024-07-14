@@ -16,5 +16,11 @@ namespace DiamondAPI.Interfaces
         Task<Order?> DeleteOrder(Guid orderId);
 
         Task<bool> DiamondOrdered(Guid? DiamondID);
+
+        IEnumerable<Order> GetOrdersWithStatus(string status);
+
+        void UpdateOrder(Order order);
+
+        void Save();
     }
 }

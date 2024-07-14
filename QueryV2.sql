@@ -49,7 +49,7 @@ CREATE TABLE ORDERS (
 	CustomerID UNIQUEIDENTIFIER,
 	OrderDate DATETIME,
 	TotalAmount MONEY,
-	OrderStatus VARCHAR(500),
+	OrderStatus VARCHAR(500) DEFAULT 'Processing',
 	FOREIGN KEY (CustomerID) REFERENCES CUSTOMER(CustomerID)
 );
 

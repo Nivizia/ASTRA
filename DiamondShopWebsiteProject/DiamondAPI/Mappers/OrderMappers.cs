@@ -13,8 +13,7 @@ namespace DiamondAPI.Mappers
                 OrderId = Guid.NewGuid(),
                 CustomerId = createOrderRequestDTO.CustomerId,
                 OrderDate = DateTime.Now,
-                TotalAmount = createOrderRequestDTO.TotalAmount,
-                OrderStatus = "Received",
+                TotalAmount = createOrderRequestDTO.TotalAmount
             };
         }
 

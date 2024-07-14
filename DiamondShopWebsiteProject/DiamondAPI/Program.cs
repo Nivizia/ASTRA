@@ -3,6 +3,7 @@ using DiamondAPI.Interfaces;
 using DiamondAPI.Models;
 using DiamondAPI.Repositories;
 using DiamondAPI.Services;
+using Hangfire;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -57,9 +58,19 @@ builder.Services.AddScoped<IRingSubtypeRepository, RingSubtypeRepository>();
 builder.Services.AddScoped<IFrameTypeRepository, FrameTypeRepository>();
 builder.Services.AddScoped<IMetalTypeRepository, MetalTypeRepository>();
 
+// Configure Hangfire to use SQL Server
+builder.Services.AddHangfire(config =>
+{
+    config.UseSqlServerStorage(builder.Configuration.GetConnectionString("DBDefault"));
+});
+builder.Services.AddHangfireServer();
+
 // Register TokenService for Token-Based Authentication (JWT)
 builder.Services.AddScoped<TokenService>();
+
+// Register DiamondCalculatorService for calculating diamond prices
 builder.Services.AddScoped<DiamondCalculatorService>();
+
 // Configure JWT Authentication
 builder.Services.AddAuthentication(options =>
 {
@@ -94,6 +105,19 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Add Hangfire Dashboard
+app.UseHangfireDashboard();
+
+// Schedule a recurring job
+RecurringJob.AddOrUpdate<OrderService>(
+    "UpdateOrderStatusJob",  // Recurring job ID
+    service => service.UpdateOrderStatus(),  // Job method
+    Cron.Daily(),  // Schedule
+    new RecurringJobOptions  // Options
+    {
+        TimeZone = TimeZoneInfo.Local
+    });
 
 // Use Authorization Middleware
 app.UseAuthorization();
