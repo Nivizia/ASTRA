@@ -12,8 +12,6 @@ import {
   Tooltip,
 } from '@mui/material';
 
-import { TiShoppingCart } from "react-icons/ti";
-
 import '../../css/header.css';
 import { getCartLength } from '../../../../javascript/cartService';
 

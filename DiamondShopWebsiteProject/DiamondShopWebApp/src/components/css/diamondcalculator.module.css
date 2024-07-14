@@ -1,32 +1,65 @@
 /* src/components/css/diamondcalculator.module.css */
 /* used in diamondcalculator.jsx */
 
-.container {
-    width: 100%;
-    max-width: 500px;
-    margin: 10vh auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
+.mainContainer {
+    width: calc(100% - 8rem) !important;
+    margin: 10vh auto !important;
 }
 
-h1 {
+.calculatorGrid {
+    padding: 0 !important;
+}
+
+.calculatorContainer {
+    padding: 1rem;
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 8px;
+    height: 50vh;
+    overflow: auto;
+}
+
+.outputGrid {
+    padding: 0 0 0 1rem !important;
+}
+
+.outputContainer {
+    padding: 1rem;
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 8px;
+    height: 50vh;
+}
+
+.diamondGrid {
+    padding: 0 !important;
+}
+
+.title {
     text-align: center;
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
+    margin-bottom: 1rem;
+}
+
+.gridContainer {
+    display: flex !important;
+    margin-bottom: 1rem;
+}
+
+.caratSliderContainer {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    margin: auto 0;
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
 }
 
 .inputField {
     width: 100%;
-    padding: 8px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    box-sizing: border-box;
+}
+
+.slider {
+    margin: auto 1rem !important;
 }
 
 .button {
@@ -35,7 +68,7 @@ h1 {
     margin: 10px 0;
     border: none;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s;
 }
@@ -49,50 +82,73 @@ h1 {
     background-color: #218838;
 }
 
-.calculatePerCaratButton {
-    background-color: #007bff;
-    color: white;
-}
-
-.calculatePerCaratButton:hover {
-    background-color: #0056b3;
+.priceGrid div {
+    margin-left: 3rem;
+    justify-content: left;
 }
 
 .result {
-    margin-top: 20px;
-    font-size: 18px;
-    text-align: center;
-    color: #333;
+    font-size: 3rem !important;
+    transition: font-size 0.3s ease;
 }
 
 .error {
-    margin-top: 20px;
+    margin-top: 1rem;
     font-size: 16px;
-    color: #ff5252;
+    color: rgb(200, 15, 15);
     text-align: center;
+}
+
+.toggleButtonGroup {
+    display: flex;
+    width: 100%;
+    justify-content: center;
 }
 
 .togglebutton {
     width: 100%;
-    padding: 10px;
+    padding: 0.5rem !important;
     margin: 10px 0;
     border: none;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 12px !important;
     cursor: pointer;
+    overflow: hidden;
     transition: background-color 0.5s;
 }
 
-.colorbutton {
+.CButton {
     display: flex !important;
     justify-content: center !important;
     margin: auto !important;
+    padding: 0.5rem !important;
     width: 100%;
     height: 100%;
 }
 
-.colorbuttons {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
+.productList {
+    display: grid;
+    width: 100%;
+    gap: 1rem;
+    margin: 1rem 0;
+    grid-template-columns: repeat(4, 1fr);
+    /* 4 columns of equal width */
+}
+
+@media (max-width: 1199px) {
+    .result {
+        font-size: 2.5rem !important;
+        transition: font-size 0.3s ease;
+    }
+}
+
+@media (max-width: 899px) {
+    .outputGrid {
+        padding: 1rem 0 0 0 !important;
+    }
+
+    .result {
+        font-size: 3rem !important;
+        transition: font-size 0.3s ease;
+    }
 }

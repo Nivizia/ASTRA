@@ -95,6 +95,33 @@ export const fetchAvailableDiamondsByShape = async (suitableShapes) => {
         throw error;
     }
 };
+
+// Function to fetch available diamonds by shape, carat, color, clarity, and cut
+export const fetchAvailableDiamondsByCriteria = async (shape, carat, color, clarity, cut) => {
+    try {
+        const diamonds = await fetchDiamondsAvailable();
+        // Define tolerance levels and acceptable variations
+        const caratTolerance = 0.5; // Example: Allow a 0.1 carat difference
+        const acceptableShapes = [shape]; // Extend this array with similar shapes if applicable
+        const acceptableColors = [color]; // Extend this array with similar colors
+        const acceptableClarities = [clarity]; // Extend this array with similar clarities
+        const acceptableCuts = [cut]; // Extend this array with similar cuts
+
+        // Filter the diamonds based on the criteria with tolerances
+        return diamonds.filter(diamond => {
+            return acceptableShapes.includes(diamond.shape.toLowerCase())
+                && Math.abs(diamond.caratWeight - carat) <= caratTolerance
+                && acceptableColors.includes(diamond.color)
+                && acceptableClarities.includes(diamond.clarity)
+                && acceptableCuts.includes(diamond.cut);
+        });
+    }
+    catch (error) {
+        console.error('Error in fetchAvailableDiamondsByCriteria:', error);
+        throw error;
+    }
+};
+
 // Function to fetch a single diamond by ID
 export const fetchDiamondById = async (id) => {
     if (!id) {
@@ -318,7 +345,7 @@ export const createOrder = async (orderDetails) => {
 
 //Function to return a list of order history
 export const fetchOrderHistory = async (CustomerID) => {
-    try{
+    try {
         const response = await axios.get(`${BASE_URL}/Orders/${CustomerID}`);
         return response.data;
     } catch (error) {

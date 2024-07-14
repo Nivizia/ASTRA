@@ -1,44 +1,70 @@
 // src/components/misc/diamondcalculator.jsx
 
-import React, { useState } from 'react';
-import { calculateDiamondPrice, calculateDiamondPricePerCarat } from '../../../javascript/apiService';
+import React, { useState, useEffect } from 'react';
+import { calculateDiamondPrice, calculateDiamondPricePerCarat, fetchAvailableDiamondsByCriteria } from '../../../javascript/apiService';
 
-import Box from '@mui/material/Box';
-import Slider from '@mui/material/Slider';
-import { Grid, TextField, Typography } from '@mui/material';
-import { ToggleButtonGroup, ToggleButton } from '@mui/material';
+import { Box, Slider, Grid, TextField, Typography, ToggleButtonGroup, ToggleButton } from '@mui/material';
+
+import CircularIndeterminate from './loading';
+import DiamondBox from '../productcomponents/diamondcomponents/diamondbox';
 
 import styles from "../css/diamondcalculator.module.css";
 
 const DiamondPriceCalculator = () => {
-    const [carat, setCarat] = useState('');
-    const [color, setColor] = useState('');
-    const [clarity, setClarity] = useState('');
-    const [cut, setCut] = useState('');
+    const [carat, setCarat] = useState(1);
+    const [shape, setShape] = useState('round');
+    const [color, setColor] = useState('K');
+    const [clarity, setClarity] = useState('I1');
+    const [cut, setCut] = useState('Fair');
+
     const [price, setPrice] = useState(null);
     const [pricePerCarat, setPricePerCarat] = useState(null);
+
+    const [loading, setLoading] = useState(true);
+    const [loadingDiamonds, setLoadingDiamonds] = useState(true);
     const [error, setError] = useState(null);
-    const [shape, setShape] = useState('');
+
+    const [diamonds, setDiamonds] = useState([]);
 
     const handleCalculatePrice = async () => {
+        setError(null);
+        setLoading(true);
         try {
-            const result = await calculateDiamondPrice(carat, color, clarity, cut);
-            setPrice(result);
+            const price = await calculateDiamondPrice(carat, color, clarity, cut);
+            const ppc = await calculateDiamondPricePerCarat(carat, color, clarity, cut);
+            setPrice(price);
+            setPricePerCarat(ppc);
             setError(null);
         } catch (err) {
             setError(err.message);
+        } finally {
+            setLoading(false);
         }
+        getDiamonds();
     };
 
-    const handleCalculatePricePerCarat = async () => {
+    const getDiamonds = async () => {
+        setError(null);
+        setLoadingDiamonds(true);
         try {
-            const result = await calculateDiamondPricePerCarat(carat, color, clarity, cut);
-            setPricePerCarat(result);
-            setError(null);
-        } catch (err) {
-            setError(err.message);
+            const data = await fetchAvailableDiamondsByCriteria(shape, carat, color, clarity, cut);
+            console.log(shape, carat, color, clarity, cut);
+            console.log(data);
+            if (Array.isArray(data)) {
+                setDiamonds(data);
+            } else {
+                setError("Unable to fetch diamond");
+            }
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setLoadingDiamonds(false);
         }
-    };
+    }
+
+    useEffect(() => {
+        handleCalculatePrice();
+    }, []);
 
     // Carat slider
     const handleSliderChange = (event, newValue) => {
@@ -77,125 +103,165 @@ const DiamondPriceCalculator = () => {
         setCut(event.target.value);
     };
 
-    function valuetext(value) {
-        return `${value}°C`;
-    }
-
     return (
         <>
-            <div className={styles.container}>
-                <h1 className={styles.title}>Diamond Price Calculator</h1>
-                <Grid container spacing={2}>
-                    <Grid item xs={8}>
-                        <Box className={styles.inputField}>
-                            <Slider
-                                aria-label="Carat"
-                                defaultValue={1}
-                                getAriaValueText={valuetext}
-                                valueLabelDisplay='auto'
-                                shiftStep={30}
-                                step={0.01}
-                                min={0.1}
-                                max={5}
-                                value={carat}
-                                onChange={handleSliderChange}
-                            />
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <TextField
-                            id="outlined-basic"
-                            label="Carat"
-                            variant="outlined"
-                            value={carat}
-                            onChange={handleInputChange}
-                            onBlur={handleBlur}
-                            inputProps={{ step: 0.01, min: 0.1, max: 5, type: 'number' }}
-                            className={styles.inputField} />
-                    </Grid>
-                </Grid>
-                <Typography variant="h5" gutterBottom>Shape</Typography>
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <ToggleButtonGroup value={shape} exclusive onChange={handleShapeChange} aria-label="shape">
-                            <Grid container spacing={2}>
-                                <Grid item xs={2.4}><ToggleButton className={styles.togglebutton} value="round" aria-label="round">Round</ToggleButton></Grid>
-                                <Grid item xs={2.4}><ToggleButton className={styles.togglebutton} value="cushion" aria-label="cushion">Cushion</ToggleButton></Grid>
-                                <Grid item xs={2.4}><ToggleButton className={styles.togglebutton} value="emerald" aria-label="emerald">Emerald</ToggleButton></Grid>
-                                <Grid item xs={2.4}><ToggleButton className={styles.togglebutton} value="oval" aria-label="oval">Oval</ToggleButton></Grid>
-                                <Grid item xs={2.4}><ToggleButton className={styles.togglebutton} value="princess" aria-label="princess">Princess</ToggleButton></Grid>
-                                <Grid item xs={2.4}><ToggleButton className={styles.togglebutton} value="pear" aria-label="pear">Pear</ToggleButton></Grid>
-                                <Grid item xs={2.4}><ToggleButton className={styles.togglebutton} value="radiant" aria-label="radiant">Radiant</ToggleButton></Grid>
-                                <Grid item xs={2.4}><ToggleButton className={styles.togglebutton} value="marquise" aria-label="marquise">Marquise</ToggleButton></Grid>
-                                <Grid item xs={2.4}><ToggleButton className={styles.togglebutton} value="asscher" aria-label="asscher">Asscher</ToggleButton></Grid>
-                                <Grid item xs={2.4}><ToggleButton className={styles.togglebutton} value="heart" aria-label="heart">Heart</ToggleButton></Grid>
+            <Grid container spacing={5} className={styles.mainContainer}>
+                <Grid item sm={12} md={4.5} className={styles.calculatorGrid}>
+                    <div className={styles.calculatorContainer}>
+                        <Typography variant="h4" gutterBottom>Diamond Price Calculator</Typography>
+                        <Typography variant="h5" gutterBottom>Carat</Typography>
+                        <Grid container spacing={2} className={styles.gridContainer}>
+                            <Grid item xs={8}>
+                                <Box className={styles.caratSliderContainer}>
+                                    <Slider
+                                        aria-label="Carat"
+                                        defaultValue={1}
+                                        valueLabelDisplay='auto'
+                                        step={0.01}
+                                        min={0.1}
+                                        max={5}
+                                        value={carat}
+                                        onChange={handleSliderChange}
+                                        className={styles.slider}
+                                    />
+                                </Box>
                             </Grid>
-                        </ToggleButtonGroup>
-                    </Grid>
-                </Grid>
-                <Typography variant="h5" gutterBottom>Color</Typography>
-                <Grid container spacing={2}>
-                    <Grid item xs={12} className={styles.colorbuttons}>
-                        <ToggleButtonGroup value={color} exclusive onChange={handleColorChange} aria-label="color">
-                            <Grid container spacing={2}>
-                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="K" aria-label="K">K</ToggleButton></Grid>
-                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="J" aria-label="J">J</ToggleButton></Grid>
-                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="I" aria-label="I">I</ToggleButton></Grid>
-                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="H" aria-label="H">H</ToggleButton></Grid>
-                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="G" aria-label="G">G</ToggleButton></Grid>
-                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="F" aria-label="F">F</ToggleButton></Grid>
-                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="E" aria-label="E">E</ToggleButton></Grid>
-                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="D" aria-label="D">D</ToggleButton></Grid>
+                            <Grid item xs={4}>
+                                <TextField
+                                    id="outlined-basic"
+                                    label="Carat"
+                                    variant="outlined"
+                                    value={carat}
+                                    onChange={handleInputChange}
+                                    onBlur={handleBlur}
+                                    inputProps={{ step: 0.01, min: 0.1, max: 5, type: 'number' }}
+                                    className={styles.inputField} />
                             </Grid>
-                        </ToggleButtonGroup>
-                    </Grid>
-                </Grid>
-                <Typography variant="h5" gutterBottom>Clarity</Typography>
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <ToggleButtonGroup value={clarity} exclusive onChange={handleClarityChange} aria-label="clarity">
-                            <Grid container spacing={2}>
-                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="I1" aria-label="I1">I1</ToggleButton></Grid>
-                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="SI2" aria-label="SI2">SI2</ToggleButton></Grid>
-                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="SI1" aria-label="SI1">SI1</ToggleButton></Grid>
-                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="VS2" aria-label="VS2">VS2</ToggleButton></Grid>
-                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="VS1" aria-label="VS1">VS1</ToggleButton></Grid>
-                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="VVS2" aria-label="VVS2">VVS2</ToggleButton></Grid>
-                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="VVS1" aria-label="VVS1">VVS1</ToggleButton></Grid>
-                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="IF" aria-label="IF">IF</ToggleButton></Grid>
+                        </Grid>
+
+                        <Typography variant="h5" gutterBottom>Shape</Typography>
+                        <Grid container spacing={2} className={styles.gridContainer}>
+                            <Grid item xs={12}>
+                                <ToggleButtonGroup value={shape} exclusive onChange={handleShapeChange} aria-label="shape" className={styles.toggleButtonGroup}>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={6} sm={2.4} md={6} lg={2.4}><ToggleButton className={styles.togglebutton} value="round" aria-label="round">Round</ToggleButton></Grid>
+                                        <Grid item xs={6} sm={2.4} md={6} lg={2.4}><ToggleButton className={styles.togglebutton} value="cushion" aria-label="cushion">Cushion</ToggleButton></Grid>
+                                        <Grid item xs={6} sm={2.4} md={6} lg={2.4}><ToggleButton className={styles.togglebutton} value="emerald" aria-label="emerald">Emerald</ToggleButton></Grid>
+                                        <Grid item xs={6} sm={2.4} md={6} lg={2.4}><ToggleButton className={styles.togglebutton} value="oval" aria-label="oval">Oval</ToggleButton></Grid>
+                                        <Grid item xs={6} sm={2.4} md={6} lg={2.4}><ToggleButton className={styles.togglebutton} value="princess" aria-label="princess">Princess</ToggleButton></Grid>
+                                        <Grid item xs={6} sm={2.4} md={6} lg={2.4}><ToggleButton className={styles.togglebutton} value="pear" aria-label="pear">Pear</ToggleButton></Grid>
+                                        <Grid item xs={6} sm={2.4} md={6} lg={2.4}><ToggleButton className={styles.togglebutton} value="radiant" aria-label="radiant">Radiant</ToggleButton></Grid>
+                                        <Grid item xs={6} sm={2.4} md={6} lg={2.4}><ToggleButton className={styles.togglebutton} value="marquise" aria-label="marquise">Marquise</ToggleButton></Grid>
+                                        <Grid item xs={6} sm={2.4} md={6} lg={2.4}><ToggleButton className={styles.togglebutton} value="asscher" aria-label="asscher">Asscher</ToggleButton></Grid>
+                                        <Grid item xs={6} sm={2.4} md={6} lg={2.4}><ToggleButton className={styles.togglebutton} value="heart" aria-label="heart">Heart</ToggleButton></Grid>
+                                    </Grid>
+                                </ToggleButtonGroup>
                             </Grid>
-                        </ToggleButtonGroup>
-                    </Grid>
-                </Grid>
-                <Typography variant="h5" gutterBottom>Cut</Typography>
-                <Grid container spacing={2}>
-                    <Grid item xs={12} className={styles.colorbuttons}>
-                        <ToggleButtonGroup value={cut} exclusive onChange={handleCutChange} aria-label="cut">
-                            <Grid container spacing={2}>
-                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="Fair" aria-label="Fair">Fair</ToggleButton></Grid>
-                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="Good" aria-label="Good">Good</ToggleButton></Grid>
-                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="Very Good" aria-label="Very Good">Very Good</ToggleButton></Grid>
-                                <Grid item xs={3}><ToggleButton className={styles.colorbutton} value="Excellent" aria-label="Excellent">Excellent</ToggleButton></Grid>
+                        </Grid>
+
+                        <Typography variant="h5" gutterBottom>Color</Typography>
+                        <Grid container spacing={2} className={styles.gridContainer}>
+                            <Grid item xs={12}>
+                                <ToggleButtonGroup value={color} exclusive onChange={handleColorChange} aria-label="color" className={styles.toggleButtonGroup}>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={3}><ToggleButton className={styles.CButton} value="K" aria-label="K">K</ToggleButton></Grid>
+                                        <Grid item xs={3}><ToggleButton className={styles.CButton} value="J" aria-label="J">J</ToggleButton></Grid>
+                                        <Grid item xs={3}><ToggleButton className={styles.CButton} value="I" aria-label="I">I</ToggleButton></Grid>
+                                        <Grid item xs={3}><ToggleButton className={styles.CButton} value="H" aria-label="H">H</ToggleButton></Grid>
+                                        <Grid item xs={3}><ToggleButton className={styles.CButton} value="G" aria-label="G">G</ToggleButton></Grid>
+                                        <Grid item xs={3}><ToggleButton className={styles.CButton} value="F" aria-label="F">F</ToggleButton></Grid>
+                                        <Grid item xs={3}><ToggleButton className={styles.CButton} value="E" aria-label="E">E</ToggleButton></Grid>
+                                        <Grid item xs={3}><ToggleButton className={styles.CButton} value="D" aria-label="D">D</ToggleButton></Grid>
+                                    </Grid>
+                                </ToggleButtonGroup>
                             </Grid>
-                        </ToggleButtonGroup>
-                    </Grid>
+                        </Grid>
+
+                        <Typography variant="h5" gutterBottom>Clarity</Typography>
+                        <Grid container spacing={2} className={styles.gridContainer}>
+                            <Grid item xs={12}>
+                                <ToggleButtonGroup value={clarity} exclusive onChange={handleClarityChange} aria-label="clarity" className={styles.toggleButtonGroup}>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={3}><ToggleButton className={styles.CButton} value="I1" aria-label="I1">I1</ToggleButton></Grid>
+                                        <Grid item xs={3}><ToggleButton className={styles.CButton} value="SI2" aria-label="SI2">SI2</ToggleButton></Grid>
+                                        <Grid item xs={3}><ToggleButton className={styles.CButton} value="SI1" aria-label="SI1">SI1</ToggleButton></Grid>
+                                        <Grid item xs={3}><ToggleButton className={styles.CButton} value="VS2" aria-label="VS2">VS2</ToggleButton></Grid>
+                                        <Grid item xs={3}><ToggleButton className={styles.CButton} value="VS1" aria-label="VS1">VS1</ToggleButton></Grid>
+                                        <Grid item xs={3}><ToggleButton className={styles.CButton} value="VVS2" aria-label="VVS2">VVS2</ToggleButton></Grid>
+                                        <Grid item xs={3}><ToggleButton className={styles.CButton} value="VVS1" aria-label="VVS1">VVS1</ToggleButton></Grid>
+                                        <Grid item xs={3}><ToggleButton className={styles.CButton} value="IF" aria-label="IF">IF</ToggleButton></Grid>
+                                    </Grid>
+                                </ToggleButtonGroup>
+                            </Grid>
+                        </Grid>
+
+                        <Typography variant="h5" gutterBottom>Cut</Typography>
+                        <Grid container spacing={2} className={styles.gridContainer}>
+                            <Grid item xs={12}>
+                                <ToggleButtonGroup value={cut} exclusive onChange={handleCutChange} aria-label="cut" className={styles.toggleButtonGroup}>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={6} sm={3} md={6} lg={3}><ToggleButton className={styles.CButton} value="Fair" aria-label="Fair">Fair</ToggleButton></Grid>
+                                        <Grid item xs={6} sm={3} md={6} lg={3}><ToggleButton className={styles.CButton} value="Good" aria-label="Good">Good</ToggleButton></Grid>
+                                        <Grid item xs={6} sm={3} md={6} lg={3}><ToggleButton className={styles.CButton} value="Very Good" aria-label="Very Good">Very Good</ToggleButton></Grid>
+                                        <Grid item xs={6} sm={3} md={6} lg={3}><ToggleButton className={styles.CButton} value="Excellent" aria-label="Excellent">Excellent</ToggleButton></Grid>
+                                    </Grid>
+                                </ToggleButtonGroup>
+                            </Grid>
+                        </Grid>
+                        <button
+                            onClick={handleCalculatePrice}
+                            className={`${styles.button} ${styles.calculateButton}`}
+                        >
+                            Calculate Price
+                        </button>
+                    </div>
                 </Grid>
-                <button
-                    onClick={handleCalculatePrice}
-                    className={`${styles.button} ${styles.calculateButton}`}
-                >
-                    Calculate Price
-                </button>
-                <button
-                    onClick={handleCalculatePricePerCarat}
-                    className={`${styles.button} ${styles.calculatePerCaratButton}`}
-                >
-                    Calculate Price Per Carat
-                </button>
-                {price !== null && <p className={styles.result}>Total Price: ${price.toFixed(2)}</p>}
-                {pricePerCarat !== null && <p className={styles.result}>Price Per Carat: ${pricePerCarat.toFixed(2)}</p>}
-                {error && <p className={styles.error}>Error: {error}</p>}
-            </div>
+
+                <Grid item sm={12} md={7.5} className={styles.outputGrid}>
+                    <div className={styles.outputContainer}>
+                        <Typography variant="h4" gutterBottom>Price Output</Typography>
+                        <Grid container className={styles.gridContainer}>
+                            <Grid item xs={6} className={styles.priceGrid}>
+                                <Typography variant="h6">Calculated Price:</Typography>
+                                {!loading ? (
+                                    <Typography variant="body1" className={styles.result}>${price.toFixed(2)}</Typography>
+                                ) : (
+                                    <CircularIndeterminate />
+                                )}
+                            </Grid>
+                            <Grid item xs={6} className={styles.priceGrid}>
+                                <Typography variant="h6">Price Per Carat:</Typography>
+                                {!loading ? (
+                                    <Typography variant="body1" className={styles.result}>${pricePerCarat.toFixed(2)}/ct.</Typography>
+                                ) : (
+                                    <CircularIndeterminate />
+                                )}
+                            </Grid>
+                        </Grid>
+                        {error && <Typography variant="body1" color="error">{error}</Typography>}
+                    </div>
+                </Grid>
+                <Grid item sm={12} className={styles.diamondGrid}>
+                    {diamonds ? (
+                        <div className={styles.productList}>
+                            {diamonds.map((diamond) => (
+                                <DiamondBox
+                                    key={diamond.dProductId}
+                                    diamondId={diamond.dProductId}
+                                    price={diamond.price}
+                                    imageUrl={diamond.imageUrl}
+                                    caratWeight={diamond.caratWeight}
+                                    color={diamond.color}
+                                    clarity={diamond.clarity}
+                                    cut={diamond.cut}
+                                    shape={diamond.shape}
+                                />
+                            ))}
+                        </div>
+                    ) : null
+                    }
+                </Grid>
+            </Grid>
         </>
     );
 };

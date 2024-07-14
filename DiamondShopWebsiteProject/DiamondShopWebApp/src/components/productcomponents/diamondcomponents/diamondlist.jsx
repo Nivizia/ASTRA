@@ -46,6 +46,7 @@ const DiamondList = () => {
           console.log("Diamond route");
           data = await fetchDiamondsAvailable();
         }
+        console.log(data);
         if (Array.isArray(data)) {
           setDiamonds(data);
         } else {
@@ -59,6 +60,7 @@ const DiamondList = () => {
     }
     getDiamonds();
     console.log(`diamondId: ${diamondId}, ringId: ${ringId}`);
+
   }, []);
 
   if (loading) {

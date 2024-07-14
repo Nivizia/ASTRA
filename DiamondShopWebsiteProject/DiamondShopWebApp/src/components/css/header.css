@@ -25,7 +25,12 @@
 
 .logo {
     width: 6rem;
-    transition: width 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.logo:hover {
+    filter: brightness(0.8);
+    transition: all 0.3s ease;
 }
 
 .nav-and-header-right-container {
