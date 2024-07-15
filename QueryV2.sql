@@ -49,6 +49,10 @@ CREATE TABLE ORDERS (
 	CustomerID UNIQUEIDENTIFIER,
 	OrderDate DATETIME,
 	TotalAmount MONEY,
+	OrderFirstName VARCHAR(500),
+	OrderLastName VARCHAR(500),
+	OrderEmail VARCHAR(500),
+	OrderPhone VARCHAR(500),
 	OrderStatus VARCHAR(500) DEFAULT 'Processing',
 	FOREIGN KEY (CustomerID) REFERENCES CUSTOMER(CustomerID)
 );

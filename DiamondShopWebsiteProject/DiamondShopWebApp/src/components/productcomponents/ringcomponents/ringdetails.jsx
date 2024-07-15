@@ -20,11 +20,8 @@ const RingDetails = () => {
   const [error, setError] = useState(null);
 
   const location = useLocation();
-  const params = new URLSearchParams(location.search);
-
-  const cart = params.get('cart');
-
   const navigate = useNavigate();
+  const [fromCart, setFromCart] = useState(location.state?.fromCart);
 
   const handleSelectRing = () => {
     const path = diamondId ? `/cart?d=${diamondId}&r=${ringId}` : `/ring/${ringId}/choose-diamond/`;
@@ -135,7 +132,7 @@ const RingDetails = () => {
           ) : (
             <Button className={styles.selectDiamondButton} onClick={handleSelectRing}>SELECT A DIAMOND</Button>
           )}
-          {cart ? (
+          {fromCart ? (
             <Button className={styles.selectAnotherDiamondButton} onClick={handleSelectAnotherRing}>SELECT ANOTHER RING</Button>
           ) : (
             null

@@ -1,6 +1,6 @@
 // src/components/productcomponents/diamondcomponents/diamondlist.jsx
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useNavigate } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { fetchAvailableDiamondsByShape, fetchDiamondsAvailable, fetchRingById } from '../../../../javascript/apiService';
 
@@ -20,8 +20,8 @@ const DiamondList = () => {
   const params = new URLSearchParams(location.search);
 
   const shape = params.get('shape');
-  const chooseanother = params.get('choose-another');
-  const od = params.get('od');
+  const [chooseAnother, setChooseAnother] = useState(location.state?.chooseAnother);
+  const [oldDiamondId, setOldDiamondId] = useState(location.state?.oldDiamondId);
 
   useEffect(() => {
     setError(null);
@@ -97,8 +97,8 @@ const DiamondList = () => {
             clarity={diamond.clarity}
             cut={diamond.cut}
             shape={diamond.shape}
-            chooseAnother={chooseanother}
-            oldDiamondId={od}
+            chooseAnother={chooseAnother}
+            oldDiamondId={oldDiamondId}
           // diamondId is intentionally passed here based on your condition
           />
         ) : pendantId ? (
@@ -114,8 +114,8 @@ const DiamondList = () => {
             clarity={diamond.clarity}
             cut={diamond.cut}
             shape={diamond.shape}
-            chooseAnother={chooseanother}
-            oldDiamondId={od}
+            chooseAnother={chooseAnother}
+            oldDiamondId={oldDiamondId}
           // diamondId is intentionally passed here based on your condition
           />
         ) : (

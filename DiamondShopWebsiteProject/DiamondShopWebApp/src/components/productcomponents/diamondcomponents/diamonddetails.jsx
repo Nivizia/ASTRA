@@ -18,31 +18,28 @@ const DiamondDetails = () => {
   const [error, setError] = useState(null);
 
   const location = useLocation();
-  const params = new URLSearchParams(location.search);
-
-  const cart = params.get('cart');
-  const chooseanother = params.get('choose-another');
-  const od = params.get('od');
-
   const navigate = useNavigate();
+  const [fromCart, setFromCart] = useState(location.state?.fromCart);
+  const [chooseAnother, setChooseAnother] = useState(location.state?.chooseAnother);
+  const [oldDiamondId, setOldDiamondId] = useState(location.state?.oldDiamondId);
 
   const handleSelectDiamond = () => {
     let path;
-    if (!chooseanother) {
+    if (!chooseAnother) {
       path = ringId ? `/cart?d=${diamondId}&r=${ringId}`
         : `/cart?d=${diamondId}&p=${pendantId}`;
     } else {
-      path = ringId ? `/cart?d=${diamondId}&r=${ringId}&choose-another=true&od=${od}`
-        : `/cart?d=${diamondId}&p=${pendantId}&choose-another=true&od=${od}`;
+      path = ringId ? `/cart?d=${diamondId}&r=${ringId}&choose-another=true&od=${oldDiamondId}`
+        : `/cart?d=${diamondId}&p=${pendantId}&choose-another=true&od=${oldDiamondId}`;
     }
 
     navigate(path);
   };
 
   const handleSelectAnotherDiamond = () => {
-    const path = ringId ? `/ring/${ringId}/choose-diamond?choose-another=true&od=${diamondId}`
-      : `/pendant/${pendantId}/choose-diamond?choose-another=true&od=${diamondId}`;
-    navigate(path);
+    const path = ringId ? `/ring/${ringId}/choose-diamond`
+      : `/pendant/${pendantId}/choose-diamond`;
+      navigate(path, { state: { chooseAnother: true , oldDiamondId: diamondId} });
   }
 
   useEffect(() => {
@@ -102,7 +99,7 @@ const DiamondDetails = () => {
           ) : (
             <TemporaryDrawer diamondId={diamondId} diamondShape={diamond.shape} />
           )}
-          {cart ? (
+          {fromCart ? (
             <Button className={styles.selectAnotherDiamondButton} onClick={handleSelectAnotherDiamond}>SELECT ANOTHER DIAMOND</Button>
           ) : (
             null
