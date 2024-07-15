@@ -24,12 +24,13 @@ namespace DiamondAPI.Services
 
             foreach (var order in orders)
             {
-                if (order.OrderDate.HasValue && order.OrderDate.Value.AddHours(24) <= DateTime.Now)
+                if (order.OrderDate.HasValue && order.OrderDate.Value.AddHours(24) <= DateTime.Now && !string.IsNullOrWhiteSpace(order.OrderEmail))
                 {
                     order.OrderStatus = "Confirmed";
                     _orderRepo.UpdateOrder(order);
 
-                    _emailService.SendEmailAsync(order.Orderemail, "Order Confirmed", $"Your order with ID {order.OrderId} has been confirmed.");
+                    // Ensure order.OrderEmail is not null or whitespace before sending the email
+                    _emailService.SendEmailAsync(order.OrderEmail, "Order Confirmed", $"Your order with ID {order.OrderId} has been confirmed.").Wait();
                 }
             }
 
