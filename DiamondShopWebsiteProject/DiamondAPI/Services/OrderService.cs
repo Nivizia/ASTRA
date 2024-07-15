@@ -27,7 +27,7 @@ namespace DiamondAPI.Services
             foreach (var order in orders)
             {
                 Console.WriteLine(order.OrderStatus);
-                if (order.OrderDate.HasValue && order.OrderDate.Value.AddMinutes(1) <= DateTime.Now && !string.IsNullOrWhiteSpace(order.OrderEmail))
+                if (order.OrderDate.HasValue && order.OrderDate.Value.AddHours(24) <= DateTime.Now && !string.IsNullOrWhiteSpace(order.OrderEmail))
                 {
                     Console.WriteLine("WAHHHHHHHHH");
                     await _orderRepo.UpdateOrderStatus(order);

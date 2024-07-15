@@ -59,6 +59,7 @@ builder.Services.AddScoped<IFrameTypeRepository, FrameTypeRepository>();
 builder.Services.AddScoped<IMetalTypeRepository, MetalTypeRepository>();
 
 // Register EmailService
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddScoped<EmailService>();
 
 // Register OrderService

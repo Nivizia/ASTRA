@@ -40,3 +40,9 @@ WHERE
 -- For testing hangfire
 UPDATE ORDERS
 SET OrderDate = DATEADD(DAY, -1, OrderDate);
+
+UPDATE ORDERS
+SET OrderEmail = 'khangbinh167@gmail.com'
+
+UPDATE ORDERS
+SET OrderStatus = 'Processing'
