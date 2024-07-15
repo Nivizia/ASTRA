@@ -10,16 +10,17 @@ import RingBox from './ringbox';
 import '../../css/product.css';
 
 const RingList = () => {
+  const { diamondId, ringId } = useParams();
   const [rings, setRings] = useState([]); // Initialize as an empty array
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const { diamondId, ringId } = useParams();
 
   const location = useLocation();
   const params = new URLSearchParams(location.search);
 
   const shape = params.get('shape');
+  const [chooseAnother, setChooseAnother] = useState(location.state?.chooseAnother);
+  const [oldRingId, setOldRingId] = useState(location.state?.oldRingId);
 
   useEffect(() => {
     setError(null);
@@ -102,21 +103,22 @@ const RingList = () => {
       {rings.map((ring) => (
 
         diamondId ? (
-          // Condition for diamondId is defined and ringId is undefined
+          // Condition for diamondId is defined and ringId is undefined (diamond-first route)
           <RingBox
             key={ring.ringId}
             ringId={ring.ringId}
-            diamondId={diamondId} // Passed from the parent component or context
-            // ringId is intentionally not passed here based on your condition
+            diamondId={diamondId}
             name={getRingName(ring)}
             price={ring.price}
             stockQuantity={ring.stockQuantity}
             imageUrl={ring.imageUrl}
             metalType={ring.metalType}
             ringSize={ring.ringSize}
+            chooseAnother={chooseAnother}
+            oldRingId={oldRingId}
           />
         ) : (
-          // Default case, assuming ring-first route or any other case
+          // Default case, assuming ring-first route or any other case (ring route)
           <RingBox
             key={ring.ringId}
             ringId={ring.ringId}

@@ -38,8 +38,13 @@ const ShoppingCart = () => {
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
-    const chooseanother = params.get('choose-another'); // Get chooseanother from URL
-    const oldDiamondId = params.get('od'); // Get the id of the old diamond from URL
+    const [chooseAnother, setChooseAnother] = useState(location.state?.chooseAnother);
+    const [oldDiamondId, setOldDiamondId] = useState(location.state?.oldDiamondId);
+    const [oldRingId, setOldRingId] = useState(location.state?.oldRingId);
+    const [oldPendantId, setOldPendantId] = useState(location.state?.oldPendantId);
+
+    const [rechoose, setRechoose] = useState(location.state?.rechoose);
+    const [rechooseType, setRechooseType] = useState(location.state?.rechooseType);
 
     // Function to fetch details of a diamond and a ring/pendant to create a pairing
     async function fetchPairingDetails(diamondId, productId, productType) {
@@ -80,7 +85,6 @@ const ShoppingCart = () => {
         }
     }
 
-
     const effectRan = useRef(false); // Ref to track if effect has run
 
     // useEffect for adding a diamond to the cart
@@ -114,8 +118,6 @@ const ShoppingCart = () => {
 
                         setCart(getCartItems());
                         navigate('/cart', { replace: true });
-
-                        console.log(diamondAlreadyInCart, diamondInPairing);
                     }
                 } catch (error) {
                     console.error("Error adding diamond to cart:", error);
@@ -160,24 +162,47 @@ const ShoppingCart = () => {
 
                         addToCart({
                             ...pairing,
-                            chooseAnother: chooseanother,
+                            chooseAnother: chooseAnother,
                             oldDiamondId: oldDiamondId,
-                        }, chooseanother, oldDiamondId);
+                            oldRingId: oldRingId,
+                            oldPendantId: oldPendantId
+                        }, chooseAnother, oldDiamondId, oldRingId, oldPendantId);
 
                         setCart(getCartItems());
 
-                        if (!chooseanother && !oldDiamondId) {
-                            if (!pairingHasDuplicatedDiamond && !pairingHasPairingWithDuplicateDiamond) {
-                                showSnackbar(`Added ${pairing.productType === "ring" ? "ring" : pairing.productType === "pendant" ? "pendant" : "earring"} successfully`, 'success', Date.now());
-                            } else if (pairingHasDuplicatedDiamond) {
-                                showSnackbar(`Replaced existing diamond with ${pairing.productType === "ring" ? "ring" : pairing.productType === "pendant" ? "pendant" : "earring"}`, 'info', Date.now());
-                            } else if (pairingHasPairingWithDuplicateDiamond) {
-                                showSnackbar(`Replaced existing jewelry with new ${pairing.productType === "ring" ? "ring" : pairing.productType === "pendant" ? "pendant" : "earring"}`, 'info', Date.now());
+                        if (!chooseAnother) {
+                            if (!rechoose) {
+                                if (!pairingHasDuplicatedDiamond && !pairingHasPairingWithDuplicateDiamond) {
+                                    showSnackbar(`Added ${pairing.productType === "ring" ? "ring"
+                                        : pairing.productType === "pendant" ? "pendant"
+                                            : "earring"} successfully`, 'success', Date.now());
+                                } else if (pairingHasDuplicatedDiamond) {
+                                    showSnackbar(`Replaced existing diamond with ${pairing.productType === "ring" ? "ring"
+                                        : pairing.productType === "pendant" ? "pendant"
+                                            : "earring"}`, 'info', Date.now());
+                                } else if (pairingHasPairingWithDuplicateDiamond) {
+                                    showSnackbar(`Replaced existing jewelry with new ${pairing.productType === "ring" ? "ring"
+                                        : pairing.productType === "pendant" ? "pendant"
+                                            : "earring"}`, 'info', Date.now());
+                                }
+                            } else {
+                                if (rechooseType === 'diamond') {
+                                    showSnackbar('Chosen the existing diamond in your jewelry', 'info', Date.now());
+                                } else if (rechooseType === 'ring') {
+                                    showSnackbar('Chosen the existing ring in your jewelry', 'info', Date.now());
+                                } else if (rechooseType === 'pendant') {
+                                    showSnackbar('Chosen the existing pendant in your jewelry', 'info', Date.now());
+                                }
                             }
                         } else {
-                            showSnackbar('Replace diamond in your jewelry with a new diamond', 'info', Date.now());
+                            if (oldDiamondId) {
+                                showSnackbar('Replaced diamond in your jewelry with a new diamond', 'info', Date.now());
+                            } else if (oldRingId) {
+                                showSnackbar('Replaced ring in your jewelry with a new ring', 'info', Date.now());
+                            } else if (oldPendantId) {
+                                showSnackbar('Replaced pendant in your jewelry with a new pendant', 'info', Date.now());
+                            }
                         }
-
                         navigate('/cart', { replace: true });
                     }
                 } catch (error) {

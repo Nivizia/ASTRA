@@ -11,4 +11,4 @@ const CircularIndeterminate = ({ size }) => {
     </Box>
   );
 }
-export default CircularIndeterminate
+export default CircularIndeterminate;

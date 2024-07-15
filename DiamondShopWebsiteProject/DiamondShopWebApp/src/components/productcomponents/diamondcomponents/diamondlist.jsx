@@ -33,20 +33,17 @@ const DiamondList = () => {
         if (ringId) {
           const ring = await fetchRingById(ringId);
           console.log("Ring route");
-          console.log(ring);
           data = await fetchAvailableDiamondsByShape(ring.shapes);
         } else if (pendantId) {
           console.log("Pendant route");
           data = await fetchDiamondsAvailable();
         } else if (shape) {
           console.log("Diamond with shape route");
-          console.log(shape);
           data = await fetchAvailableDiamondsByShape(shape);
         } else {
           console.log("Diamond route");
           data = await fetchDiamondsAvailable();
         }
-        console.log(data);
         if (Array.isArray(data)) {
           setDiamonds(data);
         } else {
@@ -85,11 +82,11 @@ const DiamondList = () => {
     <div className="product-list">
       {diamonds.map((diamond) => (
         ringId ? (
-          // Condition for ringId is defined
+          // Condition for ringId is defined (ring route)
           <DiamondBox
             key={diamond.dProductId}
             diamondId={diamond.dProductId}
-            ringId={ringId} // Passed from the parent component or context
+            ringId={ringId}
             price={diamond.price}
             imageUrl={diamond.imageUrl}
             caratWeight={diamond.caratWeight}
@@ -99,14 +96,13 @@ const DiamondList = () => {
             shape={diamond.shape}
             chooseAnother={chooseAnother}
             oldDiamondId={oldDiamondId}
-          // diamondId is intentionally passed here based on your condition
           />
         ) : pendantId ? (
-          // Condition for pendantId is defined
+          // Condition for pendantId is defined (pendant route)
           <DiamondBox
             key={diamond.dProductId}
             diamondId={diamond.dProductId}
-            pendantId={pendantId} // Passed from the parent component or context
+            pendantId={pendantId}
             price={diamond.price}
             imageUrl={diamond.imageUrl}
             caratWeight={diamond.caratWeight}
@@ -116,10 +112,9 @@ const DiamondList = () => {
             shape={diamond.shape}
             chooseAnother={chooseAnother}
             oldDiamondId={oldDiamondId}
-          // diamondId is intentionally passed here based on your condition
           />
         ) : (
-          // Default case, assuming no ringId or pendantId
+          // Default case, assuming no ringId or pendantId (diamond route)
           <DiamondBox
             key={diamond.dProductId}
             diamondId={diamond.dProductId}
@@ -130,7 +125,6 @@ const DiamondList = () => {
             clarity={diamond.clarity}
             cut={diamond.cut}
             shape={diamond.shape}
-          // Neither ringId nor pendantId is passed here
           />
         )
       ))}

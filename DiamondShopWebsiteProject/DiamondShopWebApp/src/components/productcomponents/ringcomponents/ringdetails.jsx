@@ -22,15 +22,35 @@ const RingDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [fromCart, setFromCart] = useState(location.state?.fromCart);
+  const [chooseAnother, setChooseAnother] = useState(location.state?.chooseAnother);
+  const [oldRingId, setOldRingId] = useState(location.state?.oldRingId);
 
   const handleSelectRing = () => {
-    const path = diamondId ? `/cart?d=${diamondId}&r=${ringId}` : `/ring/${ringId}/choose-diamond/`;
-    navigate(path);
+    let path;
+    if (!chooseAnother) {
+      // Not choose another ring path (when you click on "Select Ring" button)
+      if (!fromCart) {
+        // Add to cart normally path
+        path = diamondId ? `/cart?d=${diamondId}&r=${ringId}` : `/ring/${ringId}/choose-diamond/`;
+        navigate(path);
+      } else {
+        // Rechoose ring path (when you click on "Select Ring" button when navigated from cart)
+        path = diamondId ? `/cart?d=${diamondId}&r=${ringId}` : `/ring/${ringId}/choose-diamond/`;
+        navigate(path, { state: { rechoose: true, rechooseType: 'ring' } });
+      }
+    } else {
+      // Choose another ring path (when you click on "Select Another Ring" button)
+      path = diamondId ? `/cart?d=${diamondId}&r=${ringId}` : `/ring/${ringId}/choose-diamond/`;
+      // If the choose another path ring is different from the old ring, navigate to cart with the old ring id
+      if (oldRingId != ringId) navigate(path, { state: { chooseAnother: chooseAnother, oldRingId: oldRingId } });
+      // Else navigate to cart like the rechoose ring path
+      else navigate(path, { state: { rechoose: true, rechooseType: 'ring' } });
+    }
   };
 
   const handleSelectAnotherRing = () => {
     const path = diamondId ? `/diamond/${diamondId}/choose-ring?shape=${shape}` : `/ring/${ringId}/choose-diamond/`;
-    navigate(path);
+    navigate(path, { state: { chooseAnother: true, oldRingId: ringId } });
   }
 
   useEffect(() => {
@@ -66,7 +86,7 @@ const RingDetails = () => {
   }, [diamondId, ringId]);
 
   if (loading) {
-    return <CircularIndeterminate size={56}/>;
+    return <CircularIndeterminate size={56} />;
   }
 
   if (error) {

@@ -12,6 +12,7 @@ import styles from "../../css/temporarydrawer.module.css";
 
 const PendantDetails = () => {
   const { diamondId, pendantId } = useParams();
+
   const [pendant, setPendant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,15 +20,35 @@ const PendantDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [fromCart, setFromCart] = useState(location.state?.fromCart);
+  const [chooseAnother, setChooseAnother] = useState(location.state?.chooseAnother);
+  const [oldPendantId, setOldPendantId] = useState(location.state?.oldPendantId);
 
   const handleSelectPendant = () => {
-    const path = diamondId ? `/cart?d=${diamondId}&p=${pendantId}` : `/pendant/${pendantId}/choose-diamond/`;
-    navigate(path);
+    let path;
+    if (!chooseAnother) {
+      // Not choose another path (when you click on "Select Pendant" button)
+      if (!fromCart) {
+        // Add to cart normally path
+        path = diamondId ? `/cart?d=${diamondId}&p=${pendantId}` : `/pendant/${pendantId}/choose-diamond/`;
+        navigate(path);
+      } else {
+        // Rechoose pendant path (when you click on "Select Pendant" button when navigated from cart)
+        path = diamondId ? `/cart?d=${diamondId}&p=${pendantId}` : `/pendant/${pendantId}/choose-diamond/`;
+        navigate(path, { state: { rechoose: true, rechooseType: 'pendant' } });
+      }
+    } else {
+      // Choose another pendant path (when you click on "Select Another Pendant" button)
+      path = diamondId ? `/cart?d=${diamondId}&p=${pendantId}` : `/pendant/${pendantId}/choose-diamond/`;
+      // If the choose another path pendant is different from the old pendant, navigate to cart with the old pendant id
+      if (oldPendantId != pendantId) navigate(path, { state: { chooseAnother: chooseAnother, oldPendantId: oldPendantId } });
+      // Else navigate to cart like the rechoose pendant path
+      else navigate(path, { state: { rechoose: true, rechooseType: 'pendant' } });
+    }
   };
 
   const handleSelectAnotherPendant = () => {
     const path = diamondId ? `/diamond/${diamondId}/choose-pendant` : `/pendant/${pendantId}/choose-diamond/`;
-    navigate(path);
+    navigate(path, { state: { chooseAnother: true, oldPendantId: pendantId } });
   }
 
   useEffect(() => {
@@ -45,11 +66,11 @@ const PendantDetails = () => {
       }
     }
     getPendant();
-    console.log(`${diamondId}, ${pendantId}`)
+    console.log(`diamondId: ${diamondId}, pendantId: ${pendantId}`);
   }, [diamondId, pendantId]);
 
   if (loading) {
-    return <CircularIndeterminate size={56}/>;
+    return <CircularIndeterminate size={56} />;
   }
 
   if (error) {
@@ -118,7 +139,7 @@ const PendantDetails = () => {
               <td>${pendant.price.toFixed(2)}</td>
             </tr>
             <tr>
-              <td>Chain Length              </td>
+              <td>Chain Length</td>
               <td>{pendant.chainLength || 'Unknown'}</td>
             </tr>
             <tr>

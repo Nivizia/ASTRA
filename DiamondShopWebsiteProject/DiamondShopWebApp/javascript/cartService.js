@@ -1,5 +1,5 @@
 // Adding an item to the cart
-export const addToCart = (item, chooseAnother, oldDiamondId) => {
+export const addToCart = (item, chooseAnother, oldDiamondId, oldRingId, oldPendantId) => {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
     if (item.type === 'pairing') {
@@ -9,7 +9,7 @@ export const addToCart = (item, chooseAnother, oldDiamondId) => {
             cartItem.diamond.dProductId === item.diamond.dProductId
         );
 
-        if (!chooseAnother && !oldDiamondId) {
+        if (!chooseAnother && (!oldDiamondId || !oldRingId || !oldPendantId)) {
             // If a pairing with the same diamond exists, update it; otherwise, add new pairing
             if (existingPairingIndex !== -1) {
                 cart[existingPairingIndex] = item;
@@ -22,7 +22,7 @@ export const addToCart = (item, chooseAnother, oldDiamondId) => {
             }
         } else {
             // If the user chooses another diamond, replace the existing pairing
-            const oldPairingIndex = getExistingPairingIndex(oldDiamondId);
+            const oldPairingIndex = getExistingPairingIndex(oldDiamondId, oldRingId, oldPendantId);
             cart[oldPairingIndex] = item;
             console.log("Replaced the existing pairing from the cart");
             console.log("Existing pairing index: " + oldPairingIndex);
@@ -70,12 +70,16 @@ export const addToCart = (item, chooseAnother, oldDiamondId) => {
     localStorage.setItem('cart', JSON.stringify(cart));
 };
 
-// Getting the index of an existing pairing in the cart with diamondId
-export const getExistingPairingIndex = (diamondId) => {
+// Getting the index of an existing pairing in the cart with diamondId, ringId, or pendantId
+export const getExistingPairingIndex = (diamondId, ringId, pendantId) => {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
 
     return cart.findIndex(item =>
-        item.type === 'pairing' && item.diamond.dProductId === diamondId
+        item.type === 'pairing' && (
+            (item.diamond?.dProductId === diamondId) ||
+            (item.ring?.rProductId === ringId) ||
+            (item.pendant?.pProductId === pendantId)
+        )
     );
 };
 

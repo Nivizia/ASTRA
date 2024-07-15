@@ -9,26 +9,33 @@ const DiamondBox = ({ diamondId, ringId, pendantId, price, imageUrl, caratWeight
     const navigate = useNavigate();
 
     function handleClickLink() {
-        let href;
+        let path;
         if (!chooseAnother && !oldDiamondId) {
+            // If chooseAnother and oldDiamondId are not defined, original route
             if (ringId) {
-                href = `/ring/${ringId}/choose-diamond/${diamondId}`;
+                // Ring-first route
+                path = `/ring/${ringId}/choose-diamond/${diamondId}`;
             } else if (pendantId) {
-                href = `/pendant/${pendantId}/choose-diamond/${diamondId}`;
+                // Pendant-first route
+                path = `/pendant/${pendantId}/choose-diamond/${diamondId}`;
             } else {
-                href = `/diamond/${diamondId}`;
+                // Default diamond route
+                path = `/diamond/${diamondId}`;
             }
-            navigate(href);
+            navigate(path);
         } else {
+            // If chooseAnother and oldDiamondId are defined, choosing another diamond route
             if (ringId) {
-                href = `/ring/${ringId}/choose-diamond/${diamondId}`;
+                // Ring route
+                path = `/ring/${ringId}/choose-diamond/${diamondId}`;
             } else if (pendantId) {
-                href = `/pendant/${pendantId}/choose-diamond/${diamondId}`;
+                // Pendant route
+                path = `/pendant/${pendantId}/choose-diamond/${diamondId}`;
             }
-            navigate(href, { state: { chooseAnother: true, oldDiamondId: oldDiamondId } });
+            // Navigate to the href with the chooseAnother and oldDiamondId state
+            navigate(path, { state: { chooseAnother: chooseAnother, oldDiamondId: oldDiamondId } });
         }
     }
-
 
     return (
         <a onClick={() => { handleClickLink() }} className="product-link">
