@@ -5,10 +5,12 @@ namespace DiamondAPI.Services
     public class OrderService
     {
         private readonly IOrderRepository _orderRepo;
+        private readonly EmailService _emailService;
 
-        public OrderService(IOrderRepository orderRepo)
+        public OrderService(IOrderRepository orderRepo, EmailService emailService)
         {
             _orderRepo = orderRepo;
+            _emailService = emailService;
         }
 
         public void UpdateOrderStatus()
@@ -26,6 +28,8 @@ namespace DiamondAPI.Services
                 {
                     order.OrderStatus = "Confirmed";
                     _orderRepo.UpdateOrder(order);
+
+                    _emailService.SendEmailAsync(order.Orderemail, "Order Confirmed", $"Your order with ID {order.OrderId} has been confirmed.");
                 }
             }
 
