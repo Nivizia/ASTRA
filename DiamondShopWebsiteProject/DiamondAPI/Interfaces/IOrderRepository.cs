@@ -17,7 +17,9 @@ namespace DiamondAPI.Interfaces
 
         Task<bool> DiamondOrdered(Guid? DiamondID);
 
-        IEnumerable<Order> GetOrdersWithStatus(string status);
+        Task<IEnumerable<Order>> GetOrdersWithStatus(string status);
+
+        Task<bool> UpdateOrderStatus(Order order);
 
         void UpdateOrder(Order order);
 

@@ -36,3 +36,7 @@ JOIN
     SHAPE s ON rsd.ShapeID = s.ShapeID
 WHERE 
     s.ShapeName = 'Round';
+
+-- For testing hangfire
+UPDATE ORDERS
+SET OrderDate = DATEADD(DAY, -1, OrderDate);

@@ -18,9 +18,6 @@ var jwtSettingsSection = builder.Configuration.GetSection("JwtSettings");
 builder.Services.Configure<JwtSettings>(jwtSettingsSection);
 var jwtSettings = jwtSettingsSection.Get<JwtSettings>();
 
-// Load Email settings from configuration
-var emailSettingsSection = builder.Configuration.GetSection("EmailSettings");
-
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -61,7 +58,13 @@ builder.Services.AddScoped<IRingSubtypeRepository, RingSubtypeRepository>();
 builder.Services.AddScoped<IFrameTypeRepository, FrameTypeRepository>();
 builder.Services.AddScoped<IMetalTypeRepository, MetalTypeRepository>();
 
-// Configure Hangfire to use SQL Server
+// Register EmailService
+builder.Services.AddScoped<EmailService>();
+
+// Register OrderService
+builder.Services.AddScoped<OrderService>();
+
+// Configure Hangfire to use SQL Server and add Hangfire server
 builder.Services.AddHangfire(config =>
 {
     config.UseSqlServerStorage(builder.Configuration.GetConnectionString("DBDefault"));
@@ -112,15 +115,8 @@ if (app.Environment.IsDevelopment())
 // Add Hangfire Dashboard
 app.UseHangfireDashboard();
 
-// Schedule a recurring job
-RecurringJob.AddOrUpdate<OrderService>(
-    "UpdateOrderStatusJob",  // Recurring job ID
-    service => service.UpdateOrderStatus(),  // Job method
-    Cron.Daily(),  // Schedule
-    new RecurringJobOptions  // Options
-    {
-        TimeZone = TimeZoneInfo.Local
-    });
+// Schedule a recurring job with explicit recurringJobId
+RecurringJob.AddOrUpdate<OrderService>("UpdateOrderStatusJob", service => service.UpdateOrderStatus(), Cron.Daily);
 
 // Use Authorization Middleware
 app.UseAuthorization();

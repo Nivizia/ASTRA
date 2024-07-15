@@ -61,14 +61,14 @@ namespace DiamondAPI.Repositories
             return order;
         }
 
-        public IEnumerable<Order> GetOrdersWithStatus(string status)
+        public async Task<IEnumerable<Order>> GetOrdersWithStatus(string status)
         {
-            return _context.Orders.Where(o => o.OrderStatus == status).ToList();
+            return await _context.Orders.Where(o => o.OrderStatus == status).ToListAsync();
         }
 
-        public void Save()
+        public async void Save()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         public Task<Order> UpdateOrder(Guid orderId, UpdateOrderRequestDTO updateOrderRequestDTO)
@@ -79,6 +79,13 @@ namespace DiamondAPI.Repositories
         public void UpdateOrder(Order order)
         {
             _context.Orders.Update(order);
+        }
+
+        public async Task<bool> UpdateOrderStatus(Order order)
+        {
+            order.OrderStatus = "Confirmed";
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }
