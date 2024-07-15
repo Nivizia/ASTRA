@@ -26,6 +26,7 @@ const OrderHistory = () => {
         try {
           const data = await fetchOrderHistory(user.sub);
           setOrders(data);
+          console.log(data);
         } catch (error) {
           setError(error.message);
         } finally {
@@ -58,7 +59,7 @@ const OrderHistory = () => {
             <h3 className={styles.orderId}>Order ID: {order.orderId}</h3>
             <p className={styles.orderDetails}>Order Date: {order.orderDate.split('T')[0]}</p>
             <p className={styles.orderDetails}>Total Amount: <strong>${order.totalAmount}</strong></p>
-            {/* <p className={styles.orderDetails}>Order Status: {order.orderStatus}</p> */}
+            <p className={styles.orderDetails}>Order Status: {order.orderStatus}</p>
             <h4>Items:</h4>
             {order.orderitems.map((item) => (
               <div key={item.orderItemId} className={styles.item}>

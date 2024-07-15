@@ -128,7 +128,7 @@ const CheckOut = () => {
     };
 
     if (!user) {
-        return <Navigate to="/login" />;
+        navigate("/login");
     }
 
     const handleSetPaymentMethod = (event, newPaymentMethod) => {
@@ -173,23 +173,32 @@ const CheckOut = () => {
                                 <>
                                     <div className={styles.userInfoRow}>
                                         <div className={styles.userInfoLabel}>First Name:</div>
-                                        <div className={styles.userInfoValue}>{user.FirstName}</div>
+                                        <Tooltip title="Please update your first name if it is incorrect" arrow placement="right">
+                                            <div className={styles.userInfoValue}>{user.FirstName}</div>
+                                        </Tooltip>
                                     </div>
                                     <div className={styles.userInfoRow}>
                                         <div className={styles.userInfoLabel}>Last Name:</div>
-                                        <div className={styles.userInfoValue}>{user.LastName}</div>
+                                        <Tooltip title="Please update your last name if it is incorrect" arrow placement="right">
+                                            <div className={styles.userInfoValue}>{user.LastName}</div>
+                                        </Tooltip>
                                     </div>
                                     {user.phone ? (
                                         <div className={styles.userInfoRow}>
                                             <div className={styles.userInfoLabel}>Phone:</div>
-                                            <div className={styles.userInfoValue}>{user.phone}</div>
+                                            <Tooltip title="Please update your phone number if it is incorrect" arrow placement="right">
+                                                <div className={styles.userInfoValue}>{user.phone}</div>
+                                            </Tooltip>
                                         </div>
                                     ) : null
                                     }
                                     <div className={styles.userInfoRow}>
                                         <div className={styles.userInfoLabel}>Email:</div>
-                                        <div className={styles.userInfoValue}>{user.Email}</div>
+                                        <Tooltip title="Please update your email if it is incorrect" arrow placement="right">
+                                            <div className={styles.userInfoValue}>{user.Email}</div>
+                                        </Tooltip>
                                     </div>
+                                    <p className={styles.warningNotification}>Please make sure your user information is correctly set because we will use it as a verification method</p>
                                 </>
                             ) : (
                                 <>
