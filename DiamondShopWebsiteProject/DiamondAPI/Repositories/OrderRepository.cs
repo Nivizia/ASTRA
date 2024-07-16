@@ -61,6 +61,11 @@ namespace DiamondAPI.Repositories
             return order;
         }
 
+        public async Task<Order?> GetOrderByOrderIDAndCustomerID(Guid orderId, Guid customerID)
+        {
+            return await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId && o.CustomerId == customerID);
+        }
+
         public async Task<IEnumerable<Order>> GetOrdersWithStatus(string status)
         {
             return await _context.Orders.Where(o => o.OrderStatus == status).ToListAsync();

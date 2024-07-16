@@ -271,10 +271,10 @@ namespace DiamondAPI.Controllers
         }
 
         [HttpPut]
-        [Route("{OrderID}")]
-        public async Task<IActionResult> UpdateOrderStatus([FromRoute] Guid OrderID)
+        [Route("{OrderID}/{CustomerID}")]
+        public async Task<IActionResult> UpdateOrderStatus([FromRoute] Guid OrderID, [FromRoute] Guid CustomerID)
         {
-            var order = await _orderRepo.GetOrderById(OrderID);
+            var order = await _orderRepo.GetOrderByOrderIDAndCustomerID(OrderID, CustomerID);
             if (order == null)
                 return NotFound("Order not found.");
 

@@ -9,6 +9,8 @@ namespace DiamondAPI.Interfaces
 
         Task<Order?> GetOrderById(Guid orderId);
 
+        Task<Order?> GetOrderByOrderIDAndCustomerID(Guid orderId, Guid customerID);
+
         Task<Order> CreateOrder(Order order);
 
         Task<Order> UpdateOrder(Guid orderId, UpdateOrderRequestDTO updateOrderRequestDTO);
