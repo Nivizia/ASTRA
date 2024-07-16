@@ -1,13 +1,13 @@
 // src/components/profile/orderhistory.jsx
 
 import React, { useState, useEffect, useContext } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { fetchOrderHistory } from '../../../javascript/apiService';
 import { AuthContext } from '../../contexts/AuthContext';
 
 import CircularIndeterminate from '../misc/loading';
 
-import styles from '../css/accountdetails.module.css';
+import styles from '../css/profile.module.css';
 
 const OrderHistory = () => {
   const { user } = useContext(AuthContext);
@@ -43,17 +43,13 @@ const OrderHistory = () => {
 
   if (!loading && orders.length === 0) {
     return <div className={styles.orderHistoryContainer}><h2>Order History</h2>
-    <p>You have not ordered. Please order to see order history</p></div>;
-  }
-
-  if (!user) {
-    return <Navigate to="/login" />;
+      <p>You have not ordered. Please order to see order history</p></div>;
   }
 
   return (
     <div className={styles.orderHistoryContainer}>
       <h2>Order History</h2>
-      {loading ? <CircularIndeterminate size={56}/> : (
+      {loading ? <CircularIndeterminate size={56} /> : (
         orders.map((order) => (
           <div key={order.orderId} className={styles.orderCard}>
             <h3 className={styles.orderId}>Order ID: {order.orderId}</h3>

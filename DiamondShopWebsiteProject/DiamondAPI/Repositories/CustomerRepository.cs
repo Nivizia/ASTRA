@@ -66,9 +66,7 @@ namespace DiamondAPI.Repositories
             existingCustomer.LastName = customerDTO.LastName;
             existingCustomer.Email = customerDTO.Email;
             existingCustomer.Username = customerDTO.Username;
-            existingCustomer.Password = customerDTO.Password;
             existingCustomer.PhoneNumber = customerDTO.PhoneNumber;
-            existingCustomer.RegistrationDate = customerDTO.RegistrationDate;
 
             await _context.SaveChangesAsync();
 

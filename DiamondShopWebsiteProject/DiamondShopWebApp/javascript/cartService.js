@@ -1,3 +1,5 @@
+// javascript/cartService.js
+
 // Adding an item to the cart
 export const addToCart = (item, chooseAnother, oldDiamondId, oldRingId, oldPendantId) => {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];

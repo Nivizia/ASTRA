@@ -62,8 +62,8 @@ const AccountButtonLoggedIn = ({ user, onLogout }) => {
                         aria-expanded={open ? 'true' : undefined}
                     >
                         {
-                            user.unique_name ? (
-                                <Avatar sx={{ width: 32, height: 32 }}>{user.unique_name.slice(0, 2)}</Avatar>
+                            user.Username ? (
+                                <Avatar sx={{ width: 32, height: 32 }}>{user.Username.slice(0, 2)}</Avatar>
                             ) : (
                                 <Avatar sx={{ width: 32, height: 32 }}><BsPerson /></Avatar>
                             )
@@ -107,7 +107,7 @@ const AccountButtonLoggedIn = ({ user, onLogout }) => {
             >
                 {hasUserLoggedIn && user ? (
                     <MenuItem>
-                        Welcome, {user.unique_name}
+                        Welcome, {user.Username}
                     </MenuItem>
                 ) : (
                     <MenuItem>

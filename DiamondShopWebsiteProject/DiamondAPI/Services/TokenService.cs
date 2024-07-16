@@ -51,7 +51,7 @@ namespace DiamondAPI.Services
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, customerId),
-                new Claim(JwtRegisteredClaimNames.UniqueName, customerUsername),
+                new Claim("Username", customerUsername),
                 new Claim("PasswordLength", passwordLength),
                 new Claim("FirstName", firstName),
                 new Claim("LastName", lastName),

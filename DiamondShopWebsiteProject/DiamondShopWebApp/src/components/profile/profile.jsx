@@ -7,7 +7,7 @@ import RestoreIcon from '@mui/icons-material/Restore';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import OrderHistory from './orderhistory.jsx';
 import AccountDetails from './accountdetails.jsx';
-import styles from '../css/accountdetails.module.css';
+import styles from '../css/profile.module.css';
 
 const Profile = () => {
   const [value, setValue] = React.useState(0);

@@ -2,6 +2,7 @@
 using DiamondAPI.DTOs.Customer;
 using DiamondAPI.Interfaces;
 using DiamondAPI.Mappers;
+using DiamondAPI.Models;
 using DiamondAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -96,11 +97,20 @@ namespace DiamondAPI.Controllers
         [Route("{CustomerId}")]
         public async Task<IActionResult> Update([FromRoute] Guid CustomerId, [FromBody] UpdateCustomerRequestDTO customerDTO)
         {
-            var customer = await _customerRepo.UpdateAsync(CustomerId, customerDTO);
+            var customer = await _customerRepo.GetByIDAsync(CustomerId);
             if (customer == null)
             {
                 return NotFound();
             }
+
+            // Update fields only if they are provided
+            if (!string.IsNullOrEmpty(customerDTO.FirstName)) customer.FirstName = customerDTO.FirstName;
+            if (!string.IsNullOrEmpty(customerDTO.LastName)) customer.LastName = customerDTO.LastName;
+            if (!string.IsNullOrEmpty(customerDTO.Email)) customer.Email = customerDTO.Email;
+            if (!string.IsNullOrEmpty(customerDTO.Username)) customer.Username = customerDTO.Username;
+            if (!string.IsNullOrEmpty(customerDTO.PhoneNumber)) customer.PhoneNumber = customerDTO.PhoneNumber;
+
+            var updatedCustomer = await _customerRepo.UpdateAsync(CustomerId, customerDTO);
 
             return Ok(customer.toCustomerDTO());
         }

@@ -1,3 +1,5 @@
+// javascript/apiService.js
+
 import axios from 'axios';
 
 const BASE_URL = "http://localhost:5212/DiamondAPI/Models";
@@ -5,31 +7,6 @@ const BASE_URL = "http://localhost:5212/DiamondAPI/Models";
 // Function to get the stored JWT token
 const getToken = () => {
     return localStorage.getItem('authToken');
-};
-
-// Function to handle user login
-export const loginUser = async (username, password) => {
-    try {
-        const response = await axios.post(`${BASE_URL}/Customer/login`, {
-            username,
-            password
-        });
-
-        const token = response.data; // Assuming the token is returned as plain text
-        console.log('Login token:', token);
-
-        // Store the token in localStorage
-        localStorage.setItem('authToken', token);
-
-        return { success: true, token };
-    } catch (error) {
-        console.error('Login error:', error);
-        if (error.response && error.response.status === 401) {
-            return { success: false, message: 'Invalid username or password' };
-        } else {
-            return { success: false, message: 'Server error. Please try again later.' };
-        }
-    }
 };
 
 // Function to handle user sign up
@@ -48,7 +25,7 @@ export const signUpUser = async (user) => {
     }
 };
 
-// CRUD Diamond:
+// Diamond:
 // Function to fetch all diamonds
 export const fetchDiamonds = async () => {
     try {
@@ -239,7 +216,7 @@ export const calculateDiamondPricePerCarat = async (carat, color, clarity, cut) 
     }
 };
 
-// CRUD Ring:
+// Ring:
 // Function to fetch all rings
 export const fetchRings = async () => {
     try {
@@ -281,7 +258,7 @@ export const fetchRingsByShape = async (shape) => {
     }
 };
 
-// CRUD Pendant:
+// Pendant:
 // Function to fetch all pendants
 export const fetchPendants = async () => {
     try {
@@ -350,6 +327,20 @@ export const fetchOrderHistory = async (CustomerID) => {
         return response.data;
     } catch (error) {
         console.error('Error in fetchOrderHistory:', error);
+        throw error;
+    }
+};
+
+// Customer
+// Function to update customer
+export const updateCustomer = async (customerId, customerDetails) => {
+    try {
+        console.log(customerId);
+        console.log('Updating customer with details:', customerDetails); // Add this line
+        const response = await axios.put(`${BASE_URL}/Customer/${customerId}`, customerDetails);
+        return response.data;
+    } catch (error) {
+        console.error('Error in updateCustomer:', error);
         throw error;
     }
 };
