@@ -267,5 +267,17 @@ namespace DiamondAPI.Controllers
             await _orderRepo.DeleteOrder(OrderID);
             return Ok("Order deleted.");
         }
+
+        [HttpPut]
+        [Route("{OrderID}")]
+        public async Task<IActionResult> UpdateOrderStatus([FromRoute] Guid OrderID)
+        {
+            var order = await _orderRepo.GetOrderById(OrderID);
+            if (order == null)
+                return NotFound("Order not found.");
+
+            await _orderRepo.UpdateOrderStatus(order);
+            return Ok(order);
+        }
     }
 }

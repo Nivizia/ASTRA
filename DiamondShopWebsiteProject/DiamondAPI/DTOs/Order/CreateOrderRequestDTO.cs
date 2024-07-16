@@ -8,6 +8,14 @@ namespace DiamondAPI.DTOs.Order
 
         public decimal? TotalAmount { get; set; }
 
+        public string? OrderFirstName { get; set; }
+
+        public string? OrderLastName { get; set; }
+
+        public string? OrderEmail { get; set; }
+
+        public string? OrderPhoneNumber { get; set; }
+
         public virtual List<CreateOrderitemRequestDTO> Orderitems { get; set; } = new List<CreateOrderitemRequestDTO>();
     }
 }

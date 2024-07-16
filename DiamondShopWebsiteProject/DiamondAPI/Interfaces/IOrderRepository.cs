@@ -19,7 +19,9 @@ namespace DiamondAPI.Interfaces
 
         Task<IEnumerable<Order>> GetOrdersWithStatus(string status);
 
-        Task<bool> UpdateOrderStatus(Order order);
+        Task<bool> UpdateOrderStatusConfirmationSent(Order order);
+
+        Task<bool> UpdateOrderStatusConfirmed(Order order);
 
         void UpdateOrder(Order order);
 

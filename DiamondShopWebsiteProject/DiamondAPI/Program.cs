@@ -117,7 +117,7 @@ if (app.Environment.IsDevelopment())
 app.UseHangfireDashboard();
 
 // Schedule a recurring job with explicit recurringJobId
-RecurringJob.AddOrUpdate<OrderService>("UpdateOrderStatusJob", service => service.UpdateOrderStatus(), Cron.Daily);
+RecurringJob.AddOrUpdate<OrderService>("SendOrderConfirmRequest", service => service.SendOrderConfirmRequest(), Cron.Hourly);
 
 // Use Authorization Middleware
 app.UseAuthorization();
