@@ -10,9 +10,6 @@ public class EmailService
     public EmailService(IOptions<EmailSettings> emailSettings)
     {
         _emailSettings = emailSettings.Value;
-
-        // Replace {EnvironmentVariable:SMTP_PASSWORD} with the actual environment variable value
-        _emailSettings.SmtpPassword = Environment.GetEnvironmentVariable("SMTP_PASSWORD") ?? string.Empty;
     }
 
     public async Task SendEmailAsync(string toEmail, string subject, string body)
