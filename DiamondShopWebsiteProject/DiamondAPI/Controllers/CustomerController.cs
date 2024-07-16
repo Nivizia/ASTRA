@@ -8,7 +8,9 @@ using DiamondAPI.Interfaces;
 using DiamondAPI.Mappers;
 using DiamondAPI.Models;
 using DiamondAPI.Services;
-using DiamondAPI.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondAPI.Controllers
 {
@@ -49,6 +51,9 @@ namespace DiamondAPI.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            if (registerRequest.Username == null)
+                return BadRequest(new { message = "Username is required" });
 
             if (await _customerRepo.UserExistsAsync(registerRequest.Username))
                 return Conflict(new { message = "Username already exists" });
@@ -100,6 +105,12 @@ namespace DiamondAPI.Controllers
             {
                 return NotFound();
             }
+
+            if (customer.Username == null)
+                return BadRequest(new { message = "Username is required" });
+
+            if (await _customerRepo.UserExistsAsync(customer.Username))
+                return Conflict(new { message = "Username already exists" });
 
             // Update fields only if they are provided
             if (!string.IsNullOrEmpty(customerDTO.FirstName)) customer.FirstName = customerDTO.FirstName;

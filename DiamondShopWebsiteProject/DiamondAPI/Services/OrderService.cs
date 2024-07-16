@@ -27,7 +27,7 @@ namespace DiamondAPI.Services
             {
                 if (order.OrderDate.HasValue && order.OrderDate.Value.AddHours(24) <= DateTime.Now && order.OrderEmail != null)
                 {
-                    await _emailService.SendEmailAsync(order.OrderEmail, "Order confirm request", $"Your order with ID {order.OrderId} has been received, please press this link to confirm your order: .");
+                    await _emailService.SendEmailAsync(order.OrderEmail, "Order confirm request", $"Your order with ID {order.OrderId} has been received, please press this link to confirm your order: http://localhost:5173/confirmation-email?c=" + order.CustomerId + "&o=" + order.OrderId);
                     await _orderRepo.UpdateOrderStatusConfirmationSent(order);
                 }
             }
