@@ -1,17 +1,19 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { updateCustomer } from '../../../javascript/apiService';
+import { jwtDecode } from 'jwt-decode'; // Import jwt-decode
 import styles from '../css/profile.module.css';
 
 const AccountDetails = () => {
   const { user } = useContext(AuthContext);
+  const [accountUser, setAccountUser] = useState(user);
   const [editMode, setEditMode] = useState({});
   const [editedValues, setEditedValues] = useState({
     FirstName: user.FirstName,
     LastName: user.LastName,
     Username: user.Username,
     Email: user.Email,
-    Phone: user.Phone,
+    PhoneNumber: user.PhoneNumber,
   });
 
   const handleDoubleClick = (field) => {
@@ -24,7 +26,15 @@ const AccountDetails = () => {
 
   const handleConfirmChange = async (field) => {
     try {
-      await updateCustomer(user.sub, editedValues);
+      const { customer, token } = await updateCustomer(accountUser.sub, editedValues);
+
+      // Update the local storage with the new token
+      localStorage.setItem('authToken', token);
+
+      // Decode the new token and update the user state
+      const userInfo = jwtDecode(token);
+      setAccountUser(userInfo);
+
       setEditMode({ ...editMode, [field]: false });
     } catch (error) {
       console.error('Error updating customer:', error);
@@ -32,7 +42,7 @@ const AccountDetails = () => {
   };
 
   const handleCancelChange = (field) => {
-    setEditedValues({ ...editedValues, [field]: user[field] });
+    setEditedValues({ ...editedValues, [field]: accountUser[field] });
     setEditMode({ ...editMode, [field]: false });
   };
 
@@ -70,7 +80,7 @@ const AccountDetails = () => {
           ))}
         </div>
         <div className={styles.detailsColumn}>
-          {['Phone', 'Email', 'Password'].map((field) => (
+          {['PhoneNumber', 'Email'].map((field) => (
             <div key={field} className={styles.detailsRow}>
               <div className={styles.detailsLabel}>{field.replace(/([A-Z])/g, ' $1')}:</div>
               {editMode[field] ? (
@@ -89,13 +99,16 @@ const AccountDetails = () => {
                   className={styles.detailsValue}
                   onDoubleClick={() => handleDoubleClick(field)}
                 >
-                  {field === 'Password'
-                    ? '*'.repeat(user.PasswordLength)
-                    : editedValues[field] || '[Not set yet]'}
+                  {editedValues[field] || '[Not set yet]'}
                 </div>
               )}
+
             </div>
           ))}
+          <div className={styles.detailsRow}>
+            <div className={styles.detailsLabel}>Password:</div>
+            <div className={styles.detailsValue}>{'*'.repeat(accountUser.PasswordLength)}</div>
+          </div>
         </div>
       </div>
     </div>

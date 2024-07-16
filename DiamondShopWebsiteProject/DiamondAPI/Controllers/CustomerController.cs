@@ -1,11 +1,14 @@
-﻿using DiamondAPI.Data;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using DiamondAPI.DTOs.Customer;
 using DiamondAPI.Interfaces;
 using DiamondAPI.Mappers;
 using DiamondAPI.Models;
 using DiamondAPI.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+using DiamondAPI.Data;
 
 namespace DiamondAPI.Controllers
 {
@@ -16,6 +19,7 @@ namespace DiamondAPI.Controllers
         private readonly DiamondprojectContext _context;
         private readonly ICustomerRepository _customerRepo;
         private readonly TokenService _tokenService;
+
         public CustomerController(DiamondprojectContext context, ICustomerRepository customerRepo, TokenService tokenService)
         {
             _context = context;
@@ -55,8 +59,6 @@ namespace DiamondAPI.Controllers
             return StatusCode(201);
         }
 
-
-        //List out all customers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -65,8 +67,6 @@ namespace DiamondAPI.Controllers
             return Ok(customerDTOs);
         }
 
-        //Get a customer by ID
-        [ResponseCache(Duration = 60)]
         [HttpGet("{CustomerId}")]
         public async Task<IActionResult> GetByID([FromRoute] Guid CustomerId)
         {
@@ -78,7 +78,6 @@ namespace DiamondAPI.Controllers
             return Ok(customer.toCustomerDTO());
         }
 
-        //Create a customer
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateCustomerRequestDTO customerDTO)
         {
@@ -92,7 +91,6 @@ namespace DiamondAPI.Controllers
             return CreatedAtAction(nameof(GetByID), new { CustomerId = customerModel.CustomerId }, customerModel.toCustomerDTO());
         }
 
-        //Update a customer by ID
         [HttpPut]
         [Route("{CustomerId}")]
         public async Task<IActionResult> Update([FromRoute] Guid CustomerId, [FromBody] UpdateCustomerRequestDTO customerDTO)
@@ -112,12 +110,13 @@ namespace DiamondAPI.Controllers
 
             var updatedCustomer = await _customerRepo.UpdateAsync(CustomerId, customerDTO);
 
-            return Ok(customer.toCustomerDTO());
+            // Generate a new token
+            var newToken = _tokenService.GenerateToken(updatedCustomer);
+
+            return Ok(new { customer = customer.toCustomerDTO(), token = newToken });
         }
 
-        //Delete a customer by ID
-        [HttpDelete]
-        [Route("{CustomerId}")]
+        [HttpDelete("{CustomerId}")]
         public async Task<IActionResult> Delete([FromRoute] Guid CustomerId)
         {
             var customer = await _customerRepo.DeleteAsync(CustomerId);

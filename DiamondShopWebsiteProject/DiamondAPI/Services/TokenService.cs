@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using DiamondAPI.Models;
+using System.Collections.Generic;
 
 namespace DiamondAPI.Services
 {
@@ -44,11 +45,9 @@ namespace DiamondAPI.Services
             var password = customer.Password ?? throw new ArgumentNullException(nameof(customer.Password));
             var passwordLength = password.Length.ToString();
             var email = customer.Email ?? throw new ArgumentNullException(nameof(customer.Email));
-            // var phone = customer.PhoneNumber ?? throw new ArgumentNullException(nameof(customer.PhoneNumber));
+            var phone = customer.PhoneNumber;
 
-            // var fullName = $"{customer.FirstName ?? string.Empty} {customer.LastName ?? string.Empty}".Trim();
-
-            var claims = new[]
+            var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, customerId),
                 new Claim("Username", customerUsername),
@@ -57,6 +56,11 @@ namespace DiamondAPI.Services
                 new Claim("LastName", lastName),
                 new Claim("Email", email),
             };
+
+            if (!string.IsNullOrEmpty(phone))
+            {
+                claims.Add(new Claim("PhoneNumber", phone));
+            }
 
             var token = new JwtSecurityToken(
                 issuer: _issuer,
