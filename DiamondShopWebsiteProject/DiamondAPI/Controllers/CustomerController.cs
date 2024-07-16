@@ -10,7 +10,6 @@ using DiamondAPI.Models;
 using DiamondAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.Data;
-using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondAPI.Controllers
 {
@@ -18,13 +17,11 @@ namespace DiamondAPI.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly DiamondprojectContext _context;
         private readonly ICustomerRepository _customerRepo;
         private readonly TokenService _tokenService;
 
-        public CustomerController(DiamondprojectContext context, ICustomerRepository customerRepo, TokenService tokenService)
+        public CustomerController(ICustomerRepository customerRepo, TokenService tokenService)
         {
-            _context = context;
             _customerRepo = customerRepo;
             _tokenService = tokenService;
         }
@@ -120,6 +117,8 @@ namespace DiamondAPI.Controllers
             if (!string.IsNullOrEmpty(customerDTO.PhoneNumber)) customer.PhoneNumber = customerDTO.PhoneNumber;
 
             var updatedCustomer = await _customerRepo.UpdateAsync(CustomerId, customerDTO);
+
+            if (updatedCustomer == null) return NotFound();
 
             // Generate a new token
             var newToken = _tokenService.GenerateToken(updatedCustomer);
