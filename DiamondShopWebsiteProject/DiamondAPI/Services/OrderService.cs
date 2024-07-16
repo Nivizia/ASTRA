@@ -25,11 +25,30 @@ namespace DiamondAPI.Services
 
             foreach (var order in orders)
             {
-                Console.WriteLine(order.OrderStatus);
-                if (order.OrderDate.HasValue && order.OrderDate.Value.AddHours(24) <= DateTime.Now && !string.IsNullOrWhiteSpace(order.OrderEmail))
+                if (order.OrderDate.HasValue && order.OrderDate.Value.AddHours(24) <= DateTime.Now && order.OrderEmail != null)
                 {
                     await _emailService.SendEmailAsync(order.OrderEmail, "Order confirm request", $"Your order with ID {order.OrderId} has been received, please press this link to confirm your order: .");
                     await _orderRepo.UpdateOrderStatusConfirmationSent(order);
+                }
+            }
+            return true;
+        }
+
+        public async Task<bool> ChangeOrderPostponed()
+        {
+            var orders = await _orderRepo.GetOrdersWithStatus("ConfirmationSent");
+
+            if (orders == null)
+            {
+                return false;
+            }
+
+            foreach (var order in orders)
+            {
+                if (order.OrderDate.HasValue && order.OrderDate.Value.AddHours(48) <= DateTime.Now && order.OrderEmail != null)
+                {
+                    await _orderRepo.UpdateOrderStatusPostponed(order);
+                    await _emailService.SendEmailAsync(order.OrderEmail, "Order postponed", $"Your order with ID {order.OrderId} has been postponed please press confirm to continue with the order or cancel.");
                 }
             }
             return true;

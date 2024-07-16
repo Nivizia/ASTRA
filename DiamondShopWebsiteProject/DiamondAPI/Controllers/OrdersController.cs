@@ -22,7 +22,9 @@ namespace DiamondAPI.Controllers
         private readonly IOrderRepository _orderRepo;
         private readonly IOrderitemRepository _orderItemRepo;
 
-        public OrdersController(ICustomerRepository customerRepos, IRingPairingRepository ringPairingRepo, IPendantPairingRepository pendantPairingRepo, IOrderRepository orderRepo, IOrderitemRepository orderItemRepo, IRingRepository ringRepo, IPendantRepository pendantRepo, IDiamondRepository diamondRepo, IEarringRepository earringRepo, IEarringPairingRepository earringPairingRepo)
+        private readonly EmailService _emailService;
+
+        public OrdersController(ICustomerRepository customerRepos, IRingPairingRepository ringPairingRepo, IPendantPairingRepository pendantPairingRepo, IOrderRepository orderRepo, IOrderitemRepository orderItemRepo, IRingRepository ringRepo, IPendantRepository pendantRepo, IDiamondRepository diamondRepo, IEarringRepository earringRepo, IEarringPairingRepository earringPairingRepo, EmailService emailService)
         {
             _customerRepo = customerRepos;
             _diamondRepo = diamondRepo;
@@ -34,6 +36,7 @@ namespace DiamondAPI.Controllers
             _earringPairingRepo = earringPairingRepo;
             _orderRepo = orderRepo;
             _orderItemRepo = orderItemRepo;
+            _emailService = emailService;
         }
 
         [HttpPost]
@@ -55,7 +58,6 @@ namespace DiamondAPI.Controllers
 
             foreach (var orderItem in createOrderRequestDTO.Orderitems)
             {
-                // Convert the product type to lowercase for case-insensitive comparison
                 var productType = orderItem.ProductType?.ToLower();
 
                 if (productType == null)
@@ -276,7 +278,11 @@ namespace DiamondAPI.Controllers
             if (order == null)
                 return NotFound("Order not found.");
 
-            await _orderRepo.UpdateOrderStatus(order);
+            await _orderRepo.UpdateOrderStatusConfirmed(order);
+
+            if (order.OrderEmail != null)
+                await _emailService.SendEmailAsync(order.OrderEmail, "Order confirmed", $"Your order with ID {order.OrderId} has been confirmed.");
+
             return Ok(order);
         }
     }

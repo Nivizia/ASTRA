@@ -81,6 +81,13 @@ namespace DiamondAPI.Repositories
             _context.Orders.Update(order);
         }
 
+        public async Task<bool> UpdateOrderStatusCompleted(Order order)
+        {
+            order.OrderStatus = "Completed";
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<bool> UpdateOrderStatusConfirmationSent(Order order)
         {
             order.OrderStatus = "ConfirmationSent";
@@ -91,6 +98,13 @@ namespace DiamondAPI.Repositories
         public async Task<bool> UpdateOrderStatusConfirmed(Order order)
         {
             order.OrderStatus = "Confirmed";
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> UpdateOrderStatusPostponed(Order order)
+        {
+            order.OrderStatus = "Postponed";
             await _context.SaveChangesAsync();
             return true;
         }

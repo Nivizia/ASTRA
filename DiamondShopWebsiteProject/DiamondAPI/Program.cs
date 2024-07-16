@@ -118,6 +118,7 @@ app.UseHangfireDashboard();
 
 // Schedule a recurring job with explicit recurringJobId
 RecurringJob.AddOrUpdate<OrderService>("SendOrderConfirmRequest", service => service.SendOrderConfirmRequest(), Cron.Hourly);
+RecurringJob.AddOrUpdate<OrderService>("ChangeOrderPostponed", service => service.ChangeOrderPostponed(), Cron.Hourly);
 
 // Use Authorization Middleware
 app.UseAuthorization();

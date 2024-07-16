@@ -23,6 +23,10 @@ namespace DiamondAPI.Interfaces
 
         Task<bool> UpdateOrderStatusConfirmed(Order order);
 
+        Task<bool> UpdateOrderStatusPostponed(Order order);
+
+        Task<bool> UpdateOrderStatusCompleted(Order order);
+
         void UpdateOrder(Order order);
 
         void Save();
