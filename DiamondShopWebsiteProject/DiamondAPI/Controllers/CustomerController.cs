@@ -106,7 +106,7 @@ namespace DiamondAPI.Controllers
             if (customer.Username == null)
                 return BadRequest(new { message = "Username is required" });
 
-            if (await _customerRepo.UserExistsAsync(customer.Username))
+            if (await _customerRepo.UserExistsUpdateAsync(customer.Username, customer.CustomerId))
                 return Conflict(new { message = "Username already exists" });
 
             // Update fields only if they are provided
@@ -118,7 +118,7 @@ namespace DiamondAPI.Controllers
 
             var updatedCustomer = await _customerRepo.UpdateAsync(CustomerId, customerDTO);
 
-            if (updatedCustomer == null) return NotFound();
+            if (updatedCustomer == null) return NotFound("Updated Customer not found");
 
             // Generate a new token
             var newToken = _tokenService.GenerateToken(updatedCustomer);

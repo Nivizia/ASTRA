@@ -85,5 +85,10 @@ namespace DiamondAPI.Repositories
         {
             return await _context.Customers.AnyAsync(u => u.Username == username);
         }
+
+        public async Task<bool> UserExistsUpdateAsync(string username, Guid CustomerId)
+        {
+            return await _context.Customers.AnyAsync(u => u.Username == username && u.CustomerId != CustomerId);
+        }
     }
 }
