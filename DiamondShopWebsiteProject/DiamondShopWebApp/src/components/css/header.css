@@ -26,10 +26,6 @@
     height: 96px;
 }
 
-.minimizing-header .header-content {
-    display: none;
-}
-
 .header-minimized {
     background-color: black;
     display: flex;
