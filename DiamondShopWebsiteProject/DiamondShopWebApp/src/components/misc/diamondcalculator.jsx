@@ -182,7 +182,6 @@ const DiamondPriceCalculator = () => {
                             <Grid item xs={12}>
                                 <ToggleButtonGroup value={clarity} exclusive onChange={handleClarityChange} aria-label="clarity" className={styles.toggleButtonGroup}>
                                     <Grid container spacing={2}>
-                                        <Grid item xs={3}><ToggleButton className={styles.CButton} value="I1" aria-label="I1">I1</ToggleButton></Grid>
                                         <Grid item xs={3}><ToggleButton className={styles.CButton} value="SI2" aria-label="SI2">SI2</ToggleButton></Grid>
                                         <Grid item xs={3}><ToggleButton className={styles.CButton} value="SI1" aria-label="SI1">SI1</ToggleButton></Grid>
                                         <Grid item xs={3}><ToggleButton className={styles.CButton} value="VS2" aria-label="VS2">VS2</ToggleButton></Grid>
@@ -190,6 +189,7 @@ const DiamondPriceCalculator = () => {
                                         <Grid item xs={3}><ToggleButton className={styles.CButton} value="VVS2" aria-label="VVS2">VVS2</ToggleButton></Grid>
                                         <Grid item xs={3}><ToggleButton className={styles.CButton} value="VVS1" aria-label="VVS1">VVS1</ToggleButton></Grid>
                                         <Grid item xs={3}><ToggleButton className={styles.CButton} value="IF" aria-label="IF">IF</ToggleButton></Grid>
+                                        <Grid item xs={3}><ToggleButton className={styles.CButton} value="FL" aria-label="FL">FL</ToggleButton></Grid>
                                     </Grid>
                                 </ToggleButtonGroup>
                             </Grid>
@@ -244,7 +244,7 @@ const DiamondPriceCalculator = () => {
                 <Grid item sm={12} className={styles.diamondGrid}>
                     {diamonds && diamonds.length > 0 ? (
                         <>
-                            <Typography variant="h5" gutterBottom className={styles.interestedDiamonds}>Diamonds You Might Be Interested In:</Typography>
+                            <Typography variant="h5" gutterBottom className={styles.interestedDiamonds}>Related Diamonds:</Typography>
                             <div className={styles.productList}>
                                 {diamonds.map((diamond) => (
                                     <DiamondBox

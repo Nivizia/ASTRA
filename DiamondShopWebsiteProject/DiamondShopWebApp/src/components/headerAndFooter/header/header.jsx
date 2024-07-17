@@ -1,25 +1,45 @@
 // src/components/headerAndFooter/header/header.jsx
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import logo from '../../../images/logo-no-background.png';
 import MenuNav from './menunavigation';
 import AccountButton from './accountButton/accountButton';
 
-import {
-  Badge,
-  Tooltip,
-} from '@mui/material';
+import { Badge, Tooltip } from '@mui/material';
+import { PiShoppingBagOpenDuotone } from "react-icons/pi";
 
 import '../../css/header.css';
 import { getCartLength } from '../../../../javascript/cartService';
 
-import { PiShoppingBagOpenDuotone } from "react-icons/pi";
-
 const Header = () => {
   const [cartItemCount, setCartItemCount] = useState(0);
+  const [isMinimized, setIsMinimized] = useState(false);
+  const [scrollY, setScrollY] = useState(window.scrollY);
   const location = useLocation();
+
+  const [triggerPoint, setTriggerPoint] = useState(96);
+
+  const handleScroll = () => {
+    setScrollY(window.scrollY); // ScrollY here is mostly for testing purposes
+    if (window.scrollY > triggerPoint) {
+      console.log("1");
+      setIsMinimized(true);
+    } else if (window.scrollY < triggerPoint) {
+      setIsMinimized(false);
+      console.log("2");
+    }
+  };
+
+  useEffect(() => {
+    console.log('window.scrollY:', window.scrollY);
+    console.log('isMinimized:', isMinimized);
+  }, [scrollY]);
+
+  const handleExpand = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   useEffect(() => {
     // Update cart count when the location changes
@@ -38,37 +58,45 @@ const Header = () => {
     // Add event listener for storage changes
     window.addEventListener('storage', handleStorageChange);
 
+    // Add scroll event listener
+    window.addEventListener('scroll', handleScroll);
+
     // Clean up event listener on component unmount
     return () => {
       window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
   return (
-    <header className="header">
-      <div className="header-content">
-        <a href="/"><img src={logo} alt="Astra Logo" className="logo" /></a>
-        <div className="nav-and-header-right-container">
-          <nav className="nav">
-            <MenuNav />
-          </nav>
-          <div className="header-right">
-            <input type="text" placeholder="Search" className="search-bar" />
-            <AccountButton />
-            <span className="icon">
-              <a href="/cart">
-                <Tooltip title="Cart">
-                  <Badge badgeContent={cartItemCount} color="primary">
-                    <PiShoppingBagOpenDuotone />
-                  </Badge>
-                </Tooltip>
-              </a>
-            </span>
+    <>
+      <header className={`header ${isMinimized ? 'minimizing-header' : ''}`}>
+        <div className="header-content">
+          <a href="/"><img src={logo} alt="Astra Logo" className="logo" /></a>
+          <div className="nav-and-header-right-container">
+            <nav className="nav">
+              <MenuNav />
+            </nav>
+            <div className="header-right">
+              <input type="text" placeholder="Search" className="search-bar" />
+              <AccountButton />
+              <span className="icon">
+                <a href="/cart">
+                  <Tooltip title="Cart">
+                    <Badge badgeContent={cartItemCount} color="primary">
+                      <PiShoppingBagOpenDuotone />
+                    </Badge>
+                  </Tooltip>
+                </a>
+              </span>
+            </div>
           </div>
         </div>
 
-      </div>
-    </header>
+      </header>
+      {isMinimized ? <div className='header-minimized' onClick={handleExpand} /> : null}
+      
+    </>
   );
 };
 

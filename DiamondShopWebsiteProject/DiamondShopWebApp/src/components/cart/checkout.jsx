@@ -19,7 +19,7 @@ const CheckOut = () => {
     const { user, logout } = useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate();
-    const [fromCart, setFromCart] = useState(location.state?.fromCart);
+    const [allowed, setAllowed] = useState(location.state?.allowed);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -34,17 +34,17 @@ const CheckOut = () => {
     const [giftPhone, setGiftPhone] = useState('');
 
     useEffect(() => {
-        if (!fromCart) {
+        if (!allowed) {
             setLoading(true);
             setTimeout(() => {
                 setLoading(false);
-                setFromCart(false);
+                setAllowed(false);
                 navigate('/');
             }, 2000);
         } else {
             setLoading(false);
         }
-    }, [fromCart, navigate]);
+    }, [allowed, navigate]);
 
     const handlePlaceOrder = async () => {
         setLoading(true);
@@ -56,6 +56,9 @@ const CheckOut = () => {
             customerId: user.sub, // User ID from Token decoding
             totalAmount: cartItems.reduce((total, item) => item.type === 'pairing' ? total + item.price : total + item.details.price, 0),
             orderItems: cartItems.map(item => {
+                if(!buyAsGift) {
+
+                }
                 if (item.type === 'diamond') {
                     return {
                         productId: item.details.dProductId,
@@ -148,6 +151,10 @@ const CheckOut = () => {
         console.log(buyAsGift);
     }
 
+    const handleClickUpdateProfile = () => {
+        navigate('/profile', { state: { fromCheckout: true } });
+    }
+
     return (
         <>
             {loading ? (
@@ -199,6 +206,7 @@ const CheckOut = () => {
                                         </Tooltip>
                                     </div>
                                     <p className={styles.warningNotification}>Please make sure your user information is correctly set because we will use it as a verification method</p>
+                                    <p className={styles.warningNotification}>Update user information <a onClick={() => handleClickUpdateProfile()}>here</a></p>
                                 </>
                             ) : (
                                 <>

@@ -294,17 +294,17 @@ const ShoppingCart = () => {
 
     function handleClickDiamondInPairingLink(item) {
         if (item.ring) {
-            navigate(`/ring/${item.ring.ringId}/choose-diamond/${item.diamond.dProductId}`, { state: { fromCart: true } });
+            navigate(`/ring/${item.ring.ringId}/choose-diamond/${item.diamond.dProductId}`, { state: { allowed: true } });
         } else if (item.pendant) {
-            navigate(`/pendant/${item.pendant.pendantId}/choose-diamond/${item.diamond.dProductId}`, { state: { fromCart: true } });
+            navigate(`/pendant/${item.pendant.pendantId}/choose-diamond/${item.diamond.dProductId}`, { state: { allowed: true } });
         }
     }
 
     function handleClickProductInPairing(item, productType) {
         if (productType === 'ring') {
-            navigate(`/diamond/${item.diamond.dProductId}/choose-ring/${item.ring.ringId}`, { state: { fromCart: true } });
+            navigate(`/diamond/${item.diamond.dProductId}/choose-ring/${item.ring.ringId}`, { state: { allowed: true } });
         } else if (productType === 'pendant') {
-            navigate(`/diamond/${item.diamond.dProductId}/choose-pendant/${item.pendant.pendantId}`, { state: { fromCart: true } });
+            navigate(`/diamond/${item.diamond.dProductId}/choose-pendant/${item.pendant.pendantId}`, { state: { allowed: true } });
         }
     }
 

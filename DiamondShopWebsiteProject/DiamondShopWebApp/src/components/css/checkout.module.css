@@ -65,6 +65,21 @@
     margin: 0.5rem 0 0 0;
 }
 
+.warningNotification a {
+    color: rgb(0, 100, 200);
+    font-weight: bolder;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.warningNotification a:hover {
+    color: rgb(0, 75, 150);
+    font-weight: bolder;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: calc(0.75rem * 1.1);
+}
+
 .buyAsAGiftContainer {
     display: flex;
     margin-bottom: 1rem;
