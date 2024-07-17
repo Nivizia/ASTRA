@@ -26,7 +26,7 @@ namespace DiamondAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPendantPairing(Guid id)
         {
-            var pendantPairing = await _pendantPairingRepo.GetPendantPairingAsync(id);
+            var pendantPairing = await _pendantPairingRepo.GetByIdAsync(id);
 
             if (pendantPairing == null)
                 return NotFound();

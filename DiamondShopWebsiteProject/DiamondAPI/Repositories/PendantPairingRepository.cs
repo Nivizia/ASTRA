@@ -39,7 +39,7 @@ namespace DiamondAPI.Repositories
             return pendantPairing;
         }
 
-        public async Task<Pendantpairing?> GetPendantPairingAsync(Guid? id)
+        public async Task<Pendantpairing?> GetByIdAsync(Guid? id)
         {
             if (id == null)
                 return null;

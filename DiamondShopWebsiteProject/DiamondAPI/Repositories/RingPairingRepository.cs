@@ -45,7 +45,7 @@ namespace DiamondAPI.Repositories
             return await _context.Ringpairings.ToListAsync();
         }
 
-        public async Task<Ringpairing?> GetById(Guid? id)
+        public async Task<Ringpairing?> GetByIdAsync(Guid? id)
         {
             if (id == null)
                 return null;

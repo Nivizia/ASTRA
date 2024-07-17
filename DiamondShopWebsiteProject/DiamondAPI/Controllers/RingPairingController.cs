@@ -26,7 +26,7 @@ namespace DiamondAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> GetRingPairing(Guid id)
         {
-            var ringPairing = await _ringPairingRepository.GetById(id);
+            var ringPairing = await _ringPairingRepository.GetByIdAsync(id);
 
             if (ringPairing == null)
                 return NotFound();

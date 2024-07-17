@@ -224,7 +224,7 @@ namespace DiamondAPI.Controllers
                 var OrderType = orderitem.ProductType?.ToLower();
                 if (OrderType == "ringpairing")
                 {
-                    var ringpairing = await _ringPairingRepo.GetById(orderitem.RingPairingId);
+                    var ringpairing = await _ringPairingRepo.GetByIdAsync(orderitem.RingPairingId);
 
                     if (ringpairing == null)
                         return NotFound("Ringpairing not found.");
@@ -245,7 +245,7 @@ namespace DiamondAPI.Controllers
                 }
                 else if (OrderType == "pendantpairing")
                 {
-                    var pendantpairing = await _pendantPairingRepo.GetPendantPairingAsync(orderitem.PendantPairingId);
+                    var pendantpairing = await _pendantPairingRepo.GetByIdAsync(orderitem.PendantPairingId);
 
                     if (pendantpairing == null)
                         return NotFound("Pendantpairing not found.");

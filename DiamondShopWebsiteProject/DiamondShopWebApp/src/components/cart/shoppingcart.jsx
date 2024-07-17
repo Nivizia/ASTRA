@@ -328,7 +328,7 @@ const ShoppingCart = () => {
                                                 <div className={styles.cartItemDetails}>
                                                     <img src='/src/images/diamond.png' alt="Diamond" className={styles.cartItemImage} />
                                                     <div className={styles.cartItemInfo}>
-                                                        <p><a onClick={() => handleClickLink(item)} style={{ cursor: 'pointer' }}>{item.details.caratWeight} Carat {item.details.color}-{item.details.clarity} {item.details.cut} Cut {item.details.dType} Diamond</a> - ${item.details.price}</p>
+                                                        <p><a onClick={() => handleClickLink(item)} style={{ cursor: 'pointer' }}>{item.details.caratWeight} Carat {item.details.color}-{item.details.clarity} {item.details.cut} Cut {item.details.shape} Diamond</a> - ${item.details.price}</p>
                                                         <p>Carat: {item.details.caratWeight} - Color: {item.details.color}</p>
                                                         <p>Clarity: {item.details.clarity} - Cut: {item.details.cut}</p>
                                                         <p>Diamond Type: {item.details.shape}</p>

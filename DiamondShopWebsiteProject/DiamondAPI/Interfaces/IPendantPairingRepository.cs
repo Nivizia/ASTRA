@@ -4,7 +4,7 @@ namespace DiamondAPI.Interfaces
 {
     public interface IPendantPairingRepository
     {
-        Task<Pendantpairing?> GetPendantPairingAsync(Guid? id);
+        Task<Pendantpairing?> GetByIdAsync(Guid? id);
         Task<List<Pendantpairing>> GetPendantPairingsAsync();
         Task<Pendantpairing> AddPendantPairingAsync(Pendantpairing pendantPairing);
         Task<Pendantpairing?> UpdatePendantPairingAsync(Pendantpairing pendantPairing);
