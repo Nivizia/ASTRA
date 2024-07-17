@@ -196,11 +196,11 @@ const ShoppingCart = () => {
                             }
                         } else {
                             if (oldDiamondId) {
-                                showSnackbar('Replaced diamond in your jewelry with a new diamond', 'info', Date.now());
+                                showSnackbar('Replaced diamond in your jewelry with a new diamond', 'success', Date.now());
                             } else if (oldRingId) {
-                                showSnackbar('Replaced ring in your jewelry with a new ring', 'info', Date.now());
+                                showSnackbar('Replaced ring in your jewelry with a new ring', 'success', Date.now());
                             } else if (oldPendantId) {
-                                showSnackbar('Replaced pendant in your jewelry with a new pendant', 'info', Date.now());
+                                showSnackbar('Replaced pendant in your jewelry with a new pendant', 'success', Date.now());
                             }
                         }
                         navigate('/cart', { replace: true });
@@ -294,17 +294,17 @@ const ShoppingCart = () => {
 
     function handleClickDiamondInPairingLink(item) {
         if (item.ring) {
-            navigate(`/ring/${item.ring.ringId}/choose-diamond/${item.diamond.dProductId}`, { state: { allowed: true } });
+            navigate(`/ring/${item.ring.ringId}/choose-diamond/${item.diamond.dProductId}`, { state: { fromCart: true } });
         } else if (item.pendant) {
-            navigate(`/pendant/${item.pendant.pendantId}/choose-diamond/${item.diamond.dProductId}`, { state: { allowed: true } });
+            navigate(`/pendant/${item.pendant.pendantId}/choose-diamond/${item.diamond.dProductId}`, { state: { fromCart: true } });
         }
     }
 
     function handleClickProductInPairing(item, productType) {
         if (productType === 'ring') {
-            navigate(`/diamond/${item.diamond.dProductId}/choose-ring/${item.ring.ringId}`, { state: { allowed: true } });
+            navigate(`/diamond/${item.diamond.dProductId}/choose-ring/${item.ring.ringId}`, { state: { fromCart: true } });
         } else if (productType === 'pendant') {
-            navigate(`/diamond/${item.diamond.dProductId}/choose-pendant/${item.pendant.pendantId}`, { state: { allowed: true } });
+            navigate(`/diamond/${item.diamond.dProductId}/choose-pendant/${item.pendant.pendantId}`, { state: { fromCart: true } });
         }
     }
 

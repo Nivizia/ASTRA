@@ -1,7 +1,6 @@
 // src/components/profile/orderhistory.jsx
 
 import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { fetchOrderHistory } from '../../../javascript/apiService';
 import { AuthContext } from '../../contexts/AuthContext';
 
@@ -53,7 +52,7 @@ const OrderHistory = () => {
             <h3 className={styles.orderId}>Order ID: {order.orderId}</h3>
             <p className={styles.orderDetails}>Order Date: {order.orderDate.split('T')[0]}</p>
             <p className={styles.orderDetails}>Total Amount: <strong>${order.totalAmount}</strong></p>
-            <p className={styles.orderDetails}>Order Status: {order.orderStatus}</p>
+            <p className={styles.orderDetails}>Order Status: {order.orderStatus == "ConfirmationSent" ? "Confirmation Sent" : order.orderStatus}</p>
             <h4>Items:</h4>
             {order.orderitems.map((item) => (
               <div key={item.orderItemId} className={styles.item}>

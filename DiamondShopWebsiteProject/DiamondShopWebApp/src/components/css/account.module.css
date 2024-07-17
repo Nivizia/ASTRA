@@ -2,33 +2,27 @@
 /* used in loginPage.jsx, accountButtonNotLoggedIn.jsx */
 
 .backgroundContainer {
-    position: fixed;
-    /* Ensure it covers the entire viewport */
-    top: 134px;
+    position: fixed; /* Fixed position to cover the entire viewport */
+    top: 0; /* Ensure it starts from the top */
     left: 0;
     width: 100%;
     height: 100%;
     background: url('../../images/loginbackground.png') no-repeat center center;
-    /* Add the background image */
-    background-size: cover;
-    /* Make sure the image covers the entire container */
-    z-index: -2;
-    /* Place it behind all other elements */
+    background-size: cover; /* Make sure the image covers the entire container */
+    z-index: -2; /* Place it behind all other elements */
     transition: background-position 0.3s ease;
 }
 
 /* Create a dim overlay using a pseudo-element */
 .backgroundContainer::before {
     content: '';
-    position: absolute;
+    position: fixed; /* Fixed position to cover the entire viewport */
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    /* Semi-transparent black for the dimming effect */
-    z-index: -1;
-    /* Ensure it sits above the background image but below the form */
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black for the dimming effect */
+    z-index: -1; /* Ensure it sits above the background image but below the form */
 }
 
 .backgroundContainerLoggedInPage {

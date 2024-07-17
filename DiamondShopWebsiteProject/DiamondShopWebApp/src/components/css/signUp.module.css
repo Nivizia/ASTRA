@@ -3,48 +3,38 @@
 
 /* Full-screen background container */
 .backgroundContainer {
-    position: fixed;
-    /* Ensure it covers the entire viewport */
-    top: 134px;
+    position: fixed; /* Fixed position to cover the entire viewport */
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background: url('../../images/signupbackground.png') no-repeat center center;
-    /* Add the background image */
     background-size: cover;
-    /* Make sure the image covers the entire container */
-    z-index: -2;
-    /* Place it behind all other elements */
-    transition: background-position 0.3s ease;
+    z-index: -2; /* Place it behind all other elements */
 }
 
 /* Create a dim overlay using a pseudo-element */
 .backgroundContainer::before {
     content: '';
-    position: absolute;
+    position: fixed; /* Fixed position to cover the entire viewport */
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    /* Semi-transparent black for the dimming effect */
-    z-index: -1;
-    /* Ensure it sits above the background image but below the form */
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black for the dimming effect */
+    z-index: -1; /* Ensure it sits above the background image but below the form */
 }
 
 /* Container styling */
 .signupContainer {
-    position: relative;
-    /* Position relative to the new background */
+    position: relative; /* Position relative to the new background */
     width: 400px;
     margin: 1rem auto;
     padding: 1em;
-    background-color: rgb(30, 30, 30);
-    /* Dark background for the container */
+    background-color: rgb(30, 30, 30); /* Dark background for the container */
     border-radius: 8px;
     border: 1px solid rgb(50, 50, 50);
-    z-index: 1;
-    /* Ensure it is above the background and overlay */
+    z-index: 1; /* Ensure it is above the background and overlay */
 }
 
 /* Title styling */
@@ -90,18 +80,13 @@
     width: 100%;
     margin-top: 20px;
     padding: 0.5em;
-    background-color: rgb(0, 0, 200);
-    /* Dark purple button background */
-    color: white;
-    /* Light text color for button */
+    background-color: rgb(0, 0, 200); /* Dark purple button background */
+    color: white; /* Light text color for button */
     border: none;
     border-radius: 4px;
-    display: flex;
-    /* Use Flexbox for centering */
-    justify-content: center;
-    /* Center content horizontally */
-    align-items: center;
-    /* Center content vertically */
+    display: flex; /* Use Flexbox for centering */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
     transition: all 0.3s ease;
 }
 
@@ -132,8 +117,7 @@
 
 /* Error message styling */
 .signupError {
-    color: rgb(200, 15, 15);
-    /* Red color for error messages */
+    color: rgb(200, 15, 15); /* Red color for error messages */
     margin-bottom: 1em;
     text-align: center;
 }
@@ -141,18 +125,15 @@
 /* Link styling */
 .signupLink {
     color: rgb(0, 0, 200);
-    transition: all 0.3s ease;
-    /* Light purple for links */
+    transition: all 0.3s ease; /* Light purple for links */
 }
 
 .signupLink:hover {
-    color: rgb(0, 0, 150);
-    /* Light color on hover */
+    color: rgb(0, 0, 150); /* Light color on hover */
 }
 
 .signupLink:active {
-    color: rgb(0, 0, 100);
-    /* Dark color on click */
+    color: rgb(0, 0, 100); /* Dark color on click */
 }
 
 /* Footer styling */
@@ -164,7 +145,7 @@
 /* Media queries for smaller screens */
 @media (max-width: 667px) {
     .backgroundContainer {
-        top: 227px;
+        top: 0; /* Ensure the background covers the top */
     }
 }
 

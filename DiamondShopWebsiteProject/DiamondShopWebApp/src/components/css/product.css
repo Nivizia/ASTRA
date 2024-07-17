@@ -17,6 +17,7 @@
 .product-link {
   transition: background-color 0.3s ease, transform 0.3s ease;
   border: 1px solid rgb(200, 200, 200);
+  cursor: pointer;
   border-radius: 0.5rem;
 }
 

@@ -38,11 +38,16 @@ WHERE
     s.ShapeName = 'Round';
 
 -- For testing hangfire
-UPDATE ORDERS
-SET OrderDate = DATEADD(DAY, -1, OrderDate);
+UPDATE Orders
+SET OrderDate = DATEADD(DAY, -1, OrderDate)
+WHERE OrderID = '4ABAD377-5D48-4CC6-B953-0572E34992B0';
 
 UPDATE ORDERS
 SET OrderEmail = 'khangbinh167@gmail.com'
 
 UPDATE ORDERS
 SET OrderStatus = 'Processing'
+WHERE OrderID = '4ABAD377-5D48-4CC6-B953-0572E34992B0';
+
+SELECT * FROM [DIAMONDPROJECT].[dbo].[ORDERS]
+SELECT * FROM [dbo].[ORDERITEM]

@@ -31,7 +31,7 @@ const CheckOut = () => {
     const [giftFirstName, setGiftFirstName] = useState('');
     const [giftLastName, setGiftLastName] = useState('');
     const [giftEmail, setGiftEmail] = useState('');
-    const [giftPhone, setGiftPhone] = useState('');
+    const [giftPhoneNumber, setGiftPhoneNumber] = useState('');
 
     useEffect(() => {
         if (!allowed) {
@@ -46,19 +46,39 @@ const CheckOut = () => {
         }
     }, [allowed, navigate]);
 
+    function getUserInfo() {
+        if (buyAsGift) {
+            return {
+                FirstName: giftFirstName,
+                LastName: giftLastName,
+                Email: giftEmail,
+                PhoneNumber: giftPhoneNumber,
+            };
+        } else {
+            return {
+                FirstName: user.FirstName ?? '',
+                LastName: user.LastName ?? '',
+                Email: user.Email ?? '',
+                PhoneNumber: user.PhoneNumber ?? '',
+            };
+        }
+    };
+
     const handlePlaceOrder = async () => {
         setLoading(true);
         setError(null); // Clear any previous error
 
         // Prepare the order details from cart
         const cartItems = getCartItems();
+        const userInfo = getUserInfo(); // Get the user info based on the buyAsGift state
         const orderDetails = {
             customerId: user.sub, // User ID from Token decoding
             totalAmount: cartItems.reduce((total, item) => item.type === 'pairing' ? total + item.price : total + item.details.price, 0),
+            orderFirstName: userInfo.FirstName,
+            orderLastName: userInfo.LastName,
+            orderEmail: userInfo.Email,
+            orderPhoneNumber: userInfo.PhoneNumber,
             orderItems: cartItems.map(item => {
-                if(!buyAsGift) {
-
-                }
                 if (item.type === 'diamond') {
                     return {
                         productId: item.details.dProductId,
@@ -100,7 +120,7 @@ const CheckOut = () => {
                 firstName: giftFirstName,
                 lastName: giftLastName,
                 email: giftEmail,
-                phone: giftPhone
+                phone: giftPhoneNumber
             } : null
         };
 
@@ -243,8 +263,8 @@ const CheckOut = () => {
                                         fullWidth
                                         margin="normal"
                                         required
-                                        value={giftPhone}
-                                        onChange={(e) => setGiftPhone(e.target.value)}
+                                        value={giftPhoneNumber}
+                                        onChange={(e) => setGiftPhoneNumber(e.target.value)}
                                     />
                                 </>
                             )}
@@ -306,7 +326,7 @@ const CheckOut = () => {
                     ) : (
                         // Buy as gift case
                         // Disable the button if any of the gift fields are empty
-                        !giftFirstName || !giftLastName || !giftEmail || !giftPhone ? (
+                        !giftFirstName || !giftLastName || !giftEmail || !giftPhoneNumber ? (
                             <Tooltip title="Please fill all the fields above" arrow>
                                 <span>
                                     <button className={styles.orderButton} disabled>Place Order</button>
