@@ -66,6 +66,18 @@ namespace DiamondAPI.Repositories
             return await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId && o.CustomerId == customerID);
         }
 
+        public async Task<List<Order>> GetOrdersByCusInfos(string orderFirstName, string orderLastName, string orderEmail, string orderPhone)
+        {
+            return await _context.Orders
+                .Include(o => o.Orderitems)
+                .Where(o =>
+                    (string.IsNullOrEmpty(orderFirstName) || (o.OrderFirstName != null && o.OrderFirstName.Contains(orderFirstName))) &&
+                    (string.IsNullOrEmpty(orderLastName) || (o.OrderLastName != null && o.OrderLastName.Contains(orderLastName))) &&
+                    (string.IsNullOrEmpty(orderEmail) || (o.OrderEmail != null && o.OrderEmail.Contains(orderEmail))) &&
+                    (string.IsNullOrEmpty(orderPhone) || (o.OrderPhone != null && o.OrderPhone.Contains(orderPhone)))
+                ).ToListAsync();
+        }
+
         public async Task<IEnumerable<Order>> GetOrdersWithStatus(string status)
         {
             return await _context.Orders.Where(o => o.OrderStatus == status).ToListAsync();

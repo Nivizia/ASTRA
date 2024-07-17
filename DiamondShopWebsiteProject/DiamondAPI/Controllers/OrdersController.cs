@@ -187,7 +187,7 @@ namespace DiamondAPI.Controllers
         }
 
         [HttpGet]
-        [Route("{CustomerID}")]
+        [Route("OrderHistory/{CustomerID}")]
         public async Task<IActionResult> GetOrders([FromRoute] Guid CustomerID)
         {
             var orders = await _orderRepo.GetAllOrders(CustomerID);
@@ -195,9 +195,28 @@ namespace DiamondAPI.Controllers
             return Ok(ordersDTO);
         }
 
-        [HttpDelete]
-        [Route("{OrderID}")]
-        public async Task<IActionResult> DeleteOrder([FromRoute] Guid OrderID)
+        [HttpGet]
+        [Route("SearchOrders/{OrderFirstName}/{OrderLastName}/{OrderEmail}/{OrderPhone}")]
+        public async Task<IActionResult> SearchOrders([FromRoute] string OrderFirstName, string OrderLastName, string OrderEmail, string OrderPhone)
+        {
+            var orders = await _orderRepo.GetOrdersByCusInfos(OrderFirstName, OrderLastName, OrderEmail, OrderPhone);
+            var ordersDTO = orders.Select(o => o.ToOrderRequestDTO()).ToList();
+            return Ok(ordersDTO);
+        }
+
+        [HttpGet]
+        [Route("GetOrder/{OrderID}")]
+        public async Task<IActionResult> GetOrder([FromRoute] Guid OrderID)
+        {
+            var order = await _orderRepo.GetOrderById(OrderID);
+            if (order == null)
+                return NotFound("Order not found.");
+            return Ok(order.ToOrderRequestDTO());
+        }
+
+        [HttpPut]
+        [Route("Cancel/{OrderID}")]
+        public async Task<IActionResult> CancelOrder([FromRoute] Guid OrderID)
         {
             var orderitems = await _orderItemRepo.GetOrderitemsByOrderId(OrderID);
             foreach (var orderitem in orderitems)
@@ -271,10 +290,10 @@ namespace DiamondAPI.Controllers
         }
 
         [HttpPut]
-        [Route("{OrderID}/{CustomerID}")]
-        public async Task<IActionResult> UpdateOrderStatus([FromRoute] Guid OrderID, [FromRoute] Guid CustomerID)
+        [Route("Confirm/{OrderID}")]
+        public async Task<IActionResult> UpdateOrderStatus([FromRoute] Guid OrderID)
         {
-            var order = await _orderRepo.GetOrderByOrderIDAndCustomerID(OrderID, CustomerID);
+            var order = await _orderRepo.GetOrderById(OrderID);
             if (order == null)
                 return NotFound("Order not found.");
 
