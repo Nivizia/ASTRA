@@ -19,15 +19,10 @@ const Header = () => {
   const location = useLocation();
 
   const handleScroll = () => {
-    console.log('window.scrollY:', window.scrollY);
-    console.log('isMinimized:', isMinimized);
-    console.log('triggerPoint:', triggerPoint);
     if (window.scrollY > 96) {
-      console.log("1");
       setIsMinimized(true);
     } else if (window.scrollY < 96) {
       setIsMinimized(false);
-      console.log("2");
     }
   };
 
