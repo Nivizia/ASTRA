@@ -16,28 +16,22 @@ import { getCartLength } from '../../../../javascript/cartService';
 const Header = () => {
   const [cartItemCount, setCartItemCount] = useState(0);
   const [isMinimized, setIsMinimized] = useState(false);
-  const [scrollY, setScrollY] = useState(window.scrollY);
   const location = useLocation();
 
-  const [triggerPoint, setTriggerPoint] = useState(96);
-
   const handleScroll = () => {
-    setScrollY(window.scrollY); // ScrollY here is mostly for testing purposes
-    if (window.scrollY > triggerPoint) {
+    console.log('window.scrollY:', window.scrollY);
+    console.log('isMinimized:', isMinimized);
+    console.log('triggerPoint:', triggerPoint);
+    if (window.scrollY > 96) {
       console.log("1");
       setIsMinimized(true);
-    } else if (window.scrollY < triggerPoint) {
+    } else if (window.scrollY < 96) {
       setIsMinimized(false);
       console.log("2");
     }
   };
 
-  useEffect(() => {
-    console.log('window.scrollY:', window.scrollY);
-    console.log('isMinimized:', isMinimized);
-  }, [scrollY]);
-
-  const handleExpand = () => {
+  const handleGoToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -94,8 +88,33 @@ const Header = () => {
         </div>
 
       </header>
-      {isMinimized ? <div className='header-minimized' onClick={handleExpand} /> : null}
-      
+      {isMinimized ?
+        (<div className='header-minimized'>
+          <div className="header-content">
+            <div onClick={handleGoToTop} className="go-to-top-button">Go to top</div>
+            <div className="nav-and-header-right-container">
+              <nav className="nav nav-mini">
+                <MenuNav />
+              </nav>
+              <div className="header-right">
+                <input type="text" placeholder="Search" className="search-bar" />
+                <AccountButton />
+                <span className="icon">
+                  <a href="/cart">
+                    <Tooltip title="Cart">
+                      <Badge badgeContent={cartItemCount} color="primary">
+                        <PiShoppingBagOpenDuotone />
+                      </Badge>
+                    </Tooltip>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        ) : null
+      }
+
     </>
   );
 };

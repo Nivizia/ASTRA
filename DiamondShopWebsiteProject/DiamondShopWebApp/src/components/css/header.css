@@ -26,7 +26,7 @@
     height: 96px;
 }
 
-.minimizing-header .header-content{
+.minimizing-header .header-content {
     display: none;
 }
 
@@ -34,22 +34,32 @@
     background-color: black;
     display: flex;
     height: 50px;
-    cursor: pointer;
     z-index: 999;
     top: 0;
     position: sticky;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
-.header-minimized::after {
-    content: 'Back to top';
+.go-to-top-button {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 96px;
     height: 100%;
     color: white;
     font-size: 1rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.go-to-top-button:hover {
+    color: rgb(200, 200, 200);
+    transition: color 0.3s ease;
+}
+
+.go-to-top-button:active {
+    color: rgb(150, 150, 150);
+    transition: color 0.3s ease;
 }
 
 .logo {
@@ -131,7 +141,15 @@
 
 .nav div {
     position: absolute;
-    top: 50px !important;
+    top: 59px !important;
+    background-position-y: center;
+    width: 100vw;
+    height: 200px;
+}
+
+.nav-mini div {
+    position: absolute;
+    top: 11px !important;
     background-position-y: center;
     width: 100vw;
     height: 200px;
