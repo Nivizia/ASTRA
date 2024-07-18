@@ -17,7 +17,7 @@ namespace DiamondAPI.Interfaces
 
         Task<Order> UpdateOrder(Guid orderId, UpdateOrderRequestDTO updateOrderRequestDTO);
 
-        Task<Order?> CancelOrder(Guid orderId);
+        Task<Order?> DeleteOrder(Guid orderId);
 
         Task<bool> DiamondOrdered(Guid? DiamondID);
 

@@ -22,7 +22,7 @@ namespace DiamondAPI.Repositories
             return order;
         }
 
-        public async Task<Order?> CancelOrder(Guid orderId)
+        public async Task<Order?> DeleteOrder(Guid orderId)
         {
             var Order = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
             if (Order == null)
