@@ -37,7 +37,7 @@ namespace DiamondAPI.Services
             string safeValue(string value) => !string.IsNullOrEmpty(value) ? value : "";
 
             // Build the ring name based on the type
-            if (ring.RingType != null && ring.RingType.TypeName.Equals("Solitaire", StringComparison.OrdinalIgnoreCase))
+            if (ring.RingType != null && ring.RingType.TypeName.Equals("Solitaire", StringComparison.OrdinalIgnoreCase) && ring.RingSubtype?.SubtypeName != null)
             {
                 RingName = $"{safeValue(ring.RingSubtype?.SubtypeName)} {safeValue(ring.FrameType?.FrameTypeName)} {safeValue(ring.RingType.TypeName)} Engagement Ring in {safeValue(ring.MetalType?.MetalTypeName)}".Trim();
             }

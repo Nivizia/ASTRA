@@ -215,9 +215,18 @@ namespace DiamondAPI.Controllers
         }
 
         [HttpPut]
-        [Route("Cancel/{OrderID}")]
-        public async Task<IActionResult> CancelOrder([FromRoute] Guid OrderID)
+        [Route("Cancel/{token}")]
+        public async Task<IActionResult> CancelOrder([FromRoute] string token)
         {
+            var value = TokenHelper.ValidateToken(token);
+            if (value == null)
+                return BadRequest("Invalid token.");
+
+            var (OrderID, expiration) = value.Value;
+
+            if (expiration < DateTime.UtcNow)
+                return BadRequest("Token has expired.");
+
             var orderitems = await _orderItemRepo.GetOrderitemsByOrderId(OrderID);
             foreach (var orderitem in orderitems)
             {
@@ -285,15 +294,24 @@ namespace DiamondAPI.Controllers
                     return BadRequest("Product type not recognised.");
                 }
             }
-            await _orderRepo.DeleteOrder(OrderID);
-            return Ok("Order deleted.");
+            await _orderRepo.CancelOrder(OrderID);
+            return Ok("Order cancelled.");
         }
 
         [HttpPut]
-        [Route("Confirm/{OrderID}")]
-        public async Task<IActionResult> UpdateOrderStatus([FromRoute] Guid OrderID)
+        [Route("Confirm/{token}")]
+        public async Task<IActionResult> UpdateOrderStatus([FromRoute] string token)
         {
-            var order = await _orderRepo.GetOrderById(OrderID);
+            var value = TokenHelper.ValidateToken(token);
+            if (value == null)
+                return BadRequest("Invalid token.");
+
+            var (orderId, expiration) = value.Value;
+
+            if (expiration < DateTime.UtcNow)
+                return BadRequest("Token has expired.");
+
+            var order = await _orderRepo.GetOrderById(orderId);
             if (order == null)
                 return NotFound("Order not found.");
 
