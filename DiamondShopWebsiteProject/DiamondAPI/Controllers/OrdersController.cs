@@ -4,6 +4,10 @@ using DiamondAPI.Interfaces;
 using DiamondAPI.Mappers;
 using DiamondAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace DiamondAPI.Controllers
 {
@@ -21,7 +25,6 @@ namespace DiamondAPI.Controllers
         private readonly IEarringPairingRepository _earringPairingRepo;
         private readonly IOrderRepository _orderRepo;
         private readonly IOrderitemRepository _orderItemRepo;
-
         private readonly EmailService _emailService;
 
         public OrdersController(ICustomerRepository customerRepos, IRingPairingRepository ringPairingRepo, IPendantPairingRepository pendantPairingRepo, IOrderRepository orderRepo, IOrderitemRepository orderItemRepo, IRingRepository ringRepo, IPendantRepository pendantRepo, IDiamondRepository diamondRepo, IEarringRepository earringRepo, IEarringPairingRepository earringPairingRepo, EmailService emailService)
@@ -42,14 +45,14 @@ namespace DiamondAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> PlaceOrder([FromBody] CreateOrderRequestDTO createOrderRequestDTO)
         {
-            var Customer = await _customerRepo.GetByIDAsync(createOrderRequestDTO.CustomerId);
-            if (Customer == null)
+            var customer = await _customerRepo.GetByIDAsync(createOrderRequestDTO.CustomerId);
+            if (customer == null)
                 return NotFound("User could not be found.");
 
             if (createOrderRequestDTO.Orderitems == null || createOrderRequestDTO.Orderitems.Count == 0)
                 return BadRequest("Order items are required and cannot be empty.");
 
-            var Order = createOrderRequestDTO.ToOrderFromCreateDTO();
+            var order = createOrderRequestDTO.ToOrderFromCreateDTO();
 
             List<Orderitem> orderItems = new List<Orderitem>();
             List<Ringpairing> ringPairings = new List<Ringpairing>();
@@ -85,10 +88,10 @@ namespace DiamondAPI.Controllers
 
                     var ringPairing = orderItem.CreateRingPairingDTO?.ToRingPairingFromCreateDTO();
                     if (ringPairing == null)
-                        return BadRequest("There was a problem instanciating a ringPairing object.");
+                        return BadRequest("There was a problem instantiating a ringPairing object.");
 
                     var modelOrderItem = orderItem.ToOrderItemFromCreateDTO();
-                    modelOrderItem.OrderId = Order.OrderId;
+                    modelOrderItem.OrderId = order.OrderId;
                     modelOrderItem.RingPairingId = ringPairing.RProductId;
 
                     ringPairings.Add(ringPairing);
@@ -116,10 +119,10 @@ namespace DiamondAPI.Controllers
 
                     var pendantPairing = orderItem.CreatePendantPairingDTO?.ToPendantPairingFromCreateDTO();
                     if (pendantPairing == null)
-                        return BadRequest("There was a problem instanciating a pendantPairing object.");
+                        return BadRequest("There was a problem instantiating a pendantPairing object.");
 
                     var modelOrderItem = orderItem.ToOrderItemFromCreateDTO();
-                    modelOrderItem.OrderId = Order.OrderId;
+                    modelOrderItem.OrderId = order.OrderId;
                     modelOrderItem.PendantPairingId = pendantPairing.PProductId;
 
                     pendantPairings.Add(pendantPairing);
@@ -147,10 +150,10 @@ namespace DiamondAPI.Controllers
 
                     var earringPairing = orderItem.CreateEarringPairingDTO?.ToEarringPairingFromCreateDTO();
                     if (earringPairing == null)
-                        return BadRequest("There was a problem instanciating a earringPairing object.");
+                        return BadRequest("There was a problem instantiating an earringPairing object.");
 
                     var modelOrderItem = orderItem.ToOrderItemFromCreateDTO();
-                    modelOrderItem.OrderId = Order.OrderId;
+                    modelOrderItem.OrderId = order.OrderId;
                     modelOrderItem.EarringPairingId = earringPairing.EProductId;
 
                     earringPairings.Add(earringPairing);
@@ -168,141 +171,143 @@ namespace DiamondAPI.Controllers
                     diamond.Available = false;
 
                     var modelOrderItem = orderItem.ToOrderItemFromCreateDTO();
-                    modelOrderItem.OrderId = Order.OrderId;
+                    modelOrderItem.OrderId = order.OrderId;
                     modelOrderItem.DiamondId = orderItem.ProductId;
 
                     orderItems.Add(modelOrderItem);
                 }
                 else
                 {
-                    return BadRequest("Product type not recognised.");
+                    return BadRequest("Product type not recognized.");
                 }
             }
-            await _orderRepo.CreateOrder(Order);
+
+            await _orderRepo.CreateOrder(order);
             await _ringPairingRepo.CreateRingPairings(ringPairings);
             await _pendantPairingRepo.CreatePendantPairings(pendantPairings);
             await _earringPairingRepo.CreateEarringPairings(earringPairings);
             await _orderItemRepo.CreateOrderItems(orderItems);
-            return Ok(Order.ToOrderRequestDTO());
+            return Ok(order.ToOrderRequestDTO());
         }
 
         [HttpGet]
         [Route("OrderHistory/{CustomerID}")]
         public async Task<IActionResult> GetOrders([FromRoute] Guid CustomerID)
         {
-            var orders = await _orderRepo.GetAllOrders(CustomerID);
-            var ordersDTO = orders.Select(o => o.ToOrderRequestDTO()).ToList();
-            return Ok(ordersDTO);
+            var orders = await _orderRepo.GetAllOrdersForCustomer(CustomerID);
+            return Ok(orders.ToOrderRequestDTOs());
         }
 
-        [HttpGet]
-        [Route("SearchOrders/{OrderFirstName}/{OrderLastName}/{OrderEmail}/{OrderPhone}")]
-        public async Task<IActionResult> SearchOrders([FromRoute] string OrderFirstName, string OrderLastName, string OrderEmail, string OrderPhone)
+        [HttpDelete]
+        [Route("CancelOrder")]
+        public async Task<IActionResult> CancelOrder([FromQuery] string orderid, [FromQuery] string token)
         {
-            var orders = await _orderRepo.GetOrdersByCusInfos(OrderFirstName, OrderLastName, OrderEmail, OrderPhone);
-            var ordersDTO = orders.Select(o => o.ToOrderRequestDTO()).ToList();
-            return Ok(ordersDTO);
-        }
+            var (isValid, errorMessage) = TokenHelper.ValidateToken(token);
 
-        [HttpGet]
-        [Route("GetOrder/{OrderID}")]
-        public async Task<IActionResult> GetOrder([FromRoute] Guid OrderID)
-        {
-            var order = await _orderRepo.GetOrderById(OrderID);
+            if (!isValid)
+            {
+                return Unauthorized(errorMessage);
+            }
+
+            Guid orderIdGuid;
+            if (!Guid.TryParse(orderid, out orderIdGuid))
+                return BadRequest("Invalid order ID format.");
+
+            var order = await _orderRepo.GetOrderByIdAsync(orderIdGuid);
             if (order == null)
                 return NotFound("Order not found.");
-            return Ok(order.ToOrderRequestDTO());
-        }
 
-        [HttpPut]
-        [Route("Cancel/{OrderID}")]
-        public async Task<IActionResult> CancelOrder([FromRoute] Guid OrderID)
-        {
-            var orderitems = await _orderItemRepo.GetOrderitemsByOrderId(OrderID);
-            foreach (var orderitem in orderitems)
+            await _orderRepo.UpdateOrderStatus(orderid, "Cancelled", token);
+
+            var orderItems = await _orderItemRepo.GetOrderItemsByOrderId(orderid);
+
+            foreach (var item in orderItems)
             {
-                var OrderType = orderitem.ProductType?.ToLower();
-                if (OrderType == "ringpairing")
+                if (item.ProductType == "diamond")
                 {
-                    var ringpairing = await _ringPairingRepo.GetByIdAsync(orderitem.RingPairingId);
-
-                    if (ringpairing == null)
-                        return NotFound("Ringpairing not found.");
-
-                    var diamond = await _diamondRepo.GetByIDAsync(ringpairing.DiamondId);
-
-                    if (diamond == null)
-                        return NotFound("Diamond not found.");
-
-                    diamond.Available = true;
-
-                    var ring = await _ringRepo.GetByIDAsync(ringpairing.RingId);
-
-                    if (ring == null)
-                        return NotFound("Ring not found.");
-
-                    ring.StockQuantity++;
+                    var diamond = await _diamondRepo.GetByIDAsync(item.ProductId);
+                    if (diamond != null)
+                    {
+                        diamond.Available = true;
+                        await _diamondRepo.UpdateDiamondAsync(diamond);
+                    }
                 }
-                else if (OrderType == "pendantpairing")
+                else if (item.ProductType == "ringpairing")
                 {
-                    var pendantpairing = await _pendantPairingRepo.GetByIdAsync(orderitem.PendantPairingId);
+                    var ring = await _ringRepo.GetByIDAsync(item.RingId);
+                    if (ring != null)
+                    {
+                        ring.StockQuantity++;
+                        await _ringRepo.UpdateRingAsync(ring);
+                    }
 
-                    if (pendantpairing == null)
-                        return NotFound("Pendantpairing not found.");
-
-                    var diamond = await _diamondRepo.GetByIDAsync(pendantpairing.DiamondId);
-
-                    if (diamond == null) return NotFound("Diamond not found.");
-                    diamond.Available = true;
-
-                    var pendant = await _pendantRepo.GetByIDAsync(pendantpairing.PendantId);
-                    if (pendant == null) return NotFound("Pendant not found.");
-                    pendant.StockQuantity++;
+                    var diamond = await _diamondRepo.GetByIDAsync(item.DiamondId);
+                    if (diamond != null)
+                    {
+                        diamond.Available = true;
+                        await _diamondRepo.UpdateDiamondAsync(diamond);
+                    }
                 }
-                else if (OrderType == "earringpairing")
+                else if (item.ProductType == "pendantpairing")
                 {
-                    var earringpairing = await _earringPairingRepo.GetByIDAsync(orderitem.EarringPairingId);
+                    var pendant = await _pendantRepo.GetByIDAsync(item.PendantId);
+                    if (pendant != null)
+                    {
+                        pendant.StockQuantity++;
+                        await _pendantRepo.UpdatePendantAsync(pendant);
+                    }
 
-                    if (earringpairing == null)
-                        return NotFound("Earringpairing not found.");
-
-                    var diamond = await _diamondRepo.GetByIDAsync(earringpairing.DiamondId);
-                    if (diamond == null) return NotFound("Diamond not found.");
-                    diamond.Available = true;
-
-                    var earring = await _earringRepo.GetByIDAsync(earringpairing.EarringId);
-                    if (earring == null) return NotFound("Earring not found.");
-                    earring.StockQuantity++;
+                    var diamond = await _diamondRepo.GetByIDAsync(item.DiamondId);
+                    if (diamond != null)
+                    {
+                        diamond.Available = true;
+                        await _diamondRepo.UpdateDiamondAsync(diamond);
+                    }
                 }
-                else if (OrderType == "diamond")
+                else if (item.ProductType == "earringpairing")
                 {
-                    var diamond = await _diamondRepo.GetByIDAsync(orderitem.DiamondId);
-                    if (diamond == null) return NotFound("Diamond not found.");
-                    diamond.Available = true;
-                }
-                else
-                {
-                    return BadRequest("Product type not recognised.");
+                    var earring = await _earringRepo.GetByIDAsync(item.EarringId);
+                    if (earring != null)
+                    {
+                        earring.StockQuantity++;
+                        await _earringRepo.UpdateEarringAsync(earring);
+                    }
+
+                    var diamond = await _diamondRepo.GetByIDAsync(item.DiamondId);
+                    if (diamond != null)
+                    {
+                        diamond.Available = true;
+                        await _diamondRepo.UpdateDiamondAsync(diamond);
+                    }
                 }
             }
-            await _orderRepo.DeleteOrder(OrderID);
-            return Ok("Order deleted.");
+
+            return Ok("Order cancelled successfully.");
         }
 
         [HttpPut]
-        [Route("Confirm/{OrderID}")]
-        public async Task<IActionResult> UpdateOrderStatus([FromRoute] Guid OrderID)
+        [Route("ConfirmOrder")]
+        public async Task<IActionResult> UpdateOrderStatus([FromQuery] string orderid, [FromQuery] string token)
         {
-            var order = await _orderRepo.GetOrderById(OrderID);
+            var (isValid, errorMessage) = TokenHelper.ValidateToken(token);
+
+            if (!isValid)
+            {
+                return Unauthorized(errorMessage);
+            }
+
+            await _orderRepo.UpdateOrderStatus(orderid, "Confirmed", token);
+
+            var order = await _orderRepo.GetOrderByIdAsync(Guid.Parse(orderid));
             if (order == null)
                 return NotFound("Order not found.");
 
-            await _orderRepo.UpdateOrderStatusConfirmed(order);
+            if (!string.IsNullOrEmpty(order.Customer.Email))
+            {
+                await _emailService.SendOrderConfirmationEmail(order.Customer.Email, order.OrderId.ToString());
+            }
 
-            if (order.OrderEmail != null)
-                await _emailService.SendEmailAsync(order.OrderEmail, "Order confirmed", $"Your order with ID {order.OrderId} has been confirmed.");
-
-            return Ok(order);
+            return Ok("Order status updated successfully.");
         }
     }
 }

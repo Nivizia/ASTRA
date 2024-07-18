@@ -86,8 +86,11 @@ namespace DiamondAPI.Services
                 if (order.OrderDate.HasValue && order.OrderDate.Value.AddHours(24) <= DateTime.Now && order.OrderEmail != null)
                 {
                     List<Orderitem> orderItems = await _orderItemRepo.GetOrderitemsByOrderId(order.OrderId);
-                    string confirmUrl = $"http://localhost:5173/confirm-email?o={order.OrderId}";
-                    string cancelUrl = $"http://localhost:5173/cancel-email?o={order.OrderId}";
+                    string confirmToken = TokenHelper.GenerateToken(order.OrderId);
+                    string cancelToken = TokenHelper.GenerateToken(order.OrderId);
+
+                    string confirmUrl = $"http://localhost:5173/confirm-email?t={confirmToken}";
+                    string cancelUrl = $"http://localhost:5173/cancel-email?t={cancelToken}";
 
                     // Construct the list of order items
                     string orderItemsHtml = "<ul>";
@@ -98,7 +101,7 @@ namespace DiamondAPI.Services
                         {
                             var diamondDetails = await _diamondRepo.GetByIDAsync(item.DiamondId);
                             string diamondLink = $"http://localhost:5173/diamond/{item.DiamondId}";
-                            string diamondDescription = $"{diamondDetails.CaratWeight} Carat {diamondDetails.Color}-{diamondDetails.Clarity} {diamondDetails.Cut} Cut {diamondDetails.Shape} Diamond (${item.Price})";
+                            string diamondDescription = $"{diamondDetails.CaratWeight} Carat {diamondDetails.Color}-{diamondDetails.Clarity} {diamondDetails.Cut} Cut {diamondDetails.Shape} Diamond (${item.Price:0.00})";
                             orderItemsHtml += $"<li>Diamond: <a href='{diamondLink}'>{diamondDescription}</a></li>";
                         }
                         else if (item.ProductType == "PendantPairing")
