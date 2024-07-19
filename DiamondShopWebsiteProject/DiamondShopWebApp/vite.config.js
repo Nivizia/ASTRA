@@ -8,11 +8,11 @@ export default defineConfig({
     include: ['@mui/material/Tooltip', '@emotion/styled', '@mui/material/Box'],
   },
   server: {
-    host: 'astradiamond.com',
+    host: 'astradiamonds.com',
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://astradiamond.com:5000',
+        target: 'http://astradiamonds.com',
         changeOrigin: true,
         secure: false
       }

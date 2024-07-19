@@ -28,7 +28,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontendOrigin", policy =>
     {
-        policy.WithOrigins("http://astradiamond.com:5173") // Change to match frontend origin
+        policy.WithOrigins("http://astradiamonds.com:5173") // Change to match frontend origin
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials(); // Allow credentials if needed

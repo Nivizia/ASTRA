@@ -29,7 +29,7 @@ namespace DiamondAPI.Services
             _ringPairingRepository = ringPairingRepository;
             _pendantPairingRepository = pendantPairingRepository;
             _emailService = emailService;
-            _url = "http://localhost:5173";
+            _url = "http://astradiamonds.com:5173";
         }
 
         /*
