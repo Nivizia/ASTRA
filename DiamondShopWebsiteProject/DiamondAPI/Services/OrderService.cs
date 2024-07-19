@@ -1,6 +1,7 @@
 ﻿using DiamondAPI.Interfaces;
 using DiamondAPI.Models;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Policy;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -16,6 +17,7 @@ namespace DiamondAPI.Services
         private readonly IRingPairingRepository _ringPairingRepository;
         private readonly IPendantPairingRepository _pendantPairingRepository;
         private readonly EmailService _emailService;
+        private string _url;
 
         public OrderService(IOrderRepository orderRepo, IOrderitemRepository orderItemRepo, IDiamondRepository diamondRepo, IRingRepository ringRepo, IPendantRepository pendantRepo, IRingPairingRepository ringPairingRepository, IPendantPairingRepository pendantPairingRepository, EmailService emailService)
         {
@@ -27,31 +29,33 @@ namespace DiamondAPI.Services
             _ringPairingRepository = ringPairingRepository;
             _pendantPairingRepository = pendantPairingRepository;
             _emailService = emailService;
+            _url = "http://localhost:5173";
         }
 
+        /*
         private string GetRingName(Ring ring)
         {
             string RingName = "";
 
             // Helper function to return non-null values or an empty string
-            string safeValue(string value) => !string.IsNullOrEmpty(value) ? value : "";
+            static string safeValue(string value) => !string.IsNullOrEmpty(value) ? value : "";
 
             // Build the ring name based on the type
-            if (ring.RingType != null && ring.RingType.TypeName.Equals("Solitaire", StringComparison.OrdinalIgnoreCase) && ring.RingSubtype?.SubtypeName != null)
+            if (ring.RingType != null && ring.RingType.TypeName.Equals("Solitaire", StringComparison.OrdinalIgnoreCase))
             {
-                RingName = $"{safeValue(ring.RingSubtype?.SubtypeName)} {safeValue(ring.FrameType?.FrameTypeName)} {safeValue(ring.RingType.TypeName)} Engagement Ring in {safeValue(ring.MetalType?.MetalTypeName)}".Trim();
+                RingName = $"{safeValue(ring.RingSubtype.SubtypeName)} {safeValue(ring.FrameType.FrameTypeName)} {safeValue(ring.RingType.TypeName)} Engagement Ring in {safeValue(ring.MetalType.MetalTypeName)}".Trim();
             }
             else if (ring.RingType != null && ring.RingType.TypeName.Equals("Halo", StringComparison.OrdinalIgnoreCase))
             {
-                RingName = $"{safeValue(ring.RingSubtype?.SubtypeName)} {safeValue(ring.RingType.TypeName)} Diamond Engagement Ring in {safeValue(ring.MetalType?.MetalTypeName)}".Trim();
+                RingName = $"{safeValue(ring.RingSubtype.SubtypeName)} {safeValue(ring.RingType.TypeName)} Diamond Engagement Ring in {safeValue(ring.MetalType.MetalTypeName)}".Trim();
             }
             else if (ring.RingType != null && ring.RingType.TypeName.Equals("Sapphire Sidestone", StringComparison.OrdinalIgnoreCase))
             {
-                RingName = $"{safeValue(ring.RingSubtype?.SubtypeName)} Sapphire and Diamond Engagement Ring in {safeValue(ring.MetalType?.MetalTypeName)}".Trim();
+                RingName = $"{safeValue(ring.RingSubtype.SubtypeName)} Sapphire and Diamond Engagement Ring in {safeValue(ring.MetalType.MetalTypeName)}".Trim();
             }
             else if (ring.RingType != null && ring.RingType.TypeName.Equals("Three Stone", StringComparison.OrdinalIgnoreCase))
             {
-                RingName = $"{safeValue(ring.RingSubtype?.SubtypeName)} {safeValue(ring.RingType.TypeName)} Diamond Engagement Ring in {safeValue(ring.MetalType?.MetalTypeName)}".Trim();
+                RingName = $"{safeValue(ring.RingSubtype.SubtypeName)} {safeValue(ring.RingType.TypeName)} Diamond Engagement Ring in {safeValue(ring.MetalType.MetalTypeName)}".Trim();
             }
 
             // Add optional attributes like stoneCut
@@ -65,6 +69,7 @@ namespace DiamondAPI.Services
 
             return RingName;
         }
+        */
 
         // Placeholder for similar methods for Pendants and other jewelry types
         private string GetPendantName(Pendant pendant)
@@ -86,8 +91,11 @@ namespace DiamondAPI.Services
                 if (order.OrderDate.HasValue && order.OrderDate.Value.AddHours(24) <= DateTime.Now && order.OrderEmail != null)
                 {
                     List<Orderitem> orderItems = await _orderItemRepo.GetOrderitemsByOrderId(order.OrderId);
-                    string confirmUrl = $"http://localhost:5173/confirm-email?o={order.OrderId}";
-                    string cancelUrl = $"http://localhost:5173/cancel-email?o={order.OrderId}";
+                    string confirmToken = TokenHelper.GenerateToken(order.OrderId);
+                    string cancelToken = TokenHelper.GenerateToken(order.OrderId);
+
+                    string confirmUrl = $"{_url}?t={confirmToken}";
+                    string cancelUrl = $"{_url}?t={cancelToken}";
 
                     // Construct the list of order items
                     string orderItemsHtml = "<ul>";
@@ -97,7 +105,7 @@ namespace DiamondAPI.Services
                         if (item.ProductType == "Diamond")
                         {
                             var diamondDetails = await _diamondRepo.GetByIDAsync(item.DiamondId);
-                            string diamondLink = $"http://localhost:5173/diamond/{item.DiamondId}";
+                            string diamondLink = $"{_url}/diamond/{item.DiamondId}?view=true";
                             string diamondDescription = $"{diamondDetails.CaratWeight} Carat {diamondDetails.Color}-{diamondDetails.Clarity} {diamondDetails.Cut} Cut {diamondDetails.Shape} Diamond (${item.Price})";
                             orderItemsHtml += $"<li>Diamond: <a href='{diamondLink}'>{diamondDescription}</a></li>";
                         }
@@ -107,8 +115,8 @@ namespace DiamondAPI.Services
                             Console.WriteLine(pendantPairing);
                             var pendantDetails = await _pendantRepo.GetByIDAsync(pendantPairing.PendantId);
                             var diamondDetails = await _diamondRepo.GetByIDAsync(pendantPairing.DiamondId);
-                            string pendantLink = $"http://localhost:5173/pendant/{pendantDetails.PendantId}";
-                            string diamondLink = $"http://localhost:5173/diamond/{diamondDetails.DProductId}";
+                            string pendantLink = $"{_url}/pendant/{pendantDetails.PendantId}";
+                            string diamondLink = $"{_url}/diamond/{diamondDetails.DProductId}?view=true";
                             string pendantDescription = GetPendantName(pendantDetails);
                             string diamondDescription = $"{diamondDetails.CaratWeight} Carat {diamondDetails.Color}-{diamondDetails.Clarity} {diamondDetails.Cut} Cut {diamondDetails.Shape} Diamond (${(item.Price - pendantDetails.Price):0.00})";
                             orderItemsHtml += $"<li>Pendant Jewelry:<ul><li>Diamond: <a href='{diamondLink}'>{diamondDescription}</a></li><li>Pendant: <a href='{pendantLink}'>{pendantDescription} (${pendantDetails.Price:0.00})</a></li></ul></li>";
@@ -118,9 +126,9 @@ namespace DiamondAPI.Services
                             var ringPairing = await _ringPairingRepository.GetByIdAsync(item.RingPairingId);
                             var ringDetails = await _ringRepo.GetByIDAsync(ringPairing.RingId);
                             var diamondDetails = await _diamondRepo.GetByIDAsync(ringPairing.DiamondId);
-                            string ringLink = $"http://localhost:5173/ring/{ringDetails.RingId}";
-                            string diamondLink = $"http://localhost:5173/diamond/{diamondDetails.DProductId}";
-                            string ringDescription = GetRingName(ringDetails);
+                            string ringLink = $"{_url}/ring/{ringDetails.RingId}";
+                            string diamondLink = $"{_url} /diamond/{diamondDetails.DProductId}?view=true";
+                            string ringDescription = ringDetails.RingName;
                             string diamondDescription = $"{diamondDetails.CaratWeight} Carat {diamondDetails.Color}-{diamondDetails.Clarity} {diamondDetails.Cut} Cut {diamondDetails.Shape} Diamond (${(item.Price - ringDetails.Price):0.00})";
                             orderItemsHtml += $"<li>Ring Jewelry:<ul><li>Diamond: <a href='{diamondLink}'>{diamondDescription}</a></li><li>Ring: <a href='{ringLink}'>{ringDescription} (${ringDetails.Price:0.00})</a></li></ul></li>";
                         }

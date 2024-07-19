@@ -41,7 +41,7 @@ const DiamondBox = ({ diamondId, ringId, pendantId, price, imageUrl, caratWeight
         <a onClick={() => { handleClickLink() }} className="product-link">
             <div className="product-box">
                 <div className='product-image-container'>
-                    <img src='/src/images/diamond.png' alt="Diamond" className="product-image" />
+                    <img src={`/src/images/diamond_${shape}.png`} alt="Diamond" className="product-image" />
                 </div>
                 <div className="product-details">
                     <h2>{`${caratWeight} Carat ${color}-${clarity} ${cut} cut ${shape} Diamond`}</h2>

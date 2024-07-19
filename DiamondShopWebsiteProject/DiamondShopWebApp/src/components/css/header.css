@@ -139,7 +139,8 @@
     position: absolute;
     top: 59px !important;
     background-position-y: center;
-    width: 100vw;
+    width: 100%;
+    overflow: hidden;
     height: 200px;
 }
 
@@ -147,7 +148,8 @@
     position: absolute;
     top: 11px !important;
     background-position-y: center;
-    width: 100vw;
+    width: 100%;
+    overflow: hidden;
     height: 200px;
 }
 

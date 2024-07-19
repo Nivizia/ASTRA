@@ -16,13 +16,16 @@ import { getCartLength } from '../../../../javascript/cartService';
 const Header = () => {
   const [cartItemCount, setCartItemCount] = useState(0);
   const [isMinimized, setIsMinimized] = useState(false);
+  const [closeMenu, setCloseMenu] = useState(false);
   const location = useLocation();
 
   const handleScroll = () => {
     if (window.scrollY > 96) {
       setIsMinimized(true);
+      setCloseMenu(true);
     } else if (window.scrollY < 96) {
       setIsMinimized(false);
+      setCloseMenu(false);
     }
   };
 
@@ -64,7 +67,7 @@ const Header = () => {
           <a href="/"><img src={logo} alt="Astra Logo" className="logo" /></a>
           <div className="nav-and-header-right-container">
             <nav className="nav">
-              <MenuNav />
+              <MenuNav closeMenu={closeMenu}/>
             </nav>
             <div className="header-right">
               <input type="text" placeholder="Search" className="search-bar" />

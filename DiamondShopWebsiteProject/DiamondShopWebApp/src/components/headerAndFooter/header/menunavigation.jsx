@@ -1,6 +1,6 @@
 // src/components/headerAndFooter/header/menunavigation.jsx
 
-import * as React from 'react';
+import { useState, useEffect, useRef} from 'react';
 import {
   Button,
   MenuItem,
@@ -13,12 +13,12 @@ import {
 
 import { Link } from 'react-router-dom';
 
-export default function MenuNav() {
-  const [diamondOpen, setDiamondOpen] = React.useState(false);
-  const [educationOpen, setEducationOpen] = React.useState(false);
+export default function MenuNav({ closeMenu }) {
+  const [diamondOpen, setDiamondOpen] = useState(false);
+  const [educationOpen, setEducationOpen] = useState(false);
 
-  const diamondAnchorRef = React.useRef(null);
-  const educationAnchorRef = React.useRef(null);
+  const diamondAnchorRef = useRef(null);
+  const educationAnchorRef = useRef(null);
 
   const handleDiamondHover = () => {
     setDiamondOpen(true);
@@ -58,6 +58,13 @@ export default function MenuNav() {
       setState(false);
     }
   }
+
+  useEffect(() => {
+    if (closeMenu) {
+      setDiamondOpen(false);
+      setEducationOpen(false);
+    }
+  }, [closeMenu]);
 
   return (
     <ul className="nav-button-container">

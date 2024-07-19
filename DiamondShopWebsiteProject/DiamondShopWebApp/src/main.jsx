@@ -48,89 +48,72 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Index />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "/login/",
         element: <LoginPage />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "/signup/",
         element: <SignUp />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "/diamond/",
         element: <DiamondList />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "/diamond/:diamondId",
         element: <DiamondDetails />,
-        errorElement: <ErrorPage />,
       },
       // Choose Diamond then Product
       {
         path: "/diamond/:diamondId/choose-ring/",
         element: <RingList />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "/diamond/:diamondId/choose-ring/:ringId",
         element: <RingDetails />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "/diamond/:diamondId/choose-pendant/",
         element: <PendantList />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "/diamond/:diamondId/choose-pendant/:pendantId",
         element: <PendantDetails />,
-        errorElement: <ErrorPage />,
       },
       // Choose Product then Diamond
       {
         path: "/ring/",
         element: <RingList />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "/ring/:ringId",
         element: <RingDetails />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "/pendant/",
         element: <PendantList />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "/pendant/:pendantId",
         element: <PendantDetails />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "/ring/:ringId/choose-diamond/",
         element: <DiamondList />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "/ring/:ringId/choose-diamond/:diamondId",
         element: <DiamondDetails />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "/pendant/:pendantId/choose-diamond/",
         element: <DiamondList />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "/pendant/:pendantId/choose-diamond/:diamondId",
         element: <DiamondDetails />,
-        errorElement: <ErrorPage />,
       },
       // Cart
       {

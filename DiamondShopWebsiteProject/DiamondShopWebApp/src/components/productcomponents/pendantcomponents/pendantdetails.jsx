@@ -85,12 +85,12 @@ const PendantDetails = () => {
     <div className="product-details-container">
       <div className="image-section">
         <img src='/src/images/pendant.png' alt="Diamond" className="product-details-image" />
-        <div className="thumbnail-gallery">
+        {/* <div className="thumbnail-gallery">
           <img src='/src/images/diamond-thumbnail1.png' alt="Thumbnail 1" />
           <img src='/src/images/diamond-thumbnail2.png' alt="Thumbnail 2" />
           <img src='/src/images/diamond-thumbnail3.png' alt="Thumbnail 3" />
           <img src='/src/images/gia-report.png' alt="GIA Report" />
-        </div>
+        </div> */}
       </div>
       <div className="details-section">
         <h2>{pendant.name}</h2>

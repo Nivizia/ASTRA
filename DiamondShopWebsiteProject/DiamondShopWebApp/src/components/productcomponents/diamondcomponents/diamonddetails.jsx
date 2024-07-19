@@ -16,12 +16,17 @@ const DiamondDetails = () => {
   const [diamond, setDiamond] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [available, setAvailable] = useState(true);
 
   const location = useLocation();
   const navigate = useNavigate();
   const [fromCart, setFromCart] = useState(location.state?.fromCart);
   const [chooseAnother, setChooseAnother] = useState(location.state?.chooseAnother);
   const [oldDiamondId, setOldDiamondId] = useState(location.state?.oldDiamondId);
+
+  const params = new URLSearchParams(location.search);
+
+  const view = params.get('view');
 
   const handleSelectDiamond = () => {
     let path;
@@ -47,55 +52,62 @@ const DiamondDetails = () => {
       if (oldDiamondId != diamondId) navigate(path, { state: { chooseAnother: chooseAnother, oldDiamondId: oldDiamondId } });
       // Else navigate to cart like the rechoose diamond path
       else navigate(path, { state: { rechoose: true, rechooseType: 'diamond' } });
+    }
+  };
+
+  const handleSelectAnotherDiamond = () => {
+    const path = ringId ? `/ring/${ringId}/choose-diamond`
+      : `/pendant/${pendantId}/choose-diamond`;
+    navigate(path, { state: { chooseAnother: true, oldDiamondId: diamondId } });
+  }
+
+  useEffect(() => {
+    setError(null);
+    setLoading(true);
+
+    async function getDiamond() {
+      try {
+        const data = await fetchDiamondById(diamondId);
+        setDiamond(data);
+        if (!data.available) setAvailable(false);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
       }
-    };
-
-    const handleSelectAnotherDiamond = () => {
-      const path = ringId ? `/ring/${ringId}/choose-diamond`
-        : `/pendant/${pendantId}/choose-diamond`;
-      navigate(path, { state: { chooseAnother: true, oldDiamondId: diamondId } });
     }
+    getDiamond();
+    console.log(`diamondId: ${diamondId}, ringId: ${ringId}`);
+    console.log(available);
+  }, [diamondId]);
 
-    useEffect(() => {
-      setError(null);
-      setLoading(true);
+  if (loading) {
+    return <CircularIndeterminate size={56} />;
+  }
 
-      async function getDiamond() {
-        try {
-          const data = await fetchDiamondById(diamondId);
-          setDiamond(data);
-        } catch (error) {
-          setError(error.message);
-        } finally {
-          setLoading(false);
-        }
-      }
-      getDiamond();
-      console.log(`diamondId: ${diamondId}, ringId: ${ringId}`);
-    }, [diamondId]);
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
 
-    if (loading) {
-      return <CircularIndeterminate size={56} />;
-    }
+  if (!diamond) {
+    return <p>Diamond not found.</p>;
+  }
 
-    if (error) {
-      return <p>Error: {error}</p>;
-    }
-
-    if (!diamond) {
-      return <p>Diamond not found.</p>;
-    }
-
-    return (
+  return (
+    <>
+      {available ? null : view ?
+        <div className='warningBanner'>THE DIAMOND YOU ARE VIEWING NOW IS IN YOUR ORDER</div>
+        :
+        <div className='warningBanner'>THE DIAMOND YOU ARE VIEWING NOW IS NOT AVAILABLE FOR SALE</div>}
       <div className="product-details-container">
         <div className="image-section">
-          <img src='/src/images/diamond.png' alt="Diamond" className="product-details-image" />
-          <div className="thumbnail-gallery">
-            <img src='/src/images/diamond-thumbnail1.png' alt="Thumbnail 1" />
-            <img src='/src/images/diamond-thumbnail2.png' alt="Thumbnail 2" />
-            <img src='/src/images/diamond-thumbnail3.png' alt="Thumbnail 3" />
+          <img src={`/src/images/diamond_${diamond.shape}.png`} alt="Diamond" className="product-details-image" />
+          {/* <div className="thumbnail-gallery">
+            <img src={`/src/images/diamond_${diamond.shape}.png`} alt="Thumbnail 1" />
+            <img src={`/src/images/diamond_${diamond.shape}.png`} alt="Thumbnail 2" />
+            <img src={`/src/images/diamond_${diamond.shape}.png`} alt="Thumbnail 3" />
             <img src='/src/images/gia-report.png' alt="GIA Report" />
-          </div>
+          </div> */}
         </div>
         <div className="details-section">
           <h2>{`${diamond.caratWeight} Carat ${diamond.color}-${diamond.clarity} ${diamond.cut} cut ${diamond.shape} Diamond`}</h2>
@@ -108,11 +120,15 @@ const DiamondDetails = () => {
           </div>
           <p className="price">${diamond.price.toFixed(2)}</p>
           <div className={styles.selectButtonContainer}>
-            {ringId || pendantId ? (
-              <Button className={styles.selectDiamondButton} onClick={handleSelectDiamond}>SELECT DIAMOND</Button>
-            ) : (
-              <TemporaryDrawer diamondId={diamondId} diamondShape={diamond.shape} />
-            )}
+            {
+              available ? (
+                (ringId || pendantId) ? (
+                  <Button className={styles.selectDiamondButton} onClick={handleSelectDiamond}>SELECT DIAMOND</Button>
+                ) : (
+                  <TemporaryDrawer diamondId={diamondId} diamondShape={diamond.shape} />
+                )
+              ) : null
+            }
             {fromCart ? (
               <Button className={styles.selectAnotherDiamondButton} onClick={handleSelectAnotherDiamond}>SELECT ANOTHER DIAMOND</Button>
             ) : (
@@ -161,7 +177,8 @@ const DiamondDetails = () => {
           </table>
         </div>
       </div>
-    );
-  };
+    </>
+  );
+};
 
-  export default DiamondDetails;
+export default DiamondDetails;
