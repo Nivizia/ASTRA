@@ -94,8 +94,8 @@ namespace DiamondAPI.Services
                     string confirmToken = TokenHelper.GenerateToken(order.OrderId);
                     string cancelToken = TokenHelper.GenerateToken(order.OrderId);
 
-                    string confirmUrl = $"{_url}?t={confirmToken}";
-                    string cancelUrl = $"{_url}?t={cancelToken}";
+                    string confirmUrl = $"{_url}/confirm-email?t={confirmToken}";
+                    string cancelUrl = $"{_url}/cancel-email?t={cancelToken}";
 
                     // Construct the list of order items
                     string orderItemsHtml = "<ul>";
@@ -127,7 +127,7 @@ namespace DiamondAPI.Services
                             var ringDetails = await _ringRepo.GetByIDAsync(ringPairing.RingId);
                             var diamondDetails = await _diamondRepo.GetByIDAsync(ringPairing.DiamondId);
                             string ringLink = $"{_url}/ring/{ringDetails.RingId}";
-                            string diamondLink = $"{_url} /diamond/{diamondDetails.DProductId}?view=true";
+                            string diamondLink = $"{_url}/diamond/{diamondDetails.DProductId}?view=true";
                             string ringDescription = ringDetails.RingName;
                             string diamondDescription = $"{diamondDetails.CaratWeight} Carat {diamondDetails.Color}-{diamondDetails.Clarity} {diamondDetails.Cut} Cut {diamondDetails.Shape} Diamond (${(item.Price - ringDetails.Price):0.00})";
                             orderItemsHtml += $"<li>Ring Jewelry:<ul><li>Diamond: <a href='{diamondLink}'>{diamondDescription}</a></li><li>Ring: <a href='{ringLink}'>{ringDescription} (${ringDetails.Price:0.00})</a></li></ul></li>";

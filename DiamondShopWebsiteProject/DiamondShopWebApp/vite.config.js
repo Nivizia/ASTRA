@@ -7,4 +7,15 @@ export default defineConfig({
   optimizeDeps: {
     include: ['@mui/material/Tooltip', '@emotion/styled', '@mui/material/Box'],
   },
+  server: {
+    host: 'astradiamond.com',
+    port: 5173,
+    proxy: {
+      '/api': {
+        target: 'http://astradiamond.com:5000',
+        changeOrigin: true,
+        secure: false
+      }
+    }
+  },
 });

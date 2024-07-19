@@ -4,7 +4,7 @@ using System.Text;
 
 public static class TokenHelper
 {
-    private static readonly string EncryptionKey = "NinomaeInanis"; // Change this to a secure key
+    private static readonly string EncryptionKey = "InaIsTheBestVTuberFrFrFr"; // Change this to a secure key
 
     public static string GenerateToken(Guid orderId)
     {

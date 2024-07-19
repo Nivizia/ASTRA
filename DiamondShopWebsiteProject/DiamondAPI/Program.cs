@@ -28,7 +28,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontendOrigin", policy =>
     {
-        policy.WithOrigins("http://localhost:5173") // Allow requests from this frontend origin
+        policy.WithOrigins("http://astradiamond.com:5173") // Change to match frontend origin
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials(); // Allow credentials if needed
@@ -38,7 +38,7 @@ builder.Services.AddCors(options =>
 // Configure Entity Framework and SQL Server
 builder.Services.AddDbContext<DiamondprojectContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DBDefault"));
 });
 
 // Register repositories for dependency injection
@@ -104,13 +104,17 @@ var app = builder.Build();
 app.UseCors("AllowFrontendOrigin");
 
 // Use Authentication Middleware
-app.UseAuthentication(); // Add this line to enable JWT authentication
+app.UseAuthentication();
 
 // Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "DiamondAPI V1");
+        c.RoutePrefix = string.Empty; // Serve Swagger UI at the app's root
+    });
 }
 
 // Add Hangfire Dashboard

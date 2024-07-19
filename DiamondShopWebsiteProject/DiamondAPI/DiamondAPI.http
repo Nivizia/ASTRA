@@ -1,4 +1,4 @@
-@DiamondAPI_HostAddress = http://localhost:5212
+@DiamondAPI_HostAddress = http://astradiamonds.com:5212
 
 GET {{DiamondAPI_HostAddress}}/weatherforecast/
 Accept: application/json
