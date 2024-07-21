@@ -78,7 +78,6 @@ const DiamondDetails = () => {
     }
     getDiamond();
     console.log(`diamondId: ${diamondId}, ringId: ${ringId}`);
-    console.log(available);
   }, [diamondId]);
 
   if (loading) {
