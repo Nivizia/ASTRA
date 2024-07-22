@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-const BASE_URL = "http://localhost:5212/DiamondAPI/Models";
+const BASE_URL = "http://astradiamonds.com:5212/DiamondAPI/Models";
 
 // Function to get the stored JWT token
 const getToken = () => {
@@ -348,7 +348,7 @@ export const updateCustomer = async (customerId, customerDetails) => {
 // Function to create payment
 export const createVNpayPaymentUrl = async (orderId, amount) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/api/vnpay/create-payment-url`, {
+        const response = await axios.post(`${API_BASE_URL}/VNPay/create-payment-url`, {
             orderId,
             amount
         });

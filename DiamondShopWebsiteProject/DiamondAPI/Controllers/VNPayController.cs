@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondAPI.Controllers
 {
-    [Route("api/vnpay")]
+    [Route("DiamondAPI/Models/VNPay")]
     [ApiController]
     public class VNPayController : ControllerBase
     {

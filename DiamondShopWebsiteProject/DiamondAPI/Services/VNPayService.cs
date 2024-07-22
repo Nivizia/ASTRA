@@ -51,7 +51,7 @@ namespace DiamondAPI.Services
             _logger.LogInformation("Payment URL created successfully.");
             return paymentUrl;
         }
-
+        /*
         public VnpaymentResponse PaymentExecute(IQueryCollection collections)
         {
             _logger.LogInformation("Payment execution started.");
@@ -135,7 +135,7 @@ namespace DiamondAPI.Services
                 bool checkSignature = vnpay.ValidateSignature(vnp_SecureHash, _config["VnPay:HashSecret"]);
                 if (checkSignature)
                 {
-                    var purchaseorder = await _orderRepository.GetOrderById(;
+                    var purchaseorder = await _orderRepository.GetOrderById(vnp_orderId);
                     if (purchaseorder == null)
                     {
                         returnContent = "{\"RspCode\":\"01\",\"Message\":\"Order not found\"}";
@@ -182,7 +182,7 @@ namespace DiamondAPI.Services
             }
 
             return (returnContent, message);
-        }
+        }*/
 
         // Implement other methods (PaymentExecute, PaymentUpdateDatabase, GenerateQRCodeAsync, GetToken) similarly
     }

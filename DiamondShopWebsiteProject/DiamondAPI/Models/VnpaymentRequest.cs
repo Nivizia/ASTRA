@@ -13,8 +13,6 @@ public partial class VnpaymentRequest
 
     public DateTime CreatedDate { get; set; }
 
-    public string Status { get; set; } = null!;
-
     public virtual Order Order { get; set; } = null!;
 
     public virtual ICollection<VnpaymentResponse> VnpaymentResponses { get; set; } = new List<VnpaymentResponse>();

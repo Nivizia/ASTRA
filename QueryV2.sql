@@ -53,7 +53,7 @@ CREATE TABLE ORDERS (
 	OrderLastName VARCHAR(500),
 	OrderEmail VARCHAR(500),
 	OrderPhone VARCHAR(500),
-	OrderStatus VARCHAR(500) DEFAULT 'Processing',
+	OrderStatus VARCHAR(500) DEFAULT 'Deposit Pending', -- Deposit Pending, Deposit Received, Processing, ConfirmationSent, Postponed, Cancelled, Completed
 	FOREIGN KEY (CustomerID) REFERENCES CUSTOMER(CustomerID)
 );
 
@@ -63,8 +63,7 @@ CREATE TABLE VNPaymentRequest (
     OrderID UNIQUEIDENTIFIER NOT NULL,
     Amount MONEY NOT NULL,
     CreatedDate DATETIME NOT NULL,
-    Status NVARCHAR(50) NOT NULL,
-    FOREIGN KEY (OrderID) REFERENCES ORDERS(OrderID)
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
 );
 
 -- VN Payment response table
