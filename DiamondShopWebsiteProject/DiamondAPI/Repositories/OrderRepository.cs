@@ -125,5 +125,13 @@ namespace DiamondAPI.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<decimal> GetAmount(Guid OrderID)
+        {
+            var amount = await _context.Orders.Where(o => o.OrderId == OrderID).Select(o => o.TotalAmount).FirstOrDefaultAsync();
+            if (amount == null)
+                return 0;
+            return (decimal)amount;
+        }
     }
 }

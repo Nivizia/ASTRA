@@ -34,5 +34,7 @@ namespace DiamondAPI.Interfaces
         void UpdateOrder(Order order);
 
         void Save();
+
+        Task<decimal> GetAmount(Guid OrderID);
     }
 }
