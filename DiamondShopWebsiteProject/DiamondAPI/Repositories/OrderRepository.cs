@@ -107,7 +107,7 @@ namespace DiamondAPI.Repositories
 
         public async Task<bool> UpdateOrderStatusConfirmationSent(Order order)
         {
-            order.OrderStatus = "ConfirmationSent";
+            order.OrderStatus = "Confirmation Sent";
             await _context.SaveChangesAsync();
             return true;
         }

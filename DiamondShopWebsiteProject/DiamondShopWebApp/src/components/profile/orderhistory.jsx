@@ -38,7 +38,7 @@ const OrderHistory = () => {
     return <p>Error: {error}</p>;
   }
 
-  if (!loading && orders.length === 0) {
+  if (!loading && (orders.length === 0 || !orders.some(order => ["Deposit Pending", "Processing", "Confirmation Sent", "Postponed", "Cancelled", "Confirmed"].includes(order.orderStatus)))) {
     return <div className={styles.orderHistoryContainer}><h2>Order History</h2>
       <p>You have not ordered. Please order to see order history</p></div>;
   }
@@ -47,21 +47,22 @@ const OrderHistory = () => {
     <div className={styles.orderHistoryContainer}>
       <h2>Order History</h2>
       {loading ? <CircularIndeterminate size={56} /> : (
-        orders.map((order) => (
-          <div key={order.orderId} className={styles.orderCard}>
-            <h3 className={styles.orderId}>Order ID: {order.orderId}</h3>
-            <p className={styles.orderDetails}>Order Date: {order.orderDate.split('T')[0]}</p>
-            <p className={styles.orderDetails}>Total Amount: <strong>${order.totalAmount}</strong></p>
-            <p className={styles.orderDetails}>Order Status: {order.orderStatus == "ConfirmationSent" ? "Confirmation Sent" : order.orderStatus}</p>
-            <h4>Items:</h4>
-            {order.orderitems.map((item) => (
-              <div key={item.orderItemId} className={styles.item}>
-                <p className={styles.productType}>Product Type: {item.productType === "RingPairing" ? "Ring" : item.productType === "PendantPairing" ? "Pendant" : "Diamond"}</p>
-                <p className={styles.price}>Price: ${item.price}</p>
-              </div>
-            ))}
-          </div>
-        ))
+        orders.filter(order => ["Deposit Pending", "Processing", "Confirmation Sent", "Postponed", "Cancelled", "Confirmed"].includes(order.orderStatus))
+          .map((order) => (
+            <div key={order.orderId} className={styles.orderCard}>
+              <h3 className={styles.orderId}>Order ID: {order.orderId}</h3>
+              <p className={styles.orderDetails}>Order Date: {order.orderDate.split('T')[0]}</p>
+              <p className={styles.orderDetails}>Total Amount: <strong>${order.totalAmount}</strong></p>
+              <p className={styles.orderDetails}>Order Status: {order.orderStatus}</p>
+              <h4>Items:</h4>
+              {order.orderitems.map((item) => (
+                <div key={item.orderItemId} className={styles.item}>
+                  <p className={styles.productType}>Product Type: {item.productType === "RingPairing" ? "Ring" : item.productType === "PendantPairing" ? "Pendant" : "Diamond"}</p>
+                  <p className={styles.price}>Price: ${item.price}</p>
+                </div>
+              ))}
+            </div>
+          ))
       )}
     </div>
   );
