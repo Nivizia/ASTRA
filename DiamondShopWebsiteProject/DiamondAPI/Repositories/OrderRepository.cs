@@ -138,5 +138,15 @@ namespace DiamondAPI.Repositories
         {
             return await _context.Orders.Where(o => o.OrderStatus == "Deposit Pending").ToListAsync();
         }
+
+        public async Task<Order?> ExpiredDepositOrder(Guid orderId)
+        {
+            var order = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
+            if (order == null)
+                return null;
+            order.OrderStatus = "Deposit Expired";
+            await _context.SaveChangesAsync();
+            return order;
+        }
     }
 }

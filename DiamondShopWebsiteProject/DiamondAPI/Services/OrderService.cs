@@ -181,16 +181,16 @@ namespace DiamondAPI.Services
             var orders = await _orderRepo.GetDepositPendingOrders();
             foreach (var order in orders)
             {
-                if (order.OrderDate.HasValue && order.OrderDate.Value.AddMinutes(5) <= DateTime.Now && order.OrderEmail != null)
+                if (order.OrderDate.HasValue && order.OrderDate.Value.AddHours(1) <= DateTime.Now && order.OrderEmail != null)
                 {
-                    await CancelOrder(order.OrderId);
-                    await _emailService.SendEmailAsync(order.OrderEmail, "Order cancelled", $"Your order with ID {order.OrderId} has been cancelled due to overdue deposit payment.");
+                    await ExpiredDepositOrder(order.OrderId);
+                    await _emailService.SendEmailAsync(order.OrderEmail, "Order expired", $"Your order with ID {order.OrderId} has been cancelled due to overdue deposit payment.");
                 }
             }
             return true;
         }
 
-        public async Task<bool> CancelOrder(Guid OrderID)
+        public async Task<bool> ExpiredDepositOrder(Guid OrderID)
         {
             var orderitems = await _orderItemRepo.GetOrderitemsByOrderId(OrderID);
             foreach (var orderitem in orderitems)
@@ -269,7 +269,7 @@ namespace DiamondAPI.Services
                     throw new Exception("Invalid order type");
                 }
             }
-            await _orderRepo.CancelOrder(OrderID);
+            await _orderRepo.ExpiredDepositOrder(OrderID);
             return true;
         }
     }

@@ -19,6 +19,8 @@ namespace DiamondAPI.Interfaces
 
         Task<Order?> CancelOrder(Guid orderId);
 
+        Task<Order?> ExpiredDepositOrder(Guid orderId); //status for when orders with deposit pending status expires after 1 hour
+
         Task<bool> DiamondOrdered(Guid? DiamondID);
 
         Task<IEnumerable<Order>> GetOrdersWithStatus(string status);
