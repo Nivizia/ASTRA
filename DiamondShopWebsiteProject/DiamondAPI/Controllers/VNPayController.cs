@@ -1,4 +1,5 @@
 ﻿using DiamondAPI.DTOs.VNPaymentRequest;
+using DiamondAPI.Interfaces;
 using DiamondAPI.Mappers;
 using DiamondAPI.Models;
 using DiamondAPI.Repositories;
@@ -11,10 +12,10 @@ namespace DiamondAPI.Controllers
     [ApiController]
     public class VNPayController : ControllerBase
     {
-        private readonly VNPayService _vnPayService;
-        private readonly OrderRepository _orderRepo;
+        private readonly IVNPayService _vnPayService;
+        private readonly IOrderRepository _orderRepo;
 
-        public VNPayController(VNPayService vnPayService, OrderRepository orderRepo)
+        public VNPayController(IVNPayService vnPayService, IOrderRepository orderRepo)
         {
             _vnPayService = vnPayService;
             _orderRepo = orderRepo;
@@ -23,9 +24,9 @@ namespace DiamondAPI.Controllers
         [HttpPost("create-payment-url")]
         public async Task<IActionResult> CreatePaymentUrl([FromBody] CreateVNPaymentRequestDTO requestDTO)
         {
-            var model = requestDTO.ToVnpaymentRequest();
-            model.Amount = await _orderRepo.GetAmount(model.OrderId);
-            var paymentUrl = _vnPayService.CreatePaymentUrl(HttpContext, model);
+            var paymentRequest = requestDTO.ToVnpaymentRequest();
+            paymentRequest.Amount = await _orderRepo.GetAmount(paymentRequest.OrderId);
+            var paymentUrl = _vnPayService.CreatePaymentUrl(HttpContext, paymentRequest);
             return Ok(new { paymentUrl });
         }
 

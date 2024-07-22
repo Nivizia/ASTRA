@@ -2,7 +2,7 @@
 
 const orderConfirmation = () => {
   return (
-    <div>orderConfirmation</div>
+    <div>Thank you for buying our product!</div>
   )
 }
 export default orderConfirmation

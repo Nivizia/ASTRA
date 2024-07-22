@@ -126,6 +126,7 @@ const CheckOut = () => {
 
         try {
             const orderResponse = await createOrder(orderDetails);
+            console.log(orderResponse.data.orderId); //The ID used for fetching url to VNPay
             if (orderResponse.success) {
                 console.log('Order created successfully:', orderResponse);
                 clearCart(); // Clear the cart after placing the order

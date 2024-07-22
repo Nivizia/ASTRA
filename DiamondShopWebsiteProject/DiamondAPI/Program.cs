@@ -44,6 +44,9 @@ builder.Services.AddDbContext<DiamondprojectContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DBDefault"));
 });
 
+// Register HttpClient for IHttpClientFactory
+builder.Services.AddHttpClient();
+
 // Register repositories for dependency injection
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IDiamondRepository, DiamondRepository>();
@@ -60,6 +63,7 @@ builder.Services.AddScoped<IRingTypeRepository, RingTypeRepository>();
 builder.Services.AddScoped<IRingSubtypeRepository, RingSubtypeRepository>();
 builder.Services.AddScoped<IFrameTypeRepository, FrameTypeRepository>();
 builder.Services.AddScoped<IMetalTypeRepository, MetalTypeRepository>();
+builder.Services.AddScoped<IVNPayService, VNPayService>();
 
 // Register EmailService
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));

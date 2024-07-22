@@ -23,14 +23,30 @@ namespace DiamondAPI.Utilities
 
         public static string GetIpAddress(HttpContext context)
         {
-            string ipAddress = context.Request.Headers["X-Forwarded-For"].FirstOrDefault();
+            string ipAddress = null;
 
-            if (string.IsNullOrEmpty(ipAddress) || ipAddress.ToLower() == "unknown" || ipAddress.Length > 45)
+            try
             {
-                ipAddress = context.Connection.RemoteIpAddress?.ToString();
+                ipAddress = context.Request.Headers["X-Forwarded-For"].FirstOrDefault();
+
+                if (string.IsNullOrEmpty(ipAddress) || ipAddress.ToLower() == "unknown" || ipAddress.Length > 45)
+                {
+                    ipAddress = context.Connection.RemoteIpAddress?.ToString();
+                }
+
+                if (string.IsNullOrEmpty(ipAddress) || ipAddress.ToLower() == "unknown" || ipAddress.Length > 45)
+                {
+                    // Access server variables using HttpContext
+                    ipAddress = context.Connection.RemoteIpAddress?.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                ipAddress = "Invalid IP:" + ex.Message;
             }
 
             return ipAddress;
         }
+
     }
 }
