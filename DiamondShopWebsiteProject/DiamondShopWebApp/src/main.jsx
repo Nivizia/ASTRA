@@ -38,6 +38,7 @@ import ErrorPage from './components/misc/errorpage';
 
 //Css Imports
 import './index.css'
+import PaymentDemo from './components/payment/payment';
 
 const router = createBrowserRouter([
   {
@@ -119,31 +120,31 @@ const router = createBrowserRouter([
       {
         path: "/cart/",
         element: <ShoppingCart />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "/checkout/",
         element: <CheckOut />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "/order-confirmation/",
         element: <OrderConfirmation />,
-        errorElement: <ErrorPage />,
       },
 
       // Calculator
       {
         path: "/calculator/",
         element: <DiamondPriceCalculator />,
-        errorElement: <ErrorPage />,
       },
 
       // Profile
       {
         path: "/profile/",
         element: <Profile />,
-        errorElement: <ErrorPage />,
+      },
+
+      {
+        path: "/payment/",
+        element: <PaymentDemo />,
       }
     ]
   },

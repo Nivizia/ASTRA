@@ -344,3 +344,16 @@ export const updateCustomer = async (customerId, customerDetails) => {
         throw error;
     }
 };
+
+// Function to create payment
+export const createVNpayPaymentUrl = async (orderId, amount) => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/api/vnpay/create-payment-url`, {
+            orderId,
+            amount
+        });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};

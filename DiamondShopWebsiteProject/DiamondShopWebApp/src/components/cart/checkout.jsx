@@ -277,6 +277,11 @@ const CheckOut = () => {
                                 inputProps={{ 'aria-label': 'controlled' }}
                             />
                         </div>
+                        <h2>Order Summary</h2>
+                            <div className={styles.orderInfoRow}>
+                                <div className={styles.orderInfoLabel}>Order Total:</div>
+                                <div className={styles.orderInfoValue}>${getCartItems().reduce((total, item) => item.type === 'pairing' ? total + item.price : total + item.details.price, 0).toFixed(2)}</div>
+                            </div>
                         <div className={styles.paymentMethod}>
                             <h2 className={styles.paymentMethodTitle}>Payment Method</h2>
                             <ToggleButtonGroup

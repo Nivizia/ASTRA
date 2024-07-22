@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Text.Json;
 using DiamondAPI.Models;
+using DiamondAPI.Utilities;
 
 namespace DiamondAPI.Services
 {
@@ -41,7 +42,7 @@ namespace DiamondAPI.Services
             vnpay.AddRequestData("vnp_IpAddr", Utils.GetIpAddress(context));
             vnpay.AddRequestData("vnp_Locale", _config["VnPay:Locale"]);
             vnpay.AddRequestData("vnp_OrderInfo", "Thanh toán cho đơn hàng:" + model.OrderId);
-            vnpay.AddRequestData("vnp_OrderType", "other");
+            vnpay.AddRequestData("vnp_OrderType", "deposit");
             vnpay.AddRequestData("vnp_ReturnUrl", _config["VnPay:ReturnUrl"]);
             vnpay.AddRequestData("vnp_TxnRef", model.OrderId.ToString());
 

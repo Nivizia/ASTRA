@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DiamondAPI.Utilities;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DiamondAPI.Services
