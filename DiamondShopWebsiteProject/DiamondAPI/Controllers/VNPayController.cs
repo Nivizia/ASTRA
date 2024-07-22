@@ -14,11 +14,13 @@ namespace DiamondAPI.Controllers
     {
         private readonly IVNPayService _vnPayService;
         private readonly IOrderRepository _orderRepo;
+        private readonly IVNPaymentRequestRepository _vnPaymentRequestRepo;
 
-        public VNPayController(IVNPayService vnPayService, IOrderRepository orderRepo)
+        public VNPayController(IVNPayService vnPayService, IOrderRepository orderRepo, IVNPaymentRequestRepository vNPaymentRequestRepo)
         {
             _vnPayService = vnPayService;
             _orderRepo = orderRepo;
+            _vnPaymentRequestRepo = vNPaymentRequestRepo;
         }
 
         [HttpPost("create-payment-url")]
@@ -26,6 +28,7 @@ namespace DiamondAPI.Controllers
         {
             var paymentRequest = requestDTO.ToVnpaymentRequest();
             paymentRequest.Amount = await _orderRepo.GetAmount(paymentRequest.OrderId);
+            await _vnPaymentRequestRepo.CreateVNPaymentRequest(paymentRequest);
             var paymentUrl = _vnPayService.CreatePaymentUrl(HttpContext, paymentRequest);
             return Ok(new { paymentUrl });
         }
