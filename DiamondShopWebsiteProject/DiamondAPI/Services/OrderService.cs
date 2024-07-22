@@ -109,6 +109,11 @@ namespace DiamondAPI.Services
                         if (item.ProductType == "Diamond")
                         {
                             var diamondDetails = await _diamondRepo.GetByIDAsync(item.DiamondId);
+                            if (diamondDetails == null)
+                            {
+                                throw new Exception("Diamond not found");
+                            }
+
                             string diamondLink = $"{_url}/diamond/{item.DiamondId}?view=true";
                             string diamondDescription = $"{diamondDetails.CaratWeight} Carat {diamondDetails.Color}-{diamondDetails.Clarity} {diamondDetails.Cut} Cut {diamondDetails.Shape} Diamond (${item.Price})";
                             orderItemsHtml += $"<li>Diamond: <a href='{diamondLink}'>{diamondDescription}</a></li>";
@@ -116,9 +121,18 @@ namespace DiamondAPI.Services
                         else if (item.ProductType == "PendantPairing")
                         {
                             var pendantPairing = await _pendantPairingRepo.GetByIdAsync(item.PendantPairingId);
-                            Console.WriteLine(pendantPairing);
+                            if (pendantPairing == null)
+                            {
+                                throw new Exception("Pendant pairing not found");
+                            }
+
                             var pendantDetails = await _pendantRepo.GetByIDAsync(pendantPairing.PendantId);
                             var diamondDetails = await _diamondRepo.GetByIDAsync(pendantPairing.DiamondId);
+                            if (pendantDetails == null || diamondDetails == null)
+                            {
+                                throw new Exception("Pendant or diamond not found");
+                            }
+
                             string pendantLink = $"{_url}/pendant/{pendantDetails.PendantId}";
                             string diamondLink = $"{_url}/diamond/{diamondDetails.DProductId}?view=true";
                             string pendantDescription = GetPendantName(pendantDetails);
@@ -128,10 +142,26 @@ namespace DiamondAPI.Services
                         else if (item.ProductType == "RingPairing")
                         {
                             var ringPairing = await _ringPairingRepo.GetByIdAsync(item.RingPairingId);
+                            if (ringPairing == null)
+                            {
+                                throw new Exception("Ring pairing not found");
+                            }
+
                             var ringDetails = await _ringRepo.GetByIDAsync(ringPairing.RingId);
                             var diamondDetails = await _diamondRepo.GetByIDAsync(ringPairing.DiamondId);
+                            if (ringDetails == null || diamondDetails == null)
+                            {
+                                throw new Exception("Ring or diamond not found");
+                            }
+
                             string ringLink = $"{_url}/ring/{ringDetails.RingId}";
                             string diamondLink = $"{_url}/diamond/{diamondDetails.DProductId}?view=true";
+
+                            if (ringDetails.RingName == null)
+                            {
+                                throw new Exception("Ring not found");
+                            }
+
                             string ringDescription = ringDetails.RingName;
                             string diamondDescription = $"{diamondDetails.CaratWeight} Carat {diamondDetails.Color}-{diamondDetails.Clarity} {diamondDetails.Cut} Cut {diamondDetails.Shape} Diamond (${(item.Price - ringDetails.Price):0.00})";
                             orderItemsHtml += $"<li>Ring Jewelry:<ul><li>Diamond: <a href='{diamondLink}'>{diamondDescription}</a></li><li>Ring: <a href='{ringLink}'>{ringDescription} (${ringDetails.Price:0.00})</a></li></ul></li>";

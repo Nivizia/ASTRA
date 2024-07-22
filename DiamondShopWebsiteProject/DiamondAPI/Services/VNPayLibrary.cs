@@ -29,7 +29,7 @@ namespace DiamondAPI.Services
 
         public string GetResponseData(string key)
         {
-            string retValue;
+            string? retValue;
             if (_responseData.TryGetValue(key, out retValue))
             {
                 return retValue;
@@ -111,7 +111,7 @@ namespace DiamondAPI.Services
 
     public class VnPayCompare : IComparer<string>
     {
-        public int Compare(string x, string y)
+        public int Compare(string? x, string? y)
         {
             if (x == y) return 0;
             if (x == null) return -1;
