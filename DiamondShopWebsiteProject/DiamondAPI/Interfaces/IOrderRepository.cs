@@ -36,5 +36,7 @@ namespace DiamondAPI.Interfaces
         void Save();
 
         Task<decimal> GetAmount(Guid OrderID);
+
+        Task<List<Order>> GetDepositPendingOrders();
     }
 }

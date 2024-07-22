@@ -133,5 +133,10 @@ namespace DiamondAPI.Repositories
                 return 0;
             return (decimal)amount;
         }
+
+        public async Task<List<Order>> GetDepositPendingOrders()
+        {
+            return await _context.Orders.Where(o => o.OrderStatus == "Deposit Pending").ToListAsync();
+        }
     }
 }

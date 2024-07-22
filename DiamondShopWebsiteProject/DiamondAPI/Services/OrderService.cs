@@ -14,20 +14,24 @@ namespace DiamondAPI.Services
         private readonly IDiamondRepository _diamondRepo;
         private readonly IRingRepository _ringRepo;
         private readonly IPendantRepository _pendantRepo;
-        private readonly IRingPairingRepository _ringPairingRepository;
-        private readonly IPendantPairingRepository _pendantPairingRepository;
+        private readonly IRingPairingRepository _ringPairingRepo;
+        private readonly IPendantPairingRepository _pendantPairingRepo;
+        private readonly IEarringPairingRepository _earringPairingRepo;
+        private readonly IEarringRepository _earringRepo;
         private readonly EmailService _emailService;
         private string _url;
 
-        public OrderService(IOrderRepository orderRepo, IOrderitemRepository orderItemRepo, IDiamondRepository diamondRepo, IRingRepository ringRepo, IPendantRepository pendantRepo, IRingPairingRepository ringPairingRepository, IPendantPairingRepository pendantPairingRepository, EmailService emailService)
+        public OrderService(IOrderRepository orderRepo, IOrderitemRepository orderItemRepo, IDiamondRepository diamondRepo, IRingRepository ringRepo, IPendantRepository pendantRepo, IRingPairingRepository ringPairingRepo, IPendantPairingRepository pendantPairingRepo, EmailService emailService, IEarringRepository earringRepo, IEarringPairingRepository earringPairingRepo)
         {
             _orderRepo = orderRepo;
             _orderItemRepo = orderItemRepo;
             _diamondRepo = diamondRepo;
             _ringRepo = ringRepo;
             _pendantRepo = pendantRepo;
-            _ringPairingRepository = ringPairingRepository;
-            _pendantPairingRepository = pendantPairingRepository;
+            _ringPairingRepo = ringPairingRepo;
+            _pendantPairingRepo = pendantPairingRepo;
+            _earringPairingRepo = earringPairingRepo;
+            _earringRepo = earringRepo;
             _emailService = emailService;
             _url = "http://astradiamonds.com:5173";
         }
@@ -111,7 +115,7 @@ namespace DiamondAPI.Services
                         }
                         else if (item.ProductType == "PendantPairing")
                         {
-                            var pendantPairing = await _pendantPairingRepository.GetByIdAsync(item.PendantPairingId);
+                            var pendantPairing = await _pendantPairingRepo.GetByIdAsync(item.PendantPairingId);
                             Console.WriteLine(pendantPairing);
                             var pendantDetails = await _pendantRepo.GetByIDAsync(pendantPairing.PendantId);
                             var diamondDetails = await _diamondRepo.GetByIDAsync(pendantPairing.DiamondId);
@@ -123,7 +127,7 @@ namespace DiamondAPI.Services
                         }
                         else if (item.ProductType == "RingPairing")
                         {
-                            var ringPairing = await _ringPairingRepository.GetByIdAsync(item.RingPairingId);
+                            var ringPairing = await _ringPairingRepo.GetByIdAsync(item.RingPairingId);
                             var ringDetails = await _ringRepo.GetByIDAsync(ringPairing.RingId);
                             var diamondDetails = await _diamondRepo.GetByIDAsync(ringPairing.DiamondId);
                             string ringLink = $"{_url}/ring/{ringDetails.RingId}";
@@ -171,5 +175,103 @@ namespace DiamondAPI.Services
             }
             return true;
         }
+
+        public async Task<bool> CheckExpiredDepositPendingOrders()
+        {
+            var orders = await _orderRepo.GetDepositPendingOrders();
+            foreach (var order in orders)
+            {
+                if (order.OrderDate.HasValue && order.OrderDate.Value.AddMinutes(5) <= DateTime.Now && order.OrderEmail != null)
+                {
+                    await CancelOrder(order.OrderId);
+                    await _emailService.SendEmailAsync(order.OrderEmail, "Order cancelled", $"Your order with ID {order.OrderId} has been cancelled due to overdue deposit payment.");
+                }
+            }
+            return true;
+        }
+
+        public async Task<bool> CancelOrder(Guid OrderID)
+        {
+            var orderitems = await _orderItemRepo.GetOrderitemsByOrderId(OrderID);
+            foreach (var orderitem in orderitems)
+            {
+                var OrderType = orderitem.ProductType?.ToLower();
+                if (OrderType == "ringpairing")
+                {
+                    var ringpairing = await _ringPairingRepo.GetByIdAsync(orderitem.RingPairingId);
+
+                    if (ringpairing == null)
+                        throw new Exception("Ring pairing not found");
+
+                    var diamond = await _diamondRepo.GetByIDAsync(ringpairing.DiamondId);
+
+                    if (diamond == null)
+                        throw new Exception("Diamond not found");
+
+                    diamond.Available = true;
+
+                    var ring = await _ringRepo.GetByIDAsync(ringpairing.RingId);
+
+                    if (ring == null)
+                        throw new Exception("Ring not found");
+
+                    ring.StockQuantity++;
+                }
+                else if (OrderType == "pendantpairing")
+                {
+                    var pendantpairing = await _pendantPairingRepo.GetByIdAsync(orderitem.PendantPairingId);
+
+                    if (pendantpairing == null)
+                        throw new Exception("Pendant pairing not found");
+
+                    var diamond = await _diamondRepo.GetByIDAsync(pendantpairing.DiamondId);
+
+                    if (diamond == null)
+                        throw new Exception("Diamond not found");
+
+                    diamond.Available = true;
+
+                    var pendant = await _pendantRepo.GetByIDAsync(pendantpairing.PendantId);
+                    if (pendant == null)
+                        throw new Exception("Pendant not found");
+
+                    pendant.StockQuantity++;
+                }
+                else if (OrderType == "earringpairing")
+                {
+                    var earringpairing = await _earringPairingRepo.GetByIDAsync(orderitem.EarringPairingId);
+
+                    if (earringpairing == null)
+                        throw new Exception("Earring pairing not found");
+
+                    var diamond = await _diamondRepo.GetByIDAsync(earringpairing.DiamondId);
+                    if (diamond == null)
+                        throw new Exception("Diamond not found");
+
+                    diamond.Available = true;
+
+                    var earring = await _earringRepo.GetByIDAsync(earringpairing.EarringId);
+                    if (earring == null)
+                        throw new Exception("Earring not found");
+
+                    earring.StockQuantity++;
+                }
+                else if (OrderType == "diamond")
+                {
+                    var diamond = await _diamondRepo.GetByIDAsync(orderitem.DiamondId);
+                    if (diamond == null)
+                        throw new Exception("Diamond not found");
+
+                    diamond.Available = true;
+                }
+                else
+                {
+                    throw new Exception("Invalid order type");
+                }
+            }
+            await _orderRepo.CancelOrder(OrderID);
+            return true;
+        }
     }
 }
+
