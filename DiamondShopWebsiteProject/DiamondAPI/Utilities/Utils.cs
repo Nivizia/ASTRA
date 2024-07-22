@@ -1,24 +1,36 @@
-﻿using System;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using Microsoft.AspNetCore.Http;
 
 namespace DiamondAPI.Utilities
 {
-    public static class Utils
+    public class Utils
     {
-        public static string HmacSHA512(string key, string data)
+        public static string HmacSHA512(string key, string inputData)
         {
-            using (var hmac = new HMACSHA512(Encoding.UTF8.GetBytes(key)))
+            var hash = new StringBuilder();
+            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+            byte[] inputBytes = Encoding.UTF8.GetBytes(inputData);
+            using (var hmac = new HMACSHA512(keyBytes))
             {
-                var hashBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(data));
-                return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+                byte[] hashValue = hmac.ComputeHash(inputBytes);
+                foreach (var theByte in hashValue)
+                {
+                    hash.Append(theByte.ToString("x2"));
+                }
             }
+            return hash.ToString();
         }
 
         public static string GetIpAddress(HttpContext context)
         {
-            return context.Connection.RemoteIpAddress?.ToString() ?? "0.0.0.0";
+            string ipAddress = context.Request.Headers["X-Forwarded-For"].FirstOrDefault();
+
+            if (string.IsNullOrEmpty(ipAddress) || ipAddress.ToLower() == "unknown" || ipAddress.Length > 45)
+            {
+                ipAddress = context.Connection.RemoteIpAddress?.ToString();
+            }
+
+            return ipAddress;
         }
     }
 }
