@@ -150,6 +150,10 @@ const PendantDetails = () => {
               <td>Clasp Type</td>
               <td>{pendant.claspType || 'Unknown'}</td>
             </tr>
+            <tr>
+              <td>Quantity</td>
+              <td>{pendant.stockQuantity}</td>
+            </tr>
           </tbody>
         </table>
       </div>

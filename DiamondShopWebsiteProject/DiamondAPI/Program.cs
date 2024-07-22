@@ -63,6 +63,7 @@ builder.Services.AddScoped<IRingTypeRepository, RingTypeRepository>();
 builder.Services.AddScoped<IRingSubtypeRepository, RingSubtypeRepository>();
 builder.Services.AddScoped<IFrameTypeRepository, FrameTypeRepository>();
 builder.Services.AddScoped<IMetalTypeRepository, MetalTypeRepository>();
+builder.Services.AddScoped<IVNPaymentRequestRepository, VNPaymentRequestRepository>();
 builder.Services.AddScoped<IVNPayService, VNPayService>();
 
 // Register EmailService

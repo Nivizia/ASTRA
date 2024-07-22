@@ -28,6 +28,7 @@ namespace DiamondAPI.Controllers
         {
             var paymentRequest = requestDTO.ToVnpaymentRequest();
             paymentRequest.Amount = await _orderRepo.GetAmount(paymentRequest.OrderId);
+            paymentRequest.CreatedDate = await _orderRepo.GetOrderDate(paymentRequest.OrderId);
             await _vnPaymentRequestRepo.CreateVNPaymentRequest(paymentRequest);
             var paymentUrl = _vnPayService.CreatePaymentUrl(HttpContext, paymentRequest);
             return Ok(new { paymentUrl });

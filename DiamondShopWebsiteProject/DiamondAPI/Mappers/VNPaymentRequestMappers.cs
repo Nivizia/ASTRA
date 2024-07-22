@@ -11,7 +11,6 @@ namespace DiamondAPI.Mappers
             {
                 RequestId = Guid.NewGuid(),
                 OrderId = createVNPaymentRequest.OrderId,
-                CreatedDate = DateTime.Now
             };
         }
     }

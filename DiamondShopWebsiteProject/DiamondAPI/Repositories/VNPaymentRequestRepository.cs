@@ -6,11 +6,11 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace DiamondAPI.Repositories
 {
-    public class VNPaymentRepository : IVNPaymentRequestRepository
+    public class VNPaymentRequestRepository : IVNPaymentRequestRepository
     {
         private readonly DiamondprojectContext _context;
 
-        public VNPaymentRepository(DiamondprojectContext context)
+        public VNPaymentRequestRepository(DiamondprojectContext context)
         {
             _context = context;
         }

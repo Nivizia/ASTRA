@@ -5,7 +5,7 @@ namespace DiamondAPI.Utilities
 {
     public class Utils
     {
-        public static string HmacSHA512(string key, string inputData)
+        public static String HmacSHA512(string key, String inputData)
         {
             var hash = new StringBuilder();
             byte[] keyBytes = Encoding.UTF8.GetBytes(key);
@@ -18,25 +18,18 @@ namespace DiamondAPI.Utilities
                     hash.Append(theByte.ToString("x2"));
                 }
             }
+
             return hash.ToString();
         }
 
         public static string GetIpAddress(HttpContext context)
         {
-            string ipAddress = null;
-
+            string ipAddress;
             try
             {
                 ipAddress = context.Request.Headers["X-Forwarded-For"].FirstOrDefault();
-
                 if (string.IsNullOrEmpty(ipAddress) || ipAddress.ToLower() == "unknown" || ipAddress.Length > 45)
                 {
-                    ipAddress = context.Connection.RemoteIpAddress?.ToString();
-                }
-
-                if (string.IsNullOrEmpty(ipAddress) || ipAddress.ToLower() == "unknown" || ipAddress.Length > 45)
-                {
-                    // Access server variables using HttpContext
                     ipAddress = context.Connection.RemoteIpAddress?.ToString();
                 }
             }

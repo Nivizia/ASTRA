@@ -134,6 +134,14 @@ namespace DiamondAPI.Repositories
             return (decimal)amount;
         }
 
+        public async Task<DateTime> GetOrderDate(Guid OrderID)
+        {
+            var date = await _context.Orders.Where(o => o.OrderId == OrderID).Select(o => o.OrderDate).FirstOrDefaultAsync();
+            if (date == null)
+                return DateTime.Now;
+            return (DateTime)date;
+        }
+
         public async Task<List<Order>> GetDepositPendingOrders()
         {
             return await _context.Orders.Where(o => o.OrderStatus == "Deposit Pending").ToListAsync();

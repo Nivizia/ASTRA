@@ -1,5 +1,6 @@
 SELECT * FROM [DIAMONDPROJECT].[dbo].[ORDERS]
 SELECT * FROM [dbo].[ORDERITEM]
+SELECT * FROM VNPaymentRequest
 
 
 --See if order stuffs still exist
@@ -10,6 +11,7 @@ SELECT * FROM [dbo].[EARRINGPAIRING]
 SELECT * FROM DIAMOND
 
 --Reset orders
+DELETE FROM VNPaymentRequest
 DELETE FROM [dbo].[ORDERITEM]
 DELETE FROM [dbo].[ORDERS]
 DELETE FROM [dbo].[RINGPAIRING]
@@ -46,8 +48,7 @@ UPDATE ORDERS
 SET OrderEmail = 'khangbinh167@gmail.com'
 
 UPDATE ORDERS
-SET OrderStatus = 'Processing'
-WHERE OrderID = '4ABAD377-5D48-4CC6-B953-0572E34992B0';
+SET OrderStatus = 'Deposit Pending'
 
 SELECT * FROM [DIAMONDPROJECT].[dbo].[ORDERS]
 SELECT * FROM [dbo].[ORDERITEM]

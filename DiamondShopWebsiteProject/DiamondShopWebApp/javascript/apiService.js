@@ -345,12 +345,12 @@ export const updateCustomer = async (customerId, customerDetails) => {
     }
 };
 
-// Function to create payment
-export const createVNpayPaymentUrl = async (orderId, amount) => {
+export const createVNpayPaymentUrl = async (orderId) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/VNPay/create-payment-url`, {
-            orderId,
-            amount
+        const response = await axios.post(`${BASE_URL}/VNPay/create-payment-url`, { orderId }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
         });
         return response.data;
     } catch (error) {

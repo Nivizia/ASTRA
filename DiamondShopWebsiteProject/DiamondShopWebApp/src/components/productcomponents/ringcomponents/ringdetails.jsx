@@ -194,6 +194,10 @@ const RingDetails = () => {
                 <div key={index}>{shape}</div>
               ))}</td>
             </tr>
+            <tr>
+              <td>Quantity</td>
+              <td>{ring.stockQuantity}</td>
+            </tr>
           </tbody>
         </table>
       </div>

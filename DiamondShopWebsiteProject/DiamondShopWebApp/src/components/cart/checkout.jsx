@@ -4,7 +4,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 import { getCartItems, clearCart } from '../../../javascript/cartService';
-import { createOrder } from '../../../javascript/apiService';
+import { createOrder, createVNpayPaymentUrl } from '../../../javascript/apiService';
 import { LinearProgress, Tooltip, TextField } from '@mui/material';
 
 import ToggleButton from '@mui/material/ToggleButton';
@@ -126,14 +126,21 @@ const CheckOut = () => {
 
         try {
             const orderResponse = await createOrder(orderDetails);
-            console.log(orderResponse.data.orderId); //The ID used for fetching url to VNPay
+        
             if (orderResponse.success) {
-                console.log('Order created successfully:', orderResponse);
-                clearCart(); // Clear the cart after placing the order
-                navigate('/order-confirmation'); // Navigate to the order confirmation page
+                try {
+                    const vnPayResponse = await createVNpayPaymentUrl(orderResponse.data.orderId);
+                    const VNPayUrl = vnPayResponse.paymentUrl;
+        
+                    console.log('Order created successfully:', orderResponse);
+                    clearCart(); // Clear the cart after placing the order
+                    window.location.href = VNPayUrl; // Redirect to the VNPay payment URL
+                } catch (urlError) {
+                    console.error('Failed to create VNPay URL:', urlError);
+                    setError(`Failed to create VNPay URL! ${urlError.message || 'Unknown error'}`);
+                }
             } else {
                 if (orderResponse.noUser) {
-                    console.log('User not found, displaying error and logging out...');
                     setError('Failed to place order! User does not exist.');
                     setTimeout(() => {
                         logout(); // Log the user out
@@ -279,10 +286,10 @@ const CheckOut = () => {
                             />
                         </div>
                         <h2>Order Summary</h2>
-                            <div className={styles.orderInfoRow}>
-                                <div className={styles.orderInfoLabel}>Order Total:</div>
-                                <div className={styles.orderInfoValue}>${getCartItems().reduce((total, item) => item.type === 'pairing' ? total + item.price : total + item.details.price, 0).toFixed(2)}</div>
-                            </div>
+                        <div className={styles.orderInfoRow}>
+                            <div className={styles.orderInfoLabel}>Order Total:</div>
+                            <div className={styles.orderInfoValue}>${getCartItems().reduce((total, item) => item.type === 'pairing' ? total + item.price : total + item.details.price, 0).toFixed(2)}</div>
+                        </div>
                         <div className={styles.paymentMethod}>
                             <h2 className={styles.paymentMethodTitle}>Payment Method</h2>
                             <ToggleButtonGroup
