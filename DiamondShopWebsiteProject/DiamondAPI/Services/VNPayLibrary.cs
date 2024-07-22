@@ -41,7 +41,7 @@ namespace DiamondAPI.Services
         {
             string responseRaw = string.Join("&", _responseData.Select(kvp => $"{kvp.Key}={kvp.Value}"));
             string computedHash = Utils.HmacSHA512(hashSecret, responseRaw);
-            return receivedHash.Equals(computedHash, System.StringComparison.InvariantCultureIgnoreCase);
+            return receivedHash.Equals(computedHash, StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }
