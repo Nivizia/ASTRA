@@ -1,7 +1,7 @@
 SELECT * FROM [DIAMONDPROJECT].[dbo].[ORDERS]
 SELECT * FROM [dbo].[ORDERITEM]
 SELECT * FROM VNPaymentRequest
-
+SELECT * FROM VNPaymentResponse
 
 --See if order stuffs still exist
 SELECT * FROM [dbo].[RINGPAIRING]
@@ -11,6 +11,7 @@ SELECT * FROM [dbo].[EARRINGPAIRING]
 SELECT * FROM DIAMOND
 
 --Reset orders
+DELETE FROM VNPaymentResponse
 DELETE FROM VNPaymentRequest
 DELETE FROM [dbo].[ORDERITEM]
 DELETE FROM [dbo].[ORDERS]

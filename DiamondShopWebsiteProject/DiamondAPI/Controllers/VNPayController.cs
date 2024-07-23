@@ -59,6 +59,8 @@ namespace DiamondAPI.Controllers
             if (VNPaymentResponseModel.Success)
             {
                 await _orderRepo.UpdateOrderStatus(createVNPaymentResponseDTO.OrderId, "Payment Received");
+                await _vnPaymentResponseRepo.CreateVNPaymentResponse(VNPaymentResponseModel);
+                return Ok("Payment processed successfully");
             }
             else
             {
@@ -67,10 +69,6 @@ namespace DiamondAPI.Controllers
                 await _orderService.RevertOrder(createVNPaymentResponseDTO.OrderId);
                 return Ok("Payment processing failed miserably");
             }
-
-            await _vnPaymentResponseRepo.CreateVNPaymentResponse(VNPaymentResponseModel);
-            return Ok("Payment processed successfully");
         }
-
     }
 }
