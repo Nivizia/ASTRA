@@ -14,6 +14,4 @@ public partial class VnpaymentRequest
     public DateTime CreatedDate { get; set; }
 
     public virtual Order Order { get; set; } = null!;
-
-    public virtual ICollection<VnpaymentResponse> VnpaymentResponses { get; set; } = new List<VnpaymentResponse>();
 }

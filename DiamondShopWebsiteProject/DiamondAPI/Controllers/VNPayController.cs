@@ -27,20 +27,19 @@ namespace DiamondAPI.Controllers
         }
 
         [HttpPost("create-payment-url")]
-        [Route("Deposit")]
-        public async Task<IActionResult> CreatePaymentUrl([FromBody] CreateVNPaymentRequestDTO requestDTO, [FromRoute] bool Deposit)
+        public async Task<IActionResult> CreatePaymentUrl([FromBody] CreateVNPaymentRequestDTO requestDTO, bool isDeposit)
         {
             var paymentRequest = requestDTO.ToVnpaymentRequest();
             paymentRequest.Amount = await _orderRepo.GetAmount(paymentRequest.OrderId);
 
-            if (Deposit)
+            if (isDeposit)
             {
                 paymentRequest.Amount *= (decimal)0.4;
             }
 
             paymentRequest.CreatedDate = await _orderRepo.GetOrderDate(paymentRequest.OrderId);
             await _vnPaymentRequestRepo.CreateVNPaymentRequest(paymentRequest);
-            var paymentUrl = _vnPayService.CreatePaymentUrl(HttpContext, paymentRequest, Deposit);
+            var paymentUrl = _vnPayService.CreatePaymentUrl(HttpContext, paymentRequest, isDeposit);
             return Ok(new { paymentUrl });
         }
 

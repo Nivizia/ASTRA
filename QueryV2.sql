@@ -53,7 +53,7 @@ CREATE TABLE ORDERS (
 	OrderLastName VARCHAR(500),
 	OrderEmail VARCHAR(500),
 	OrderPhone VARCHAR(500),
-	OrderStatus VARCHAR(500) DEFAULT 'Deposit Pending', -- Deposit Pending, Deposit Received, Processing, ConfirmationSent, Postponed, Cancelled, Completed
+	OrderStatus VARCHAR(500) DEFAULT 'Payment Pending', -- Payment Pending, Payment Expired, Payment Received, Payment Failed, Processing, ConfirmationSent, Postponed, Cancelled, Completed
 	FOREIGN KEY (CustomerID) REFERENCES CUSTOMER(CustomerID)
 );
 
@@ -69,7 +69,7 @@ CREATE TABLE VNPaymentRequest (
 -- VN Payment response table
 CREATE TABLE VNPaymentResponse (
     ResponseId UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
-    RequestId UNIQUEIDENTIFIER NOT NULL,
+    OrderID UNIQUEIDENTIFIER NOT NULL,
     Success BIT NOT NULL,
     
     Amount MONEY,
@@ -79,7 +79,7 @@ CREATE TABLE VNPaymentResponse (
 	OrderInfo VARCHAR(500), -- Transaction message
 	PaymentDate DATETIME,
 
-    FOREIGN KEY (RequestId) REFERENCES VNPaymentRequest(RequestId)
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
 );
 
 -- Shape table

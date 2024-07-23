@@ -7,7 +7,7 @@ public partial class VnpaymentResponse
 {
     public Guid ResponseId { get; set; }
 
-    public Guid RequestId { get; set; }
+    public Guid OrderId { get; set; }
 
     public bool Success { get; set; }
 
@@ -23,5 +23,5 @@ public partial class VnpaymentResponse
 
     public DateTime? PaymentDate { get; set; }
 
-    public virtual VnpaymentRequest Request { get; set; } = null!;
+    public virtual Order Order { get; set; } = null!;
 }

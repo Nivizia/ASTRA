@@ -23,18 +23,17 @@ namespace DiamondAPI.Services
             {
                 PropertyNameCaseInsensitive = true
             };
-            // _orderRepository initialization removed
         }
 
-        public string CreatePaymentUrl(HttpContext context, VnpaymentRequest paymentRequest, bool Deposit)
+        public string CreatePaymentUrl(HttpContext context, VnpaymentRequest paymentRequest, bool isDeposit)
         {
-            string orderInfo = Deposit ? $"Deposit payment for order: {paymentRequest.OrderId}" : $"Full payment for order: {paymentRequest.OrderId}";
+            string orderInfo = isDeposit ? $"Deposit payment for order: {paymentRequest.OrderId}" : $"Full payment for order: {paymentRequest.OrderId}";
 
             var vnpay = new VNPayLibrary();
             vnpay.AddRequestData("vnp_Version", _config["VnPay:Version"] ?? "defaultVersion");
             vnpay.AddRequestData("vnp_Command", _config["VnPay:Command"] ?? "defaultCommand");
             vnpay.AddRequestData("vnp_TmnCode", _config["VnPay:TmnCode"] ?? "defaultTmnCode");
-            vnpay.AddRequestData("vnp_Amount", (paymentRequest.Amount).ToString("0"));
+            vnpay.AddRequestData("vnp_Amount", (paymentRequest.Amount * 20000 * 100).ToString("0"));
             vnpay.AddRequestData("vnp_CreateDate", paymentRequest.CreatedDate.ToString("yyyyMMddHHmmss"));
             vnpay.AddRequestData("vnp_CurrCode", _config["VnPay:CurrCode"] ?? "defaultCurrCode");
             vnpay.AddRequestData("vnp_IpAddr", Utils.GetIpAddress(context));
