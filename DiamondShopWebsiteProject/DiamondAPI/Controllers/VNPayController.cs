@@ -15,16 +15,18 @@ namespace DiamondAPI.Controllers
     public class VNPayController : ControllerBase
     {
         private readonly IVNPayService _vnPayService;
+        private readonly OrderService _orderService;
         private readonly IOrderRepository _orderRepo;
         private readonly IVNPaymentRequestRepository _vnPaymentRequestRepo;
         private readonly IVNPaymentResponseRepository _vnPaymentResponseRepo;
 
-        public VNPayController(IVNPayService vnPayService, IOrderRepository orderRepo, IVNPaymentRequestRepository vNPaymentRequestRepo, IVNPaymentResponseRepository vNPaymentResponseRepo)
+        public VNPayController(IVNPayService vnPayService, IOrderRepository orderRepo, IVNPaymentRequestRepository vNPaymentRequestRepo, IVNPaymentResponseRepository vNPaymentResponseRepo, OrderService orderService)
         {
             _vnPayService = vnPayService;
             _orderRepo = orderRepo;
             _vnPaymentRequestRepo = vNPaymentRequestRepo;
             _vnPaymentResponseRepo = vNPaymentResponseRepo;
+            _orderService = orderService;
         }
 
         [HttpPost("create-payment-url")]
@@ -59,6 +61,7 @@ namespace DiamondAPI.Controllers
             {
                 await _orderRepo.UpdateOrderStatus(createVNPaymentResponseDTO.OrderId, "Payment Failed");
                 await _vnPaymentResponseRepo.CreateVNPaymentResponse(VNPaymentResponseModel);
+                await _orderService.RevertOrder(createVNPaymentResponseDTO.OrderId);
                 return Ok("Payment processing failed miserably");
             }
         }

@@ -213,14 +213,14 @@ namespace DiamondAPI.Services
             {
                 if (order.OrderDate.HasValue && order.OrderDate.Value.AddHours(1) <= DateTime.Now && order.OrderEmail != null)
                 {
-                    await ExpiredDepositOrder(order.OrderId);
+                    await RevertOrder(order.OrderId);
                     await _emailService.SendEmailAsync(order.OrderEmail, "Order expired", $"Your order with ID {order.OrderId} has been cancelled due to overdue deposit payment.");
                 }
             }
             return true;
         }
 
-        public async Task<bool> ExpiredDepositOrder(Guid OrderID)
+        public async Task<bool> RevertOrder(Guid OrderID)
         {
             var orderitems = await _orderItemRepo.GetOrderitemsByOrderId(OrderID);
             foreach (var orderitem in orderitems)
