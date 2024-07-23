@@ -24,7 +24,7 @@ const CheckOut = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const [paymentMethod, setPaymentMethod] = useState('cash');
+    const [paymentMethod, setPaymentMethod] = useState('deposit');
     const [receivingMethod, setReceivingMethod] = useState('takeatstore');
     const [buyAsGift, setBuyAsGift] = useState(false);
 
@@ -194,9 +194,8 @@ const CheckOut = () => {
                             <p>Redirecting to login...</p>
                             <LinearProgress />
                         </>
-                    ) : (
-                        <p>You are being redirected to home page.</p>
-                    )}
+                    ) : null
+                    }
                 </>
             ) : (
                 <div className={styles.checkoutContainer}>
@@ -287,7 +286,7 @@ const CheckOut = () => {
                         </div>
                         <h2>Order Summary</h2>
                         <div className={styles.orderInfoRow}>
-                            <div className={styles.orderInfoLabel}>Order Total:</div>
+                            <div className={styles.orderInfoLabel}>Total Amount:</div>
                             <div className={styles.orderInfoValue}>${getCartItems().reduce((total, item) => item.type === 'pairing' ? total + item.price : total + item.details.price, 0).toFixed(2)}</div>
                         </div>
                         <div className={styles.paymentMethod}>
@@ -298,8 +297,8 @@ const CheckOut = () => {
                                 onChange={handleSetPaymentMethod}
                                 aria-label="text alignment"
                             >
-                                <ToggleButton value="cash" aria-label="cash" className={styles.paymentOption}>
-                                    Cash
+                                <ToggleButton value="deposit" aria-label="deposit" className={styles.paymentOption}>
+                                    Deposit
                                 </ToggleButton>
                                 <Tooltip title="Card payment is not available at the moment" arrow>
                                     <span>
