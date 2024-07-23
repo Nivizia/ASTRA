@@ -26,18 +26,20 @@ namespace DiamondAPI.Services
             // _orderRepository initialization removed
         }
 
-        public string CreatePaymentUrl(HttpContext context, VnpaymentRequest paymentRequest)
+        public string CreatePaymentUrl(HttpContext context, VnpaymentRequest paymentRequest, bool Deposit)
         {
+            string orderInfo = Deposit ? $"Deposit payment for order: {paymentRequest.OrderId}" : $"Full payment for order: {paymentRequest.OrderId}";
+
             var vnpay = new VNPayLibrary();
             vnpay.AddRequestData("vnp_Version", _config["VnPay:Version"] ?? "defaultVersion");
             vnpay.AddRequestData("vnp_Command", _config["VnPay:Command"] ?? "defaultCommand");
-            vnpay.AddRequestData("vnp_TmnCode", _config["VnPay:TmnCode"] ?? "defaultTmnCode");  
-            vnpay.AddRequestData("vnp_Amount", (paymentRequest.Amount * 40 * 20000).ToString("0")); // 40% deposit * 100 (VNPay requirement)
+            vnpay.AddRequestData("vnp_TmnCode", _config["VnPay:TmnCode"] ?? "defaultTmnCode");
+            vnpay.AddRequestData("vnp_Amount", (paymentRequest.Amount).ToString("0"));
             vnpay.AddRequestData("vnp_CreateDate", paymentRequest.CreatedDate.ToString("yyyyMMddHHmmss"));
             vnpay.AddRequestData("vnp_CurrCode", _config["VnPay:CurrCode"] ?? "defaultCurrCode");
             vnpay.AddRequestData("vnp_IpAddr", Utils.GetIpAddress(context));
             vnpay.AddRequestData("vnp_Locale", _config["VnPay:Locale"] ?? "defaultLocale");
-            vnpay.AddRequestData("vnp_OrderInfo", "Deposit payment for order: " + paymentRequest.OrderId);
+            vnpay.AddRequestData("vnp_OrderInfo", orderInfo);
             vnpay.AddRequestData("vnp_OrderType", "other");
             vnpay.AddRequestData("vnp_ReturnUrl", _config["VnPay:ReturnUrl"] ?? "http://astradiamonds.com:5212/order-confirmation");
             vnpay.AddRequestData("vnp_ExpireDate", paymentRequest.CreatedDate.AddHours(1).ToString("yyyyMMddHHmmss"));

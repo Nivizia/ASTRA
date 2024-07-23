@@ -4,6 +4,6 @@ namespace DiamondAPI.Interfaces
 {
     public interface IVNPayService
     {
-        public string CreatePaymentUrl(HttpContext context, VnpaymentRequest model);
+        public string CreatePaymentUrl(HttpContext context, VnpaymentRequest model, bool Deposit);
     }
 }
