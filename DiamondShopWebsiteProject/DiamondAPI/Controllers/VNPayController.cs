@@ -51,11 +51,14 @@ namespace DiamondAPI.Controllers
             var VNPaymentResponseModel = createVNPaymentResponseDTO.ToVNPaymentResponse();
             VNPaymentResponseModel.PaymentId = await _vnPaymentRequestRepo.GetPaymentId(createVNPaymentResponseDTO.OrderId);
 
+            if (await _vnPaymentResponseRepo.PaymentResponseExists(VNPaymentResponseModel.PaymentId))
+            {
+                return BadRequest("Payment response already exists.");
+            }
+
             if (VNPaymentResponseModel.Success)
             {
                 await _orderRepo.UpdateOrderStatus(createVNPaymentResponseDTO.OrderId, "Payment Received");
-                await _vnPaymentResponseRepo.CreateVNPaymentResponse(VNPaymentResponseModel);
-                return Ok("Payment processed successfully");
             }
             else
             {
@@ -64,6 +67,9 @@ namespace DiamondAPI.Controllers
                 await _orderService.RevertOrder(createVNPaymentResponseDTO.OrderId);
                 return Ok("Payment processing failed miserably");
             }
+
+            await _vnPaymentResponseRepo.CreateVNPaymentResponse(VNPaymentResponseModel);
+            return Ok("Payment processed successfully");
         }
 
     }

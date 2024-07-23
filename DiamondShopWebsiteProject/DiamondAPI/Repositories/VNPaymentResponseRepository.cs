@@ -1,6 +1,7 @@
 ﻿using DiamondAPI.Data;
 using DiamondAPI.Interfaces;
 using DiamondAPI.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 
 namespace DiamondAPI.Repositories
@@ -19,6 +20,11 @@ namespace DiamondAPI.Repositories
             await _context.VnpaymentResponses.AddAsync(vnpaymentResponse);
             await _context.SaveChangesAsync();
             return vnpaymentResponse;
+        }
+
+        public async Task<bool> PaymentResponseExists(Guid paymentId)
+        {
+            return await _context.VnpaymentResponses.AnyAsync(r => r.PaymentId == paymentId);
         }
     }
 }
