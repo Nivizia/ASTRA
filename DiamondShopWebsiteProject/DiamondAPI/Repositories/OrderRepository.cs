@@ -152,7 +152,7 @@ namespace DiamondAPI.Repositories
             var order = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
             if (order == null)
                 return null;
-            order.OrderStatus = "Deposit Expired";
+            order.OrderStatus = "Payment Expired";
             await _context.SaveChangesAsync();
             return order;
         }

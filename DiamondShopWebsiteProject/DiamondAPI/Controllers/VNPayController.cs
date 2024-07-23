@@ -5,6 +5,7 @@ using DiamondAPI.Mappers;
 using DiamondAPI.Models;
 using DiamondAPI.Repositories;
 using DiamondAPI.Services;
+using MailKit.Search;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondAPI.Controllers
@@ -47,10 +48,17 @@ namespace DiamondAPI.Controllers
         public async Task<IActionResult> PaymentReturn([FromBody] CreateVNPaymentResponseDTO createVNPaymentResponseDTO)
         {
             var response = Request.Query;
-            await _vnPaymentResponseRepo.CreateVNPaymentResponse(createVNPaymentResponseDTO.ToVNPaymentResponse());
+            var VNPaymentResponseModel = createVNPaymentResponseDTO.ToVNPaymentResponse();
 
-            var orderId = await _vnPaymentRequestRepo.GetOrderRequest(createVNPaymentResponseDTO.RequestId);
-            await _orderRepo.UpdateOrderStatus(orderId, "Payment Received");
+            if (VNPaymentResponseModel.Success)
+            {
+                await _orderRepo.UpdateOrderStatus(createVNPaymentResponseDTO.OrderId, "Payment Received");
+            }
+            else
+            {
+                await _orderRepo.UpdateOrderStatus(createVNPaymentResponseDTO.OrderId, "Payment Failed");
+            }
+            await _vnPaymentResponseRepo.CreateVNPaymentResponse(VNPaymentResponseModel);
             return Ok("Payment processed successfully");
         }
     }

@@ -10,8 +10,12 @@ namespace DiamondAPI.Mappers
             return new VnpaymentResponse
             {
                 ResponseId = Guid.NewGuid(),
-                RequestId = createVNPaymentResponse.RequestId,
-                Success = createVNPaymentResponse.Success,
+                OrderId = createVNPaymentResponse.OrderId,
+                Success = createVNPaymentResponse.Code switch
+                {
+                    "00" => true,
+                    _ => false
+                },
                 Amount = createVNPaymentResponse.Amount,
                 BankCode = createVNPaymentResponse.BankCode,
                 BankTransactionNumber = createVNPaymentResponse.BankTransactionNumber,

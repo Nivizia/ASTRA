@@ -4,7 +4,9 @@
     {
         public Guid RequestId { get; set; }
 
-        public bool Success { get; set; }
+        public Guid OrderId { get; set; }
+
+        public string? Code { get; set; }
 
         public decimal? Amount { get; set; }
 
