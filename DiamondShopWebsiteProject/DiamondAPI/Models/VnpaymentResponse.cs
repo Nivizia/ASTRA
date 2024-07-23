@@ -5,7 +5,7 @@ namespace DiamondAPI.Models;
 
 public partial class VnpaymentResponse
 {
-    public Guid ResponseId { get; set; }
+    public Guid PaymentId { get; set; }
 
     public Guid OrderId { get; set; }
 
@@ -24,4 +24,6 @@ public partial class VnpaymentResponse
     public DateTime? PaymentDate { get; set; }
 
     public virtual Order Order { get; set; } = null!;
+
+    public virtual VnpaymentRequest Payment { get; set; } = null!;
 }
