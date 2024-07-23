@@ -39,7 +39,7 @@ namespace DiamondAPI.Services
             vnpay.AddRequestData("vnp_Locale", _config["VnPay:Locale"] ?? "defaultLocale");
             vnpay.AddRequestData("vnp_OrderInfo", "Thanh toán cho đơn hàng: " + paymentRequest.OrderId);
             vnpay.AddRequestData("vnp_OrderType", "other");
-            vnpay.AddRequestData("vnp_ReturnUrl", _config["VnPay:ReturnUrl"]);
+            vnpay.AddRequestData("vnp_ReturnUrl", _config["VnPay:ReturnUrl"] ?? "http://astradiamonds.com:5212/order-confirmation");
             vnpay.AddRequestData("vnp_ExpireDate", paymentRequest.CreatedDate.AddHours(1).ToString("yyyyMMddHHmmss"));
             vnpay.AddRequestData("vnp_TxnRef", paymentRequest.OrderId.ToString());
 
