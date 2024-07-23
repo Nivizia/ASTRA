@@ -3,9 +3,9 @@
 
 .header {
     background-color: black;
-    height: 146px;
     color: #fff;
     display: flex;
+    height: 146px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -28,6 +28,7 @@
 
 .header-minimized {
     background-color: black;
+    color: #fff;
     display: flex;
     height: 50px;
     z-index: 999;

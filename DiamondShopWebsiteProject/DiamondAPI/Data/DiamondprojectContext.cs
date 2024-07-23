@@ -121,7 +121,7 @@ public partial class DiamondprojectContext : DbContext
 
         modelBuilder.Entity<Customer>(entity =>
         {
-            entity.HasKey(e => e.CustomerId).HasName("PK__CUSTOMER__A4AE64B8D1649F06");
+            entity.HasKey(e => e.CustomerId).HasName("PK__CUSTOMER__A4AE64B85811DFD5");
 
             entity.ToTable("CUSTOMER");
 
@@ -151,7 +151,7 @@ public partial class DiamondprojectContext : DbContext
 
         modelBuilder.Entity<Diamond>(entity =>
         {
-            entity.HasKey(e => e.DProductId).HasName("PK__DIAMOND__C72A4046CA0F6B1D");
+            entity.HasKey(e => e.DProductId).HasName("PK__DIAMOND__C72A4046927FD7F1");
 
             entity.ToTable("DIAMOND");
 
@@ -167,12 +167,12 @@ public partial class DiamondprojectContext : DbContext
 
             entity.HasOne(d => d.Shape).WithMany(p => p.Diamonds)
                 .HasForeignKey(d => d.ShapeId)
-                .HasConstraintName("FK__DIAMOND__ShapeID__6F963092");
+                .HasConstraintName("FK__DIAMOND__ShapeID__34956655");
         });
 
         modelBuilder.Entity<Diamondcertificate>(entity =>
         {
-            entity.HasKey(e => e.CertificateId).HasName("PK__DIAMONDC__BBF8A7E1DC52D275");
+            entity.HasKey(e => e.CertificateId).HasName("PK__DIAMONDC__BBF8A7E119AD0C81");
 
             entity.ToTable("DIAMONDCERTIFICATE");
 
@@ -195,7 +195,7 @@ public partial class DiamondprojectContext : DbContext
 
         modelBuilder.Entity<Earring>(entity =>
         {
-            entity.HasKey(e => e.EarringId).HasName("PK__EARRING__F43797085F692967");
+            entity.HasKey(e => e.EarringId).HasName("PK__EARRING__F4379708E14F21E9");
 
             entity.ToTable("EARRING");
 
@@ -217,7 +217,7 @@ public partial class DiamondprojectContext : DbContext
 
         modelBuilder.Entity<Earringpairing>(entity =>
         {
-            entity.HasKey(e => e.EProductId).HasName("PK__EARRINGP__41B11BB4EEB27EC3");
+            entity.HasKey(e => e.EProductId).HasName("PK__EARRINGP__41B11BB462278CE3");
 
             entity.ToTable("EARRINGPAIRING");
 
@@ -229,16 +229,16 @@ public partial class DiamondprojectContext : DbContext
 
             entity.HasOne(d => d.Diamond).WithMany(p => p.Earringpairings)
                 .HasForeignKey(d => d.DiamondId)
-                .HasConstraintName("FK__EARRINGPA__Diamo__1E511F7B");
+                .HasConstraintName("FK__EARRINGPA__Diamo__6350553E");
 
             entity.HasOne(d => d.Earring).WithMany(p => p.Earringpairings)
                 .HasForeignKey(d => d.EarringId)
-                .HasConstraintName("FK__EARRINGPA__Earri__1D5CFB42");
+                .HasConstraintName("FK__EARRINGPA__Earri__625C3105");
         });
 
         modelBuilder.Entity<Frametype>(entity =>
         {
-            entity.HasKey(e => e.FrameTypeId).HasName("PK__FRAMETYP__7B3206B51951D258");
+            entity.HasKey(e => e.FrameTypeId).HasName("PK__FRAMETYP__7B3206B54FB453D3");
 
             entity.ToTable("FRAMETYPE");
 
@@ -316,7 +316,7 @@ public partial class DiamondprojectContext : DbContext
 
         modelBuilder.Entity<Metaltype>(entity =>
         {
-            entity.HasKey(e => e.MetalTypeId).HasName("PK__METALTYP__3D2E4D7E9529E01F");
+            entity.HasKey(e => e.MetalTypeId).HasName("PK__METALTYP__3D2E4D7EA5B0676A");
 
             entity.ToTable("METALTYPE");
 
@@ -330,7 +330,7 @@ public partial class DiamondprojectContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__ORDERS__C3905BAF524C234F");
+            entity.HasKey(e => e.OrderId).HasName("PK__ORDERS__C3905BAF6B307F8D");
 
             entity.ToTable("ORDERS");
 
@@ -359,12 +359,12 @@ public partial class DiamondprojectContext : DbContext
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.CustomerId)
-                .HasConstraintName("FK__ORDERS__Customer__6053ED02");
+                .HasConstraintName("FK__ORDERS__Customer__255322C5");
         });
 
         modelBuilder.Entity<Orderitem>(entity =>
         {
-            entity.HasKey(e => e.OrderItemId).HasName("PK__ORDERITE__57ED06A100069C77");
+            entity.HasKey(e => e.OrderItemId).HasName("PK__ORDERITE__57ED06A18C20C0F7");
 
             entity.ToTable("ORDERITEM");
 
@@ -391,7 +391,7 @@ public partial class DiamondprojectContext : DbContext
 
             entity.HasOne(d => d.Order).WithMany(p => p.Orderitems)
                 .HasForeignKey(d => d.OrderId)
-                .HasConstraintName("FK__ORDERITEM__Order__26E6657C");
+                .HasConstraintName("FK__ORDERITEM__Order__6BE59B3F");
 
             entity.HasOne(d => d.PendantPairing).WithMany(p => p.Orderitems)
                 .HasForeignKey(d => d.PendantPairingId)
@@ -404,7 +404,7 @@ public partial class DiamondprojectContext : DbContext
 
         modelBuilder.Entity<Pendant>(entity =>
         {
-            entity.HasKey(e => e.PendantId).HasName("PK__PENDANT__3B25748D224B9A34");
+            entity.HasKey(e => e.PendantId).HasName("PK__PENDANT__3B25748DDB84EFB5");
 
             entity.ToTable("PENDANT");
 
@@ -432,7 +432,7 @@ public partial class DiamondprojectContext : DbContext
 
         modelBuilder.Entity<Pendantpairing>(entity =>
         {
-            entity.HasKey(e => e.PProductId).HasName("PK__PENDANTP__80786356D997D6AB");
+            entity.HasKey(e => e.PProductId).HasName("PK__PENDANTP__8078635679D05CBC");
 
             entity.ToTable("PENDANTPAIRING");
 
@@ -444,16 +444,16 @@ public partial class DiamondprojectContext : DbContext
 
             entity.HasOne(d => d.Diamond).WithMany(p => p.Pendantpairings)
                 .HasForeignKey(d => d.DiamondId)
-                .HasConstraintName("FK__PENDANTPA__Diamo__2315D498");
+                .HasConstraintName("FK__PENDANTPA__Diamo__68150A5B");
 
             entity.HasOne(d => d.Pendant).WithMany(p => p.Pendantpairings)
                 .HasForeignKey(d => d.PendantId)
-                .HasConstraintName("FK__PENDANTPA__Penda__2221B05F");
+                .HasConstraintName("FK__PENDANTPA__Penda__6720E622");
         });
 
         modelBuilder.Entity<Ring>(entity =>
         {
-            entity.HasKey(e => e.RingId).HasName("PK__RING__F1D5904AF5BAEB12");
+            entity.HasKey(e => e.RingId).HasName("PK__RING__F1D5904A5D38207F");
 
             entity.ToTable("RING");
 
@@ -480,32 +480,32 @@ public partial class DiamondprojectContext : DbContext
 
             entity.HasOne(d => d.FrameType).WithMany(p => p.Rings)
                 .HasForeignKey(d => d.FrameTypeId)
-                .HasConstraintName("FK__RING__FrameTypeI__076DBA23");
+                .HasConstraintName("FK__RING__FrameTypeI__4C6CEFE6");
 
             entity.HasOne(d => d.MetalType).WithMany(p => p.Rings)
                 .HasForeignKey(d => d.MetalTypeId)
-                .HasConstraintName("FK__RING__MetalTypeI__0861DE5C");
+                .HasConstraintName("FK__RING__MetalTypeI__4D61141F");
 
             entity.HasOne(d => d.RingSubtype).WithMany(p => p.Rings)
                 .HasForeignKey(d => d.RingSubtypeId)
-                .HasConstraintName("FK__RING__RingSubtyp__067995EA");
+                .HasConstraintName("FK__RING__RingSubtyp__4B78CBAD");
 
             entity.HasOne(d => d.RingType).WithMany(p => p.Rings)
                 .HasForeignKey(d => d.RingTypeId)
-                .HasConstraintName("FK__RING__RingTypeID__058571B1");
+                .HasConstraintName("FK__RING__RingTypeID__4A84A774");
 
             entity.HasOne(d => d.SpecialFeature).WithMany(p => p.Rings)
                 .HasForeignKey(d => d.SpecialFeatureId)
-                .HasConstraintName("FK__RING__SpecialFea__0A4A26CE");
+                .HasConstraintName("FK__RING__SpecialFea__4F495C91");
 
             entity.HasOne(d => d.StoneCut).WithMany(p => p.Rings)
                 .HasForeignKey(d => d.StoneCutId)
-                .HasConstraintName("FK__RING__StoneCutID__09560295");
+                .HasConstraintName("FK__RING__StoneCutID__4E553858");
         });
 
         modelBuilder.Entity<Ringpairing>(entity =>
         {
-            entity.HasKey(e => e.RProductId).HasName("PK__RINGPAIR__7BEB278C1B0C6E70");
+            entity.HasKey(e => e.RProductId).HasName("PK__RINGPAIR__7BEB278C3BB68DDD");
 
             entity.ToTable("RINGPAIRING");
 
@@ -517,16 +517,16 @@ public partial class DiamondprojectContext : DbContext
 
             entity.HasOne(d => d.Diamond).WithMany(p => p.Ringpairings)
                 .HasForeignKey(d => d.DiamondId)
-                .HasConstraintName("FK__RINGPAIRI__Diamo__198C6A5E");
+                .HasConstraintName("FK__RINGPAIRI__Diamo__5E8BA021");
 
             entity.HasOne(d => d.Ring).WithMany(p => p.Ringpairings)
                 .HasForeignKey(d => d.RingId)
-                .HasConstraintName("FK__RINGPAIRI__RingI__18984625");
+                .HasConstraintName("FK__RINGPAIRI__RingI__5D977BE8");
         });
 
         modelBuilder.Entity<Ringshapedetail>(entity =>
         {
-            entity.HasKey(e => e.RingShapeDetailId).HasName("PK__RINGSHAP__C587A0CF226C35D3");
+            entity.HasKey(e => e.RingShapeDetailId).HasName("PK__RINGSHAP__C587A0CFB84E6EE3");
 
             entity.ToTable("RINGSHAPEDETAIL");
 
@@ -545,16 +545,16 @@ public partial class DiamondprojectContext : DbContext
 
             entity.HasOne(d => d.Ring).WithMany(p => p.Ringshapedetails)
                 .HasForeignKey(d => d.RingId)
-                .HasConstraintName("FK__RINGSHAPE__RingI__0E1AB7B2");
+                .HasConstraintName("FK__RINGSHAPE__RingI__5319ED75");
 
             entity.HasOne(d => d.Shape).WithMany(p => p.Ringshapedetails)
                 .HasForeignKey(d => d.ShapeId)
-                .HasConstraintName("FK__RINGSHAPE__Shape__0F0EDBEB");
+                .HasConstraintName("FK__RINGSHAPE__Shape__540E11AE");
         });
 
         modelBuilder.Entity<Ringsubtype>(entity =>
         {
-            entity.HasKey(e => e.RingSubtypeId).HasName("PK__RINGSUBT__14E527DEDEA1CA4A");
+            entity.HasKey(e => e.RingSubtypeId).HasName("PK__RINGSUBT__14E527DE19E3E913");
 
             entity.ToTable("RINGSUBTYPE");
 
@@ -568,12 +568,12 @@ public partial class DiamondprojectContext : DbContext
 
             entity.HasOne(d => d.RingType).WithMany(p => p.Ringsubtypes)
                 .HasForeignKey(d => d.RingTypeId)
-                .HasConstraintName("FK__RINGSUBTY__RingT__76432E21");
+                .HasConstraintName("FK__RINGSUBTY__RingT__3B4263E4");
         });
 
         modelBuilder.Entity<Ringtype>(entity =>
         {
-            entity.HasKey(e => e.RingTypeId).HasName("PK__RINGTYPE__CE375EDEAD58D560");
+            entity.HasKey(e => e.RingTypeId).HasName("PK__RINGTYPE__CE375EDE40688FA5");
 
             entity.ToTable("RINGTYPE");
 
@@ -623,7 +623,7 @@ public partial class DiamondprojectContext : DbContext
 
         modelBuilder.Entity<Shape>(entity =>
         {
-            entity.HasKey(e => e.ShapeId).HasName("PK__SHAPE__70FC83A17AC36E44");
+            entity.HasKey(e => e.ShapeId).HasName("PK__SHAPE__70FC83A16F5440FD");
 
             entity.ToTable("SHAPE");
 
@@ -637,7 +637,7 @@ public partial class DiamondprojectContext : DbContext
 
         modelBuilder.Entity<Specialfeature>(entity =>
         {
-            entity.HasKey(e => e.SpecialFeatureId).HasName("PK__SPECIALF__C84AA8FC3F8C78DD");
+            entity.HasKey(e => e.SpecialFeatureId).HasName("PK__SPECIALF__C84AA8FC1FAA5819");
 
             entity.ToTable("SPECIALFEATURE");
 
@@ -669,7 +669,7 @@ public partial class DiamondprojectContext : DbContext
 
         modelBuilder.Entity<Stonecut>(entity =>
         {
-            entity.HasKey(e => e.StoneCutId).HasName("PK__STONECUT__D8082D0F44FFCB86");
+            entity.HasKey(e => e.StoneCutId).HasName("PK__STONECUT__D8082D0F8DB87821");
 
             entity.ToTable("STONECUT");
 
@@ -683,7 +683,7 @@ public partial class DiamondprojectContext : DbContext
 
         modelBuilder.Entity<VnpaymentRequest>(entity =>
         {
-            entity.HasKey(e => e.RequestId).HasName("PK__VNPaymen__33A8517AE4AE276A");
+            entity.HasKey(e => e.RequestId).HasName("PK__VNPaymen__33A8517A7BBFF0A9");
 
             entity.ToTable("VNPaymentRequest");
 
@@ -695,12 +695,12 @@ public partial class DiamondprojectContext : DbContext
             entity.HasOne(d => d.Order).WithMany(p => p.VnpaymentRequests)
                 .HasForeignKey(d => d.OrderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__VNPayment__Order__64247DE6");
+                .HasConstraintName("FK__VNPayment__Order__2923B3A9");
         });
 
         modelBuilder.Entity<VnpaymentResponse>(entity =>
         {
-            entity.HasKey(e => e.ResponseId).HasName("PK__VNPaymen__1AAA646C887602AC");
+            entity.HasKey(e => e.ResponseId).HasName("PK__VNPaymen__1AAA646C1C1432F1");
 
             entity.ToTable("VNPaymentResponse");
 
@@ -724,16 +724,16 @@ public partial class DiamondprojectContext : DbContext
             entity.HasOne(d => d.Order).WithMany(p => p.VnpaymentResponses)
                 .HasForeignKey(d => d.OrderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__VNPayment__Order__67F50ECA");
+                .HasConstraintName("FK__VNPayment__Order__2CF4448D");
         });
 
         modelBuilder.Entity<Warranty>(entity =>
         {
-            entity.HasKey(e => e.WarrantyId).HasName("PK__WARRANTY__2ED318F36200625F");
+            entity.HasKey(e => e.WarrantyId).HasName("PK__WARRANTY__2ED318F358032381");
 
             entity.ToTable("WARRANTY");
 
-            entity.HasIndex(e => e.OrderItemId, "UQ__WARRANTY__57ED06A0F3B45368").IsUnique();
+            entity.HasIndex(e => e.OrderItemId, "UQ__WARRANTY__57ED06A0323654E3").IsUnique();
 
             entity.Property(e => e.WarrantyId)
                 .HasDefaultValueSql("(newid())")
@@ -744,7 +744,7 @@ public partial class DiamondprojectContext : DbContext
 
             entity.HasOne(d => d.OrderItem).WithOne(p => p.Warranty)
                 .HasForeignKey<Warranty>(d => d.OrderItemId)
-                .HasConstraintName("FK__WARRANTY__OrderI__334C3C61");
+                .HasConstraintName("FK__WARRANTY__OrderI__784B7224");
         });
 
         OnModelCreatingPartial(modelBuilder);

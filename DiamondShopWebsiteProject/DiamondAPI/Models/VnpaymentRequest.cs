@@ -13,5 +13,7 @@ public partial class VnpaymentRequest
 
     public DateTime CreatedDate { get; set; }
 
+    public bool Deposit { get; set; }
+
     public virtual Order Order { get; set; } = null!;
 }

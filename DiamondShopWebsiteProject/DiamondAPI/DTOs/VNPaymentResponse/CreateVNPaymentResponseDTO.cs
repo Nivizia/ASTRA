@@ -6,7 +6,7 @@
 
         public string? ResponseCode { get; set; }
 
-        public string? TransactionStatusMessage { get; set; }
+        public string? TransactionStatus { get; set; }
 
         public decimal? Amount { get; set; }
 

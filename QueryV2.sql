@@ -59,27 +59,29 @@ CREATE TABLE ORDERS (
 
 -- VN Payment request table
 CREATE TABLE VNPaymentRequest (
-    RequestId UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    PaymentId UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
     OrderID UNIQUEIDENTIFIER NOT NULL,
     Amount MONEY NOT NULL,
     CreatedDate DATETIME NOT NULL,
+	Deposit BIT NOT NULL,
     FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
 );
 
 -- VN Payment response table
 CREATE TABLE VNPaymentResponse (
-    ResponseId UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+    PaymentId UNIQUEIDENTIFIER PRIMARY KEY,
     OrderID UNIQUEIDENTIFIER NOT NULL,
     Success BIT NOT NULL,
     
-    Amount MONEY,
+    Amount MONEY NOT NULL,
 	BankCode VARCHAR(50),
 	BankTransactionNumber VARCHAR(100),
 	CardType VARCHAR(50), --Transaction type (ATM/QR code)
 	OrderInfo VARCHAR(500), -- Transaction message
 	PaymentDate DATETIME,
 
-    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID),
+	FOREIGN KEY (PaymentId) REFERENCES VNPaymentRequest(PaymentId)
 );
 
 -- Shape table

@@ -11,7 +11,7 @@ public partial class VnpaymentResponse
 
     public bool Success { get; set; }
 
-    public decimal? Amount { get; set; }
+    public decimal Amount { get; set; }
 
     public string? BankCode { get; set; }
 

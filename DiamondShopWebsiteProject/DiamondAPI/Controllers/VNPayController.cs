@@ -28,23 +28,22 @@ namespace DiamondAPI.Controllers
         }
 
         [HttpPost("create-payment-url")]
-        public async Task<IActionResult> CreatePaymentUrl([FromBody] CreateVNPaymentRequestDTO requestDTO, bool isDeposit)
+        public async Task<IActionResult> CreatePaymentUrl([FromBody] CreateVNPaymentRequestDTO requestDTO)
         {
             var paymentRequest = requestDTO.ToVnpaymentRequest();
             paymentRequest.Amount = await _orderRepo.GetAmount(paymentRequest.OrderId);
+            paymentRequest.CreatedDate = await _orderRepo.GetOrderDate(paymentRequest.OrderId);
 
-            if (isDeposit)
+            if(requestDTO.IsDeposit)
             {
                 paymentRequest.Amount *= (decimal)0.4;
             }
-
-            paymentRequest.CreatedDate = await _orderRepo.GetOrderDate(paymentRequest.OrderId);
             await _vnPaymentRequestRepo.CreateVNPaymentRequest(paymentRequest);
-            var paymentUrl = _vnPayService.CreatePaymentUrl(HttpContext, paymentRequest, isDeposit);
+            var paymentUrl = _vnPayService.CreatePaymentUrl(HttpContext, paymentRequest, requestDTO.IsDeposit);
             return Ok(new { paymentUrl });
         }
 
-        [HttpGet("return")]
+        [HttpPost("return")]
         public async Task<IActionResult> PaymentReturn([FromBody] CreateVNPaymentResponseDTO createVNPaymentResponseDTO)
         {
             var VNPaymentResponseModel = createVNPaymentResponseDTO.ToVNPaymentResponse();
@@ -59,8 +58,9 @@ namespace DiamondAPI.Controllers
             {
                 await _orderRepo.UpdateOrderStatus(createVNPaymentResponseDTO.OrderId, "Payment Failed");
                 await _vnPaymentResponseRepo.CreateVNPaymentResponse(VNPaymentResponseModel);
-                return Ok("Payment processed failed miserably");
+                return Ok("Payment processing failed miserably");
             }
         }
+
     }
 }

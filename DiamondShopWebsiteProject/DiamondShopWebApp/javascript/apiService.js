@@ -352,8 +352,18 @@ export const createVNpayPaymentUrl = async (orderId, isDeposit) => {
                 'Content-Type': 'application/json'
             }
         });
+        
         return response.data;
     } catch (error) {
         throw error;
+    }
+};
+
+export const sendPaymentResponse = async (orderDetails) => {
+    try {
+        const response = await axios.post(`${BASE_URL}/VNPay/return`, orderDetails);
+        console.log('Payment response sent successfully:', response.data);
+    } catch (error) {
+        console.error('Error sending payment response:', error);
     }
 };

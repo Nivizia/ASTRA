@@ -11,10 +11,10 @@ namespace DiamondAPI.Mappers
             {
                 ResponseId = Guid.NewGuid(),
                 OrderId = createVNPaymentResponse.OrderId,
-                Success = createVNPaymentResponse.ResponseCode == "00" && createVNPaymentResponse.TransactionStatusMessage == "00",
-                Amount = createVNPaymentResponse.Amount,
+                Success = createVNPaymentResponse.ResponseCode == "00" && createVNPaymentResponse.TransactionStatus == "00",
+                Amount = createVNPaymentResponse.Amount ?? 0m,
                 BankCode = createVNPaymentResponse.BankCode,
-                BankTransactionNumber = createVNPaymentResponse.BankTransactionNumber,
+                BankTransactionNumber = createVNPaymentResponse.BankTransactionNumber ?? null,
                 CardType = createVNPaymentResponse.CardType,
                 OrderInfo = createVNPaymentResponse.OrderInfo,
                 PaymentDate = createVNPaymentResponse.PaymentDate,

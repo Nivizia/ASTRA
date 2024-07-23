@@ -11,6 +11,7 @@ namespace DiamondAPI.Mappers
             {
                 RequestId = Guid.NewGuid(),
                 OrderId = createVNPaymentRequest.OrderId,
+                Deposit = createVNPaymentRequest.IsDeposit,
             };
         }
     }
