@@ -50,7 +50,7 @@ namespace DiamondAPI.Controllers
             await _vnPaymentResponseRepo.CreateVNPaymentResponse(createVNPaymentResponseDTO.ToVNPaymentResponse());
 
             var orderId = await _vnPaymentRequestRepo.GetOrderRequest(createVNPaymentResponseDTO.RequestId);
-            await _orderRepo.UpdateOrderStatus(orderId, "Deposit Received");
+            await _orderRepo.UpdateOrderStatus(orderId, "Payment Received");
             return Ok("Payment processed successfully");
         }
     }
