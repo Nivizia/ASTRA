@@ -6,6 +6,6 @@ namespace DiamondAPI.Interfaces
     {
         public Task<VnpaymentRequest> CreateVNPaymentRequest(VnpaymentRequest vnpaymentRequest);
 
-        public Task<Guid> GetOrderRequest(Guid requestId);
+        public Task<Guid> GetPaymentId(Guid orderId);
     }
 }

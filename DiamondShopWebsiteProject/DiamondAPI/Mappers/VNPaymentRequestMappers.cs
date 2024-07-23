@@ -9,7 +9,7 @@ namespace DiamondAPI.Mappers
         {
             return new VnpaymentRequest
             {
-                RequestId = Guid.NewGuid(),
+                PaymentId = Guid.NewGuid(),
                 OrderId = createVNPaymentRequest.OrderId,
                 Deposit = createVNPaymentRequest.IsDeposit,
             };

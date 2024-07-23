@@ -23,14 +23,14 @@ namespace DiamondAPI.Repositories
             return vnpaymentRequest;
         }
 
-        public async Task<Guid> GetOrderRequest(Guid requestId)
+        public async Task<Guid> GetPaymentId(Guid orderId)
         {
-            var vnpayrequest = await _context.VnpaymentRequests.FirstOrDefaultAsync(v => v.RequestId == requestId);
-            if (vnpayrequest == null)
+            var VNPaymentRequest = await _context.VnpaymentRequests.FirstOrDefaultAsync(x => x.OrderId == orderId);
+            if (VNPaymentRequest == null)
             {
-                return Guid.Empty;
+                throw new Exception("Payment request not found");
             }
-            return vnpayrequest.OrderId;
+            return VNPaymentRequest.PaymentId;
         }
     }
 }

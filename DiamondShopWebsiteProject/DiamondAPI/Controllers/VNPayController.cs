@@ -34,7 +34,7 @@ namespace DiamondAPI.Controllers
             paymentRequest.Amount = await _orderRepo.GetAmount(paymentRequest.OrderId);
             paymentRequest.CreatedDate = await _orderRepo.GetOrderDate(paymentRequest.OrderId);
 
-            if(requestDTO.IsDeposit)
+            if (requestDTO.IsDeposit)
             {
                 paymentRequest.Amount *= (decimal)0.4;
             }
@@ -47,6 +47,7 @@ namespace DiamondAPI.Controllers
         public async Task<IActionResult> PaymentReturn([FromBody] CreateVNPaymentResponseDTO createVNPaymentResponseDTO)
         {
             var VNPaymentResponseModel = createVNPaymentResponseDTO.ToVNPaymentResponse();
+            VNPaymentResponseModel.PaymentId = await _vnPaymentRequestRepo.GetPaymentId(createVNPaymentResponseDTO.OrderId);
 
             if (VNPaymentResponseModel.Success)
             {
