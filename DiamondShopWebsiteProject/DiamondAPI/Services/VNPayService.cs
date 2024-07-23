@@ -31,8 +31,8 @@ namespace DiamondAPI.Services
             var vnpay = new VNPayLibrary();
             vnpay.AddRequestData("vnp_Version", _config["VnPay:Version"] ?? "defaultVersion");
             vnpay.AddRequestData("vnp_Command", _config["VnPay:Command"] ?? "defaultCommand");
-            vnpay.AddRequestData("vnp_TmnCode", _config["VnPay:TmnCode"] ?? "defaultTmnCode");
-            vnpay.AddRequestData("vnp_Amount", (paymentRequest.Amount * 40).ToString("0")); // 40% deposit * 100 (VNPay requirement)
+            vnpay.AddRequestData("vnp_TmnCode", _config["VnPay:TmnCode"] ?? "defaultTmnCode");  
+            vnpay.AddRequestData("vnp_Amount", (paymentRequest.Amount * 40 * 20000).ToString("0")); // 40% deposit * 100 (VNPay requirement)
             vnpay.AddRequestData("vnp_CreateDate", paymentRequest.CreatedDate.ToString("yyyyMMddHHmmss"));
             vnpay.AddRequestData("vnp_CurrCode", _config["VnPay:CurrCode"] ?? "defaultCurrCode");
             vnpay.AddRequestData("vnp_IpAddr", Utils.GetIpAddress(context));

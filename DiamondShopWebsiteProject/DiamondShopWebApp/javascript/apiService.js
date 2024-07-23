@@ -345,9 +345,9 @@ export const updateCustomer = async (customerId, customerDetails) => {
     }
 };
 
-export const createVNpayPaymentUrl = async (orderId) => {
+export const createVNpayPaymentUrl = async (orderId, isDeposit) => {
     try {
-        const response = await axios.post(`${BASE_URL}/VNPay/create-payment-url`, { orderId }, {
+        const response = await axios.post(`${BASE_URL}/VNPay/create-payment-url`, { orderId, isDeposit }, {
             headers: {
                 'Content-Type': 'application/json'
             }

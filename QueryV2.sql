@@ -71,15 +71,14 @@ CREATE TABLE VNPaymentResponse (
     ResponseId UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
     RequestId UNIQUEIDENTIFIER NOT NULL,
     Success BIT NOT NULL,
-    PaymentMethod NVARCHAR(50),
-    OrderDescription NVARCHAR(255),
-    OrderId NVARCHAR(50),
-    TransactionId NVARCHAR(50),
-    Token NVARCHAR(255),
-    VnPayResponseCode NVARCHAR(50),
+    
     Amount MONEY,
-    Message NVARCHAR(255),
-    ResponseDate DATETIME NOT NULL,
+	BankCode VARCHAR(50),
+	BankTransactionNumber VARCHAR(100),
+	CardType VARCHAR(50), --Transaction type (ATM/QR code)
+	OrderInfo VARCHAR(500), -- Transaction message
+	PaymentDate DATETIME,
+
     FOREIGN KEY (RequestId) REFERENCES VNPaymentRequest(RequestId)
 );
 

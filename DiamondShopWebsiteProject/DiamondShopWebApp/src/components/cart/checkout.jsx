@@ -24,7 +24,7 @@ const CheckOut = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const [paymentMethod, setPaymentMethod] = useState('deposit');
+    const [paymentMethod, setPaymentMethod] = useState('fullpayment');
     const [receivingMethod, setReceivingMethod] = useState('takeatstore');
     const [buyAsGift, setBuyAsGift] = useState(false);
 
@@ -126,12 +126,12 @@ const CheckOut = () => {
 
         try {
             const orderResponse = await createOrder(orderDetails);
-        
+
             if (orderResponse.success) {
                 try {
-                    const vnPayResponse = await createVNpayPaymentUrl(orderResponse.data.orderId);
+                    const vnPayResponse = await createVNpayPaymentUrl(orderResponse.data.orderId, paymentMethod === 'deposit');
                     const VNPayUrl = vnPayResponse.paymentUrl;
-        
+
                     console.log('Order created successfully:', orderResponse);
                     clearCart(); // Clear the cart after placing the order
                     window.location.href = VNPayUrl; // Redirect to the VNPay payment URL
@@ -285,10 +285,18 @@ const CheckOut = () => {
                             />
                         </div>
                         <h2>Order Summary</h2>
-                        <div className={styles.orderInfoRow}>
-                            <div className={styles.orderInfoLabel}>Total Amount:</div>
-                            <div className={styles.orderInfoValue}>${getCartItems().reduce((total, item) => item.type === 'pairing' ? total + item.price : total + item.details.price, 0).toFixed(2)}</div>
-                        </div>
+                        {paymentMethod === 'deposit' ? (
+                            <div className={styles.orderInfoRow}>
+                                <div className={styles.orderInfoLabel}>Deposit Amount:</div>
+                                <div className={styles.orderInfoValue}>${(getCartItems().reduce((total, item) => item.type === 'pairing' ? total + item.price : total + item.details.price, 0) * 0.4).toFixed(2)}</div>
+                            </div>
+                        ) : (
+                            <div className={styles.orderInfoRow}>
+                                <div className={styles.orderInfoLabel}>Total Amount:</div>
+                                <div className={styles.orderInfoValue}>${(getCartItems().reduce((total, item) => item.type === 'pairing' ? total + item.price : total + item.details.price, 0)).toFixed(2)}</div>
+                            </div>
+                        )
+                        }
                         <div className={styles.paymentMethod}>
                             <h2 className={styles.paymentMethodTitle}>Payment Method</h2>
                             <ToggleButtonGroup
@@ -297,16 +305,17 @@ const CheckOut = () => {
                                 onChange={handleSetPaymentMethod}
                                 aria-label="text alignment"
                             >
-                                <ToggleButton value="deposit" aria-label="deposit" className={styles.paymentOption}>
-                                    Deposit
-                                </ToggleButton>
-                                <Tooltip title="Card payment is not available at the moment" arrow>
-                                    <span>
-                                        <ToggleButton value="card" aria-label="card" className={styles.paymentOption} disabled>
-                                            Card
-                                        </ToggleButton>
-                                    </span>
+                                <Tooltip title="Pay the total amount" arrow>
+                                    <ToggleButton value="fullpayment" aria-label="fullpayment" className={styles.paymentOption}>
+                                        Full Payment
+                                    </ToggleButton>
                                 </Tooltip>
+                                <Tooltip title="Pay 40% as deposit amount, and the rest at store" arrow>
+                                    <ToggleButton value="deposit" aria-label="deposit" className={styles.paymentOption}>
+                                        Deposit
+                                    </ToggleButton>
+                                </Tooltip>
+
                             </ToggleButtonGroup>
                         </div>
                         <div className={styles.receivingMethod}>
@@ -317,9 +326,11 @@ const CheckOut = () => {
                                 onChange={handleSetReceivingMethod}
                                 aria-label="text alignment"
                             >
-                                <ToggleButton value="takeatstore" aria-label="takeatstore" className={styles.receivingOption}>
-                                    Take at store
-                                </ToggleButton>
+                                <Tooltip title="Verify identification at the store" arrow>
+                                    <ToggleButton value="takeatstore" aria-label="takeatstore" className={styles.receivingOption}>
+                                        Take at store
+                                    </ToggleButton>
+                                </Tooltip>
                                 <Tooltip title="Delivery is not available at the moment" arrow>
                                     <span>
                                         <ToggleButton value="Delivery" aria-label="delivery" className={styles.receivingOption} disabled>

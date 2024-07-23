@@ -11,23 +11,17 @@ public partial class VnpaymentResponse
 
     public bool Success { get; set; }
 
-    public string? PaymentMethod { get; set; }
-
-    public string? OrderDescription { get; set; }
-
-    public string? OrderId { get; set; }
-
-    public string? TransactionId { get; set; }
-
-    public string? Token { get; set; }
-
-    public string? VnPayResponseCode { get; set; }
-
     public decimal? Amount { get; set; }
 
-    public string? Message { get; set; }
+    public string? BankCode { get; set; }
 
-    public DateTime ResponseDate { get; set; }
+    public string? BankTransactionNumber { get; set; }
+
+    public string? CardType { get; set; }
+
+    public string? OrderInfo { get; set; }
+
+    public DateTime? PaymentDate { get; set; }
 
     public virtual VnpaymentRequest Request { get; set; } = null!;
 }
