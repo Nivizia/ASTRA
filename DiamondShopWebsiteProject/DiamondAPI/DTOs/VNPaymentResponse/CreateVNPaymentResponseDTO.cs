@@ -2,8 +2,6 @@
 {
     public class CreateVNPaymentResponseDTO
     {
-        public Guid RequestId { get; set; }
-
         public Guid OrderId { get; set; }
 
         public string? Code { get; set; }

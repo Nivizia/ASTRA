@@ -47,7 +47,6 @@ namespace DiamondAPI.Controllers
         [HttpGet("return")]
         public async Task<IActionResult> PaymentReturn([FromBody] CreateVNPaymentResponseDTO createVNPaymentResponseDTO)
         {
-            var response = Request.Query;
             var VNPaymentResponseModel = createVNPaymentResponseDTO.ToVNPaymentResponse();
 
             if (VNPaymentResponseModel.Success)
