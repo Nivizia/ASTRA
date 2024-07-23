@@ -156,5 +156,25 @@ namespace DiamondAPI.Repositories
             await _context.SaveChangesAsync();
             return order;
         }
+
+        public async Task<bool> UpdateOrderStatusDepositReceived(Guid orderID)
+        {
+            var order = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderID);
+            if (order == null)
+                return false;
+            order.OrderStatus = "Deposit Received";
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> UpdateOrderStatus(Guid OrderID, string Status)
+        {
+            var order = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == OrderID);
+            if (order == null)
+                return false;
+            order.OrderStatus = Status;
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DiamondAPI.DTOs.VNPaymentRequest;
+using DiamondAPI.DTOs.VNPaymentResponse;
 using DiamondAPI.Interfaces;
 using DiamondAPI.Mappers;
 using DiamondAPI.Models;
@@ -15,12 +16,14 @@ namespace DiamondAPI.Controllers
         private readonly IVNPayService _vnPayService;
         private readonly IOrderRepository _orderRepo;
         private readonly IVNPaymentRequestRepository _vnPaymentRequestRepo;
+        private readonly IVNPaymentResponseRepository _vnPaymentResponseRepo;
 
-        public VNPayController(IVNPayService vnPayService, IOrderRepository orderRepo, IVNPaymentRequestRepository vNPaymentRequestRepo)
+        public VNPayController(IVNPayService vnPayService, IOrderRepository orderRepo, IVNPaymentRequestRepository vNPaymentRequestRepo, IVNPaymentResponseRepository vNPaymentResponseRepo)
         {
             _vnPayService = vnPayService;
             _orderRepo = orderRepo;
             _vnPaymentRequestRepo = vNPaymentRequestRepo;
+            _vnPaymentResponseRepo = vNPaymentResponseRepo;
         }
 
         [HttpPost("create-payment-url")]
@@ -42,11 +45,13 @@ namespace DiamondAPI.Controllers
         }
 
         [HttpGet("return")]
-        public IActionResult PaymentReturn()
+        public async Task<IActionResult> PaymentReturn([FromBody] CreateVNPaymentResponseDTO createVNPaymentResponseDTO)
         {
-            // Handle the return from VNPay, validate the response, and update the order status
             var response = Request.Query;
-            // Validate and process the response here
+            await _vnPaymentResponseRepo.CreateVNPaymentResponse(createVNPaymentResponseDTO.ToVNPaymentResponse());
+
+            var orderId = await _vnPaymentRequestRepo.GetOrderRequest(createVNPaymentResponseDTO.RequestId);
+            await _orderRepo.UpdateOrderStatus(orderId, "Deposit Received");
             return Ok("Payment processed successfully");
         }
     }

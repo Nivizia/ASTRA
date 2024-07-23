@@ -33,6 +33,10 @@ namespace DiamondAPI.Interfaces
 
         Task<bool> UpdateOrderStatusCompleted(Order order);
 
+        Task<bool> UpdateOrderStatusDepositReceived(Guid orderID);
+
+        Task<bool> UpdateOrderStatus(Guid OrderID, string Status);
+
         void UpdateOrder(Order order);
 
         void Save();
