@@ -11,7 +11,7 @@ namespace DiamondAPI.Interfaces
 
         Task<Order?> GetOrderByOrderIDAndCustomerID(Guid orderId, Guid customerID);
 
-        Task<List<Order>> GetOrdersByCusInfos(string OrderFirstName, string OrderLastName, string OrderEmail, string OrderPhone);
+        Task<List<Order>> GetOrdersByCusInfos(string? OrderFirstName, string? OrderLastName, string? OrderEmail, string? OrderPhone);
 
         Task<Order> CreateOrder(Order order);
 

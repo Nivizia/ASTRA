@@ -6,9 +6,14 @@ const StaffMenu = () => {
 
   const fetchOrders = async (OrderFirstName, OrderLastName, OrderEmail, OrderPhone) => {
     try {
-      const response = await axios.get(
-        `/DiamondAPI/Models/Orders/SearchOrders/${OrderFirstName}/${OrderLastName}/${OrderEmail}/${OrderPhone}`
-      );
+      const query = new URLSearchParams({
+        OrderFirstName: OrderFirstName || " ",
+        OrderLastName: OrderLastName || " ",
+        OrderEmail: OrderEmail || " ",
+        OrderPhone: OrderPhone || " "
+      }).toString();
+
+      const response = await axios.get(`/DiamondAPI/Models/Orders/SearchOrders?${query}`);
       setOrders(response.data);
     } catch (error) {
       console.error("Error fetching orders:", error);
@@ -16,16 +21,16 @@ const StaffMenu = () => {
   };
 
   const handleSearch = () => {
-    const OrderFirstName = document.getElementById("OrderFirstName").value || "null";
-    const OrderLastName = document.getElementById("OrderLastName").value || "null";
-    const OrderEmail = document.getElementById("OrderEmail").value || "null";
-    const OrderPhone = document.getElementById("OrderPhone").value || "null";
+    const OrderFirstName = document.getElementById("OrderFirstName").value;
+    const OrderLastName = document.getElementById("OrderLastName").value;
+    const OrderEmail = document.getElementById("OrderEmail").value;
+    const OrderPhone = document.getElementById("OrderPhone").value;
 
     fetchOrders(OrderFirstName, OrderLastName, OrderEmail, OrderPhone);
   };
 
   useEffect(() => {
-    fetchOrders("null", "null", "null", "null");
+    fetchOrders("", "", "", "");
   }, []);
 
   return (

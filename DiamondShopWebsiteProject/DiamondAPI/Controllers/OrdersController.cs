@@ -196,8 +196,8 @@ namespace DiamondAPI.Controllers
         }
 
         [HttpGet]
-        [Route("SearchOrders/{OrderFirstName}/{OrderLastName}/{OrderEmail}/{OrderPhone}")]
-        public async Task<IActionResult> SearchOrders([FromRoute] string OrderFirstName, string OrderLastName, string OrderEmail, string OrderPhone)
+        [Route("SearchOrders/{OrderFirstName?}/{OrderLastName?}/{OrderEmail?}/{OrderPhone?}")]
+        public async Task<IActionResult> SearchOrders([FromRoute] string? OrderFirstName, [FromRoute] string? OrderLastName, [FromRoute] string? OrderEmail, [FromRoute] string? OrderPhone)
         {
             var orders = await _orderRepo.GetOrdersByCusInfos(OrderFirstName, OrderLastName, OrderEmail, OrderPhone);
             var ordersDTO = orders.Select(o => o.ToOrderRequestDTO()).ToList();
@@ -299,10 +299,10 @@ namespace DiamondAPI.Controllers
         }
 
         [HttpPut]
-        [Route("confirm-email")]
-        public async Task<IActionResult> ConfirmOrder([FromQuery] string t)
+        [Route("Confirm/{token}")]
+        public async Task<IActionResult> UpdateOrderStatus([FromRoute] string token)
         {
-            var decodedToken = Uri.UnescapeDataString(t); // Decode URL-encoded token
+            var decodedToken = Uri.UnescapeDataString(token); // Decode URL-encoded token
             var value = TokenHelper.ValidateToken(decodedToken);
             if (value == null)
                 return BadRequest("Invalid token.");
@@ -316,16 +316,13 @@ namespace DiamondAPI.Controllers
             if (order == null)
                 return NotFound("Order not found.");
 
-            // Update order status to Confirmed
-            order.Status = "Confirmed";
-            await _orderRepo.UpdateOrder(order);
+            await _orderRepo.UpdateOrderStatusConfirmed(order);
 
             if (order.OrderEmail != null)
-                await _emailService.SendEmailAsync(order.OrderEmail, "Order Confirmed", $"Your order with ID {order.OrderId} has been confirmed.");
+                await _emailService.SendEmailAsync(order.OrderEmail, "Order confirmed", $"Your order with ID {order.OrderId} has been confirmed.");
 
-            return Ok(new { message = "Order confirmed successfully." });
+            return Ok(order);
         }
-
 
         [HttpPut]
         [Route("ConfimationSend")]

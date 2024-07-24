@@ -65,7 +65,7 @@ namespace DiamondAPI.Repositories
             return await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId && o.CustomerId == customerID);
         }
 
-        public async Task<List<Order>> GetOrdersByCusInfos(string? orderFirstName = null, string? orderLastName = null, string? orderEmail = null, string? orderPhone = null)
+        public async Task<List<Order>> GetOrdersByCusInfos(string? orderFirstName, string? orderLastName, string? orderEmail, string? orderPhone)
         {
             var query = _context.Orders.Include(o => o.Orderitems).AsQueryable();
 
