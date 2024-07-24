@@ -184,10 +184,10 @@ const RingDetails = () => {
               <td>Metal Type</td>
               <td>{ring.metalType}</td>
             </tr>
-            <tr>
+            {/* <tr>
               <td>Ring Size</td>
               <td>{ring.ringSize}</td>
-            </tr>
+            </tr> */}
             <tr>
               <td>Suitable Shapes</td>
               <td>{ring.shapes.map((shape, index) => (
