@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
+import styles from '../css/EmailConfirmation.module.css';
 
-const OrderConfirmation = () => {
+const EmailConfirmation = () => {
     const [message, setMessage] = useState('');
     const location = useLocation();
 
@@ -27,11 +28,14 @@ const OrderConfirmation = () => {
     }, [location.search]);
 
     return (
-        <div className="confirmation-container">
+        <div className={styles.confirmationContainer}>
             <h1>Order Confirmation</h1>
             <p>{message}</p>
+            {message && (
+                <Link to="/" className={styles.homeButton}>Go to Home</Link>
+            )}
         </div>
     );
 };
 
-export default OrderConfirmation;
+export default EmailConfirmation;
