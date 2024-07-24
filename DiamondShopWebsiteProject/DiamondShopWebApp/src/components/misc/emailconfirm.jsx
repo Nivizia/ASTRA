@@ -1,35 +1,37 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 
-const EmailConfirm = () => {
-  const [message, setMessage] = useState('Confirming...');
-  const location = useLocation();
+const OrderConfirmation = () => {
+    const [message, setMessage] = useState('');
+    const location = useLocation();
 
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const token = searchParams.get('t');
-    console.log(token);
+    useEffect(() => {
+        // Extract the token from the URL
+        const params = new URLSearchParams(location.search);
+        const token = params.get('t');
 
-    if (token) {
-      fetch(`http://astradiamonds.com:5212/DiamondAPI/Models/Orders/Confirm/${token}`, {
-        method: 'PUT',
-      })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
+        if (token) {
+            // Send a request to confirm the order
+            axios.put(`http://astradiamonds.com:5212/DiamondAPI/Models/Orders/Confirm/${token}`)
+                .then(response => {
+                    setMessage('Your order has been confirmed successfully!');
+                })
+                .catch(error => {
+                    console.error('There was an error confirming the order:', error);
+                    setMessage('Failed to confirm your order. Please try again later.');
+                });
+        } else {
+            setMessage('Invalid or missing token.');
         }
-        throw new Error('Failed to confirm email.');
-      })
-      .then(data => setMessage('Your email has been successfully confirmed.'))
-      .catch(error => setMessage(error.message));
-    } else {
-      setMessage('No token provided.');
-    }
-  }, [location.search]);
+    }, [location.search]);
 
-  return (
-    <div>{message}</div>
-  );
+    return (
+        <div className="confirmation-container">
+            <h1>Order Confirmation</h1>
+            <p>{message}</p>
+        </div>
+    );
 };
 
-export default EmailConfirm;
+export default OrderConfirmation;

@@ -5,21 +5,21 @@ using System.Text;
 
 public static class TokenHelper
 {
-    private static readonly string EncryptionKey = "InaIsTheBestVTuberFrFrFr"; // Change this to a secure key
+    private static readonly string EncryptionKey = "InaIsTheBestVTuberFrFrFr"; // Ensure this key length is appropriate
 
     public static string GenerateToken(Guid orderId, DateTime? expiration = null)
     {
         var token = expiration.HasValue ? $"{orderId}|{expiration:o}" : $"{orderId}|no-expiration";
-        return Encrypt(token);
+        return Base64UrlEncode(Encrypt(token));
     }
 
     public static (Guid orderId, DateTime? expiration)? ValidateToken(string token)
     {
-        var decryptedToken = Decrypt(token);
+        var decodedToken = Base64UrlDecode(token);
+        var decryptedToken = Decrypt(decodedToken);
         if (decryptedToken == null)
         {
             Console.WriteLine("1");
-            Console.ReadLine();
             return null;
         }
 
@@ -27,21 +27,18 @@ public static class TokenHelper
         if (parts.Length != 2 || !Guid.TryParse(parts[0], out var orderId))
         {
             Console.WriteLine("2");
-            Console.ReadLine();
             return null;
         }
 
         if (parts[1] == "no-expiration")
         {
             Console.WriteLine("3");
-            Console.ReadLine();
             return (orderId, null);
         }
 
         if (!DateTime.TryParse(parts[1], out var expiration))
         {
             Console.WriteLine("4");
-            Console.ReadLine();
             return null;
         }
 
@@ -95,17 +92,33 @@ public static class TokenHelper
                 }
             }
         }
-        catch (FormatException)
+        catch (FormatException ex)
         {
-            // Log the error or handle it as needed
-            Console.WriteLine("Format exception");
+            Console.WriteLine("Format exception: " + ex.Message);
             return null;
         }
-        catch (CryptographicException)
+        catch (CryptographicException ex)
         {
-            Console.WriteLine("Cryptographic exception");
-            // Log the error or handle it as needed
+            Console.WriteLine("Cryptographic exception: " + ex.Message);
             return null;
         }
+    }
+
+    private static string Base64UrlEncode(string input)
+    {
+        var output = Convert.ToBase64String(Encoding.UTF8.GetBytes(input));
+        return output.Replace('+', '-').Replace('/', '_').Replace("=", string.Empty);
+    }
+
+    private static string Base64UrlDecode(string input)
+    {
+        var output = input.Replace('-', '+').Replace('_', '/');
+        switch (output.Length % 4)
+        {
+            case 2: output += "=="; break;
+            case 3: output += "="; break;
+        }
+        var byteArray = Convert.FromBase64String(output);
+        return Encoding.UTF8.GetString(byteArray);
     }
 }

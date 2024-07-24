@@ -299,29 +299,33 @@ namespace DiamondAPI.Controllers
         }
 
         [HttpPut]
-        [Route("Confirm/{token}")]
-        public async Task<IActionResult> UpdateOrderStatus([FromRoute] string token)
+        [Route("confirm-email")]
+        public async Task<IActionResult> ConfirmOrder([FromQuery] string t)
         {
-            var value = TokenHelper.ValidateToken(token);
+            var decodedToken = Uri.UnescapeDataString(t); // Decode URL-encoded token
+            var value = TokenHelper.ValidateToken(decodedToken);
             if (value == null)
                 return BadRequest("Invalid token.");
 
             var (orderId, expiration) = value.Value;
 
-            if (expiration < DateTime.UtcNow)
+            if (expiration.HasValue && expiration < DateTime.UtcNow)
                 return BadRequest("Token has expired.");
 
             var order = await _orderRepo.GetOrderById(orderId);
             if (order == null)
                 return NotFound("Order not found.");
 
-            await _orderRepo.UpdateOrderStatusConfirmed(order);
+            // Update order status to Confirmed
+            order.Status = "Confirmed";
+            await _orderRepo.UpdateOrder(order);
 
             if (order.OrderEmail != null)
-                await _emailService.SendEmailAsync(order.OrderEmail, "Order confirmed", $"Your order with ID {order.OrderId} has been confirmed.");
+                await _emailService.SendEmailAsync(order.OrderEmail, "Order Confirmed", $"Your order with ID {order.OrderId} has been confirmed.");
 
-            return Ok(order);
+            return Ok(new { message = "Order confirmed successfully." });
         }
+
 
         [HttpPut]
         [Route("ConfimationSend")]

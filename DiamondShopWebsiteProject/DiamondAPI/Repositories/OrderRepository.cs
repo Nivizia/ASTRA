@@ -56,7 +56,6 @@ namespace DiamondAPI.Repositories
             var order = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId);
             if (order == null)
                 return null;
-            _context.Orders.Remove(order);
             await _context.SaveChangesAsync();
             return order;
         }
