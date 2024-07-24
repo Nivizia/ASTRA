@@ -32,6 +32,7 @@ import OrderConfirmation from './components/cart/orderConfirmation';
 
 //Testing components
 import Profile from './components/profile/profile';
+import EmailConfirm from './components/misc/emailconfirm';
 
 //Error Component
 import ErrorPage from './components/misc/errorpage';
@@ -146,12 +147,16 @@ const router = createBrowserRouter([
       {
         path: "/payment/",
         element: <PaymentDemo />,
-      }
+      },
     ]
   },
   {
     path: "/staff/",
     element: <StaffMenu />,
+  },
+  {
+    path: "/email-confirm/",
+    element: <EmailConfirm />,
   }
 ]);
 
