@@ -38,7 +38,7 @@ const OrderHistory = () => {
     return <p>Error: {error}</p>;
   }
 
-  if (!loading && (orders.length === 0 || !orders.some(order => ["Processing", "Confirmation Sent", "Postponed", "Cancelled", "Confirmed"].includes(order.orderStatus)))) {
+  if (!loading && (orders.length === 0 || !orders.some(order => ["Processing", "Confirmation Sent", "Postponed", "Cancelled", "Confirmed", "Completed"].includes(order.orderStatus)))) {
     return <div className={styles.orderHistoryContainer}><h2>Order History</h2>
       <p>You have not ordered. Please order to see order history</p></div>;
   }
@@ -47,7 +47,7 @@ const OrderHistory = () => {
     <div className={styles.orderHistoryContainer}>
       <h2>Order History</h2>
       {loading ? <CircularIndeterminate size={56} /> : (
-        orders.filter(order => ["Processing", "Confirmation Sent", "Postponed", "Cancelled", "Confirmed"].includes(order.orderStatus))
+        orders.filter(order => ["Processing", "Confirmation Sent", "Postponed", "Cancelled", "Confirmed", "Completed"].includes(order.orderStatus))
           .map((order) => (
             <div key={order.orderId} className={styles.orderCard}>
               <h3 className={styles.orderId}>Order ID: {order.orderId}</h3>
