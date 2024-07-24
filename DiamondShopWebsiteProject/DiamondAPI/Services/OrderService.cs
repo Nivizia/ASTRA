@@ -81,6 +81,25 @@ namespace DiamondAPI.Services
             return pendant.Name ?? "Pendant";
         }
 
+        public async Task<bool> UpdateStatusToProcessing()
+        {
+            var orders = await _orderRepo.GetOrdersWithStatus("Payment Received");
+
+            if (orders == null)
+            {
+                return false;
+            }
+
+            foreach (var order in orders)
+            {
+                if (order.OrderDate.HasValue && order.OrderDate.Value.AddMinutes(5) <= DateTime.Now)
+                {
+                    await _orderRepo.UpdateOrderStatus(order.OrderId, "Processing");
+                }
+            }
+            return true;
+        }
+
         public async Task<bool> SendOrderConfirmRequest()
         {
             var orders = await _orderRepo.GetOrdersWithStatus("Processing");

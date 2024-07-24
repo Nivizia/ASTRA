@@ -322,5 +322,21 @@ namespace DiamondAPI.Controllers
 
             return Ok(order);
         }
+
+        [HttpPut]
+        [Route("ConfimationSend")]
+        public async Task<IActionResult> UpdateOrderStatusConfirmed([FromBody] Guid OrderID)
+        {
+            var order = await _orderRepo.GetOrderById(OrderID);
+            if (order == null)
+                return NotFound("Order not found.");
+
+            await _orderRepo.UpdateOrderStatusConfirmationSent(order);
+
+            if (order.OrderEmail != null)
+                await _emailService.SendEmailAsync(order.OrderEmail, "Order confirmed", $"Your order with ID {order.OrderId} has been confirmed.");
+
+            return Ok(order);
+        }
     }
 }

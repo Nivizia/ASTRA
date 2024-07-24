@@ -53,7 +53,7 @@ CREATE TABLE ORDERS (
 	OrderLastName VARCHAR(500),
 	OrderEmail VARCHAR(500),
 	OrderPhone VARCHAR(500),
-	OrderStatus VARCHAR(500) DEFAULT 'Payment Pending', -- Payment Pending, Payment Expired, Payment Received, Payment Failed, Processing, ConfirmationSent, Postponed, Cancelled, Completed
+	OrderStatus VARCHAR(500) DEFAULT 'Payment Pending', -- Payment Pending, Payment Expired, Payment Received, Payment Failed, Processing, ConfirmationSent, Confirmed, Postponed, Cancelled, Completed
 	FOREIGN KEY (CustomerID) REFERENCES CUSTOMER(CustomerID)
 );
 
