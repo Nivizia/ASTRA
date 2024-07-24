@@ -6,14 +6,13 @@ public static class TokenHelper
 {
     private static readonly string EncryptionKey = "InaIsTheBestVTuberFrFrFr"; // Change this to a secure key
 
-    public static string GenerateToken(Guid orderId)
+    public static string GenerateToken(Guid orderId, DateTime? expiration = null)
     {
-        var expiration = DateTime.UtcNow.AddHours(24);
-        var token = $"{orderId}|{expiration:o}";
+        var token = expiration.HasValue ? $"{orderId}|{expiration:o}" : $"{orderId}|no-expiration";
         return Encrypt(token);
     }
 
-    public static (Guid orderId, DateTime expiration)? ValidateToken(string token)
+    public static (Guid orderId, DateTime? expiration)? ValidateToken(string token)
     {
         var decryptedToken = Decrypt(token);
         if (decryptedToken == null)
@@ -22,12 +21,21 @@ public static class TokenHelper
         }
 
         var parts = decryptedToken.Split('|');
-        if (parts.Length != 3 || !Guid.TryParse(parts[0], out var orderId) || !DateTime.TryParse(parts[2], out var expiration))
+        if (parts.Length != 2 || !Guid.TryParse(parts[0], out var orderId))
         {
             return null;
         }
 
-        var action = parts[1];
+        if (parts[1] == "no-expiration")
+        {
+            return (orderId, null);
+        }
+
+        if (!DateTime.TryParse(parts[1], out var expiration))
+        {
+            return null;
+        }
+
         return (orderId, expiration);
     }
 

@@ -114,8 +114,8 @@ namespace DiamondAPI.Services
                 if (order.OrderDate.HasValue && order.OrderDate.Value.AddHours(24) <= DateTime.Now && order.OrderEmail != null)
                 {
                     List<Orderitem> orderItems = await _orderItemRepo.GetOrderitemsByOrderId(order.OrderId);
-                    string confirmToken = TokenHelper.GenerateToken(order.OrderId);
-                    string cancelToken = TokenHelper.GenerateToken(order.OrderId);
+                    string confirmToken = TokenHelper.GenerateToken(order.OrderId, DateTime.Now.AddHours(24));
+                    string cancelToken = TokenHelper.GenerateToken(order.OrderId, DateTime.Now.AddHours(24));
 
                     string confirmUrl = $"{_url}/confirm-email?t={confirmToken}";
                     string cancelUrl = $"{_url}/cancel-email?t={cancelToken}";
@@ -218,8 +218,93 @@ namespace DiamondAPI.Services
             {
                 if (order.OrderDate.HasValue && order.OrderDate.Value.AddHours(48) <= DateTime.Now && order.OrderEmail != null)
                 {
+                    List<Orderitem> orderItems = await _orderItemRepo.GetOrderitemsByOrderId(order.OrderId);
+                    string confirmToken = TokenHelper.GenerateToken(order.OrderId);
+                    string cancelToken = TokenHelper.GenerateToken(order.OrderId);
+
+                    string confirmUrl = $"{_url}/confirm-email?t={confirmToken}";
+                    string cancelUrl = $"{_url}/cancel-email?t={cancelToken}";
+
+                    // Construct the list of order items
+                    string orderItemsHtml = "<ul>";
+                    foreach (var item in orderItems)
+                    {
+                        Console.WriteLine(item.ProductType);
+                        if (item.ProductType == "Diamond")
+                        {
+                            var diamondDetails = await _diamondRepo.GetByIDAsync(item.DiamondId);
+                            if (diamondDetails == null)
+                            {
+                                throw new Exception("Diamond not found");
+                            }
+
+                            string diamondLink = $"{_url}/diamond/{item.DiamondId}?view=true";
+                            string diamondDescription = $"{diamondDetails.CaratWeight} Carat {diamondDetails.Color}-{diamondDetails.Clarity} {diamondDetails.Cut} Cut {diamondDetails.Shape} Diamond (${item.Price})";
+                            orderItemsHtml += $"<li>Diamond: <a href='{diamondLink}'>{diamondDescription}</a></li>";
+                        }
+                        else if (item.ProductType == "PendantPairing")
+                        {
+                            var pendantPairing = await _pendantPairingRepo.GetByIdAsync(item.PendantPairingId);
+                            if (pendantPairing == null)
+                            {
+                                throw new Exception("Pendant pairing not found");
+                            }
+
+                            var pendantDetails = await _pendantRepo.GetByIDAsync(pendantPairing.PendantId);
+                            var diamondDetails = await _diamondRepo.GetByIDAsync(pendantPairing.DiamondId);
+                            if (pendantDetails == null || diamondDetails == null)
+                            {
+                                throw new Exception("Pendant or diamond not found");
+                            }
+
+                            string pendantLink = $"{_url}/pendant/{pendantDetails.PendantId}";
+                            string diamondLink = $"{_url}/diamond/{diamondDetails.DProductId}?view=true";
+                            string pendantDescription = GetPendantName(pendantDetails);
+                            string diamondDescription = $"{diamondDetails.CaratWeight} Carat {diamondDetails.Color}-{diamondDetails.Clarity} {diamondDetails.Cut} Cut {diamondDetails.Shape} Diamond (${(item.Price - pendantDetails.Price):0.00})";
+                            orderItemsHtml += $"<li>Pendant Jewelry:<ul><li>Diamond: <a href='{diamondLink}'>{diamondDescription}</a></li><li>Pendant: <a href='{pendantLink}'>{pendantDescription} (${pendantDetails.Price:0.00})</a></li></ul></li>";
+                        }
+                        else if (item.ProductType == "RingPairing")
+                        {
+                            var ringPairing = await _ringPairingRepo.GetByIdAsync(item.RingPairingId);
+                            if (ringPairing == null)
+                            {
+                                throw new Exception("Ring pairing not found");
+                            }
+
+                            var ringDetails = await _ringRepo.GetByIDAsync(ringPairing.RingId);
+                            var diamondDetails = await _diamondRepo.GetByIDAsync(ringPairing.DiamondId);
+                            if (ringDetails == null || diamondDetails == null)
+                            {
+                                throw new Exception("Ring or diamond not found");
+                            }
+
+                            string ringLink = $"{_url}/ring/{ringDetails.RingId}";
+                            string diamondLink = $"{_url}/diamond/{diamondDetails.DProductId}?view=true";
+
+                            if (ringDetails.RingName == null)
+                            {
+                                throw new Exception("Ring not found");
+                            }
+
+                            string ringDescription = ringDetails.RingName;
+                            string diamondDescription = $"{diamondDetails.CaratWeight} Carat {diamondDetails.Color}-{diamondDetails.Clarity} {diamondDetails.Cut} Cut {diamondDetails.Shape} Diamond (${(item.Price - ringDetails.Price):0.00})";
+                            orderItemsHtml += $"<li>Ring Jewelry:<ul><li>Diamond: <a href='{diamondLink}'>{diamondDescription}</a></li><li>Ring: <a href='{ringLink}'>{ringDescription} (${ringDetails.Price:0.00})</a></li></ul></li>";
+                        }
+                    }
+                    orderItemsHtml += "</ul>";
+
+                    // Construct the email body
+                    string emailBody = $@"
+                    <p>Your order with ID: {order.OrderId} has been postponed.</p>
+                    <p>List of items:</p>
+                    {orderItemsHtml}
+                    <p>Total: ${orderItems.Sum(o => o.Price):0.00}</p>
+                    <p>Please choose one of the options below:</p>
+                    <a href='{confirmUrl}' style='display:inline-block;padding:10px 20px;margin:10px;color:white;background-color:green;text-align:center;text-decoration:none;border-radius:5px;'>Confirm</a>
+                    <a href='{cancelUrl}' style='display:inline-block;padding:10px 20px;margin:10px;color:white;background-color:red;text-align:center;text-decoration:none;border-radius:5px;'>Cancel</a>";
+
                     await _orderRepo.UpdateOrderStatusPostponed(order);
-                    await _emailService.SendEmailAsync(order.OrderEmail, "Order postponed", $"Your order with ID {order.OrderId} has been postponed. Please press confirm to continue with the order or cancel.");
+                    await _emailService.SendEmailAsync(order.OrderEmail, "ORDER POSTPONED", $"Your order with ID {order.OrderId} has been postponed. Please press confirm to continue with the order or cancel.");
                 }
             }
             return true;
