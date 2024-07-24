@@ -39,6 +39,7 @@ import ErrorPage from './components/misc/errorpage';
 //Css Imports
 import './index.css'
 import PaymentDemo from './components/payment/payment';
+import StaffMenu from './components/staff/staffmenu';
 
 const router = createBrowserRouter([
   {
@@ -148,6 +149,10 @@ const router = createBrowserRouter([
       }
     ]
   },
+  {
+    path: "/staff/",
+    element: <StaffMenu />,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

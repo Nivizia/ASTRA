@@ -1,3 +1,5 @@
+// src/components/cart/orderConfirmation.jsx
+
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import CircularIndeterminate from '../misc/loading';
