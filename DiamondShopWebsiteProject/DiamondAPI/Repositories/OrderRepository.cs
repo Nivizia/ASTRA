@@ -65,16 +65,31 @@ namespace DiamondAPI.Repositories
             return await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == orderId && o.CustomerId == customerID);
         }
 
-        public async Task<List<Order>> GetOrdersByCusInfos(string orderFirstName, string orderLastName, string orderEmail, string orderPhone)
+        public async Task<List<Order>> GetOrdersByCusInfos(string? orderFirstName = null, string? orderLastName = null, string? orderEmail = null, string? orderPhone = null)
         {
-            return await _context.Orders
-                .Include(o => o.Orderitems)
-                .Where(o =>
-                    (string.IsNullOrEmpty(orderFirstName) || (o.OrderFirstName != null && o.OrderFirstName.Contains(orderFirstName))) &&
-                    (string.IsNullOrEmpty(orderLastName) || (o.OrderLastName != null && o.OrderLastName.Contains(orderLastName))) &&
-                    (string.IsNullOrEmpty(orderEmail) || (o.OrderEmail != null && o.OrderEmail.Contains(orderEmail))) &&
-                    (string.IsNullOrEmpty(orderPhone) || (o.OrderPhone != null && o.OrderPhone.Contains(orderPhone)))
-                ).ToListAsync();
+            var query = _context.Orders.Include(o => o.Orderitems).AsQueryable();
+
+            if (!string.IsNullOrEmpty(orderFirstName))
+            {
+                query = query.Where(o => o.OrderFirstName != null && o.OrderFirstName.Contains(orderFirstName));
+            }
+
+            if (!string.IsNullOrEmpty(orderLastName))
+            {
+                query = query.Where(o => o.OrderLastName != null && o.OrderLastName.Contains(orderLastName));
+            }
+
+            if (!string.IsNullOrEmpty(orderEmail))
+            {
+                query = query.Where(o => o.OrderEmail != null && o.OrderEmail.Contains(orderEmail));
+            }
+
+            if (!string.IsNullOrEmpty(orderPhone))
+            {
+                query = query.Where(o => o.OrderPhone != null && o.OrderPhone.Contains(orderPhone));
+            }
+
+            return await query.ToListAsync();
         }
 
         public async Task<IEnumerable<Order>> GetOrdersWithStatus(string status)
