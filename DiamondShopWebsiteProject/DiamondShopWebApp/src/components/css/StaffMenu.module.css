@@ -6,29 +6,29 @@
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  h1 {
+}
+
+h1 {
     color: #333;
     margin-bottom: 20px;
-  }
-  
-  .searchInputs {
+}
+
+.searchInputs {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
     margin-bottom: 20px;
-  }
-  
-  .input {
+}
+
+.input {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
-  }
-  
-  .button {
+}
+
+.button {
     padding: 10px 20px;
     background-color: #007bff;
     color: #fff;
@@ -36,47 +36,46 @@
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
-  }
-  
-  .button:hover {
+}
+
+.button:hover {
     background-color: #0056b3;
-  }
-  
-  .orderTable {
+}
+
+.orderTable {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-  }
-  
-  .orderTable th,
-  .orderTable td {
+}
+
+.orderTable th,
+.orderTable td {
     padding: 10px;
     border: 1px solid #ddd;
     text-align: center;
-  }
-  
-  .orderTable th {
+}
+
+.orderTable th {
     background-color: #f2f2f2;
     color: #333;
-  }
-  
-  .orderItemsList {
+}
+
+.orderItemsList {
     list-style-type: none;
     padding: 0;
     margin: 0;
-  }
-  
-  .sendEmailButton {
+}
+
+.sendEmailButton {
     padding: 5px 10px;
     background-color: #28a745;
-    color: white;
+    color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
-  }
-  
-  .sendEmailButton:hover {
+}
+
+.sendEmailButton:hover {
     background-color: #218838;
-  }
-  
+}

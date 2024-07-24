@@ -24,12 +24,12 @@ const StaffMenu = () => {
     fetchOrders(OrderFirstName, OrderLastName, OrderEmail, OrderPhone);
   };
 
-  const handleSendConfirmationEmail = async (orderId) => {
+  const handleSendVerificationEmail = async (orderId) => {
     try {
-      await axios.post(`http://astradiamonds.com:5212/DiamondAPI/Models/Orders/SendConfirmationEmail/${orderId}`);
-      alert("Confirmation email sent!");
+      await axios.put(`http://astradiamonds.com:5212/DiamondAPI/Models/Orders/VerifyCustomer/${orderId}`);
+      alert("Verification email sent!");
     } catch (error) {
-      console.error("Error sending confirmation email:", error);
+      console.error("Error sending verification email:", error);
     }
   };
 
@@ -92,9 +92,9 @@ const StaffMenu = () => {
                     {order.orderStatus === "Confirmed" && (
                       <button
                         className={styles.sendEmailButton}
-                        onClick={() => handleSendConfirmationEmail(order.orderId)}
+                        onClick={() => handleSendVerificationEmail(order.orderId)}
                       >
-                        Send Confirmation Email
+                        Send Verification Email
                       </button>
                     )}
                   </td>

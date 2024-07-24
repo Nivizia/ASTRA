@@ -348,7 +348,7 @@ namespace DiamondAPI.Controllers
             if (order == null)
                 return NotFound("Order not found.");
 
-            if (order.OrderStatus == "Confirmed" && order.OrderEmail != null)
+            if (order.OrderStatus == "Confirmed" && order.OrderEmail != null && order.OrderStatus != "Completed")
             {
                 await _orderRepo.UpdateOrderStatus(OrderID, "Completed");
                 await _emailService.SendEmailAsync(order.OrderEmail, "Order confirmed", $"Your order with ID {order.OrderId} has been confirmed, please show this email to the staff, thank you for using our service");
