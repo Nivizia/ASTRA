@@ -155,7 +155,7 @@ const router = createBrowserRouter([
     element: <StaffMenu />,
   },
   {
-    path: "/email-confirm/",
+    path: "/confirm-email/",
     element: <EmailConfirm />,
   }
 ]);

@@ -44,13 +44,16 @@ WHERE
 -- For testing hangfire
 UPDATE Orders
 SET OrderDate = DATEADD(DAY, -1, OrderDate)
-WHERE OrderID = '4ABAD377-5D48-4CC6-B953-0572E34992B0';
+
+UPDATE Orders
+SET OrderDate = DATEADD(MINUTE, -5, OrderDate)
 
 UPDATE ORDERS
 SET OrderEmail = 'khangbinh167@gmail.com'
 
 UPDATE ORDERS
-SET OrderStatus = 'Deposit Pending'
+SET OrderStatus = 'Processing'
+WHERE OrderID = '64323E44-5839-4055-A26E-8FD059A5E446'
 
 SELECT * FROM [DIAMONDPROJECT].[dbo].[ORDERS]
 SELECT * FROM [dbo].[ORDERITEM]

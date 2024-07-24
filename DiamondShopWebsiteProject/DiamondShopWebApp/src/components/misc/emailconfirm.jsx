@@ -7,10 +7,11 @@ const EmailConfirm = () => {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    const token = searchParams.get('token');
+    const token = searchParams.get('t');
+    console.log(token);
 
     if (token) {
-      fetch(`/DiamondAPI/Models/Orders/Confirm/${token}`, {
+      fetch(`http://astradiamonds.com:5212/DiamondAPI/Models/Orders/Confirm/${token}`, {
         method: 'PUT',
       })
       .then(response => {
